@@ -1,0 +1,2 @@
+`getprime` getprime example
+===========================

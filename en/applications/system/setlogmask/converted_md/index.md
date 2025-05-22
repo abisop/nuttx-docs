@@ -1,0 +1,2 @@
+`setlogmask` \"setlogmask\" command
+===================================
