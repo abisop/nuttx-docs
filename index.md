@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: Read the docs
-      link: /en/index.md
+      link: /en/
     - theme: alt
       text: Website
       link: https://nuttx.apache.org

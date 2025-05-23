@@ -1,2 +1,0 @@
-`rexecd` Remote Execution Server
-================================

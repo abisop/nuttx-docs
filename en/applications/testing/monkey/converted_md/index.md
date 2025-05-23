@@ -1,2 +1,0 @@
-`monkey` Monkey test
-====================

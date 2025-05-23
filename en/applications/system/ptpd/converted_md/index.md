@@ -1,2 +1,0 @@
-`ptpd` PTP daemon commands
-==========================

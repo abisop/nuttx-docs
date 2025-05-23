@@ -1,0 +1,21 @@
+# Clocks and Timers
+
+  - :c`clock_settime`
+  - :c`clock_gettime`
+  - :c`clock_getres`
+  - :c`mktime`
+  - :c`gmtime`
+  - :c`localtime`
+  - :c`asctime`
+  - :c`ctime`
+  - :c`gmtime_r`
+  - :c`localtime_r`
+  - :c`asctime_r`
+  - :c`ctime_r`
+  - :c`timer_create`
+  - :c`timer_delete`
+  - :c`timer_settime`
+  - :c`timer_gettime`
+  - :c`timer_getoverrun`
+  - :c`gettimeofday`
+  - :c`gethrtime`

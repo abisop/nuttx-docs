@@ -1,2 +1,0 @@
-`ltp` Linux Test Project
-========================

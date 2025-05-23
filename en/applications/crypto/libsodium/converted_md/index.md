@@ -1,2 +1,0 @@
-`libsodium` Libsodium Cryptography Library
-==========================================

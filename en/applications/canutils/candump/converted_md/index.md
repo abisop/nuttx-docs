@@ -1,2 +1,0 @@
-`candump` SocketCAN candump tool
-================================

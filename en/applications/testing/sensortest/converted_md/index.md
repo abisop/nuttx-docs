@@ -1,2 +1,0 @@
-`sensortest` Sensor driver test
-===============================

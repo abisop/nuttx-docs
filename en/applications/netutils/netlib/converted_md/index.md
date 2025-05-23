@@ -1,2 +1,0 @@
-`netlib` Network support library
-================================

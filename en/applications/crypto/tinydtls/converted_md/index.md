@@ -1,2 +1,0 @@
-`tinydtls` Eclipse Tinydtls
-===========================

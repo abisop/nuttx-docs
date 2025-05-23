@@ -1,2 +1,0 @@
-`memtester` utils\_memtester
-============================

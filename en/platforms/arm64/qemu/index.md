@@ -1,0 +1,5 @@
+# qemu
+
+## Supported Boards
+
+> boards/*/*

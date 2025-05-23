@@ -1,2 +1,0 @@
-`cansend` SocketCAN cansend tool
-================================

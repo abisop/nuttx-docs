@@ -1,2 +1,0 @@
-`atomic` \"Test atomic\" testing
-================================

@@ -1,2 +1,0 @@
-`toywasm` Toywasm Webassembly Runtime
-=====================================

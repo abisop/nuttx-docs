@@ -1,2 +1,0 @@
-`memstress` memory stress test
-==============================

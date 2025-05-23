@@ -1,2 +1,0 @@
-`cpuload` cpuload test
-======================

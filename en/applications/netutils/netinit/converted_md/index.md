@@ -1,2 +1,0 @@
-`netinit` Network initialization
-================================

@@ -1,2 +1,0 @@
-`Dhrystone` Dhrystone
-=====================

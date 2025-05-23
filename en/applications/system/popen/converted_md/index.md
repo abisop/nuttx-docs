@@ -1,2 +1,0 @@
-`popen` popen()/pclose() Functions
-==================================

@@ -1,2 +1,0 @@
-`irtest` IR driver test
-=======================

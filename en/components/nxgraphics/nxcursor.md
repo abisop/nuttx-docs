@@ -1,0 +1,1 @@
+# NX Cursor Support (`NXCURSOR`)

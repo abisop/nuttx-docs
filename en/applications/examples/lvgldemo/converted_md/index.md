@@ -1,4 +1,0 @@
-`lvgldemo` LVGL Demo
-====================
-
-TODO

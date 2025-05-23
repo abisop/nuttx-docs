@@ -1,2 +1,0 @@
-Device Tree support
-===================

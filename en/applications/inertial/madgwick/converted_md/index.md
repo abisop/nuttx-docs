@@ -1,2 +1,0 @@
-`madgwick` Madgwick Fusion Algorithm
-====================================

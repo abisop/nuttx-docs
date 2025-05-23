@@ -1,2 +1,0 @@
-`lapi` LTE Configuration Library
-================================

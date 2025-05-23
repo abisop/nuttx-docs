@@ -1,2 +1,0 @@
-`passwd` - Password file support
-================================

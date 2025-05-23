@@ -1,2 +1,0 @@
-`lzf` LZF compression tool
-==========================

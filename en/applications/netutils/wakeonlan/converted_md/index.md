@@ -1,2 +1,0 @@
-`wakeonlan` WakeOnLAN support
-=============================

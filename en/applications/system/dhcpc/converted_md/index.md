@@ -1,2 +1,0 @@
-`dhcpc` DHCP Address Renewal
-============================

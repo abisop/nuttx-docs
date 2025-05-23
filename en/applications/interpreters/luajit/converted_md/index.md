@@ -1,2 +1,0 @@
-`luajit` LuaJIT interpreter
-===========================

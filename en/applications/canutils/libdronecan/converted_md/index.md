@@ -1,2 +1,0 @@
-`libdronecan` libcanard DroneCAN Library
-========================================

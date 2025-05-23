@@ -1,2 +1,0 @@
-`scanftest` sscanf() test
-=========================

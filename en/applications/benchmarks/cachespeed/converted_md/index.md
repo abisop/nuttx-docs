@@ -1,2 +1,0 @@
-`cachespeed` CACHE Speed Test
-=============================

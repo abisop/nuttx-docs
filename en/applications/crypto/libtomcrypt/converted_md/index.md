@@ -1,2 +1,0 @@
-`libtomcrypt` LibTomCrypt CrypographyLibrary
-============================================

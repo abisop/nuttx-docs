@@ -1,2 +1,0 @@
-`screenshot` TIFF screenshot utility
-====================================

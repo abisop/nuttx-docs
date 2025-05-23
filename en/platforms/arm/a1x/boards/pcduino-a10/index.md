@@ -1,0 +1,1 @@
+# pcduino-a10

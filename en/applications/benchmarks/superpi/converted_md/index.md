@@ -1,2 +1,0 @@
-`superpi` SuperPI test
-======================

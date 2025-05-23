@@ -1,2 +1,0 @@
-`coremark` CoreMark Benchmark
-=============================

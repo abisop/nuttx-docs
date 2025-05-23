@@ -7,13 +7,14 @@
     "docs:dev": "vitepress dev .",
     "docs:build": "yarn docs:build_ubuntu",
     "docs:buildwin": "set NODE_OPTIONS=--max_old_space_size=8192 && vitepress build .",
-    "docs:build_ubuntu": "NODE_OPTIONS='--max-old-space-size=8192' vitepress build .",
+    "docs:build_ubuntu": "NODE_OPTIONS='--max-old-space-size=8192' vitepress build . && yarn push",
     "docs:preview": "vitepress preview .",
     "docs:sitemap": "python3 ./scripts/gen_sitemap.py",
     "docs:gen_alt_sidebar_ubuntu": "python3 ./scripts/gen_alt_sidebar.py",
     "docs:get_alt_sidebar_windows": "python ./scripts/gen_alt_sidebar.py",
     "start": "yarn docs:dev",
-    "linkcheck": "markdown_link_checker_sc -r .. -d docs -e en -i assets"
+    "linkcheck": "markdown_link_checker_sc -r .. -d docs -e en -i assets",
+    "push": "bash push.sh"
   },
   "dependencies": {
     "@red-asuka/vitepress-plugin-tabs": "^0.0.3",

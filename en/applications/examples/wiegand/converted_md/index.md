@@ -1,4 +1,0 @@
-`wiegand` Wiegand example
-=========================
-
-TODO

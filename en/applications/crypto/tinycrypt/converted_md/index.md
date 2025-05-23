@@ -1,2 +1,0 @@
-`tinycrypt` TinyCrypt cryptography library
-==========================================

@@ -1,2 +1,0 @@
-`canlib` CAN utility library
-============================

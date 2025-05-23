@@ -1,2 +1,0 @@
-`ntpc` NTP Daemon Commands
-==========================

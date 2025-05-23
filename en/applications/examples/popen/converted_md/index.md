@@ -1,4 +1,0 @@
-`popen` popen() example
-=======================
-
-TODO

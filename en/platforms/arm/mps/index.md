@@ -1,0 +1,5 @@
+# MPS
+
+## Supported Boards
+
+> boards/*/*

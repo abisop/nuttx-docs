@@ -1,2 +1,0 @@
-`telnetd` Telnet daemon application
-===================================

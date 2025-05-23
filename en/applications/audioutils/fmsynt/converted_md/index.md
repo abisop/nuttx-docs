@@ -1,2 +1,0 @@
-`fmsynth` FM Synthesizer Library
-================================

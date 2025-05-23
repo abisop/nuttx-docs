@@ -1,2 +1,0 @@
-`netdb` netdb interface
-=======================

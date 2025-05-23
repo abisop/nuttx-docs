@@ -1,2 +1,0 @@
-`duktape` Duktape JavaScript interpreter
-========================================

@@ -1,2 +1,0 @@
-`quickjs` QuickJS JavaScript interpreter
-========================================

@@ -1,2 +1,0 @@
-`osperf` System performance profiling
-=====================================

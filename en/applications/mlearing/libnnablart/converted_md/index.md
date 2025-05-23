@@ -1,2 +1,0 @@
-`libnnablart` NNABLA Runtime Libraries
-======================================

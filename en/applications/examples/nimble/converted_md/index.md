@@ -1,4 +1,0 @@
-`nimble` NimBLE example
-=======================
-
-TODO

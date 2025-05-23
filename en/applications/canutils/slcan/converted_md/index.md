@@ -1,2 +1,0 @@
-`slcan` SocketCAN slcan tool
-============================

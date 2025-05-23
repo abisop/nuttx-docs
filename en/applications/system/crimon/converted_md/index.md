@@ -1,2 +1,0 @@
-`critmon` Critical Section Monitor
-==================================

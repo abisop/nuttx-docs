@@ -1,2 +1,0 @@
-`ramspeed` RAM Speed Test
-=========================

@@ -1,2 +1,0 @@
-`mkgpt` mkgpt utility
-=====================

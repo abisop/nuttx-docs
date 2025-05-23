@@ -1,2 +1,0 @@
-`rexec` Remote execution client
-===============================

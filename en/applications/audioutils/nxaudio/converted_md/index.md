@@ -1,2 +1,0 @@
-`nxaudio` NX Audio Library
-==========================

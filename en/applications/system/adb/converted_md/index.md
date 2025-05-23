@@ -1,2 +1,0 @@
-`adb` ADB daemon application
-============================

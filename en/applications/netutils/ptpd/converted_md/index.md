@@ -1,2 +1,0 @@
-`ptpd` PTPD client/server
-=========================

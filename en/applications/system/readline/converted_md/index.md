@@ -1,2 +1,0 @@
-`readline` readline() Support
-=============================

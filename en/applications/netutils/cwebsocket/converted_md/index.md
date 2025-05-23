@@ -1,2 +1,0 @@
-`cwebsocket` WebSocket Client Library
-=====================================
