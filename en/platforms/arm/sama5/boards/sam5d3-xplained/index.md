@@ -1,4 +1,5 @@
-# sama5d3-xplained
+sama5d3-xplained
+================
 
 This is the port of NuttX to the Atmel SAMA5D3x-Xplained development
 board. This board features the Atmel SAMA5D36. See

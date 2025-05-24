@@ -1,4 +1,5 @@
-# VexRISCV\_SMP Core
+VexRISCV\_SMP Core
+==================
 
 The vexrisc\_smp core supports a two-pass build, producing the kernel
 (nuttx.bin), and a number of applications, compiled into the apps/bin
@@ -6,7 +7,8 @@ directory. In the standard configuration, the applications are loaded to
 the FPGA in a RAMdisk. Although, for custom boards this could be
 extended to loading from SDCards, flash, or other mediums.
 
-## Building
+Building
+--------
 
 Nuttx uses openSBI to configure and prepare the vexriscv\_smp core. With
 this configuration, the Nuttx kernel is a binary payload for OpenSBI.
@@ -37,9 +39,10 @@ Generate a romfs to be loaded to the FPGA as a ramdisk:
      cd nuttx
      genromfs -f romfs.img -d ../apps/bin -V "NuttXBootVol"
 
-## Booting
+Booting
+-------
 
-Create a file, 'boot.json' in the Nuttx root directory, with the
+Create a file, \'boot.json\' in the Nuttx root directory, with the
 following content:
 
     {

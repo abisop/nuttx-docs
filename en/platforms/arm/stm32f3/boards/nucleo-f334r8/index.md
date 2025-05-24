@@ -1,14 +1,12 @@
-# ST Nucleo F334R8
-
-<div class="tags">
+ST Nucleo F334R8
+================
 
 chip:stm32, chip:stm32f3, chip:stm32f334
 
-</div>
-
 The Nucleo F334R8 is a member of the Nucleo-64 board family.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh:
 
@@ -31,8 +29,8 @@ logic.
 There are two variants of this example, where functionality is achieved
 with different periperals:
 
-  - spwm1 uses HRTIM to generate PWM and change waveform samples
-  - spwm2 uses TIM1 to generate PWM and TIM6 to change waveform samples
+-   spwm1 uses HRTIM to generate PWM and change waveform samples
+-   spwm2 uses TIM1 to generate PWM and TIM6 to change waveform samples
 
 At the moment, the waveform parameters are hardcoded, but it should be
 easy to modify this example and make it more functional.

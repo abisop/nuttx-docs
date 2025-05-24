@@ -1,5 +1,7 @@
-# NXP LPC31xx
+NXP LPC31xx
+===========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

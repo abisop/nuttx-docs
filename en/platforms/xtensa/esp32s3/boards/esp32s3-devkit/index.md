@@ -1,36 +1,36 @@
-# ESP32S3-DevKit
-
-<div class="tags">
+ESP32S3-DevKit
+==============
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 The [ESP32S3
 DevKit](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/hw-reference/esp32s3/user-guide-devkitc-1.html)
 is a development board for the ESP32-S3 SoC from Espressif, based on a
 ESP32-S3-WROOM-1 module.
 
-|                             |
-| --------------------------- |
-| ![](esp32-s3-devkitc-1.png) |
+  --------------------------------------------
+  ![](esp32-s3-devkitc-1.png){.align-center}
+  --------------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32-S3-WROOM-1 Module
->   - USB-to-UART bridge via micro USB port
->   - Power LED
->   - EN and BOOT buttons (BOOT accessible to user)
->   - SPI FLASH (size varies according to model
+> -   ESP32-S3-WROOM-1 Module
+> -   USB-to-UART bridge via micro USB port
+> -   Power LED
+> -   EN and BOOT buttons (BOOT accessible to user)
+> -   SPI FLASH (size varies according to model
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the USB connector USB CON8 (J1).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -50,13 +50,7 @@ and USB activity. None of these are available for use by software.
 Another WS2812 LED is connected to GPIO48 or GPIO38 depending on the
 boards version.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Both the initial and v1.1 versions of ESP32-S3-DevKitC-1 are available
 on the market. The main difference lies in the GPIO assignment for the
@@ -64,25 +58,27 @@ RGB LED: the initial version (1.0) uses GPIO48, whereas v1.1 uses
 GPIO38. The initial version is selected by default, but one can select
 `CONFIG_ESP32S3_DEVKITC_1_V11` through `make menuconfig`.
 
-</div>
-
-## I2S
+I2S
+---
 
 ESP32-S3 has two I2S peripherals accessible using either the generic I2S
 audio driver or a specific audio codec driver
 ([CS4344](https://www.cirrus.com/products/cs4344-45-48/) bindings are
 available at the moment). The generic I2S audio driver enables the use
 of both the receiver module (RX) and the transmitter module (TX) without
-using any specific codec. Also, it's possible to use the I2S character
+using any specific codec. Also, it\'s possible to use the I2S character
 device driver to bypass the audio subsystem and write directly to the
 I2S peripheral.
 
-  - The following configurations use the I2S peripheral::
-    
-      - `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:audio`
-      - `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:nxlooper`
+The following configurations use the I2S peripheral::
 
-## Configurations
+:   -   `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:audio`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:nxlooper`{.interpreted-text
+        role="ref"}
+
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -91,8 +87,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### adc
 
@@ -125,19 +121,19 @@ connected to a Wi-Fi network.
 
 The CS4344 audio codec is connected to the following pins:
 
-| ESP32-S3 Pin | CS4344 Pin | Description                                  |
-| ------------ | ---------- | -------------------------------------------- |
-| 5            | MCLK       | Master Clock                                 |
-| 16           | SCLK       | Serial Clock                                 |
-| 7            | LRCK       | Left Right Clock (Word Select)               |
-| 6            | SDIN       | Serial Data In on CS4344. (DOUT on ESP32-S3) |
+  ESP32-S3 Pin   CS4344 Pin   Description
+  -------------- ------------ ----------------------------------------------
+  5              MCLK         Master Clock
+  16             SCLK         Serial Clock
+  7              LRCK         Left Right Clock (Word Select)
+  6              SDIN         Serial Data In on CS4344. (DOUT on ESP32-S3)
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 or 24 bits/sample (sampled at 16\~48kHz). This file must be
-placed into a folder in a computer that could be accessed on the same
-Wi-Fi network the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16 or 24
+bits/sample (sampled at 16\~48kHz). This file must be placed into a
+folder in a computer that could be accessed on the same Wi-Fi network
+the ESP32 will be connecting to.
 
 Python provides a simple HTTP server. `cd` to the audio file folder on
 the PC and run:
@@ -148,7 +144,7 @@ the PC and run:
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](esp32-audio-config-file.png)
+![](esp32-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -157,7 +153,7 @@ network:
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to the
+Once connected, open NuttX\'s player and play the file according to the
 filename and the IP address of the HTTP server:
 
     nsh> nxplayer
@@ -201,18 +197,10 @@ maximum number of cores for this system. It also enables some
 optimization flags and disables the NuttShell to get the best possible
 score.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the NSH is disabled, the application will start as soon as the system
 is turned on.
-
-</div>
 
 ### cxx
 
@@ -282,12 +270,12 @@ can scan for all I2C devices using the following command:
     nsh> i2c dev 0x00 0x7f
 
 To use slave mode, you can enable
-<span class="title-ref">ESP32S3\_I2S0\_ROLE\_SLAVE</span> or
-<span class="title-ref">ESP32S3\_I2S1\_ROLE\_SLAVE</span> option. To use
-slave mode driver following snippet demonstrates how write to i2c bus
-using slave driver:
+[ESP32S3\_I2S0\_ROLE\_SLAVE]{.title-ref} or
+[ESP32S3\_I2S1\_ROLE\_SLAVE]{.title-ref} option. To use slave mode
+driver following snippet demonstrates how write to i2c bus using slave
+driver:
 
-``` C
+``` {.C}
 #define ESP_I2C_SLAVE_PATH  "/dev/i2cslv0"
 int main(int argc, char *argv[])
   {
@@ -309,24 +297,24 @@ peripherals.
 
 **I2S0 pinout**
 
-| ESP32-S3 Pin | Signal Pin | Description         |
-| ------------ | ---------- | ------------------- |
-| 0            | MCLK       | Master Clock        |
-| 4            | BCLK       | Bit Clock (SCLK)    |
-| 5            | WS         | Word Select (LRCLK) |
-| 18           | DOUT       | Data Out            |
-| 19           | DIN        | Data IN             |
+  ESP32-S3 Pin   Signal Pin   Description
+  -------------- ------------ ---------------------
+  0              MCLK         Master Clock
+  4              BCLK         Bit Clock (SCLK)
+  5              WS           Word Select (LRCLK)
+  18             DOUT         Data Out
+  19             DIN          Data IN
 
 **I2S1 pinout**
 
-| ESP32-S3 Pin | Signal Pin | Description         |
-| ------------ | ---------- | ------------------- |
-| 22           | BCLK       | Bit Clock (SCLK)    |
-| 23           | WS         | Word Select (LRCLK) |
-| 25           | DOUT       | Data Out            |
-| 26           | DIN        | Data IN             |
+  ESP32-S3 Pin   Signal Pin   Description
+  -------------- ------------ ---------------------
+  22             BCLK         Bit Clock (SCLK)
+  23             WS           Word Select (LRCLK)
+  25             DOUT         Data Out
+  26             DIN          Data IN
 
-After successfully built and flashed, run on the boards's terminal:
+After successfully built and flashed, run on the boards\'s terminal:
 
     i2schar -p /dev/i2schar[0-1]
 
@@ -348,18 +336,10 @@ WC/PMS is able to restrict the application access to peripherals,
 on-chip memories (Internal ROM and Internal SRAM) and off-chip memories
 (External Flash and PSRAM).
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 The World Controller and Permission Control **do not** prevent the
 application from accessing CPU System Registers.
-
-</div>
 
 ### motor
 
@@ -398,11 +378,11 @@ The I2S1 will act as a receiver (in slave mode, i.e., waiting for the
 BCLK and WS signals from the transmitter), capturing data from DIN,
 which needs to be connected to an external source as follows:
 
-| ESP32-S3 Pin | Signal Pin | Description         |
-| ------------ | ---------- | ------------------- |
-| 18           | BCLK       | Bit Clock (SCLK)    |
-| 17           | WS         | Word Select (LRCLK) |
-| 15           | DIN        | Data IN             |
+  ESP32-S3 Pin   Signal Pin   Description
+  -------------- ------------ ---------------------
+  18             BCLK         Bit Clock (SCLK)
+  17             WS           Word Select (LRCLK)
+  15             DIN          Data IN
 
 **Transmitting data on I2S0**
 
@@ -410,26 +390,18 @@ The I2S0 will act as a transmitter (in master mode, i.e., providing the
 BCLK and WS signals), replicating the data captured on I2S1. The pinout
 for the transmitter is as follows:
 
-| ESP32 Pin | Signal Pin | Description         |
-| --------- | ---------- | ------------------- |
-| 5         | MCLK       | Master Clock        |
-| 16        | BCLK       | Bit Clock (SCLK)    |
-| 7         | WS         | Word Select (LRCLK) |
-| 6         | DOUT       | Data Out            |
-
-<div class="note">
-
-<div class="title">
+  ESP32 Pin   Signal Pin   Description
+  ----------- ------------ ---------------------
+  5           MCLK         Master Clock
+  16          BCLK         Bit Clock (SCLK)
+  7           WS           Word Select (LRCLK)
+  6           DOUT         Data Out
 
 Note
 
-</div>
-
 The audio codec CS4344 can be connected to the transmitter pins to
-reproduce the captured data if the receiver's source is a PCM-encoded
+reproduce the captured data if the receiver\'s source is a PCM-encoded
 audio data.
-
-</div>
 
 **nxlooper**
 
@@ -438,18 +410,12 @@ input capabilities (the I2S1 in this example) and forwards the audio
 data frame to the audio device with output capabilities (the I2S0 in
 this example).
 
-After successfully built and flashed, run on the boards' terminal:
+After successfully built and flashed, run on the boards\' terminal:
 
     nsh> nxlooper
     nxlooper> loopback
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `loopback` command default arguments for the channel configuration, data
 width and sample rate are, respectively, 2 channels, 16 bits/sample and
@@ -457,8 +423,6 @@ width and sample rate are, respectively, 2 channels, 16 bits/sample and
 formats, for instance:
 
 nxlooper\> loopback 2 16 44100
-
-</div>
 
 ### oneshot
 
@@ -472,7 +436,7 @@ ESP32-S3. To test it, just run the `oneshot` example:
     Waiting...
     Finished
 
-qencoder ---
+qencoder \-\--
 
 This configuration demonstrates the use of Quadrature Encoder connected
 to pins GPIO10 and GPIO11. You can start measurement of pulses using the
@@ -499,14 +463,14 @@ Before switching PM status, you need to query the current PM status:
 
     nsh> pmconfig
     Last state 0, Next state 0
-    
+
     /proc/pm/state0:
     DOMAIN0           WAKE         SLEEP         TOTAL
     normal          0s 00%        0s 00%        0s 00%
     idle            0s 00%        0s 00%        0s 00%
     standby         0s 00%        0s 00%        0s 00%
     sleep           0s 00%        0s 00%        0s 00%
-    
+
     /proc/pm/wakelock0:
     DOMAIN0      STATE     COUNT      TIME
     system       normal        2        1s
@@ -548,9 +512,9 @@ You can use the mm command to test the PSRAM memory:
           Total allocated space             = 9672
           Total non-inuse space             = 8793560
     (0)Allocating 5011 bytes
-    
+
     ......
-    
+
     (31)Releasing memory at 0x3fc8c088 (size=24 bytes)
         mallinfo:
           Total space allocated from system = 8803232
@@ -597,7 +561,8 @@ To check the flash type, run the following command:
     Flash voltage set by eFuse to 3.3V
     Hard resetting via RTS pin...
 
-The flash type can be seen on the "Flash type set in eFuse: quad" line.
+The flash type can be seen on the \"Flash type set in eFuse: quad\"
+line.
 
 ### pwm
 
@@ -611,22 +576,14 @@ to GPIO2. To test it, just execute the `pwm` application:
 ### python
 
 This configuration enables the Python for ESP32-S3. Please refer to the
-\[<span class="title-ref">Python Interpreter \</application\](\`Python
-Interpreter \</application.md)s/interpreters/python/index\></span> page.
-
-<div class="warning">
-
-<div class="title">
+\[[Python Interpreter \</application\](\`Python Interpreter
+\</application.md)s/interpreters/python/index\>]{.title-ref} page.
 
 Warning
-
-</div>
 
 Note that this defconfig uses a board with the ESP32-S3-WROOM-2 module
 with 32MiB of flash and 8MiB of PSRAM. Running Python on ESP32-S3
 requires at least 16MiB of flash and 8MiB of PSRAM.
-
-</div>
 
 ### qemu\_debug
 
@@ -636,11 +593,12 @@ QEMU](https://github.com/espressif/qemu).
 ### qemu\_toywasm
 
 Based on `qemu_debug` defconfig, with the addition of WebAssembly
-support. See `toywasm` for more further details.
+support. See `toywasm`{.interpreted-text role="ref"} for more further
+details.
 
 ### random
 
-This configuration shows the use of the ESP32-S3's True Random Number
+This configuration shows the use of the ESP32-S3\'s True Random Number
 Generator with entropy sourced from Wi-Fi and Bluetooth noise. To test
 it, just run `rand` to get 32 randomly generated bytes:
 
@@ -661,7 +619,7 @@ in the ESP-IDF documentation. The minimal data unit in the frame is
 called the RMT symbol, which is represented by `rmt_item32_t` in the
 driver:
 
-![](rmt_symbol.png)
+![](rmt_symbol.png){.align-center}
 
 The example `rmtchar` can be used to test the RMT peripheral. Connecting
 these pins externally to each other will make the transmitter send RMT
@@ -792,18 +750,11 @@ In this case, you are creating the access point `nuttxapp` in your board
 and to connect to it on your smartphone you will be required to type the
 password `mypasswd` using WPA2.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>`{.interpreted-text
+role="ref"} for more information.
 
 The `dhcpd_start` is necessary to let your board to associate an IP to
 your smartphone.
@@ -831,7 +782,7 @@ This config is an example to use toywasm.
 This example uses littlefs on the SPI flash to store wasm modules.
 
 Note: This example assumes a board with 32MB flash. To use a smaller
-one, tweak the --img-size option and
+one, tweak the \--img-size option and
 CONFIG\_ESP32S3\_STORAGE\_MTD\_SIZE.
 
 Note: To use flash larger than 4MB, you need to install a custom
@@ -839,10 +790,10 @@ bootloader.
 <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/bootloader.html#spi-flash-configuration>
 
 1.  Create a littlefs image which contains wasm modules.
-    
+
     <https://github.com/jrast/littlefs-python/blob/master/examples/mkfsimg.py>
     is used in the following example:
-    
+
         % python3 mkfsimg.py \
           --img-filename ..../littlefs.bin \
           --img-size 31981568 \
@@ -857,7 +808,7 @@ bootloader.
     config.
 
 3.  Write the filesystem image to the board:
-    
+
         % esptool.py \
           -c esp32s3 \
           -p /dev/tty.SLAB_USBtoUART \
@@ -869,7 +820,7 @@ bootloader.
           0x180000 ..../littlefs.bin
 
 4.  Mount the filesystem and run a wasm module on it:
-    
+
         nsh> mount -t littlefs /dev/esp32s3flash /mnt
         nsh> toywasm --print-stats --wasi /mnt/....
 
@@ -878,9 +829,9 @@ bootloader.
 This configuration enables the support for the TWAI (Two-Wire Automotive
 Interface) driver. You can test it by connecting TWAI RX and TWAI TX
 pins which are GPIO0 and GPIO2 by default to a external transceiver or
-connecting TWAI RX to TWAI TX pin by enabling the `Device Drivers -> CAN
-Driver Support -> CAN loopback mode` option and running the `can`
-example:
+connecting TWAI RX to TWAI TX pin by enabling the
+`Device Drivers -> CAN Driver Support -> CAN loopback mode` option and
+running the `can` example:
 
     nsh> can
     nmsgs: 0
@@ -917,14 +868,14 @@ Then run the minicom configured to /dev/ttyACM0 115200 8n1 and press
     NuttShell (NSH) NuttX-12.1.0
     nsh> ?
     help usage:  help [-v] [<cmd>]
-    
+
         .         break     dd        exit      ls        ps        source    umount
         [         cat       df        false     mkdir     pwd       test      unset
         ?         cd        dmesg     free      mkrd      rm        time      uptime
         alias     cp        echo      help      mount     rmdir     true      usleep
         unalias   cmp       env       hexdump   mv        set       truncate  xd
         basename  dirname   exec      kill      printf    sleep     uname
-    
+
     Builtin Apps:
         nsh  sh
     nsh> uname -a
@@ -941,25 +892,18 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.
 
 ### watchdog
 
@@ -975,10 +919,9 @@ Where x is the watchdog instance.
 
 To test the XTWDT(/dev/watchdog3) an interrupt handler needs to be
 implemented because XTWDT does not have system reset feature. To
-implement an interrupt handler
-<span class="title-ref">WDIOC\_CAPTURE</span> command can be used. When
-interrupt rises, XTAL32K clock can be restored with
-<span class="title-ref">WDIOC\_RSTCLK</span> command.
+implement an interrupt handler [WDIOC\_CAPTURE]{.title-ref} command can
+be used. When interrupt rises, XTAL32K clock can be restored with
+[WDIOC\_RSTCLK]{.title-ref} command.
 
 ### adb
 
@@ -1039,7 +982,7 @@ To test it, just run the following:
     # Device
     nsh> mkrd -m 10 -s 512 640
     nsh> msconn
-    
+
     # Host
      sudo mkfs.ext4 /dev/sdx
      sudo mount /dev/sdx ./mnt/
@@ -1047,8 +990,8 @@ To test it, just run the following:
 ### fastboot
 
 The basic Fastboot configuration is based on esp32s3-devkit:usb\_device.
-More details about usage of fastboot, please refer to [fastbootd — NuttX
-latest
+More details about usage of fastboot, please refer to [fastbootd ---
+NuttX latest
 documentation](https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html).
 
 You can run the configuration and compilation procedure:
@@ -1059,51 +1002,51 @@ You can run the configuration and compilation procedure:
 To test it, just run the following (**Default is host side**):
 
 1.  Install fastboot tool:
-    
+
         sudo apt install fastboot
 
 2.  List devices running fastboot:
-    
+
         fastboot devices
 
 > Example:
-> 
+>
 >      fastboot devices
 >     1234    fastboot
 
 3.  Display given variable:
-    
+
         fastboot getvar <NAME>
 
 > Example:
-> 
+>
 >     # Display the "kernel" variable::
 >      fastboot -s 1234 getvar kernel
 >     Kernel: NuttX
 >     Finished. Total time: 0.000s
 
 4.  Flash given partition:
-    
+
         fastboot flash PARTITION FILENAME
 
 > Example (Flash test.img to partition ram10):
-> 
+>
 >     # 1. Generate a test image
 >      dd if=/dev/random of=test.img bs=1 count=128
->     
+>
 >     # 2. Create a RAM disk (Device side)
 >     nsh> mkrd -m 10 -s 512 640
 >     nsh> ls -l /dev/ram10
 >      brw-rw-rw-      327680 /dev/ram10
->     
+>
 >     # 3. Flash test.img to partition ram10
 >      fastboot flash ram10 ./test.img
 >     Sending 'ram10' (0 KB)                             OKAY [  0.001s]
 >     Writing 'ram10'                                    OKAY [  0.001s]
 >     Finished. Total time: 0.003s
->     
+>
 >     # 4. Hexdump the test.img and partition ram10, and compare
->     
+>
 >     ## Host side
 >      hexdump test.img
 >     0000000 b1e8 b297 4ac5 9dfa d170 244e 4f83 0f93
@@ -1115,7 +1058,7 @@ To test it, just run the following (**Default is host side**):
 >     0000060 d010 2770 9192 2532 ccf5 591f 39ea 2431
 >     0000070 2e3f feb0 87ef 9bdf 7dd4 2e79 64de edf6
 >     0000080
->     
+>
 >     ## Device side
 >     nsh> hexdump /dev/ram10 count=128
 >     /dev/ram10 at 00000000:

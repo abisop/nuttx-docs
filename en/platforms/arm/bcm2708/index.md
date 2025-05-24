@@ -1,4 +1,5 @@
-# Broadcom BCM2708 (removed)
+Broadcom BCM2708 (removed)
+==========================
 
 Very basic support for the Broadcom BCM2708 was released with
 NuttX-7.23.

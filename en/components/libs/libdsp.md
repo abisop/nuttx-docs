@@ -1,4 +1,5 @@
-# libdsp
+libdsp
+======
 
 This directory contains various DSP functions.
 

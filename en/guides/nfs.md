@@ -1,6 +1,8 @@
-# NFS Client How-To
+NFS Client How-To
+=================
 
-## Adding NFS to the NuttX Configuration
+Adding NFS to the NuttX Configuration
+-------------------------------------
 
 The NFS client is easily added to your configuration: You simply need to
 add `CONFIG_NFS` to your `nuttx/.config` file. There are, however, a few
@@ -9,16 +11,17 @@ dependencies on other system settings:
 First, there are things that you must configure in order to be able to
 use any file system:
 
->   - `CONFIG_DISABLE_MOUNTPOINT=n`. You must include support for mount
+> -   `CONFIG_DISABLE_MOUNTPOINT=n`. You must include support for mount
 >     points in the pseudo-file system.
 
 And there are several dependencies on the networking configuration. At a
 minimum, you need to have the following selections:
 
->   - `CONFIG_NET=y`. General networking support.
->   - `CONFIG_NET_UDP=y`. Support for UDP.
+> -   `CONFIG_NET=y`. General networking support.
+> -   `CONFIG_NET_UDP=y`. Support for UDP.
 
-## Mount Interface
+Mount Interface
+---------------
 
 A low-level, C-callable interface is provided to mount a file system.
 That interface is called `mount()` and is mentioned in the porting guide
@@ -31,7 +34,7 @@ system, and (2) special parameters must be passed as `data` to describe
 the remote NFS server. Thus the following code snippet might represent
 how an NFS file system is mounted:
 
-``` c
+``` {.c}
 #include <sys/mount.h>
 #include <nuttx/fs/nfs.h>
 
@@ -44,14 +47,14 @@ ret = mount(NULL, mountpoint, string "nfs", 0, (FAR void *)&data);
 NOTE that: (1) the block driver parameter is `NULL`. The `mount()` is
 smart enough to know that no block driver is needed with the NFS file
 system. (2) The NFS file system is identified with the simple string
-"nfs" (3) A reference to `struct nfs_args` is passed as an NFS-specific
-argument.
+\"nfs\" (3) A reference to `struct nfs_args` is passed as an
+NFS-specific argument.
 
 The NFS-specific interface is described in the file
 `include/nuttx/fs/nfs.h`. There you can see that `struct nfs_args` is
 defined as:
 
-``` c
+``` {.c}
 struct nfs_args
 {
   uint8_t  addrlen;               /* Length of address */
@@ -67,14 +70,18 @@ struct nfs_args
 };
 ```
 
-## NFS Mount Command
+NFS Mount Command
+-----------------
 
-The `NuttShell (NSH) <nsh>` also supports a command called `nfsmount`
-that can be used to mount a remote file system via the NSH command line.
+The `NuttShell (NSH) <nsh>`{.interpreted-text role="ref"} also supports
+a command called `nfsmount` that can be used to mount a remote file
+system via the NSH command line.
 
 **Command Syntax:**
 
-    nfsmount <server-address> <mount-point> <remote-path> [udp]
+``` {.}
+nfsmount <server-address> <mount-point> <remote-path> [udp]
+```
 
 **Synopsis**. The `nfsmount` command mounts a network file system in the
 NuttX pseudo filesystem. The `nfsmount` will use NFSv3 UDP protocol to
@@ -105,7 +112,7 @@ the directory `/export/shared`. The the following command would mount
 that file system (assuming that the target also has privileges to mount
 the file system).
 
-``` fish
+``` {.fish}
 NuttShell (NSH)
 nsh> ls /mnt
 /mnt:
@@ -129,14 +136,15 @@ nsh> cat /mnt/nfs/testdir/testfile.txt
 This is a test
 ```
 
-## Configuring the NFS server (Ubuntu)
+Configuring the NFS server (Ubuntu)
+-----------------------------------
 
 Setting up the server will be done in two steps: First, setting up the
 configuration file for NFS, and then starting the NFS services. But
 first, you need to install the nfs server on Ubuntu with these two
 commands:
 
-``` console
+``` {.console}
  sudo apt-get install nfs-common
  sudo apt-get install nfs-kernel-server
 ```
@@ -145,7 +153,7 @@ After that, we need to make or choose the directory we want to export
 from the NFS server. In our case, we are going to make a new directory
 called `/export`.
 
-``` console
+``` {.console}
 # sudo mkdir /export
 ```
 
@@ -153,7 +161,7 @@ It is important that `/export` directory allow access to everyone (777
 permissions) as we will be accessing the NFS share from the client with
 no authentication.
 
-``` console
+``` {.console}
 # sudo chmod 777 /export
 ```
 
@@ -165,12 +173,16 @@ options for this file you can check in the man pages (`man export`).
 
 An entry in `/etc/exports` will typically look like this:
 
-    directory machine1(option11,option12)
+``` {.}
+directory machine1(option11,option12)
+```
 
 So for our example we export `/export` to the client 10.0.0.2 add the
 entry:
 
-    /export 10.0.0.2(rw)
+``` {.}
+/export 10.0.0.2(rw)
+```
 
 In our case we are using all the default options except for the `ro`
 that we replaced with `rw` so that our client will have read and write
@@ -179,7 +191,7 @@ access to the directory that we are exporting.
 After we do all the require configurations, we are ready to start the
 server with the next command:
 
-``` console
+``` {.console}
 # sudo /etc/init.d/nfs-kernel-server start
 ```
 
@@ -187,27 +199,27 @@ Note: If you later decide to add more NFS exports to the /etc/exports
 file, you will need to either restart NFS daemon or run command
 exportfs.
 
-``` console
+``` {.console}
 # sudo /etc/init.d/nfs-kernel-server start
 ```
 
 Or
 
-``` console
+``` {.console}
 # exportfs -ra
 ```
 
 Now we can check if the export directory and our mount point is properly
 set up.
 
-``` console
+``` {.console}
 # sudo showmount -e
 # sudo showmount -a
 ```
 
 And also we can verify if NFS is running in the system with:
 
-``` console
+``` {.console}
 # rpcinfo –p
 program vers proto   port
    100000   2   tcp    111  portmapper

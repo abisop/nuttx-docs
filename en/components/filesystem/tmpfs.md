@@ -1,4 +1,5 @@
-# TMPFS
+TMPFS
+=====
 
 NuttX TMPFS file system is a tiny dyamic RAM based file system.
 
@@ -9,7 +10,7 @@ At runtime, simply use `mount -t tmpfs /tmp` to have a `/tmp` folder
 backed by TMPFS, then files and folders can be created under that
 folder.
 
-Be aware that TMPFS is backed by kernel memory thus don't expect to
+Be aware that TMPFS is backed by kernel memory thus don\'t expect to
 store big files on it and its size is limited by free kernel memory.
 
 We can watch the size of TMPFS with `df -h` command, especially you can

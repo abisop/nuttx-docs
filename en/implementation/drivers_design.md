@@ -1,4 +1,5 @@
-# OS Drivers Design
+OS Drivers Design
+=================
 
 There are three kinds of drivers that are recognized by the OS and are
 visible to applications. Two are POSIX standard device driver types, one
@@ -6,15 +7,16 @@ is non-standard. There are also internal OS components that may also be
 considered to be drivers or, more correctly, lower-half drivers. Details
 about these are given below.
 
-## Character and Block Drivers
+Character and Block Drivers
+---------------------------
 
 The standard driver types include:
 
-  - **Character Drivers**. First there are the character drivers These
+-   **Character Drivers**. First there are the character drivers These
     are drivers that support user accessibility via `read()`, `write()`
     etc. The others do not naturally. Character drivers implement a
     stream of incoming or outgoing bytes.
-  - **Block Drivers**. These are used to support files systems that
+-   **Block Drivers**. These are used to support files systems that
     supported block-oriented I/O, not a character stream. The user
     cannot *directly* access block drivers.
 
@@ -23,7 +25,7 @@ character driver proxy. Both character and block drivers are represented
 by device nodes, usually in `/dev`. But if you try to open the block
 driver, something very strange happens: A temporary, nameless proxy
 character driver is automatically instantiated that maps a character
-driver's byte stream into blocks and mediates the driver access to the
+driver\'s byte stream into blocks and mediates the driver access to the
 block driver. This is the logic in `drivers/bch`. BCH stands for block
 to character. So from the application point of view, the both seem to be
 character drivers and applications can interact with both in the same
@@ -37,11 +39,12 @@ There is also the complement, the loop device that converts a character
 driver into a block driver. Loop devices are commonly used to format a
 file system image in RAM.
 
-## MTD Drivers
+MTD Drivers
+-----------
 
 And the non-standard driver is:
 
-  - The **Memory Technology Driver (MTD)**. This naming was borrowed
+-   The **Memory Technology Driver (MTD)**. This naming was borrowed
     from `infradead.org`, but does not derive from any of their MTD
     logic. The MTD driver manages memory-based devices like FLASH or
     EEPROM. And MTD FLASH memory driver is very similar to a block
@@ -66,20 +69,22 @@ Translation Layer. The FTL driver is an MTD driver that when layered on
 top of another MTD driver, converts the MTD driver to a block driver.
 The permutations are endless.
 
-## Monolithic Drivers
+Monolithic Drivers
+------------------
 
 When one thinks about device drivers in an OS, one thinks of a single
 thing, a single block in a block diagram with these two primary
 interfaces:
 
-  - The device monolithic driver exposes a single, standard device
+-   The device monolithic driver exposes a single, standard device
     driver interface. With the **Virtual File System (VFS)**, this
     provides the application user interface to the driver functionality.
     And
-  - A low-level interface to the hardware that is managed by the device
+-   A low-level interface to the hardware that is managed by the device
     driver.
 
-## Upper Half and Lower Half Drivers
+Upper Half and Lower Half Drivers
+---------------------------------
 
 NuttX supports many, many different MCU platforms, each with many
 similar but distinct built-in peripherals. Certainly we could imagine a
@@ -98,18 +103,18 @@ drivers, and the MCU-specific lower half driver.
 As before, each of these two driver components has two functional
 interfaces. For the upper half driver:
 
-  - The upper half device driver exposes a single, standard driver
+-   The upper half device driver exposes a single, standard driver
     interface. With the **Virtual File System (VFS)**, this, again,
     provides the application user interface to the driver functionality.
     And
-  - The upper-half side of the lower-half interface to the MCU-specific
+-   The upper-half side of the lower-half interface to the MCU-specific
     hardware that is managed by the lower-half device driver.
 
 And for the lower half driver:
 
-  - The lower-half side of the interface to the the upper0half driver,
+-   The lower-half side of the interface to the the upper0half driver,
     and
-  - The low-level interface to the hardware that is managed by the lower
+-   The low-level interface to the hardware that is managed by the lower
     half device driver.
 
 ### One to Many: Encapsulation and Polymorphism

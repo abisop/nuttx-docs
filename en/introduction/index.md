@@ -1,4 +1,5 @@
-# Introduction
+Introduction
+============
 
 In the following sections you will find basic information introducing
 main NuttX features.

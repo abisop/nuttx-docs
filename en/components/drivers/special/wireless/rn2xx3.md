@@ -1,24 +1,18 @@
-# RN2XX3
+RN2XX3
+======
 
 This driver provides support for the RN2XX3 family of LoRa radio
 transceivers by Microchip. This includes both the RN2903 and RN2483
 modules.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
 
-</div>
-
-This driver only contains preliminary support for a few 'radio set'
+This driver only contains preliminary support for a few \'radio set\'
 commands and raw radio transmit/receive. There is no support for the
 LoRaWAN stack yet. IT IS EXPERIMENTAL.
 
-</div>
-
-## Application Programming Interface
+Application Programming Interface
+---------------------------------
 
 To register the device for use, you will need to enable the standard
 upper half serial drivers (`CONFIG_STANDARD_SERIAL`), since the RN2XX3
@@ -31,7 +25,7 @@ set to 57600, which is the baud rate of the RN2XX3.
 At registration time, the driver will automatically determine if the
 device is the RN2903 or RN2483.
 
-``` c
+``` {.c}
 #include <nuttx/wireless/lpwan/rn2xx3.h>
 
 #ifdef CONFIG_LPWAN_RN2XX3
@@ -52,17 +46,15 @@ To transmit, the `write()` function can be used. Bytes in the provided
 buffer will be transmitted as a packet. This has the following
 behaviour:
 
-  - If the radio is in FSK modulation mode, packets will only contain up
+-   If the radio is in FSK modulation mode, packets will only contain up
     to 64 bytes. A buffer of more than 64 bytes will only have 64 bytes
     transmitted.
-  - If the radio is in LoRa modulation mode, packets will only contain
+-   If the radio is in LoRa modulation mode, packets will only contain
     up to 255 bytes.
-  - If the buffer contains less than the current packet size limit (64
+-   If the buffer contains less than the current packet size limit (64
     or 255 bytes), its contents will be transmitted as a single packet.
 
-<!-- end list -->
-
-``` c
+``` {.c}
 int radio = open("/dev/rn2903", O_RDWR);
 if (radio < 0)
   {
@@ -83,15 +75,13 @@ To receive, the `read()` function can be used. As much of the received
 packet as possible will be stored in the user buffer. This has the
 following behaviour:
 
-  - If the buffer is too small to contain the full received packet, as
+-   If the buffer is too small to contain the full received packet, as
     much of the packet as possible will be stored in the buffer.
-  - When the packet is fully read, `read()` will return `0`.
-  - If only part of the packet has been read and a call to `write()` or
+-   When the packet is fully read, `read()` will return `0`.
+-   If only part of the packet has been read and a call to `write()` or
     `ioctl()` is made, the remainder of the packet is discarded.
 
-<!-- end list -->
-
-``` c
+``` {.c}
 int radio = open("/dev/rn2903", O_RDWR);
 if (radio < 0)
   {
@@ -122,7 +112,7 @@ Gets the signal to noise ration of the last received packet. If no
 packets have been received, it will default to -128. Argument is a
 pointer to an `int8_t`.
 
-``` c
+``` {.c}
 int8_t snr;
 err = ioctl(radio, WLIOC_GETSNR, &snr);
 ```
@@ -132,7 +122,7 @@ err = ioctl(radio, WLIOC_GETSNR, &snr);
 Sets the operating frequency of the radio module. The argument is the
 desired frequency in Hz (`uint32_t`).
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_SETRADIOFREQ, 902400000);
 ```
 
@@ -141,7 +131,7 @@ err = ioctl(radio, WLIOC_SETRADIOFREQ, 902400000);
 Gets the current operating frequency of the radio module in Hz. The
 argument is a pointer to a `uint32_t`.
 
-``` c
+``` {.c}
 uint32_t freq;
 err = ioctl(radio, WLIOC_GETRADIOFREQ, &freq);
 ```
@@ -155,7 +145,7 @@ the new transmission power. This value may be different from the desired
 value, but will be the closest available setting that is greater than or
 equal to the desired value.
 
-``` c
+``` {.c}
 int32_t txpower = 1200;
 err = ioctl(radio, WLIOC_SETTXPOWERF, &txpower);
 printf("Actual TX power: %.2f dBm\n", txpower / 100.0f);
@@ -166,7 +156,7 @@ printf("Actual TX power: %.2f dBm\n", txpower / 100.0f);
 Gets the current transmission power level in 0.01 dBm. The argument is a
 pointer to a `int32_t`.
 
-``` c
+``` {.c}
 int32_t txpwr;
 err = ioctl(radio, WLIOC_GETTXPOWER, &txpwr);
 ```
@@ -177,7 +167,7 @@ Sets the operating bandwidth of the radio module. The argument is the
 desired bandwidth in kHz (`uint32_t`). The radio only supports exact
 values of 125, 250 and 500.
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_SETBANDWIDTH, 250);
 ```
 
@@ -186,7 +176,7 @@ err = ioctl(radio, WLIOC_SETBANDWIDTH, 250);
 Gets the current operating bandwidth of the radio module in kHz. The
 argument is a pointer to a `uint32_t`.
 
-``` c
+``` {.c}
 uint32_t bandwidth;
 err = ioctl(radio, WLIOC_GETBANDWIDTH, &bandwidth);
 ```
@@ -197,7 +187,7 @@ Sets the operating spread factor of the radio module. The argument is a
 `uint8_t` containing the desired spread factor between 7 and 12
 (inclusive).
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_SETSPREAD, 8);
 ```
 
@@ -206,7 +196,7 @@ err = ioctl(radio, WLIOC_SETSPREAD, 8);
 Gets the current operating spread factor of the radio module. The
 argument is a pointer to a `uint8_t`.
 
-``` c
+``` {.c}
 uint8_t spread;
 err = ioctl(radio, WLIOC_GETSPREAD, &spread);
 ```
@@ -216,7 +206,7 @@ err = ioctl(radio, WLIOC_GETSPREAD, &spread);
 Sets the operating preamble length of the radio module. The argument is
 a `uint16_t` containing the desired preamble length.
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_SETPRLEN, 8);
 ```
 
@@ -225,7 +215,7 @@ err = ioctl(radio, WLIOC_SETPRLEN, 8);
 Gets the current operating preamble length of the radio module. The
 argument is a pointer to a `uint16_t`.
 
-``` c
+``` {.c}
 uint16_t prlen;
 err = ioctl(radio, WLIOC_GETPRLEN, &prlen);
 ```
@@ -235,7 +225,7 @@ err = ioctl(radio, WLIOC_GETPRLEN, &prlen);
 Sets the operating modulation of the radio module. The argument is one
 of the values in `enum rn2xx3_mod_e`.
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_SETMOD, RN2XX3_MOD_FSK);
 ```
 
@@ -244,7 +234,7 @@ err = ioctl(radio, WLIOC_SETMOD, RN2XX3_MOD_FSK);
 Gets the current operating modulation of the radio module. The argument
 is a pointer to an `enum rn2xx3_mod_e`.
 
-``` c
+``` {.c}
 enum rn2xx3_mod_e modulation;
 err = ioctl(radio, WLIOC_GETMOD, &modulation);
 if (modulation == RN2XX3_MOD_LORA)
@@ -257,7 +247,7 @@ if (modulation == RN2XX3_MOD_LORA)
 
 Resets the RN2xx3 radio module. This command takes no arguments.
 
-``` c
+``` {.c}
 err = ioctl(radio, WLIOC_RESET, 0);
 ```
 
@@ -268,7 +258,7 @@ pointer to a `uint64_t`. Please note that when operating using FSK
 modulation, the sync word can be a full 8 bytes (64 bits), but LoRa
 modulation only accepts a single byte sync word.
 
-``` c
+``` {.c}
 /* Radio in FSK mode prior to this call */
 
 uint64_t syncword = 0xdeadbeefdeadbeef;
@@ -280,7 +270,7 @@ err = ioctl(radio, WLIOC_SETSYNC, &syncword);
 Gets the sync word parameter of the RN2xx3 module. The argument is a
 pointer to a `uint64_t`.
 
-``` c
+``` {.c}
 uint64_t syncword;
 err = ioctl(radio, WLIOC_GETSYNC, &syncword);
 ```
@@ -291,7 +281,7 @@ Sets the bit rate of the RN2xx3 module. The argument is a `uint32_t`.
 The bit rate only applies to the module when it is in FSK modulation
 mode, and it must be between 1 - 300000.
 
-``` c
+``` {.c}
 /* Radio in FSK mode prior to this call */
 
 err = ioctl(radio, WLIOC_SETBITRATE, 300000);
@@ -302,7 +292,7 @@ err = ioctl(radio, WLIOC_SETBITRATE, 300000);
 Gets the configured bit rate of the RN2xx3 module. The argument is a
 pointer to a `uint32_t`.
 
-``` c
+``` {.c}
 uint32_t bitrate;
 err = ioctl(radio, WLIOC_GETBITRATE, &bitrate);
 ```
@@ -312,7 +302,7 @@ err = ioctl(radio, WLIOC_GETBITRATE, &bitrate);
 Enables the invert IQ functionality of the module. The argument is
 boolean of either true (non-zero) or false (zero).
 
-``` c
+``` {.c}
 /* Enables IQI */
 
 err = ioctl(radio, WLIOC_IQIEN, 1);
@@ -323,7 +313,7 @@ err = ioctl(radio, WLIOC_IQIEN, 1);
 Enables adding a CRC header to packets. The argument is a boolean of
 either true (non-zero) or false (zero).
 
-``` c
+``` {.c}
 /* Enables CRC */
 
 err = ioctl(radio, WLIOC_CRCEN, 1);
@@ -334,7 +324,7 @@ err = ioctl(radio, WLIOC_CRCEN, 1);
 Sets the coding rate of the RN2xx3 module. The argument is one of the
 values in `enum rn2xx3_cr_e`.
 
-``` c
+``` {.c}
 /* Sets 4/7 coding rate */
 
 err = ioctl(radio, WLIOC_SETCODERATE, RN2XX3_CR_4_7);
@@ -345,7 +335,7 @@ err = ioctl(radio, WLIOC_SETCODERATE, RN2XX3_CR_4_7);
 Gets the currently configured coding rate of the RN2xx3 module. The
 argument is a pointer to an `enum rn2xx3_cr_e`.
 
-``` c
+``` {.c}
 enum rn2xx3_cr_e coderate;
 err = ioctl(radio, WLIOC_GETCODERATE, &coderate);
 ```

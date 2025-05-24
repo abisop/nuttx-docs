@@ -1,7 +1,4 @@
-# STM32BUTTERFLY2
-
-<div class="tags">
+STM32BUTTERFLY2
+===============
 
 chip:stm32, chip:stm32f1, chip:stm32f107
-
-</div>

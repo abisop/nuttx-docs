@@ -1,74 +1,79 @@
-# PINE64 PinePhone
-
-<div class="tags">
+PINE64 PinePhone
+================
 
 chip:a64
-
-</div>
 
 [PinePhone](https://wiki.pine64.org/index.php/PinePhone) is an ARM64
 smartphone created by PINE64.
 
-## Features
+Features
+--------
 
-  -   - **System on Chip:** Allwinner A64
-        
-          - **CPU:** Quad-Core ARM Cortex-A53
-          - **GPU:** ARM Mali400 MP2
-          - **Interrupt Controller:** ARM GIC PL400 (Generic Interrupt
+-   
+
+    **System on Chip:** Allwinner A64
+
+    :   -   **CPU:** Quad-Core ARM Cortex-A53
+        -   **GPU:** ARM Mali400 MP2
+        -   **Interrupt Controller:** ARM GIC PL400 (Generic Interrupt
             Controller v2)
-          - **Display Engine:** Allwinner Display Engine 2.0 (MIPI DSI
+        -   **Display Engine:** Allwinner Display Engine 2.0 (MIPI DSI
             with DMA)
 
-  - **Display:** Xingbangda XBD599 HD IPS Display (5.95 inches, 1440x720
+-   **Display:** Xingbangda XBD599 HD IPS Display (5.95 inches, 1440x720
     resolution, 16M colors, PWM Backlight)
 
-  - **Touch Panel:** Goodix GT917S Capacitive Touch Panel (I2C)
+-   **Touch Panel:** Goodix GT917S Capacitive Touch Panel (I2C)
 
-  - **LCD Controller:** Sitronix ST7703 (MIPI DSI)
+-   **LCD Controller:** Sitronix ST7703 (MIPI DSI)
 
-  - **RAM:** 2GB or 3GB LPDDR3 SDRAM
+-   **RAM:** 2GB or 3GB LPDDR3 SDRAM
 
-  - **Internal Storage:** 16GB or 32GB eMMC, extendable up to 2TB via
+-   **Internal Storage:** 16GB or 32GB eMMC, extendable up to 2TB via
     microSD
 
-  - **Back Camera:** Single 5MP, 1/4", LED Flash
+-   **Back Camera:** Single 5MP, 1/4\", LED Flash
 
-  - **Front Camera:** Single 2MP, f/2.8, 1/5"
+-   **Front Camera:** Single 2MP, f/2.8, 1/5\"
 
-  - **Sound:** Loudspeaker, 3.5mm jack & mic (jack doubles as Hardware
+-   **Sound:** Loudspeaker, 3.5mm jack & mic (jack doubles as Hardware
     UART if Privacy Switch 6 is Off)
 
-  -   - Modem: Quectel EG25-G
-        
-          - **LTE-FDD, LTE-TDD, WCDMA, GSM**
-          - **GNSS:** GPS / GLONASS / BeiDou / Galileo / QZSS, with
+-   
+
+    Modem: Quectel EG25-G
+
+    :   -   **LTE-FDD, LTE-TDD, WCDMA, GSM**
+        -   **GNSS:** GPS / GLONASS / BeiDou / Galileo / QZSS, with
             A-GPS
 
-  -   - 2.4 GHz Wireless: Realtek RTL8723CS
-        
-          - **WLAN:** WiFi 802.11 b/g/n, single-band, hotspot
-          - **Bluetooth:** 4.0, A2DP
+-   
 
-  - **Magnetometer:** STMicroelectronics LIS3MDL
+    2.4 GHz Wireless: Realtek RTL8723CS
 
-  - **Ambient Light / Proximity:** SensorTek STK3335
+    :   -   **WLAN:** WiFi 802.11 b/g/n, single-band, hotspot
+        -   **Bluetooth:** 4.0, A2DP
 
-  - **Accelerometer / Gyroscope:** InvenSense MPU-6050 (I2C)
+-   **Magnetometer:** STMicroelectronics LIS3MDL
 
-  - **Privacy Switches:** Modem, WiFi & Bluetooth, Microphone, Cameras,
+-   **Ambient Light / Proximity:** SensorTek STK3335
+
+-   **Accelerometer / Gyroscope:** InvenSense MPU-6050 (I2C)
+
+-   **Privacy Switches:** Modem, WiFi & Bluetooth, Microphone, Cameras,
     Headphone
 
-  - **Battery:** Lithium-ion, rated capacity 2800mAh (10.64Wh), typical
+-   **Battery:** Lithium-ion, rated capacity 2800mAh (10.64Wh), typical
     capacity 3000mAh (11.40Wh)
 
-  - **I/O:** USB Type-C, USB Host, DisplayPort Alternate Mode output,
+-   **I/O:** USB Type-C, USB Host, DisplayPort Alternate Mode output,
     15W 5V 3A Quick Charge, follows USB PD specification
 
-  - **Power Management Integrated Circuit:** X-Powers AXP803 (Reduced
+-   **Power Management Integrated Circuit:** X-Powers AXP803 (Reduced
     Serial Bus)
 
-## Serial Console
+Serial Console
+--------------
 
 A [PinePhone Serial Debug
 Cable](https://wiki.pine64.org/index.php/PinePhone#Serial_console) is
@@ -84,7 +89,8 @@ computer, start a Serial Terminal and connect to the USB Serial Port at
 
 NuttX will appear in the Serial Console when it boots on PinePhone.
 
-## ARM64 Toolchain
+ARM64 Toolchain
+---------------
 
 Before building NuttX for PinePhone, download the ARM64 Toolchain for
 **AArch64 Bare-Metal Target** `aarch64-none-elf` from [Arm GNU Toolchain
@@ -96,21 +102,21 @@ Add the downloaded toolchain `gcc-arm-...-aarch64-none-elf/bin` to the
 
 Check the ARM64 Toolchain:
 
-``` console
+``` {.console}
  aarch64-none-elf-gcc -v
 ```
 
-## Building
+Building
+--------
 
-To build NuttX for PinePhone,
-\[<span class="title-ref">in\](\`in.md)stall the prerequisites
-\</quickstart/install\></span> and \[<span class="title-ref">clone the
-git repo\](\`clone the git repo.md)sitories
-\</quickstart/install\></span> for `nuttx` and `apps`.
+To build NuttX for PinePhone, \[[in\](\`in.md)stall the prerequisites
+\</quickstart/install\>]{.title-ref} and \[[clone the git repo\](\`clone
+the git repo.md)sitories \</quickstart/install\>]{.title-ref} for
+`nuttx` and `apps`.
 
 Configure the NuttX project and build the project:
 
-``` console
+``` {.console}
  cd nuttx
  tools/configure.sh pinephone:lvgl
  make
@@ -122,13 +128,14 @@ Configure the NuttX project and build the project:
 This produces the file `Image.gz`, which will be copied to PinePhone in
 the next step.
 
-If the build fails with the error `token "@" is not valid in
-preprocessor`, [apply this
+If the build fails with the error
+`token "@" is not valid in preprocessor`, [apply this
 patch](https://github.com/apache/nuttx/pull/7284/commits/518b0eb31cb66f25b590ae9a79ab16c319b96b94#diff-12291efd8a0ded1bc38bad733d99e4840ae5112b465c04287f91ba5169612c73)
 to `gcc-arm-none-eabi/arm-none-eabi/include/_newlib_version.h` in the
 ARM64 Toolchain.
 
-## Booting
+Booting
+-------
 
 NuttX boots on PinePhone via a microSD Card. To prepare the microSD
 Card, download the **PinePhone Jumpdrive Image**
@@ -152,27 +159,29 @@ boots on PinePhone and NuttShell (nsh) appears in the Serial Console.
 
 To see the available commands in NuttShell:
 
-``` console
+``` {.console}
  help
 ```
 
 To run the LVGL Touchscreen Demo:
 
-``` console
+``` {.console}
  lvgldemo widgets
 ```
 
-## LEDs
+LEDs
+----
 
 The supported PinePhone LEDs are:
 
-| Index | LED       | PIO  |
-| ----- | --------- | ---- |
-| LED1  | Green LED | PD18 |
-| LED2  | Red LED   | PD19 |
-| LED3  | Blue LED  | PD20 |
+  Index   LED         PIO
+  ------- ----------- ------
+  LED1    Green LED   PD18
+  LED2    Red LED     PD19
+  LED3    Blue LED    PD20
 
-## Configurations
+Configurations
+--------------
 
 ### lcd
 
@@ -199,10 +208,11 @@ Supports Accelerometer / Gyroscope (MPU-6050), Power Management
 Integrated Circuit (AXP803) and Reduced Serial Bus (RSB). Serial Console
 is enabled on UART0 at 115.2 kbps.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
 NuttX for PinePhone supports these peripherals:
 
-| Peripheral                                                                                                                                                                                    | Support                                                     | NOTES |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----- |
-| Accelerometer (MPU-6050) Backlight Display Engine Frame Buffer LCD Controller (ST7703) LCD Panel (XBD599) MIPI D-PHY MIPI DSI PIO PMIC (AXP803) RSB TCON0 TWI / I2C Touch Panel (GT917S) UART | Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes |       |
+  Peripheral                                                                                                                                                                                      Support                                                       NOTES
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------- -------
+  Accelerometer (MPU-6050) Backlight Display Engine Frame Buffer LCD Controller (ST7703) LCD Panel (XBD599) MIPI D-PHY MIPI DSI PIO PMIC (AXP803) RSB TCON0 TWI / I2C Touch Panel (GT917S) UART   Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes   

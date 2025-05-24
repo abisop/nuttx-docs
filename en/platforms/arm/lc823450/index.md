@@ -1,7 +1,8 @@
-# ON Semiconductor LC823450
+ON Semiconductor LC823450
+=========================
 
 (Dual core ARM Cortex-M3). In NuttX-7.22, Masayuki Ishikawa contributed
-support for both the LC823450 architecture and for ON Semiconductor's
+support for both the LC823450 architecture and for ON Semiconductor\'s
 **LC823450XGEVK board**:
 
 > The LC823450XGEVK is an audio processing system Evaluation Board Kit
@@ -37,6 +38,7 @@ Masayuki Ishikawa in NuttX-7.23. Bluetooth, SPI, and *PROTECTED* build
 support were added by Masayuki Ishikawa in NuttX-7.26. Support for for
 SPI flash boot was added in NuttX-7.28.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

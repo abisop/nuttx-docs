@@ -1,14 +1,16 @@
-# Effects of Disabling Interrupts or Pre-Emption on Response Latency
+Effects of Disabling Interrupts or Pre-Emption on Response Latency
+==================================================================
 
-## Rate Monotonic Scheduling
+Rate Monotonic Scheduling
+-------------------------
 
 **Assumption**
 
 > No resource sharing (processes do not share resources, e.g. a hardware
 > resource, a queue, or any kind of semaphore blocking or non-blocking
 > (busy-waits)).
-> 
-> Wikipedia “Rate Monotonic Scheduling”
+>
+> Wikipedia "Rate Monotonic Scheduling"
 
 **Real world**
 
@@ -23,12 +25,12 @@ violated?
 
 ### Normal Interrupt Processing
 
-![](normal_interrupt.png)
+![](normal_interrupt.png){.align-center}
 
 ### Effect of Disabling Interrupts
 
-![](disabling_interrupts.png)
+![](disabling_interrupts.png){.align-center}
 
 ### Effect of Disabling Pre-emption
 
-![](disabling_preemption.png)
+![](disabling_preemption.png){.align-center}

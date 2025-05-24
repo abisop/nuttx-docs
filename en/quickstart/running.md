@@ -1,4 +1,5 @@
-# Running
+Running
+=======
 
 In order to finally run NuttX on your board, you first have to flash the
 NuttX binary. As an easy start, it is recommended that you choose a well
@@ -12,7 +13,8 @@ which allows you to interact with NuttX via the interactive console
 without any extra hardware. For the purposes of this guide, we will use
 the Nucleo F103RB board.
 
-## Flashing
+Flashing
+--------
 
 There are various tools you can use to flash the NuttX binary to your
 Nucleo board. One common option is to use `openocd` which supports a
@@ -23,43 +25,37 @@ long time and support for newer hardware will probably be only available
 in the latest Git version, so it is actually recommended to install
 latest development version.
 
->  git clone <git://git.code.sf.net/p/openocd/code> openocd  cd
-> openocd  ./bootstrap  ./configure --prefix=install/  make install
-> 
+> \ git clone <git://git.code.sf.net/p/openocd/code> openocd \ cd
+> openocd \ ./bootstrap \ ./configure \--prefix=install/ \ make
+> install
+>
 > The resulting installation will be under `openocd/install`. You can
 > add `openocd/install/bin` to your `PATH`.
 
 Now, to flash the binary to your board, connect the USB cable and do:
 
-``` console
+``` {.console}
  cd nuttx/
  openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c 'init' \
   -c 'program nuttx/nuttx.bin verify reset' -c 'shutdown'
 ```
 
-## Access NuttShell
+Access NuttShell
+----------------
 
 Once you flash your board, it will reset and offer a prompt over the
 serial console. With the Nucleo board, you can simply open the terminal
 program of your choice where you will see the `nsh>` prompt (press
-`enter` if you don't see anything):
-
-<div class="tip">
-
-<div class="title">
+`enter`{.interpreted-text role="kbd"} if you don\'t see anything):
 
 Tip
-
-</div>
 
 You may have to add yourself to the `dialout` group on Linux to have
 permission to access serial ports:
 
-``` console
+``` {.console}
  gpasswd -a <user> dialout
 ```
 
 Where `<user>` is your username. You will need to log out from your
 desktop for the change to have effect.
-
-</div>

@@ -1,5 +1,7 @@
-# qemu
+qemu
+====
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,27 +1,21 @@
-# Custom Application Directories
-
-<div class="warning">
-
-<div class="title">
+Custom Application Directories
+==============================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Custom+Application+Directories>
 
-</div>
-
 Most people use the generic `apps/` directory with NuttX. That is
 convenient and well-documented. However, it should always be remembered
 that NuttX is a stand-alone, general-purpose OS and has **no
-dependency** on that "canned" application directory.
+dependency** on that \"canned\" application directory.
 
 This page shows how to create your own, custom application directory
 from scratch.
 
-## Creating the Custom Application Directory
+Creating the Custom Application Directory
+-----------------------------------------
 
 Below is a simple example of the **minimum** custom application
 directory. It contains only three files: `Makefile`, `Kconfig`, and
@@ -35,7 +29,7 @@ generate an archive called `libapps.a` in the top-level of the custom
 directory structure. The minimal required targets for the `Makefile`
 look like this:
 
-``` shell
+``` {.shell}
 APPDIR = {shell pwd}
 
 -include (TOPDIR)/Make.defs
@@ -106,7 +100,7 @@ meaningful configuration options. This file is where you can add
 application-specific configuration settings if desired. The minimal
 `Kconfig` might look like:
 
-``` shell
+``` {.shell}
 # For a description of the syntax of this configuration file,
 # see the file kconfig-language.txt in the NuttX tools repository.
 #
@@ -125,10 +119,10 @@ with the rest of your application, and where the rest of you application
 code is located is of no concern to the OS. Only this one entry point is
 needed.
 
-Below is a small "Hello, World\!" example, where `custom_main()` is the
+Below is a small \"Hello, World!\" example, where `custom_main()` is the
 application entry point:
 
-``` c
+``` {.c}
 #include <stdio.h>
 
 int custom_main(int argc, char *argv[])
@@ -138,36 +132,29 @@ return 0;
 }
 ```
 
-## Building with the Custom Application Directory
+Building with the Custom Application Directory
+----------------------------------------------
 
 In order to build with the new custom application directory, you need
 the following in your NuttX configuration:
 
-``` shell
+``` {.shell}
 CONFIG_APPS_DIR="../custom-apps"
 CONFIG_USER_ENTRYPOINT="custom_main"
 ```
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
 You can only access the `../custom-apps/Kconfig` file if
-`CONFIG_APPS_DIR` is set to `../custom-apps` **before** running `make
-menuconfig`. If you start with an existing configuration, you may face a
-"chicken-and-egg" situation. One workaround is to manually edit the
-`.config` file before running `make menuconfig`.
-
-</div>
+`CONFIG_APPS_DIR` is set to `../custom-apps` **before** running
+`make menuconfig`. If you start with an existing configuration, you may
+face a \"chicken-and-egg\" situation. One workaround is to manually edit
+the `.config` file before running `make menuconfig`.
 
 Alternatively, if you use the `tools/configure.sh` script, you can
 specify the custom-apps directory from the command line:
 
-``` shell
+``` {.shell}
 tools/configure.sh -a ../custom_apps <board>:<config>
 ```
 
@@ -175,6 +162,6 @@ Afterward, just build NuttX as you normally would. When you run the
 program that was built with your custom application directory, you
 should see:
 
-``` shell
+``` {.shell}
 Hello, World!!
 ```

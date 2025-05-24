@@ -1,45 +1,44 @@
-# ST STM32F746G-DISCO
-
-<div class="tags">
+ST STM32F746G-DISCO
+===================
 
 chip:stm32, chip:stm32f7, chip:stm32f746
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM32F746G-DISCO development board featuring the STM32F746NGH6
 MCU. The STM32F746NGH6 is a 216MHz Cortex-M7 operation with 1024Kb Flash
 memory and 300Kb SRAM. The board features:
 
-  - On-board ST-LINK/V2 for programming and debugging,
-  - Mbed-enabled (mbed.org)
-  - 4.3-inch 480x272 color LCD-TFT with capacitive touch screen
-  - Camera connector
-  - SAI audio codec
-  - Audio line in and line out jack
-  - Stereo speaker outputs
-  - Two ST MEMS microphones
-  - SPDIF RCA input connector
-  - Two pushbuttons (user and reset)
-  - 128-Mbit Quad-SPI Flash memory
-  - 128-Mbit SDRAM (64 Mbits accessible)
-  - Connector for microSD card
-  - RF-EEPROM daughterboard connector
-  - USB OTG HS with Micro-AB connectors
-  - USB OTG FS with Micro-AB connectors
-  - Ethernet connector compliant with IEEE-802.3-2002
+-   On-board ST-LINK/V2 for programming and debugging,
+-   Mbed-enabled (mbed.org)
+-   4.3-inch 480x272 color LCD-TFT with capacitive touch screen
+-   Camera connector
+-   SAI audio codec
+-   Audio line in and line out jack
+-   Stereo speaker outputs
+-   Two ST MEMS microphones
+-   SPDIF RCA input connector
+-   Two pushbuttons (user and reset)
+-   128-Mbit Quad-SPI Flash memory
+-   128-Mbit SDRAM (64 Mbits accessible)
+-   Connector for microSD card
+-   RF-EEPROM daughterboard connector
+-   USB OTG HS with Micro-AB connectors
+-   USB OTG FS with Micro-AB connectors
+-   Ethernet connector compliant with IEEE-802.3-2002
 
 Refer to the <http://www.st.com> website for further information about
 this board (search keyword: stm32f746g-disco)
 
-## Development Environment
+Development Environment
+-----------------------
 
 The Development environments for the STM32F746G-DISCO board are
 identical to the environments for other STM32F boards. For full details
 on the environment options and setup, see the README.txt file in the
 boards/arm/stm32f7/stm32f746g-disco directory.
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
@@ -57,48 +56,44 @@ defined. In that case, the usage by the board port is defined in
 include/board.h and src/stm32\_leds.c. The LEDs are used to encode
 OS-related events as follows:
 
-> 
-> 
-> | SYMBOL            | Meaning                 | LD1   |
-> | ----------------- | ----------------------- | ----- |
-> | LED\_STARTED      | NuttX has been started  | OFF   |
-> | LED\_HEAPALLOCATE | Heap has been allocated | OFF   |
-> | LED\_IRQSENABLED  | Interrupts enabled      | OFF   |
-> | LED\_STACKCREATED | Idle stack created      | ON    |
-> | LED\_INIRQ        | In an interrupt         | N/C   |
-> | LED\_SIGNAL       | In a signal handler     | N/C   |
-> | LED\_ASSERTION    | An assertion failed     | N/C   |
-> | LED\_PANIC        | The system has crashed  | FLASH |
-> 
-
+>   SYMBOL              Meaning                   LD1
+>   ------------------- ------------------------- -------
+>   LED\_STARTED        NuttX has been started    OFF
+>   LED\_HEAPALLOCATE   Heap has been allocated   OFF
+>   LED\_IRQSENABLED    Interrupts enabled        OFF
+>   LED\_STACKCREATED   Idle stack created        ON
+>   LED\_INIRQ          In an interrupt           N/C
+>   LED\_SIGNAL         In a signal handler       N/C
+>   LED\_ASSERTION      An assertion failed       N/C
+>   LED\_PANIC          The system has crashed    FLASH
+>
 > Thus is LD1 is statically on, NuttX has successfully booted and is,
 > apparently, running normally. If LD1 is flashing at approximately 2Hz,
 > then a fatal error has been detected and the system has halted.
 
 ### Buttons
 
-Pushbutton B1, labelled "User", is connected to GPIO PI11. A high value
-will be sensed when the button is depressed.
+Pushbutton B1, labelled \"User\", is connected to GPIO PI11. A high
+value will be sensed when the button is depressed.
 
-## Serial Console
+Serial Console
+--------------
 
-The STM32F469G-DISCO uses USART1 connected to "Virtual COM", so when you
-plug it on your computer it will be detected as a USB port (i.e.
+The STM32F469G-DISCO uses USART1 connected to \"Virtual COM\", so when
+you plug it on your computer it will be detected as a USB port (i.e.
 ttyACM0):
 
-> 
-> 
-> | V.COM | FUNCTION   | GPIO |
-> | ----- | ---------- | ---- |
-> | RXD   | USART1\_RX | PB7  |
-> | TXD   | USART1\_TX | PA9  |
-> 
+>   V.COM   FUNCTION     GPIO
+>   ------- ------------ ------
+>   RXD     USART1\_RX   PB7
+>   TXD     USART1\_TX   PA9
 
 All you need to do after flashing NuttX on this board is use a serial
 console tool (minicom, picocom, screen, hyperterminal, teraterm, putty,
 etc ) configured to 115200 8n1.
 
-## Configurations
+Configurations
+--------------
 
 ### Common Configuration Information
 
@@ -113,10 +108,10 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  By default, these configurations use the USART1 for the serial
@@ -125,30 +120,30 @@ NOTES:
     most RS-232 shields.
 
 3.  All of these configurations are set up to build under Windows using
-    the "GNU Tools for ARM Embedded Processors" that is maintained by
+    the \"GNU Tools for ARM Embedded Processors\" that is maintained by
     ARM (unless stated otherwise in the description of the
     configuration).
-    
+
     > <https://developer.arm.com/open-source/gnu-toolchain/gnu-rm>
-    
+
     As of this writing (2015-03-11), full support is difficult to find
     for the Cortex-M7, but is supported by at least this release of the
     ARM GNU tools:
-    
+
     > <https://launchpadlibrarian.net/209776344/release.txt>
-    
-    hat toolchain selection can easily be reconfigured using 'make
-    menuconfig'. Here are the relevant current settings:
-    
+
+    hat toolchain selection can easily be reconfigured using \'make
+    menuconfig\'. Here are the relevant current settings:
+
     Build Setup:
-    
+
         CONFIG_HOST_WINDOWS=y               : Window environment
         CONFIG_WINDOWS_CYGWIN=y             : Cywin under Windows
-    
+
     System Type -\> Toolchain:
-    
+
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y  : GNU ARM EABI toolchain
-    
+
     NOTE: As of this writing, there are issues with using this tool at
     the -Os level of optimization. This has not been proven to be a
     compiler issue (as least not one that might not be fixed with a well
@@ -187,7 +182,8 @@ this board. From the nsh command line execute the lvgldemo example:
 The test will execute the calibration process and then run the LittlevGL
 demo project.
 
-## STM32F746G-DISCO LTDC Framebuffer demo example
+STM32F746G-DISCO LTDC Framebuffer demo example
+----------------------------------------------
 
 Configure and build
 
@@ -213,7 +209,8 @@ commandline execute the fb example:
 The test will put a pattern of concentric squares in the framebuffer and
 terminate.
 
-## STM32F746G-DISCO NX Terminal example
+STM32F746G-DISCO NX Terminal example
+------------------------------------
 
 Configure and build
 
@@ -248,7 +245,8 @@ From the nsh commandline execute the example:
 
 The test will show terminal window on the screen.
 
-## STM32F746G-DISCO NX demo example
+STM32F746G-DISCO NX demo example
+--------------------------------
 
 Configure and build:
 

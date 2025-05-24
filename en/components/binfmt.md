@@ -1,4 +1,5 @@
-# Binary Loader
+Binary Loader
+=============
 
 The purpose of a *binary loader* is to load and execute modules in
 various *binary formats* that reside in a file system. Loading refers
@@ -22,10 +23,10 @@ object and failed.
 
 At present, the following binary formats are support by NuttX:
 
->   - **ELF**. Standard ELF formatted files.
->   - **NXFLAT**. NuttX NXFLAT formatted files. More information about
+> -   **ELF**. Standard ELF formatted files.
+> -   **NXFLAT**. NuttX NXFLAT formatted files. More information about
 >     the NXFLAT binary format can be found in the `NXFLAT
->     documentation <nxflat>`.
+>     documentation <nxflat>`{.interpreted-text role="ref"}.
 
 **Executables and Libraries** The generic binary loader logic does not
 care what it is that it being loaded. It could load an executable
@@ -44,7 +45,8 @@ However, the NuttX binary loader is an independent development and
 shares nothing with the Linux binary loader other the same name and the
 same basic functionality.
 
-## Binary Loader Interface
+Binary Loader Interface
+-----------------------
 
 ### Header Files
 
@@ -55,7 +57,8 @@ and interfaces prototyped in that header file are listed below.
 ### Data Structures
 
 When a binary format registers with the binary loader, it provides a
-pointer to a write-able instance of :c`binfmt_s`.
+pointer to a write-able instance of :c`binfmt_s`{.interpreted-text
+role="struct"}.
 
 ### Function Interfaces
 
@@ -63,30 +66,27 @@ pointer to a write-able instance of :c`binfmt_s`.
 
 #### Basic module management
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-The function :c`exec` is a convenience function that wraps
-:c`load_module` and :c`exec_module` into one call.
-
-</div>
+The function :c`exec`{.interpreted-text role="func"} is a convenience
+function that wraps :c`load_module`{.interpreted-text role="func"} and
+:c`exec_module`{.interpreted-text role="func"} into one call.
 
 #### `PATH` traversal logic
 
 Release all resources set aside by envpath\_init when the handle value
 was created. The handle value is invalid on return from this function.
-Attempts to all :c`envpath_next` or :c`envpath_release` with such a
-stale handle will result in undefined (i.e., not good) behavior.
+Attempts to all :c`envpath_next`{.interpreted-text role="func"} or
+:c`envpath_release`{.interpreted-text role="func"} with such a stale
+handle will result in undefined (i.e., not good) behavior.
 
->   - param handle  
->     The handle value returned by :c`envpath_init`.
+> param handle
+>
+> :   The handle value returned by :c`envpath_init`{.interpreted-text
+>     role="func"}.
 
-## Symbol Tables
+Symbol Tables
+-------------
 
 **Symbol Tables**. Symbol tables are lists of name value mappings: The
 name is a string that identifies a symbol, and the value is an address
@@ -115,16 +115,17 @@ and interfaces prototyped in that header file are listed below.
 
 ### Symbol Table Function Interfaces
 
-## Configuration Variables
+Configuration Variables
+-----------------------
 
->   - `CONFIG_BINFMT_DISABLE`: By default, support for loadable binary
+> -   `CONFIG_BINFMT_DISABLE`: By default, support for loadable binary
 >     formats is built. This logic may be suppressed be defining this
 >     setting.
->   - `CONFIG_BINFMT_CONSTRUCTORS`: Build in support for C++
+> -   `CONFIG_BINFMT_CONSTRUCTORS`: Build in support for C++
 >     constructors in loaded modules.
->   - `CONFIG_SYMTAB_ORDEREDBYNAME`: Symbol tables are order by name
+> -   `CONFIG_SYMTAB_ORDEREDBYNAME`: Symbol tables are order by name
 >     (rather than value).
->   - `CONFIG_SYMTAB_DECORATED`: Symbols will have a leading underscore
+> -   `CONFIG_SYMTAB_DECORATED`: Symbols will have a leading underscore
 >     in object files.
 
 Additional configuration options may be required for the each enabled

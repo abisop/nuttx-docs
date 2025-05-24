@@ -1,10 +1,7 @@
-# ESP32-S3-EYE
-
-<div class="tags">
+ESP32-S3-EYE
+============
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 The
 [ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)
@@ -12,24 +9,26 @@ is a small-sized AI development board from Espressif featuring the
 ESP32-S3 CPU with a 2-Megapixel camera, an LCD display, a microphone, an
 8 MB Octal PSRAM and an 8 MB flash.
 
-|                      |
-| -------------------- |
-| ![](esp32s3_eye.png) |
+  -------------------------------------
+  ![](esp32s3_eye.png){.align-center}
+  -------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32-S3 WROOM-1 Module
->   - USB micro USB port (it uses internal USB JTAG SERIAL device for
+> -   ESP32-S3 WROOM-1 Module
+> -   USB micro USB port (it uses internal USB JTAG SERIAL device for
 >     flashing)
->   - Power LED
->   - LCD Display
->   - 2-MP Camera
->   - MEMS Microphone
->   - 8MB Octal PSRAM
->   - 8MB SPI Flash
->   - RST and BOOT buttons (BOOT accessible to user)
+> -   Power LED
+> -   LCD Display
+> -   2-MP Camera
+> -   MEMS Microphone
+> -   8MB Octal PSRAM
+> -   8MB SPI Flash
+> -   RST and BOOT buttons (BOOT accessible to user)
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -38,8 +37,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### nsh
 
@@ -71,23 +70,24 @@ Then run the minicom configured to /dev/ttyACM0 115200 8n1 and press
     NuttShell (NSH) NuttX-12.1.0
     nsh> ?
     help usage:  help [-v] [<cmd>]
-    
+
         .         break     dd        exit      ls        ps        source    umount
         [         cat       df        false     mkdir     pwd       test      unset
         ?         cd        dmesg     free      mkrd      rm        time      uptime
         alias     cp        echo      help      mount     rmdir     true      usleep
         unalias   cmp       env       hexdump   mv        set       truncate  xd
         basename  dirname   exec      kill      printf    sleep     uname
-    
+
     Builtin Apps:
         nsh  sh
     nsh> uname -a
     NuttX 12.1.0 38a73cd970 Jun 18 2023 16:58:46 xtensa esp32s3-eye
     nsh>
 
-## Flashing
+Flashing
+--------
 
-Because ESP32-S3 doesn't use an external USB/Serial chip like others
+Because ESP32-S3 doesn\'t use an external USB/Serial chip like others
 ESP32 boards you should put it in programming mode this way:
 
 > 1)  Press and hold BOOT and RESET (RST) buttons at same time;
@@ -95,7 +95,8 @@ ESP32 boards you should put it in programming mode this way:
 > 3)  After one or more seconds release the BOOT button;
 > 4)  Run the flashing command: make flash ESPTOOL\_PORT=/dev/ttyACM0
 
-## Serial Console
+Serial Console
+--------------
 
 The internal USB JTAG SERIAL Device, by default, is used as serial
 console. It is normally detected by Linux host as a USB CDC/ACM serial
@@ -106,9 +107,10 @@ It will show up as /dev/ttyACM\[n\] where \[n\] will probably be 0.
 You can use minicom with /dev/ttyACM0 port at 9600 8n1 or picocom this
 way:
 
->  picocom -b9600 /dev/ttyACM0
+> \ picocom -b9600 /dev/ttyACM0
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -126,14 +128,11 @@ software input.
 There are several on-board LEDs for that indicate the presence of power
 and USB activity. None of these are available for use by software.
 
-## Pin Mapping
-
-<div class="todo">
+Pin Mapping
+-----------
 
 To be updated
 
-</div>
-
-| Pin | Signal | Notes |
-| --- | ------ | ----- |
-| ?   | ?      | ?     |
+  Pin   Signal   Notes
+  ----- -------- -------
+  ?     ?        ?

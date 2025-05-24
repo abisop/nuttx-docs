@@ -1,6 +1,8 @@
-# Microchip AT90USB
+Microchip AT90USB
+=================
 
-## AVR AT90USB64x and AT90USB6128x
+AVR AT90USB64x and AT90USB6128x
+-------------------------------
 
 **Micropendous 3 AT90USB64x** and **AT90USB6128x**. This port of NuttX
 to the Opendous Micropendous 3 board. The Micropendous3 is may be
@@ -16,9 +18,9 @@ Microchip AT90USB1286 MCU.
 **AVR-Specific Issues**. The basic AVR port is solid. The biggest issue
 for using AVR is its tiny SRAM memory and its Harvard architecture.
 Because of the Harvard architecture, constant data that resides to flash
-is inaccessible using "normal" memory reads and writes (only SRAM data
-can be accessed "normally"). Special AVR instructions are available for
-accessing data in FLASH, but these have not been integrated into the
+is inaccessible using \"normal\" memory reads and writes (only SRAM data
+can be accessed \"normally\"). Special AVR instructions are available
+for accessing data in FLASH, but these have not been integrated into the
 normal, general purpose OS.
 
 Most NuttX test applications are console-oriented with lots of strings
@@ -28,7 +30,7 @@ console-oriented applications can quickly fill a 4-8K memory. So, in
 order for the AVR port to be useful, one of two things would need to be
 done:
 
-1.  Don't use console applications that required lots of strings. The
+1.  Don\'t use console applications that required lots of strings. The
     basic AVR port is solid and your typical deeply embedded application
     should work fine. Or,
 2.  Create a special version of printf that knows how to access strings

@@ -1,7 +1,4 @@
-# imx8qm-mek
-
-<div class="tags">
+imx8qm-mek
+==========
 
 chip:imx8
-
-</div>

@@ -1,3 +1,4 @@
-# Power-related Drivers
+Power-related Drivers
+=====================
 
 > pm/index.rst

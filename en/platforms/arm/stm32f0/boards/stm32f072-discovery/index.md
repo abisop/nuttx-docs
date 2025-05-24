@@ -1,12 +1,10 @@
-# ST STM32F072-DISCOVERY
-
-<div class="tags">
+ST STM32F072-DISCOVERY
+======================
 
 chip:stm32, chip:stm32f0, chip:stm32f072
 
-</div>
-
-## STATUS
+STATUS
+------
 
 05/17: The basic NSH configuration is functional and shows that there is
 3-4KB of free heap space. However, attempts to extend this have failed.

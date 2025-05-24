@@ -1,6 +1,8 @@
-# Core Dump
+Core Dump
+=========
 
-## Overview
+Overview
+--------
 
 ![image](image/coredump-overview.png)
 
@@ -10,20 +12,18 @@
 
 Enable Kconfig
 
-> 
-> 
-> ``` console
+> ``` {.console}
 > CONFIG_COREDUMP=y                   /* Enable Coredump */
-> 
+>
 > CONFIG_BOARD_COREDUMP_SYSLOG=y      /* Enable Board Coredump, if exceptions and assertions occur, */
-> 
+>
 > CONFIG_SYSTEM_COREDUMP=y            /* Enable coredump in user command, which can capture the current
 >                                        state of one or all threads when the system is running, the
 >                                        output can be redirect to console or file */
-> 
+>
 > CONFIG_BOARD_COREDUMP_COMPRESSION=y /* Default y, enable Coredump compression to
 >                                        reduce the size of the original core image */
-> 
+>
 > CONFIG_BOARD_COREDUMP_FULL=y        /* Default y, save all task information */
 > ```
 
@@ -31,12 +31,10 @@ Enable Kconfig
 
 Parameters of coredump tool
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  coredump <pid>        /* If pid is specified, coredump will only capture the thread with the
 >                            specified pid, otherwise all threads will be captured */
-> 
+>
 >  coredump <filename>   /* If filename is specified, then coredump will be output to the specified
 >                            file by default, otherwise it will be redirect in stdout stream */
 > ```
@@ -46,8 +44,8 @@ Parameters of coredump tool
 Save the print of the red frame part in the figure as file
 
 > ![image](image/coredump-hexdump.png)
-> 
-> ``` console
+>
+> ``` {.console}
 >  cat elf.dump
 > [CPU0] [ 6] 5A5601013D03FF077F454C4601010100C0000304002800C00D003420036000070400053400200008200A4000000420030034C024200001D8092004E00200601A
 > ...
@@ -63,9 +61,7 @@ to convert hex to binary and lzf decompression, If the -o parameter is
 not added in commandline, the output of \<original file name\>.core will
 be automatically generated:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  ./nuttx/tools/coredump.py elf.dump
 > Core file conversion completed: elf.core
 > ```
@@ -78,10 +74,8 @@ directly through gdb:
 
 (NOTE: Toolchain version must be newer than 11.3)
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  prebuilts/gcc/linux/arm/bin/arm-none-eabi-gdb -c elf.core nuttx
 > ```
-> 
+>
 > ![image](image/coredump-gdb.png)

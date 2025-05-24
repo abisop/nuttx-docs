@@ -1,4 +1,5 @@
-# Per-Thread Interrupt Controls
+Per-Thread Interrupt Controls
+=============================
 
 Using NuttX, you will find that the interrupts enabled/disabled state is
 not a global property. You can not just turn interrupts off and on for
@@ -6,7 +7,7 @@ all tasks. Rather, enabling and disabling interrupts effects only while
 the single task that is controlling the interrupts runs. Consider the
 following sequence:
 
-``` C
+``` {.C}
 irqstate_t flags;
 
 flags = irqsave();   /* Disable interrupts */

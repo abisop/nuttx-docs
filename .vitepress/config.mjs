@@ -79,9 +79,9 @@ export default defineConfig({
               ? ({ filePath, frontmatter }) => {
                   if (frontmatter.newEditLink) {
                     //newEditLink defines a frontmatter key you can use to append a path to main
-                    return `https://github.com/abisop/nuttx-docs/edit/main/docs/${frontmatter.newEditLink}`;
+                    return `https://github.com/abisop/nuttx-docs/edit/main/${frontmatter.newEditLink}`;
                   } else {
-                    return `https://github.com/abisop/nuttx-docs/edit/main/docs/${filePath}`;
+                    return `https://github.com/abisop/nuttx-docs/edit/main/${filePath}`;
                   }
                 }
               : (c) =>

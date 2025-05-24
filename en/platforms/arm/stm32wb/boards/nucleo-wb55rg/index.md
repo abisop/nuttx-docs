@@ -1,10 +1,7 @@
-# ST Nucleo WB55RG
-
-<div class="tags">
+ST Nucleo WB55RG
+================
 
 chip:stm32, chip:stm32wb, chip:stm32wb55
-
-</div>
 
 This page file discusses the port of NuttX to the STMicroelectronics
 NUCLEO-WB55RG board. That board features the multi-protocol wireless and
@@ -13,7 +10,8 @@ A dedicated M0+ coprocessor is responsible for performing the real-time
 low layer operations via one of the available wireless stacks
 distributed as binaries in STM32CubeWB package.
 
-## Status
+Status
+------
 
 April 2022: The nucleo-wb55rg board minimal setup compiles successfully.
 
@@ -23,7 +21,8 @@ IPCC. SRAM2 heap allocation works. Builtin apps work and ostest passed.
 
 July 2022: Added BLE support with mailbox IPC driver.
 
-## LEDs
+LEDs
+----
 
 The board has 3 user leds:
 
@@ -35,7 +34,8 @@ These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
 include/board.h and src/stm32\_autoleds.c.
 
-## Buttons
+Buttons
+-------
 
 The board has 3 user buttons:
 
@@ -43,13 +43,15 @@ The board has 3 user buttons:
     SW2     PD0
     SW3     PD1
 
-## Serial Consoles
+Serial Consoles
+---------------
 
-The MCU's USART1 is connected to the on-board ST-LINK/V2-1 and exposed
+The MCU\'s USART1 is connected to the on-board ST-LINK/V2-1 and exposed
 as a Virtual COM Port over the same Micro-USB Type B connection used for
 programming/debugging.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh:
 

@@ -1,12 +1,10 @@
-# ST Nucleo H745ZI
-
-<div class="tags">
+ST Nucleo H745ZI
+================
 
 chip:stm32, chip:stm32h7, chip:stm32h745
 
-</div>
-
-## Dual core support
+Dual core support
+-----------------
 
 It is recommended to use CMake to build firmware consisting of multiple
 images. The commands to build `nsh_xxx_rptun` configurations are as
@@ -14,19 +12,20 @@ follows:
 
     cmake -B build_h7m7 -DBOARD_CONFIG=nucleo-h745zi:nsh_cm7_rptun -GNinja
     cmake -B build_h7m4 -DBOARD_CONFIG=nucleo-h745zi:nsh_cm4_rptun -GNinja
-    
+
     cmake --build build_h7m7
     cmake --build build_h7m4
 
-## Serial Console
+Serial Console
+--------------
 
 The STLINK virtual console uses Serial Port 3 (USART3) with TX on PD8
 and RX on PD9 and is used by the Cortex-M7 core by default.
 
-| VCOM Signal | Pin |
-| ----------- | --- |
-| SERIAL\_RX  | PD9 |
-| SERIAL\_TX  | PD8 |
+  VCOM Signal   Pin
+  ------------- -----
+  SERIAL\_RX    PD9
+  SERIAL\_TX    PD8
 
 Access to the Cortex-M4 core can be achieved using an additional UART
 port or via RPMSG UART by setting `CONFIG_RPMSG_UART_CONSOLE=y` in CM4
@@ -39,10 +38,11 @@ using `cu`:
     NuttShell (NSH) NuttX-10.4.0
     nsh-cm4>
 
-## Tools
+Tools
+-----
 
 Support for the board was tested using an external JLink interface.
-Openocd with built-in ST-LINK didn't work well.
+Openocd with built-in ST-LINK didn\'t work well.
 
 Image flashing was accomplished using `JFlashLiteExe`, with the device
 set to `STM32H745ZI_M7`.

@@ -1,24 +1,18 @@
-# RAM Disks and ROM Disks
-
-<div class="warning">
-
-<div class="title">
+RAM Disks and ROM Disks
+=======================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/RAM+Disks+and+ROM+Disks>
 
-</div>
-
-## NSH mkrd Command
+NSH mkrd Command
+----------------
 
 The typical way to create a RAM disk is by using the NuttShell (NSH)
 `mkrd` command. The syntax is:
 
-``` shell
+``` {.shell}
 mkrd [-m <minor>] [-s <sector-size>] <nsectors>
 ```
 
@@ -29,8 +23,8 @@ specified). The RAM disk is then registered as `/dev/ram<minor>`. If
 `/dev/ram0`.
 
 Internally, the NSH `mkrd` command is a simple wrapper around the OS
-`boardctl()` interface, using the `BOARDIOC_MKRD` command. “Under the
-hood,” this `boardctl()` command performs the following:
+`boardctl()` interface, using the `BOARDIOC_MKRD` command. "Under the
+hood," this `boardctl()` command performs the following:
 
 1.  Allocates kernel-space memory with `kmm_malloc()` of size
     `<nsectors>` times `<sector-size>`
@@ -38,7 +32,8 @@ hood,” this `boardctl()` command performs the following:
 3.  Calls the OS-internal function `ramdisk_register()` to create the
     RAM disk.
 
-## NSH ROMFS /etc Support
+NSH ROMFS /etc Support
+----------------------
 
 A ROM disk is a block device created from a read-only file system image
 stored in FLASH or other ROM. There is no NSH command available to
@@ -50,12 +45,13 @@ Guide](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=13962941
 Any application is able to create a ROM disk using the `boardctl()`
 interface with the `BOARDIOC_ROMDISK` command.
 
-## Creating RAM Disks in Board Bring-Up Logic
+Creating RAM Disks in Board Bring-Up Logic
+------------------------------------------
 
 RAM disks may be created in board-specific initialization logic that
 runs in supervisor mode. That logic might look as follows:
 
-``` c
+``` {.c}
 int board_ramdisk(int minor, unsigned int sectsize, unsigned int nsectors)
 {
   size_t allocsize = (size_t)sectsize * (size_t)nsectors;
@@ -85,15 +81,10 @@ int board_ramdisk(int minor, unsigned int sectsize, unsigned int nsectors)
 Alternatively, this could be replaced by a call to the OS internal
 function `mkrd()`.
 
-## Creating ROM Disks in Board Bring-Up Logic
-
-<div class="note">
-
-<div class="title">
+Creating ROM Disks in Board Bring-Up Logic
+------------------------------------------
 
 Note
-
-</div>
 
 Currently, the `romdisk_register()` function is only available within
 the OS. Certain logic in `apps/` directly calls `romdisk_register()`,
@@ -103,20 +94,18 @@ as described above. Calling `romdisk_register()` directly is not only a
 violation of the NuttX portable interface, but also is not allowed in
 PROTECTED or KERNEL build modes.
 
-</div>
-
 ROM disks, i.e., read-only disks in FLASH, can be created by board
 bring-up logic in a way similar to RAM disks, with the following
 caveats:
 
-  - The FLASH region is not allocated; the FLASH address, the sector
+-   The FLASH region is not allocated; the FLASH address, the sector
     size, and the number of sectors must already be known.
-  - The `romdisk_register()` function is used instead of
+-   The `romdisk_register()` function is used instead of
     `ramdisk_register()`.
 
 A simple example could look like:
 
-``` c
+``` {.c}
 int board_romdisk(int minor, FAR uint8_t *buffer, unsigned int sectsize,
                   unsigned int nsectors)
 {

@@ -1,6 +1,8 @@
-# File System Interfaces
+File System Interfaces
+======================
 
-## NuttX File System Overview
+NuttX File System Overview
+--------------------------
 
 **Overview**. NuttX includes an optional, scalable file system. This
 file-system may be omitted altogether; NuttX does not depend on the
@@ -15,10 +17,10 @@ the file system is *pseudo* file system (in the same sense that the
 Linux `/proc` file system is also referred to as a pseudo file system).
 
 Any user supplied data or logic can be accessed via the pseudo-file
-system. Built in support is provided for character and block `driver
-<drivers-porting>` *nodes* in the any pseudo file system directory. (By
-convention, however, all driver nodes should be in the `/dev` pseudo
-file system directory).
+system. Built in support is provided for character and block
+`driver <drivers-porting>`{.interpreted-text role="ref"} *nodes* in the
+any pseudo file system directory. (By convention, however, all driver
+nodes should be in the `/dev` pseudo file system directory).
 
 **Mounted File Systems** The simple in-memory file system can be
 extended my mounting block devices that provide access to true file
@@ -42,7 +44,8 @@ of standard, file system APIs (`open()`, `close()`, `read()`, `write`,
 etc.) and a registration mechanism that allows devices drivers to a
 associated with *nodes* in a file-system-like name space.
 
-## Driver Operations
+Driver Operations
+-----------------
 
 ### `fcntl.h`
 
@@ -58,7 +61,7 @@ associated with *nodes* in a file-system-like name space.
 
 ### UNIX Standard Operations (`unistd.h`)
 
-``` c
+``` {.c}
 #include <unistd.h>
 
 /* Task Control Interfaces */
@@ -134,7 +137,7 @@ int     getopt(int argc, FAR char * const argv[], FAR const char *optstring);
 
 ### Standard I/O
 
-``` c
+``` {.c}
 #include <stdio.h>
 
 /* Operations on streams (FILE) */
@@ -223,7 +226,7 @@ following may also be considered as file system interfaces:
 
 ### Asynchronous I/O
 
-``` c
+``` {.c}
 #include <aio.h>
 
 int aio_cancel(int, FAR struct aiocb *aiocbp);
@@ -240,7 +243,7 @@ int lio_listio(int mode, FAR struct aiocb * const list[], int nent,
 
 ### Standard String Operations
 
-``` c
+``` {.c}
 #include <string.h>
 
 char  *strchr(const char *s, int c);
@@ -299,68 +302,68 @@ are two conditions where `mmap()` can be supported:
 
 1.  `mmap()` can be used to support *eXecute In Place* (XIP) on random
     access media under the following very restrictive conditions:
-    
-    1.  Any file system that maps files contiguously on the media should
+
+    a.  Any file system that maps files contiguously on the media should
         implement the mmap file operation. By comparison, most file
         system scatter files over the media in non-contiguous sectors.
         As of this writing, ROMFS is the only file system that meets
         this requirement.
-    2.  The underlying block driver supports the `BIOC_XIPBASE` `ioctl`
+    b.  The underlying block driver supports the `BIOC_XIPBASE` `ioctl`
         command that maps the underlying media to a randomly accessible
         address. At present, only the RAM/ROM disk driver does this.
-    
+
     Some limitations of this approach are as follows:
-    
-    1.  Since no real mapping occurs, all of the file contents are
-        "mapped" into memory.
-    2.  All mapped files are read-only.
-    3.  There are no access privileges.
+
+    a.  Since no real mapping occurs, all of the file contents are
+        \"mapped\" into memory.
+    b.  All mapped files are read-only.
+    c.  There are no access privileges.
 
 2.  If `CONFIG_FS_RAMMAP` is defined in the configuration, then `mmap()`
     will support simulation of memory mapped files by copying files
     whole into RAM. These copied files have some of the properties of
     standard memory mapped files. There are many, many exceptions
     exceptions, however. Some of these include:
-    
-    1.  The goal is to have a single region of memory that represents a
+
+    a.  The goal is to have a single region of memory that represents a
         single file and can be shared by many threads. That is, given a
         filename a thread should be able to open the file, get a file
         descriptor, and call `mmap()` to get a memory region. Different
         file descriptors opened with the same file path should get the
         same memory region when mapped.
-        
+
         The limitation in the current design is that there is
         insufficient knowledge to know that these different file
         descriptors correspond to the same file. So, for the time being,
         a new memory region is created each time that `rammmap()` is
-        called. Not very useful\!
-    
-    2.  The entire mapped portion of the file must be present in memory.
+        called. Not very useful!
+
+    b.  The entire mapped portion of the file must be present in memory.
         Since it is assumed that the MCU does not have an MMU,
         on-demanding paging in of file blocks cannot be supported. Since
         the while mapped portion of the file must be present in memory,
         there are limitations in the size of files that may be memory
         mapped (especially on MCUs with no significant RAM resources).
-    
-    3.  All mapped files are read-only. You can write to the in-memory
+
+    c.  All mapped files are read-only. You can write to the in-memory
         image, but the file contents will not change.
-    
-    4.  There are no access privileges.
-    
-    5.  Since there are no processes in NuttX, all `mmap()` and
+
+    d.  There are no access privileges.
+
+    e.  Since there are no processes in NuttX, all `mmap()` and
         `munmap()` operations have immediate, global effects. Under
         Linux, for example, `munmap()` would eliminate only the mapping
         with a process; the mappings to the same file in other processes
         would not be effected.
-    
-    6.  Like true mapped file, the region will persist after closing the
+
+    f.  Like true mapped file, the region will persist after closing the
         file descriptor. However, at present, these ram copied file
-        regions are *not* automatically "unmapped" (i.e., freed) when a
-        thread is terminated. This is primarily because it is not
+        regions are *not* automatically \"unmapped\" (i.e., freed) when
+        a thread is terminated. This is primarily because it is not
         possible to know how many users of the mapped region there are
         and, therefore, when would be the appropriate time to free the
         region (other than when munmap is called).
-        
+
         NOTE: Note, if the design limitation of a) were solved, then it
         would be easy to solve exception d) as well.
 

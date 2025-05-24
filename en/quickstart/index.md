@@ -1,4 +1,5 @@
-# Getting Started
+Getting Started
+===============
 
 This guide will explain how to get started with NuttX. The following
 sections will go through each required step:

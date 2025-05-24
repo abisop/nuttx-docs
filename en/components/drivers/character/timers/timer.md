@@ -1,69 +1,75 @@
-# Timer Drivers
+Timer Drivers
+=============
 
 Files supporting the timer driver can be found in the following
 locations:
 
-  - **Interface Definition**. The header file for the NuttX timer driver
+-   **Interface Definition**. The header file for the NuttX timer driver
     reside at `include/nuttx/timers/timer.h`. This header file includes
     both the application level interface to the timer driver as well as
-    the interface between the "upper half" and "lower half" drivers. The
-    timer driver uses a standard character driver framework.
-  - **"Upper Half" Driver**. The generic, "upper half" timer driver
+    the interface between the \"upper half\" and \"lower half\" drivers.
+    The timer driver uses a standard character driver framework.
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" timer driver
     resides at `drivers/timers/timer.c`.
-  - **"Lower Half" Drivers**. Platform-specific timer drivers reside in
-    `arch/<architecture>/src/<hardware>` directory for the specific
+-   **\"Lower Half\" Drivers**. Platform-specific timer drivers reside
+    in `arch/<architecture>/src/<hardware>` directory for the specific
     processor `<architecture>` and for the specific `<chip>` timer
     peripheral devices.
 
 There are two ways to enable Timer Support along with the Timer Example.
 The first is faster and simpler. Just run the following command to use a
 ready config file with timer support and example included. You need to
-check if there's a timer config file for your specific chip. You may
-check it at the specific board's path:
+check if there\'s a timer config file for your specific chip. You may
+check it at the specific board\'s path:
 `/boards/<arch>/<chip>/<variant>/config`.
 
-``` console
+``` {.console}
  ./tools/configure.sh <variant>:timer
 ```
 
 And the second way is creating your own config file. To do so, follow
 the next instructions.
 
-## Enabling the Timer Support and Example in `menuconfing`
+Enabling the Timer Support and Example in `menuconfing`
+-------------------------------------------------------
 
 > 1.  Select Timer Instances
-> 
+>
 > To select these timers browse in the `menuconfig` using the following
 > path:
-> 
-> Go into menu `System Type --> <Chip> Peripheral Selection` and press
-> `Enter`.
-> 
+>
+> Go into menu
+> `System Type --> <Chip> Peripheral Selection`{.interpreted-text
+> role="menuselection"} and press `Enter`{.interpreted-text role="kbd"}.
+>
 > Then select one or more timers according to availability.
-> 
+>
 > 2.  Enable the Timer Support
-> 
-> Go into menu `Device Drivers --> Timer Driver Support` and press
-> `Enter`. Then enable:
-> 
->   - \[x\] Timer Support
->   - \[x\] Timer Arch Implementation
-> 
-> <!-- end list -->
-> 
+>
+> Go into menu
+> `Device Drivers --> Timer Driver Support`{.interpreted-text
+> role="menuselection"} and press `Enter`{.interpreted-text role="kbd"}.
+> Then enable:
+>
+> -   \[x\] Timer Support
+> -   \[x\] Timer Arch Implementation
+>
 > 3.  Include the Timer Example
-> 
-> Go into menu `Application Configuration --> Examples` and press
-> `Enter`. Then select the Timer Example.
-> 
->   - \[x\] Timer example
-> 
+>
+> Go into menu
+> `Application Configuration --> Examples`{.interpreted-text
+> role="menuselection"} and press `Enter`{.interpreted-text role="kbd"}.
+> Then select the Timer Example.
+>
+> -   \[x\] Timer example
+>
 > Below the option, it is possible to manually configure some parameters
 > as the standard timer device path, the timeout, the sample rate in
 > which the counter will be read, the number of samples to be executed,
 > and other parameters.
 
-## Timer Example
+Timer Example
+-------------
 
 The previously selected example will basically consult the timer status,
 set a timer alarm interval, set a timer signal handler function to be
@@ -76,46 +82,47 @@ samples have been read, the application stops the timer.
 The [example
 code](https://github.com/apache/nuttx-apps/blob/master/examples/timer/timer_main.c)
 may be explored, its path is at `/examples/timer/timer_main.c` in the
-apps' repository.
+apps\' repository.
 
 In NuttX, the timer driver is a character driver and when a chip
 supports multiple timers, each one is accessible through its respective
 file in `/dev` directory. Each timer is registered using a unique
-numeric identifier (i.e. `/dev/timer0`, `/dev/timer1`, ...).
+numeric identifier (i.e. `/dev/timer0`, `/dev/timer1`, \...).
 
 Use the following command to run the example:
 
-``` console
+``` {.console}
 `nsh> timer`
 ```
 
 This command will use the timer 0. To use the others, specify it through
 a parameter (where x is the timer number):
 
-``` console
+``` {.console}
 `nsh> timer -d /dev/timerx`
 ```
 
-## Application Level Interface
+Application Level Interface
+---------------------------
 
 The first necessary thing to be done in order to use the timer driver in
 an application is to include the header file for the NuttX timer driver.
 It contains the Application Level Interface to the timer driver. To do
 so, include:
 
-``` c
+``` {.c}
 #include <nuttx/timers/timer.h>
 ```
 
 At an application level, the timer functionalities may be accessed
 through `ioctl` systems calls. The available `ioctl` commands are:
 
->   - :c`TCIOC_START`
->   - :c`TCIOC_STOP`
->   - :c`TCIOC_GETSTATUS`
->   - :c`TCIOC_SETTIMEOUT`
->   - :c`TCIOC_NOTIFICATION`
->   - :c`TCIOC_MAXTIMEOUT`
+> -   :c`TCIOC_START`{.interpreted-text role="macro"}
+> -   :c`TCIOC_STOP`{.interpreted-text role="macro"}
+> -   :c`TCIOC_GETSTATUS`{.interpreted-text role="macro"}
+> -   :c`TCIOC_SETTIMEOUT`{.interpreted-text role="macro"}
+> -   :c`TCIOC_NOTIFICATION`{.interpreted-text role="macro"}
+> -   :c`TCIOC_MAXTIMEOUT`{.interpreted-text role="macro"}
 
 These `ioctl` commands internally call lower-half layer operations and
 the parameters are forwarded to these ops through the `ioctl` system
@@ -123,7 +130,7 @@ call. The return of a system call is the return of an operation. These
 `struct timer_ops_s` keeps pointers to the implementation of each
 operation. Following is the struct.
 
-``` c
+``` {.c}
 struct timer_ops_s
 {
    /* Required methods *******************************************************/
@@ -169,11 +176,11 @@ struct timer_ops_s
 ```
 
 Since `ioctl` system calls expect a file descriptor, before using these
-commands, it's necessary to open the timer device special file in order
+commands, it\'s necessary to open the timer device special file in order
 to get a file descriptor. The following snippet demonstrates how to do
 so:
 
-``` c
+``` {.c}
 /* Open the timer device */
 
 printf("Open %s\n", devname);
@@ -192,7 +199,7 @@ described below.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 /* Start the timer */
 
 printf("Start the timer\n");
@@ -211,7 +218,7 @@ below.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 /* Stop the timer */
 
 printf("\nStop the timer\n");
@@ -230,7 +237,7 @@ described below.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 /* Get timer status */
 
 ret = ioctl(fd, TCIOC_GETSTATUS, (unsigned long)((uintptr_t)&status));
@@ -253,7 +260,7 @@ is described below.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 /* Set the timer interval */
 
 printf("Set timer interval to %lu\n",
@@ -278,14 +285,14 @@ configured signal handler. For a better performance, a separate pthread
 may be configured to wait on sigwaitinfo() for timer events.
 
 In any case, this command expects a read-only pointer to a struct
-<span class="title-ref">timer\_notify\_s</span>. This struct contains 2
-fields: `pid` (`pid_t`), that indicates the ID of the task/thread to
-receive the signal and `event` (`struct sigevent`), which describes the
-way a task will be notified.
+[timer\_notify\_s]{.title-ref}. This struct contains 2 fields: `pid`
+(`pid_t`), that indicates the ID of the task/thread to receive the
+signal and `event` (`struct sigevent`), which describes the way a task
+will be notified.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 printf("Configure the notification\n");
 
 notify.pid   = getpid();
@@ -307,7 +314,7 @@ is described below.
 
 This command may be used like so:
 
-``` c
+``` {.c}
 /* Get the maximum timer timeout  */
 
 printf("Get the maximum timer timeout\n");

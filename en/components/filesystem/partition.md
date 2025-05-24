@@ -1,26 +1,28 @@
-# Partition Table
+Partition Table
+===============
 
-## Text based Partition Table
+Text based Partition Table
+--------------------------
 
 **Summary**
 
 TXTABLE - A text based partition table stored in last eraseblock (or in
 romdisk for backup).
 
-1.  The 1st line must be "Magic+Version", current is "TXTABLE0".
+1.  The 1st line must be \"Magic+Version\", current is \"TXTABLE0\".
 2.  The 2nd and remaining lines are partition entries(min: one) in
-    format: "%s %zx %zx"(means name, size and offset (byte)(in hex)).
+    format: \"%s %zx %zx\"(means name, size and offset (byte)(in hex)).
 3.  Size or offset can be default zero(means zero(for 1st entry) or
     calculated(for others)), and will be calculated by the parser refs
     to previous and next entries.
 4.  The last eraseblock will be registered as pseudo partition named
-    "txtable". If the last eraseblock included by the last real
+    \"txtable\". If the last eraseblock included by the last real
     partition, it will be excluded from.
 
 To avoid problems of PTABLE: In case of multiple NuttX binary, partition
 table maybe out of sync.
 
-And it's easier:
+And it\'s easier:
 
 1.  Text format with simple rules(name + size + offset).
 2.  Size or offset can be default(calculated refs to previous and next
@@ -41,11 +43,11 @@ Size / Offset can be automatically calculated, case:
 
 **Examples**
 
-Both size and offset of "partition6" are zero, gap exists between
-"partition7" and "data", and not reserve last eraseblock.
+Both size and offset of \"partition6\" are zero, gap exists between
+\"partition7\" and \"data\", and not reserve last eraseblock.
 
-  - txtable.txt
-    
+-   txtable.txt
+
         TXTABLE0
         partition1 0x6C000 0x4000
         partition2 0x10000 0x70000
@@ -56,12 +58,12 @@ Both size and offset of "partition6" are zero, gap exists between
         partition7 0x10000 0x480000
         data 0 0x500000
 
-  - Parsed
-    
-    Reserved last eraseblock, and gap between partition7 and data is
-    kept.  
-    Format: name, offset, size
-    
+-   Parsed
+
+    | Reserved last eraseblock, and gap between partition7 and data is
+      kept.
+    | Format: name, offset, size
+
         /dev/partition1   offset 0x00004000, size 0x0006c000
         /dev/partition2   offset 0x00070000, size 0x00010000
         /dev/partition3   offset 0x00080000, size 0x00080000
@@ -74,8 +76,8 @@ Both size and offset of "partition6" are zero, gap exists between
 
 More than one not set size or offset
 
-  - txtable.txt
-    
+-   txtable.txt
+
         TXTABLE0
         partition1 0 0x4000
         partition2 0 0x70000
@@ -86,11 +88,11 @@ More than one not set size or offset
         partition7 0x10000 0x480000
         data 0 0x500000
 
-  - Parsed
-    
-    Size of partition\[2,3,4,6\] and data are calculated, and gap
-    between partition7 and data is kept.
-    
+-   Parsed
+
+    | Size of partition\[2,3,4,6\] and data are calculated, and gap
+      between partition7 and data is kept.
+
         /dev/partition1   offset 0x00004000, size 0x0006c000
         /dev/partition2   offset 0x00070000, size 0x00010000
         /dev/partition3   offset 0x00080000, size 0x00080000
@@ -103,25 +105,25 @@ More than one not set size or offset
 
 Only one partition entry, and size not spec
 
-  - txtable.txt
-    
+-   txtable.txt
+
         TXTABLE0
         partition1 0x0 0x4000
 
-  - Parsed
-    
-    The last eraseblock was kept, and size is correct.
-    
+-   Parsed
+
+    | The last eraseblock was kept, and size is correct.
+
         /dev/partition1   offset 0x00004000, size 0x00ffb000
         /dev/txtable      offset 0x00fff000, size 0x00001000
 
 Blank line && New line delim
 
-  - txtable.txt
-    
-    New line: CR + LF / LF.  
-    Additional char/string after "%s %zx %zx".
-    
+-   txtable.txt
+
+    | New line: CR + LF / LF.
+    | Additional char/string after \"%s %zx %zx\".
+
         TXTABLE0
         partition1 0x6C000 0x4000
         partition2 0 0x70000
@@ -131,17 +133,17 @@ Blank line && New line delim
         partition6 0x80000 0x400000   # String between "%s %zx %zx" and "LF" will be ignored.
         partition7 0x10000 0x480000   # Comments: This is the 7th partition.
         data 0 0x500000
-        
-        
-        
+
+
+
         EOF
 
-  - Parsed
-    
-    Blank lines are ignored, and new line of both "LF" or "CRLF" are
-    parsed. String between "%s %zx %zx" and "LF" will be ignored(eg. CR,
-    or some comments).
-    
+-   Parsed
+
+    | Blank lines are ignored, and new line of both \"LF\" or \"CRLF\"
+      are parsed. String between \"%s %zx %zx\" and \"LF\" will be
+      ignored(eg. CR, or some comments).
+
         /dev/partition1   offset 0x00004000, size 0x0006c000
         /dev/partition2   offset 0x00070000, size 0x00010000
         /dev/partition3   offset 0x00080000, size 0x00080000

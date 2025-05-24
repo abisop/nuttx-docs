@@ -1,5 +1,7 @@
-# THEAD C906
+THEAD C906
+==========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

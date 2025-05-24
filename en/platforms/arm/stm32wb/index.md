@@ -1,13 +1,17 @@
-# ST STM32WB
+ST STM32WB
+==========
 
-## Supported MCUs
-
-TODO
-
-## Peripheral Support
+Supported MCUs
+--------------
 
 TODO
 
-## Supported Boards
+Peripheral Support
+------------------
+
+TODO
+
+Supported Boards
+----------------
 
 > boards/*/*

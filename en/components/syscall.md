@@ -1,4 +1,5 @@
-# Syscall Layer
+Syscall Layer
+=============
 
 This page discusses supports a syscall layer from communication between
 a monolithic, kernel-mode NuttX kernel and a separately built, user-mode
@@ -21,7 +22,8 @@ same: A special instruction is executed in user-mode that causes a
 software generated interrupt. The software generated interrupt is caught
 within the kernel and handle in kernel-mode.
 
-## Header Files
+Header Files
+------------
 
 ### `include/syscall.h`
 
@@ -42,48 +44,48 @@ This header file is provided by the platform-specific logic and declares
 platform. The following functions must be declared (or defined) in this
 header file:
 
-  - `SWI` with `SYS_` call number only:
-    
-    ``` C
+-   `SWI` with `SYS_` call number only:
+
+    ``` {.C}
     uintptr_t sys_call0(unsigned int nbr);
     ```
 
-  - `SWI` with `SYS_` call number and one parameter:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and one parameter:
+
+    ``` {.C}
     uintptr_t sys_call1(unsigned int nbr, uintptr_t parm1);
     ```
 
-  - `SWI` with `SYS_` call number and two parameters:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and two parameters:
+
+    ``` {.C}
     uintptr_t sys_call2(unsigned int nbr, uintptr_t parm1, uintptr_t parm2);
     ```
 
-  - `SWI` with `SYS_` call number and three parameters:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and three parameters:
+
+    ``` {.C}
     uintptr_t sys_call3(unsigned int nbr, uintptr_t parm1,
                         uintptr_t parm2, uintptr_t parm3);
     ```
 
-  - `SWI` with `SYS_` call number and four parameters:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and four parameters:
+
+    ``` {.C}
     uintptr_t sys_call4(unsigned int nbr, uintptr_t parm1, uintptr_t parm2,
                         uintptr_t parm3, uintptr_t parm4);
     ```
 
-  - `SWI` with `SYS_` call number and five parameters:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and five parameters:
+
+    ``` {.C}
     uintptr_t sys_call5(unsigned int nbr, uintptr_t parm1, uintptr_t parm2,
                         uintptr_t parm3, uintptr_t parm4, uintptr_t parm5);
     ```
 
-  - `SWI` with `SYS_` call number and six parameters:
-    
-    ``` C
+-   `SWI` with `SYS_` call number and six parameters:
+
+    ``` {.C}
     uintptr_t sys_call6(unsigned int nbr, uintptr_t parm1, uintptr_t parm2,
                         uintptr_t parm3, uintptr_t parm4, uintptr_t parm5,
                         uintptr_t parm6);
@@ -91,45 +93,46 @@ header file:
 
 ### Syscall Database
 
-Sycall information is maintained in a database. That "database" is
+Sycall information is maintained in a database. That \"database\" is
 implemented as a simple comma-separated-value file, `syscall.csv`. Most
 spreadsheets programs will accept this format and can be used to
 maintain the syscall database.
 
 The format of the CSV file for each line is:
 
-  - Field 1: Function name
-  - Field 2: The header file that contains the function prototype
-  - Field 3: Condition for compilation
-  - Field 4: The type of function return value.
-  - Field 5 - N+5: The type of each of the N formal parameters of the
+-   Field 1: Function name
+-   Field 2: The header file that contains the function prototype
+-   Field 3: Condition for compilation
+-   Field 4: The type of function return value.
+-   Field 5 - N+5: The type of each of the N formal parameters of the
     function
-  - Fields N+5 - : If the last parameter is "...", then the following
+-   Fields N+5 - : If the last parameter is \"\...\", then the following
     fields provide the type and number of of possible optional
     parameters. See note below about variadic functions
 
 Each type field has a format as follows:
 
-  - type name:
-    
+-   type name:
+
     For all simpler types
 
-  - formal type | actual type:
-    
+-   formal type \| actual type:
+
     For array types where the form of the formal (eg. `int parm[2]`)
     differs from the type of actual passed parameter (eg. `int*`). This
     is necessary because you cannot do simple casts to array types.
 
-  - formal type | union member actual type | union member fieldname:
-    
+-   formal type \| union member actual type \| union member fieldname:
+
     A similar situation exists for unions. For example, the formal
-    parameter type union sigval -- You cannot cast a uintptr\_t to a
+    parameter type union sigval \-- You cannot cast a uintptr\_t to a
     union sigval, but you can cast to the type of one of the union
     member types when passing the actual parameter. Similarly, we cannot
     cast a union sigval to a uinptr\_t either. Rather, we need to cast a
     specific union member fieldname to `uintptr_t`.
 
-## Variadic Functions
+Variadic Functions
+------------------
 
 General variadic functions which may have an arbitrary number of
 argument or arbitrary types cannot be represented as system calls.
@@ -145,7 +148,7 @@ These are handled in `syscall.csv` by appending the number and type of
 optional arguments. For example, consider the `open()` OS interface. Its
 prototype is:
 
-``` C
+``` {.C}
 int open(const char *path, int oflag, ...);
 ```
 
@@ -162,28 +165,31 @@ information, but also for the generation of symbol tables. See
 `Documentation/components/tools/` and `Documentation/components/libs/`
 for further information.
 
-## Auto-Generated Files
+Auto-Generated Files
+--------------------
 
 Stubs and proxies for the sycalls are automatically generated from this
 CSV database. Here the following definition is used:
 
-  - Proxy - A tiny bit of code that executes in the user space. A proxy
-    has exactly the same function prototype as does the "real" function
-    for which it proxies. However, it only serves to map the function
-    call into a syscall, marshaling all of the system call parameters as
-    necessary.
-  - Stub - Another tiny bit of code that executes within the NuttX
+-   Proxy - A tiny bit of code that executes in the user space. A proxy
+    has exactly the same function prototype as does the \"real\"
+    function for which it proxies. However, it only serves to map the
+    function call into a syscall, marshaling all of the system call
+    parameters as necessary.
+-   Stub - Another tiny bit of code that executes within the NuttX
     kernel that is used to map a software interrupt received by the
     kernel to a kernel function call. The stubs receive the marshaled
     system call data, and perform the actually kernel function call (in
     kernel-mode) on behalf of the proxy function.
 
-## Sub-Directories
+Sub-Directories
+---------------
 
-  - `stubs` - Autogenerated stub files are placed in this directory.
-  - `proxies` - Autogenerated proxy files are placed in this directory.
+-   `stubs` - Autogenerated stub files are placed in this directory.
+-   `proxies` - Autogenerated proxy files are placed in this directory.
 
-## mksyscall
+mksyscall
+---------
 
 mksyscall is C program that is used during the initial NuttX build by
 the logic in the top-level `syscall/` directory. Information about the

@@ -1,10 +1,7 @@
-# ESP32-LyraT V4.3
-
-<div class="tags">
+ESP32-LyraT V4.3
+================
 
 chip:esp32, chip:esp32wrover32
-
-</div>
 
 The ESP32-LyraT development board is a hardware platform designed for
 the dual-core ESP32 audio applications, e.g., Wi-Fi or BT audio
@@ -13,30 +10,33 @@ audio functionality(ies), etc. You can find the board schematic
 [here](https://dl.espressif.com/dl/schematics/ESP32-LYRAT_V4.3-20220119.pdf).
 
 ![ESP32-LyraT V4.3 Board
-Layout](esp32-lyrat-v4.3-layout-with-wrover-e-module.jpg)
+Layout](esp32-lyrat-v4.3-layout-with-wrover-e-module.jpg){.align-center}
 
 The block diagram below presents main components of the ESP32-LyraT.
 
 ![ESP32-LyraT V4.3 Electrical Block
-Diagram](esp32-lyrat-v4.3-electrical-block-diagram-with-wrover-e-module.png)
+Diagram](esp32-lyrat-v4.3-electrical-block-diagram-with-wrover-e-module.png){.align-center}
 
-## Features
+Features
+--------
 
->   - ESP32-WROVER-E Module
->   - JTAG Interface
->   - MicroSD Slot
->   - Audio Codec Chip
->   - Battery Charger Chip
->   - Touch Pad Buttons
+> -   ESP32-WROVER-E Module
+> -   JTAG Interface
+> -   MicroSD Slot
+> -   Audio Codec Chip
+> -   Battery Charger Chip
+> -   Touch Pad Buttons
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102N bridge and is available on the USB connector.
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -56,9 +56,9 @@ chip boots normally or into the serial bootloader.
 
 Entering of the ESP32 into upload mode may be done in two ways:
 
-  - Manually by pressing both **Boot** and **RST** keys and then
+-   Manually by pressing both **Boot** and **RST** keys and then
     releasing first **RST** and then **Boot** key.
-  - Automatically by software performing the upload. The software is
+-   Automatically by software performing the upload. The software is
     using **DTR** and **RTS** signals of the serial interface to control
     states of **EN**, **IO0** and **IO2** pins of the ESP32. This
     functionality is enabled by installing jumpers in three headers
@@ -75,7 +75,8 @@ The **Standby** green LED indicates that power has been applied to the
 **Micro USB Port**. The **Charging** red LED indicates that a battery
 connected to the **Battery Socket** is being charged.
 
-## Audio Codec
+Audio Codec
+-----------
 
 **This is currently unsupported. Drivers still in development.**
 
@@ -90,30 +91,22 @@ application.
 
 It also provides:
 
->   - Onboard microphone connected to IN1 of the **Audio Codec Chip**.
->   - Auxiliary input socket connected to IN2 (left and right channel)
+> -   Onboard microphone connected to IN1 of the **Audio Codec Chip**.
+> -   Auxiliary input socket connected to IN2 (left and right channel)
 >     of the **Audio Codec Chip**. Use a 3.5 mm stereo jack to connect
 >     to this socket.
->   - Output socket to connect headphones with a 3.5 mm stereo jack.
-> 
-> <div class="note">
-> 
-> <div class="title">
-> 
+> -   Output socket to connect headphones with a 3.5 mm stereo jack.
+>
 > Note
-> 
-> </div>
-> 
+>
 > The socket may be used with mobile phone headsets and is compatible
 > with OMPT standard headsets only. It does work with CTIA headsets.
 > Please refer to [Phone connector
-> (audio)](https://en.wikipedia.org/wiki/Phone_connector_\(audio\)#TRRS_standards)
+> (audio)](https://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards)
 > on Wikipedia.
-> 
-> </div>
-> 
->   - Output socket to connect a speaker. The 4-ohm and 3-watt speaker
->     is recommended. The pins have a 2.00 mm / 0.08" pitch.
+>
+> -   Output socket to connect a speaker. The 4-ohm and 3-watt speaker
+>     is recommended. The pins have a 2.00 mm / 0.08\" pitch.
 
 The development board uses two mono Class D amplifier ICs, model number
 NS4150 with maximum output power of 3W and operating voltage from 3.0V
@@ -129,20 +122,13 @@ words selection between speakers and headphones is under software
 control instead of using mechanical contacts that would disconnect
 speakers once a headphone jack is inserted.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The codec implementation on the LyraT board was validated using 16-bit,
 44.1kHz WAV files. Other configurations might not work as expected.
 
-</div>
-
-## SD card
+SD card
+-------
 
 The development board supports a MicroSD card in SPI/1-bit/4-bit modes,
 and can store or play audio files in the MicroSD card. Note that
@@ -154,84 +140,25 @@ signals are shared by both devices.
 
 Set **Function DIP Switch** to:
 
-<table style="width:39%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>DIP SW</th>
-<th>Position</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>5</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>6</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>7</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF <sup>1</sup></p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>8</p>
-</blockquote></td>
-<td><blockquote>
-<p>n/a</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++---------+-----------------+
+| DIP SW  | Position        |
++=========+=================+
+| > 1     | > OFF           |
++---------+-----------------+
+| > 2     | > OFF           |
++---------+-----------------+
+| > 3     | > OFF           |
++---------+-----------------+
+| > 4     | > OFF           |
++---------+-----------------+
+| > 5     | > OFF           |
++---------+-----------------+
+| > 6     | > OFF           |
++---------+-----------------+
+| > 7     | > OFF ^1^       |
++---------+-----------------+
+| > 8     | > n/a           |
++---------+-----------------+
 
 1.  **AUX Input** detection may be enabled by toggling the DIP SW 7
     *ON*. Note that the **AUX Input** signal pin should not be be
@@ -240,99 +167,41 @@ Set **Function DIP Switch** to:
 
 In this mode:
 
-  - **JTAG** functionality is not available
-  - *Vol-* touch button is available for use with the API
+-   **JTAG** functionality is not available
+-   *Vol-* touch button is available for use with the API
 
 ### Enable MicroSD Card in 4-wire Mode
 
 Set **Function DIP Switch** to:
 
-<table style="width:31%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>DIP SW</th>
-<th>Position</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>5</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>6</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>7</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>8</p>
-</blockquote></td>
-<td><blockquote>
-<p>n/a</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++---------+-----------+
+| DIP SW  | Position  |
++=========+===========+
+| > 1     | > ON      |
++---------+-----------+
+| > 2     | > ON      |
++---------+-----------+
+| > 3     | > OFF     |
++---------+-----------+
+| > 4     | > OFF     |
++---------+-----------+
+| > 5     | > OFF     |
++---------+-----------+
+| > 6     | > OFF     |
++---------+-----------+
+| > 7     | > OFF     |
++---------+-----------+
+| > 8     | > n/a     |
++---------+-----------+
 
 In this mode:
 
-  - **JTAG** functionality is not available
-  - *Vol-* touch button is not available for use with the API
-  - **AUX Input** detection from the API is not available
+-   **JTAG** functionality is not available
+-   *Vol-* touch button is not available for use with the API
+-   **AUX Input** detection from the API is not available
 
-## JTAG
+JTAG
+----
 
 Provides access to the **JTAG** interface of **ESP32-WROVER-E Module**.
 It may be used for debugging, application upload, as well as
@@ -342,157 +211,107 @@ implementing several other functions.
 
 Set **Function DIP Switch** to:
 
-<table style="width:31%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>DIP SW</th>
-<th>Position</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-<td><blockquote>
-<p>OFF</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>5</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>6</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>7</p>
-</blockquote></td>
-<td><blockquote>
-<p>ON</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>8</p>
-</blockquote></td>
-<td><blockquote>
-<p>n/a</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++---------+-----------+
+| DIP SW  | Position  |
++=========+===========+
+| > 1     | > OFF     |
++---------+-----------+
+| > 2     | > OFF     |
++---------+-----------+
+| > 3     | > ON      |
++---------+-----------+
+| > 4     | > ON      |
++---------+-----------+
+| > 5     | > ON      |
++---------+-----------+
+| > 6     | > ON      |
++---------+-----------+
+| > 7     | > ON      |
++---------+-----------+
+| > 8     | > n/a     |
++---------+-----------+
 
 In this mode:
 
-  - **MicroSD Card** functionality is not available, remove the card
+-   **MicroSD Card** functionality is not available, remove the card
     from the slot
-  - *Vol-* touch button is not available for use with the API
-  - **AUX Input** detection from the API is not available
+-   *Vol-* touch button is not available for use with the API
+-   **AUX Input** detection from the API is not available
 
-## Battery
+Battery
+-------
 
 The board has a constant current & constant voltage linear charger for
 single cell lithium-ion batteries AP5056. Used for charging of a battery
 connected to the **Battery Socket** over the **Micro USB Port**.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Please verify if polarity on the battery plug matches polarity of the
-socket as marked on the board's soldermask besides the socket.
-
-</div>
-
-<div class="note">
-
-<div class="title">
+socket as marked on the board\'s soldermask besides the socket.
 
 Note
-
-</div>
 
 The **Power On Switch** does not affect/disconnect the Li-ion battery
 charging.
 
-</div>
-
-## Pin Mapping
+Pin Mapping
+-----------
 
 Several pins ESP32 module are allocated to the on board hardware. Some
 of them, like GPIO0 or GPIO2, have multiple functions. Please refer to
 the table below.
 
-| GPIO Pin   | Type | Function Definition                                  |
-| ---------- | ---- | ---------------------------------------------------- |
-| SENSOR\_VP | I    | Audio **Rec** (PB)                                   |
-| SENSOR\_VN | I    | Audio **Mode** (PB)                                  |
-| IO32       | I/O  | Audio **Set** (TP)                                   |
-| IO33       | I/O  | Audio **Play** (TP)                                  |
-| IO27       | I/O  | Audio **Vol+** (TP)                                  |
-| IO13       | I/O  | JTAG **MTCK**, MicroSD **D3**, Audio **Vol-** (TP)   |
-| IO14       | I/O  | JTAG **MTMS**, MicroSD **CLK**                       |
-| IO12       | I/O  | JTAG **MTDI**, MicroSD **D2**, Aux signal **detect** |
-| IO15       | I/O  | JTAG **MTDO**, MicroSD **CMD**                       |
-| IO2        | I/O  | Automatic Upload, MicroSD **D0**                     |
-| IO4        | I/O  | MicroSD **D1**                                       |
-| IO34       | I    | MicroSD insert **detect**                            |
-| IO0        | I/O  | Automatic Upload, I2S **MCLK**                       |
-| IO5        | I/O  | I2S **SCLK**                                         |
-| IO25       | I/O  | I2S **LRCK**                                         |
-| IO26       | I/O  | I2S **DSDIN**                                        |
-| IO35       | I    | I2S **ASDOUT**                                       |
-| IO19       | I/O  | Headphone jack insert **detect**                     |
-| IO22       | I/O  | Green LED indicator                                  |
-| IO21       | I/O  | PA Enable output                                     |
-| IO18       | I/O  | I2C **SDA**                                          |
-| IO23       | I/O  | I2C **SCL**                                          |
+  -------------------------------------------------------------------------
+  GPIO Pin     Type   Function Definition
+  ------------ ------ -----------------------------------------------------
+  SENSOR\_VP   I      Audio **Rec** (PB)
 
-  - (TP) - touch pad
-  - (PB) - push button
+  SENSOR\_VN   I      Audio **Mode** (PB)
+
+  IO32         I/O    Audio **Set** (TP)
+
+  IO33         I/O    Audio **Play** (TP)
+
+  IO27         I/O    Audio **Vol+** (TP)
+
+  IO13         I/O    JTAG **MTCK**, MicroSD **D3**, Audio **Vol-** (TP)
+
+  IO14         I/O    JTAG **MTMS**, MicroSD **CLK**
+
+  IO12         I/O    JTAG **MTDI**, MicroSD **D2**, Aux signal **detect**
+
+  IO15         I/O    JTAG **MTDO**, MicroSD **CMD**
+
+  IO2          I/O    Automatic Upload, MicroSD **D0**
+
+  IO4          I/O    MicroSD **D1**
+
+  IO34         I      MicroSD insert **detect**
+
+  IO0          I/O    Automatic Upload, I2S **MCLK**
+
+  IO5          I/O    I2S **SCLK**
+
+  IO25         I/O    I2S **LRCK**
+
+  IO26         I/O    I2S **DSDIN**
+
+  IO35         I      I2S **ASDOUT**
+
+  IO19         I/O    Headphone jack insert **detect**
+
+  IO22         I/O    Green LED indicator
+
+  IO21         I/O    PA Enable output
+
+  IO18         I/O    I2C **SDA**
+
+  IO23         I/O    I2C **SCL**
+  -------------------------------------------------------------------------
+
+-   (TP) - touch pad
+-   (PB) - push button
 
 There are several pin headers available to connect external components,
 check the state of particular signal bus or debug operation of ESP32.
@@ -500,54 +319,68 @@ Note that some signals are shared.
 
 ### UART Header / JP2
 
-|   | Header Pin |
-| - | ---------- |
-| 1 | 3.3V       |
-| 2 | TX         |
-| 3 | RX         |
-| 4 | GND        |
+  -----------------
+      Header Pin
+  --- -------------
+  1   3.3V
+
+  2   TX
+
+  3   RX
+
+  4   GND
+  -----------------
 
 ### I2S Header / JP4
 
-|   | I2C Header Pin | ESP32 Pin |
-| - | -------------- | --------- |
-| 1 | MCLK           | GPIO0     |
-| 2 | SCLK           | GPIO5     |
-| 1 | LRCK           | GPIO25    |
-| 2 | DSDIN          | GPIO26    |
-| 3 | ASDOUT         | GPIO35    |
-| 3 | GND            | GND       |
+  ----------------------------------
+      I2C Header Pin   ESP32 Pin
+  --- ---------------- -------------
+  1   MCLK             GPIO0
+
+  2   SCLK             GPIO5
+
+  1   LRCK             GPIO25
+
+  2   DSDIN            GPIO26
+
+  3   ASDOUT           GPIO35
+
+  3   GND              GND
+  ----------------------------------
 
 ### I2C Header / JP5
 
-|   | I2C Header Pin | ESP32 Pin |
-| - | -------------- | --------- |
-| 1 | SCL            | GPIO23    |
-| 2 | SDA            | GPIO18    |
-| 3 | GND            | GND       |
+  ----------------------------------
+      I2C Header Pin   ESP32 Pin
+  --- ---------------- -------------
+  1   SCL              GPIO23
+
+  2   SDA              GPIO18
+
+  3   GND              GND
+  ----------------------------------
 
 ### JTAG Header / JP7
 
-|   | ESP32 Pin     | JTAG Signal |
-| - | ------------- | ----------- |
-| 1 | MTDO / GPIO15 | TDO         |
-| 2 | MTCK / GPIO13 | TCK         |
-| 3 | MTDI / GPIO12 | TDI         |
-| 4 | MTMS / GPIO14 | TMS         |
+  -----------------------------------
+      ESP32 Pin       JTAG Signal
+  --- --------------- ---------------
+  1   MTDO / GPIO15   TDO
 
-<div class="note">
+  2   MTCK / GPIO13   TCK
 
-<div class="title">
+  3   MTDI / GPIO12   TDI
+
+  4   MTMS / GPIO14   TMS
+  -----------------------------------
 
 Note
 
-</div>
-
 **JTAG** cannot be used if **MicroSD Card** is enabled.
 
-</div>
-
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -556,8 +389,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### audio
 
@@ -567,22 +400,22 @@ while connected to a Wi-Fi network.
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 bits/sample (sampled at 44.1kHz). This file must be placed into
-a folder in a computer that could be accessed on the same Wi-Fi network
-the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16
+bits/sample (sampled at 44.1kHz). This file must be placed into a folder
+in a computer that could be accessed on the same Wi-Fi network the ESP32
+will be connecting to.
 
-Python provides a simple HTTP server. <span class="title-ref">cd</span>
-to the audio file folder on the PC and run:
+Python provides a simple HTTP server. [cd]{.title-ref} to the audio file
+folder on the PC and run:
 
      python3 -m http.server
-    
+
     Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/)
 
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](esp32-lyrat-v4.3-audio-config-file.png)
+![](esp32-lyrat-v4.3-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -591,26 +424,18 @@ network:
      nsh> wapi essid wlan0 myssid 1
      nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to its
+Once connected, open NuttX\'s player and play the file according to its
 file name and the IP address of the HTTP server (For example
-<span class="title-ref">tones.wav</span> and
-<span class="title-ref">192.168.1.239:8000</span>, respectively):
+[tones.wav]{.title-ref} and [192.168.1.239:8000]{.title-ref},
+respectively):
 
      nsh> nxplayer
      nxplayer> play http://192.168.1.239:8000/tones.wav
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The codec implementation on the LyraT board was validated using 16-bit,
 44.1kHz WAV files. Other configurations might not work as expected.
-
-</div>
 
 ### buttons
 
@@ -627,25 +452,17 @@ available board buttons:
     nsh> Sample = 1
     Sample = 0
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
 The `BOOT` is connected to GPIO0 that is shared among some peripherals.
-To avoid any conflicts, it's not registered in the buttons subsystem
+To avoid any conflicts, it\'s not registered in the buttons subsystem
 and, thus, is unable to be used.
-
-</div>
 
 ### mmcsdspi
 
-This configuration is used to mount a FAT/FAT32 SD Card into the OS'
+This configuration is used to mount a FAT/FAT32 SD Card into the OS\'
 filesystem. For the ESP32-LyraT, make sure the DIP switches 1 and 2 are
-turned to the ON position. To access the card's files, execute the
+turned to the ON position. To access the card\'s files, execute the
 following commands:
 
     nsh> mount -t vfat /dev/mmcsd0 /mnt
@@ -683,12 +500,12 @@ number of channels to 2.
 **RTP Tools** is a set of small applications that can be used for
 processing RTP data.
 
-  - `rtpplay`: play back RTP sessions recorded by `rtpdump`
-  - `rtpsend`: generate RTP packets from the textual description,
+-   `rtpplay`: play back RTP sessions recorded by `rtpdump`
+-   `rtpsend`: generate RTP packets from the textual description,
     generated by hand or `rtpdump`
-  - `rtpdump`: parse and print RTP packets, generating output files
+-   `rtpdump`: parse and print RTP packets, generating output files
     suitable for `rtpplay` and `rtpsend`
-  - `rtptrans`: RTP translator between unicast and multicast networks
+-   `rtptrans`: RTP translator between unicast and multicast networks
 
 This application is able to receive RTP packets and write the content to
 a FIFO. `nxplayer` then reads from the FIFO, enabling using NuttX as a
@@ -708,7 +525,7 @@ receive RTP packets:
     nsh> ifconfig
     wlan0   Link encap:Ethernet HWaddr aa:bb:cc:dd:ff:ee at RUNNING mtu 1504
             inet addr:192.168.1.38 DRaddr:192.168.1.1 Mask:255.255.255.0
-    
+
                 IPv4   TCP   UDP  ICMP
     Received     00d5  0000  00d4  0000
     Dropped      0001  0000  0000  0000
@@ -720,7 +537,7 @@ receive RTP packets:
     Sent         0002  0000  0002  0000
     Rexmit     ----  0000  ----  ----
 
-Please, check your device's IP (`192.168.1.38` in this example): RTP
+Please, check your device\'s IP (`192.168.1.38` in this example): RTP
 packets will be sent to it.
 
 **Sending Audio through pulseaudio**
@@ -731,7 +548,7 @@ packets will be sent to it.
     pactl load-module module-rtp-send source=rtp.monitor format=s16le destination_ip=192.168.1.38 port=46998
 
 The loaded sink is used to send PC audio through RTP, using the
-`192.168.1.38:46998` (boards's IP in this example, please adjust
+`192.168.1.38:46998` (boards\'s IP in this example, please adjust
 accordingly).
 
 **Receiving the RTP packets**
@@ -750,12 +567,12 @@ Finally, run `nxplayer` to play from the FIFO:
     nsh> nxplayer
     NxPlayer version 1.05
     h for commands, q to exit
-    
+
     nxplayer> playraw temp 2 16 44100
 
 This board contains the ES8388 audio codec. Please attach your
 headphones to listen to the content streamed through the Wi-Fi in CD
-quality\!
+quality!
 
 ### wifi
 
@@ -767,22 +584,15 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.

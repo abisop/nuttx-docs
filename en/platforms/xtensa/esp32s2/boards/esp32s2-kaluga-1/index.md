@@ -1,55 +1,54 @@
-# ESP32-S2-Kaluga-1 Kit v1.3
-
-<div class="tags">
+ESP32-S2-Kaluga-1 Kit v1.3
+==========================
 
 chip:esp32, chip:esp32s2
-
-</div>
 
 The [ESP32-S2-Kaluga-1 kit
 v1.3](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp32-s2-kaluga-1-kit.html)
 is a development kit by Espressif that is mainly created to:
 
-  - Demonstrate the ESP32-S2's human-computer interaction
+-   Demonstrate the ESP32-S2\'s human-computer interaction
     functionalities
-  - Provide the users with the tools for development of human-computer
+-   Provide the users with the tools for development of human-computer
     interaction applications based on the ESP32-S2
 
-There are many ways of how the ESP32-S2's abundant functionalities can
+There are many ways of how the ESP32-S2\'s abundant functionalities can
 be used. For starters, the possible use cases may include:
 
-  - **Smart home**: From simplest smart lighting, smart door locks,
+-   **Smart home**: From simplest smart lighting, smart door locks,
     smart sockets, to video streaming devices, security cameras, OTT
     devices, and home appliances
-  - **Battery-powered equipment**: Wi-Fi mesh sensor networks,
+-   **Battery-powered equipment**: Wi-Fi mesh sensor networks,
     Wi-Fi-networked toys, wearable devices, health management equipment
-  - **Industrial automation equipment**: Wireless control and robot
+-   **Industrial automation equipment**: Wireless control and robot
     technology, intelligent lighting, HVAC control equipment, etc.
-  - **Retail and catering industry**: POS machines and service robots
+-   **Retail and catering industry**: POS machines and service robots
 
 ![ESP32-S2-Kaluga-1-Kit Overview (click to
-enlarge)](esp32-s2-kaluga-1-kit-v1.0-3d.png)
+enlarge)](esp32-s2-kaluga-1-kit-v1.0-3d.png){.align-centeralign-center
+width="690px" height="318px"}
 
 The ESP32-S2-Kaluga-1 kit consists of the following boards:
 
-  - Main board: *ESP32-S2-Kaluga-1*
-  - Extension boards:
-      - [ESP-LyraT-8311A](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrat-8311a_v1.3.html)
-        - Audio player
-      - [ESP-LyraP-TouchA](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-toucha-v1.1.html)
-        - Touch buttons
-      - [ESP-LyraP-LCD32](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-lcd32-v1.2.html)
-        - 3.2" LCD screen
-      - [ESP-LyraP-CAM](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-cam-v1.1.html)
-        - Camera module
+-   Main board: *ESP32-S2-Kaluga-1*
+-   Extension boards:
+    -   [ESP-LyraT-8311A](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrat-8311a_v1.3.html) -
+        Audio player
+    -   [ESP-LyraP-TouchA](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-toucha-v1.1.html) -
+        Touch buttons
+    -   [ESP-LyraP-LCD32](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-lcd32-v1.2.html) -
+        3.2\" LCD screen
+    -   [ESP-LyraP-CAM](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp-lyrap-cam-v1.1.html) -
+        Camera module
 
 A block diagram below shows the components of the ESP32-S2-Kaluga-1 and
 their interconnections.
 
 ![ESP32-S2-Kaluga-1 block
-diagram](esp32-s2-kaluga-1-v1.2-block-diagram.png)
+diagram](esp32-s2-kaluga-1-v1.2-block-diagram.png){.align-centeralign-center}
 
-## Features
+Features
+--------
 
 The ESP32-S2-Kaluga-1 main board is the heart of the kit. It integrates
 the ESP32-S2-WROVER module and all the connectors for extension boards.
@@ -58,44 +57,54 @@ interfaces.
 
 The ESP32-S2-Kaluga-1 board has connectors for boards with:
 
-  - Extension header (ESP-LyraT-8311A, ESP-LyraP-LCD32)
-  - Camera header (ESP-LyraP-CAM)
-  - Touch FPC connector (ESP-LyraP-TouchA)
-  - LCD FPC connector (no official extension boards yet)
-  - I2C FPC connector (no official extension boards yet)
+-   Extension header (ESP-LyraT-8311A, ESP-LyraP-LCD32)
+-   Camera header (ESP-LyraP-CAM)
+-   Touch FPC connector (ESP-LyraP-TouchA)
+-   LCD FPC connector (no official extension boards yet)
+-   I2C FPC connector (no official extension boards yet)
 
-![ESP32-S2-Kaluga-1 (click to enlarge)](esp32s2-kaluga-1-v1.3-3d.png)
+![ESP32-S2-Kaluga-1 (click to
+enlarge)](esp32s2-kaluga-1-v1.3-3d.png){.align-centeralign-center
+width="772px" height="584px"}
 
 All the four extension boards are specially designed to support the
 following features:
 
-  -   - Touch panel control
-        
-          - Six touch buttons
-          - Supports acrylic panels up to 5 mm
-          - Wet hand operation
-          - Water rejection, ESP32-S2 can be configured to disable all
+-   
+
+    Touch panel control
+
+    :   -   Six touch buttons
+        -   Supports acrylic panels up to 5 mm
+        -   Wet hand operation
+        -   Water rejection, ESP32-S2 can be configured to disable all
             touchpads automatically if multiple pads are simultaneously
             covered with water and to re-enable touchpads if the water
             is removed
 
-  -   - Audio playback
-        
-          - Connect speakers to play audio
-          - Use together with the Touch panel to control audio playback
+-   
+
+    Audio playback
+
+    :   -   Connect speakers to play audio
+        -   Use together with the Touch panel to control audio playback
             and adjust volume
 
-  -   - LCD display
-        
-          - LCD interface (8-bit parallel RGB, 8080, and 6800 interface)
+-   
 
-  -   - Camera image acquisition
-        
-          - Supports OV2640 and OV3660 camera modules
-          - 8-bit DVP image sensor interface (ESP32-S2 also supports
+    LCD display
+
+    :   -   LCD interface (8-bit parallel RGB, 8080, and 6800 interface)
+
+-   
+
+    Camera image acquisition
+
+    :   -   Supports OV2640 and OV3660 camera modules
+        -   8-bit DVP image sensor interface (ESP32-S2 also supports
             16-bit DVP image sensors, you can design it yourself)
-          - Clock frequency up to 40 MHz
-          - Optimized DMA transmission bandwidth for easier transmission
+        -   Clock frequency up to 40 MHz
+        -   Optimized DMA transmission bandwidth for easier transmission
             of high-resolution images
 
 ### Compatibility of Extension Boards
@@ -103,31 +112,79 @@ following features:
 If you want to use more than one extension board at the same time,
 please check the table given below.
 
-| Boards Used                           | HW Conflict                    | Limitations                                                                                                                                                                      | Solution                                                                                                                                                                 |
-| ------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 8311A v1.3 + CAM v1.1                 | I2S Controller                 | ESP32-S2 has only one I2S interface. But both extension boards require connection via the ESP32-S2's I2S interface (LyraT-8311A in Standard mode, ESP-LyraP-CAM in Camera mode). | Utilize time division multiple access, or use a different audio module that can be connected via other GPIOs or DAC.                                                     |
-| TouchA v1.1 + LCD32 v1.2              | IO11, IO6                      | Touch actions cannot be triggered because of the multiplexed pin IO11. ESP-LyraP-LCD32 will not be affected because its BLCT pin will be disconnected from IO6.                  | Do not initialize IO11 (NETWORK) for your ESP-LyraP-TouchA, or configure the BLCT pin to <span class="title-ref">-1</span> (= do not use BLCT) for your ESP-LyraP-LCD32. |
-| 8311A v1.3 + LCD32 v1.2               | IO6                            | BLCT pin of ESP32-S2-Kaluga-1 will be disconnected from IO6.                                                                                                                     | Configure the BK pin to <span class="title-ref">-1</span> (= do not use BLCT) for your ESP-LyraP-LCD32.                                                                  |
-| TouchA v1.1 + 8311A v1.3              | Pin BT\_ADC on ESP-LyraT-8311A | This pin is required for initialization of the six button on ESP-LyraT-8311A. At the same time, ESP-LyraP-TouchA needs this pin for its touch actions.                           | If you plan to use buttons on ESP-LyraT-8311A, do not initialize pin IO6 (PHOTO) for your ESP-LyraP-TouchA.                                                              |
-| TouchA v1.1 + CAM v1.1                | IO1, IO2, IO3                  | Cannot be used simultaneously because of the mentioned multiplexed pins.                                                                                                         | For ESP-LyraP-TouchA, do not initialize IO1 (VOL\_UP), IO2 (PLAY), and IO3 (VOL\_DOWN).                                                                                  |
-| TouchA v1.1 + LCD32 v1.2 + CAM v1.1   | IO1, IO2, IO3, IO11            | Conflicts on the mentioned multiplexed pins.                                                                                                                                     | For ESP-LyraP-TouchA, do not initialize IO1 (VOL\_UP), IO2 (PLAY), IO3 (VOL\_DOWN), and IO11 (NETWORK).                                                                  |
-| TouchA v1.1 + LCD32 v1.2 + 8311A v1.3 | IO6, IO11                      | If ESP-LyraT-8311A's pin BT\_ADC is used to initialize the board's six buttons, IO6 and IO11 will not be available for the other boards.                                         | Do not initialize IO11 (NETWORK) for your ESP-LyraP-TouchA. Also, if you need to use BT\_ADC, do not initialize IO6 (PHOTO).                                             |
+  -------------------------------------------------------------------------------
+  Boards Used    HW Conflict       Limitations             Solution
+  -------------- ----------------- ----------------------- ----------------------
+  8311A v1.3 +   I2S Controller    ESP32-S2 has only one   Utilize time division
+  CAM v1.1                         I2S interface. But both multiple access, or
+                                   extension boards        use a different audio
+                                   require connection via  module that can be
+                                   the ESP32-S2\'s I2S     connected via other
+                                   interface (LyraT-8311A  GPIOs or DAC.
+                                   in Standard mode,       
+                                   ESP-LyraP-CAM in Camera 
+                                   mode).                  
+
+  TouchA v1.1 +  IO11, IO6         Touch actions cannot be Do not initialize IO11
+  LCD32 v1.2                       triggered because of    (NETWORK) for your
+                                   the multiplexed pin     ESP-LyraP-TouchA, or
+                                   IO11. ESP-LyraP-LCD32   configure the BLCT pin
+                                   will not be affected    to [-1]{.title-ref} (=
+                                   because its BLCT pin    do not use BLCT) for
+                                   will be disconnected    your ESP-LyraP-LCD32.
+                                   from IO6.               
+
+  8311A v1.3 +   IO6               BLCT pin of             Configure the BK pin
+  LCD32 v1.2                       ESP32-S2-Kaluga-1 will  to [-1]{.title-ref} (=
+                                   be disconnected from    do not use BLCT) for
+                                   IO6.                    your ESP-LyraP-LCD32.
+
+  TouchA v1.1 +  Pin BT\_ADC on    This pin is required    If you plan to use
+  8311A v1.3     ESP-LyraT-8311A   for initialization of   buttons on
+                                   the six button on       ESP-LyraT-8311A, do
+                                   ESP-LyraT-8311A. At the not initialize pin IO6
+                                   same time,              (PHOTO) for your
+                                   ESP-LyraP-TouchA needs  ESP-LyraP-TouchA.
+                                   this pin for its touch  
+                                   actions.                
+
+  TouchA v1.1 +  IO1, IO2, IO3     Cannot be used          For ESP-LyraP-TouchA,
+  CAM v1.1                         simultaneously because  do not initialize IO1
+                                   of the mentioned        (VOL\_UP), IO2 (PLAY),
+                                   multiplexed pins.       and IO3 (VOL\_DOWN).
+
+  TouchA v1.1 +  IO1, IO2, IO3,    Conflicts on the        For ESP-LyraP-TouchA,
+  LCD32 v1.2 +   IO11              mentioned multiplexed   do not initialize IO1
+  CAM v1.1                         pins.                   (VOL\_UP), IO2 (PLAY),
+                                                           IO3 (VOL\_DOWN), and
+                                                           IO11 (NETWORK).
+
+  TouchA v1.1 +  IO6, IO11         If ESP-LyraT-8311A\'s   Do not initialize IO11
+  LCD32 v1.2 +                     pin BT\_ADC is used to  (NETWORK) for your
+  8311A v1.3                       initialize the board\'s ESP-LyraP-TouchA.
+                                   six buttons, IO6 and    Also, if you need to
+                                   IO11 will not be        use BT\_ADC, do not
+                                   available for the other initialize IO6
+                                   boards.                 (PHOTO).
+  -------------------------------------------------------------------------------
 
 Also, all extension boards and the JTAG interface share the same pins
 IO39, IO40, IO41 and IO42. For this reason, the following may disturb
 the JTAG operation:
 
-  - Plugging in any extension board
-  - Debugging an application that is using an extension board
+-   Plugging in any extension board
+-   Debugging an application that is using an extension board
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the micro-USB connector (J1).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -146,7 +203,8 @@ There are many on-board LEDs. The only one that can be controlled by
 software is a WS2812 RGB LED (U21) addressable LED and is driven by
 GPIO45.
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -155,8 +213,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB1 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### audio
 
@@ -176,19 +234,12 @@ This will create a temporary folder in `apps/examples/romfs/testdir`.
 Move a PCM-encoded (`.wav`) audio file with 16 or 24 bits/sample
 (sampled at 16\~48kHz) to this folder.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-You can use `this 440 Hz sinusoidal tone <../esp32s2-saola-1/tone.wav>`.
-The audio file should be located at
+You can use
+`this 440 Hz sinusoidal tone <../esp32s2-saola-1/tone.wav>`{.interpreted-text
+role="download"}. The audio file should be located at
 `apps/examples/romfs/testdir/tone.wav`
-
-</div>
 
 Build the project again and flash it (make sure not to clean it, just
 build)
@@ -232,11 +283,10 @@ can scan for all I2C devices using the following command:
     nsh> i2c dev 0x00 0x7f
 
 To use slave mode, you can enable
-<span class="title-ref">ESP32S2\_I2S\_ROLE\_SLAVE</span> option. To use
-slave mode driver following snippet demonstrates how write to i2c bus
-using slave driver:
+[ESP32S2\_I2S\_ROLE\_SLAVE]{.title-ref} option. To use slave mode driver
+following snippet demonstrates how write to i2c bus using slave driver:
 
-``` C
+``` {.C}
 #define ESP_I2C_SLAVE_PATH  "/dev/i2cslv0"
 int main(int argc, char *argv[])
   {
@@ -284,18 +334,12 @@ The `nxlooper` application captures data from the audio device with
 receiving capabilities and forwards the audio data frame to the audio
 device with transmitting capabilities.
 
-After successfully built and flashed, run on the boards' terminal:
+After successfully built and flashed, run on the boards\' terminal:
 
     nsh> nxlooper
     nxlooper> loopback
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `loopback` command default arguments for the channel configuration, the
 data width and the sample rate are, respectively, 2 channels, 16
@@ -303,8 +347,6 @@ bits/sample and 48KHz. These arguments can be supplied to select
 different audio formats, for instance:
 
 nxlooper\> loopback 2 8 44100
-
-</div>
 
 ### rtc
 
@@ -327,9 +369,9 @@ notification after it expires:
 This configuration enables the support for the TWAI (Two-Wire Automotive
 Interface) driver. You can test it by connecting TWAI RX and TWAI TX
 pins which are GPIO0 and GPIO2 by default to a external transceiver or
-connecting TWAI RX to TWAI TX pin by enabling the `Device Drivers -> CAN
-Driver Support -> CAN loopback mode` option and running the `can`
-example:
+connecting TWAI RX to TWAI TX pin by enabling the
+`Device Drivers -> CAN Driver Support -> CAN loopback mode` option and
+running the `can` example:
 
     nsh> can
     nmsgs: 0
@@ -355,7 +397,6 @@ Where x is the watchdog instance.
 
 To test the XTWDT(/dev/watchdog3) an interrupt handler needs to be
 implemented because XTWDT does not have system reset feature. To
-implement an interrupt handler
-<span class="title-ref">WDIOC\_CAPTURE</span> command can be used. When
-interrupt rises, XTAL32K clock can be restored with
-<span class="title-ref">WDIOC\_RSTCLK</span> command.
+implement an interrupt handler [WDIOC\_CAPTURE]{.title-ref} command can
+be used. When interrupt rises, XTAL32K clock can be restored with
+[WDIOC\_RSTCLK]{.title-ref} command.

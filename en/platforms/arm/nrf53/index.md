@@ -1,16 +1,18 @@
-# Nordic nRF53
+Nordic nRF53
+============
 
 The nRF53 series of chips from Nordic Semiconductor are based around an
 two ARM Cortex-M33 cores and a multiprotocol 2.4 GHz transceiver.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
 The following list indicates peripherals supported in NuttX:
 
-| Peripheral                                                                                                             | Support                                                                            | Notes           |
-| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------- |
-| GPIO GPIOTE I2S MWU NFCT PDM DPPI PWM QDEC QSPI RADIO RNG RTC SAADC SPIM SPIS TEMP TIMER TWIM TWIS UART UARTE USBD WDT | Yes Yes No No No No No Yes No Yes No No Yes Yes Yes No No Yes Yes No Yes No Yes No |                 |
-| IPC                                                                                                                    | Yes                                                                                | RPTUN supported |
+  Peripheral                                                                                                               Support                                                                              Notes
+  ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------ -----------------
+  GPIO GPIOTE I2S MWU NFCT PDM DPPI PWM QDEC QSPI RADIO RNG RTC SAADC SPIM SPIS TEMP TIMER TWIM TWIS UART UARTE USBD WDT   Yes Yes No No No No No Yes No Yes No No Yes Yes Yes No No Yes Yes No Yes No Yes No   
+  IPC                                                                                                                      Yes                                                                                  RPTUN supported
 
 ### GPIO/GPIOTE
 
@@ -36,33 +38,27 @@ which allows to control pin state via tasks/events.
 ### ADC
 
 The SAADC peripheral is exposed via standard ADC driver. The lower-half
-of this driver is initialized by calling :c`nrf53_adcinitialize`.
+of this driver is initialized by calling
+:c`nrf53_adcinitialize`{.interpreted-text role="func"}.
 
 ### I2C
 
 I2C is supported both in polling and interrupt mode (via EasyDMA).
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The I2C peripheral does not support sending two transfers without
 sending a START nor RSTART. For this reason, this is supported via an
 internal buffer where messages will be first copied to and sent
 together.
 
-</div>
-
-The lower-half of I2C bus is initialized by :c`nrf53_i2cbus_initialize`.
+The lower-half of I2C bus is initialized by
+:c`nrf53_i2cbus_initialize`{.interpreted-text role="func"}.
 
 ### SPI
 
 SPI is supported both in polling and interrupt-based (via EasyDMA) mode.
-The latter supports arbitrarily long transfers using Nordic's list-mode
+The latter supports arbitrarily long transfers using Nordic\'s list-mode
 EasyDMA (intermediate transfers are currently still manually started).
 
 It is possible to use SPI without either MOSI/MISO pin defined by simply
@@ -102,7 +98,8 @@ low-power timer, without any date handling capabilities.
 
 The USBD peripheral is exposed via standard USBDEV interface.
 
-## Interprocessor Communication
+Interprocessor Communication
+----------------------------
 
 Interprocessor communication between the application core and the
 network core is realized with the NuttX RPTUN device based on the
@@ -111,12 +108,14 @@ OpenAMP framework.
 The last 32kB of the application core RAM is used for a shared memory
 (address = 0x20078000).
 
-## BLE Support
+BLE Support
+-----------
 
-BLE is supported in the nRF53 using Nordic's [SoftDevice
+BLE is supported in the nRF53 using Nordic\'s [SoftDevice
 Controller](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrfxlib/softdevice_controller/README.html).
 
-## Tool Issues
+Tool Issues
+-----------
 
 ### OpenOCD
 
@@ -139,21 +138,22 @@ Then you can connect GDB to targets:
 ### Flashing locked device
 
 1.  Unlock the network core:
-    
+
         nrfjprog --recover --coprocessor CP_NETWORK
 
 2.  Unlock the application core:
-    
+
         nrfjprog --recover
 
 3.  Flash the network core:
-    
+
         nrfjprog --coprocessor CP_NETWORK --program nuttx_net.hex --verify --chiperase
 
 4.  Flash the application core:
-    
+
         nrfjprog --program nuttx_app.hex --verify --chiperase
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

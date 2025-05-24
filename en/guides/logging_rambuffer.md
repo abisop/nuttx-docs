@@ -1,19 +1,13 @@
-# Logging to a RAM Buffer
-
-<div class="warning">
-
-<div class="title">
+Logging to a RAM Buffer
+=======================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Logging+to+a+RAM+Buffer>
 
-</div>
-
-## Default Debug Output
+Default Debug Output
+--------------------
 
 By default, when you enable debug output, that output goes to the system
 console and is mixed up with the normal console output. Normally, that
@@ -26,46 +20,47 @@ One particularly troublesome case is network debug output to console in
 a Telnet session. Since the telnet session remaps the console output to
 the Telnet connection, the network debug output can generate infinite
 loops because the network operation generates debug output to the
-console, which generates more debug output, ... and on and on.
+console, which generates more debug output, \... and on and on.
 
 With some creative configuration of the NuttX SYStem LOGging (SYSLOG)
 feature, these problems can all be eliminated.
 
-## The syslog Device
+The syslog Device
+-----------------
 
-Debug output goes to the <span class="title-ref">syslog</span> device.
-As mentioned above, the default syslog device device is the system
-console. However there are many options to control the behavior of the
-syslog – too many in fact. There are so many options that you will
-probably have to perform experiments to get the syslog working as you
-would like it too.
+Debug output goes to the [syslog]{.title-ref} device. As mentioned
+above, the default syslog device device is the system console. However
+there are many options to control the behavior of the syslog -- too many
+in fact. There are so many options that you will probably have to
+perform experiments to get the syslog working as you would like it too.
 
-## The RAMLOG Device
+The RAMLOG Device
+-----------------
 
 The RAMLOG device is a special character device that can really be used
 for most any purpose. However, the RAMLOG device has some special
 attributes that make it ideal for use as a syslogging device.
 
-  - It supports the `syslog_write` interface needed for system logging
-  - It behaves much like a pipe: It implements a queue. Writing to the
+-   It supports the `syslog_write` interface needed for system logging
+-   It behaves much like a pipe: It implements a queue. Writing to the
     RAMLOG device adds data to the head of the queue; reading from the
     RAMLOG device removes data from the tail of the queue.
-  - It can be configured to return EOF when you try to read and there is
+-   It can be configured to return EOF when you try to read and there is
     nothing available in the RAMLOG.
 
-## Using the RAMLOG as the syslog Device
+Using the RAMLOG as the syslog Device
+-------------------------------------
 
 This Wiki page addresses the setup for one configuration: Using a
-<span class="title-ref">RAMLOG</span> as the syslog device. A RAMLOG is
-a circular buffer in memory. In this configuration, all debugout output
-goes to this circular buffer and can later be retrieved using the NSH
-`dmesg` command
+[RAMLOG]{.title-ref} as the syslog device. A RAMLOG is a circular buffer
+in memory. In this configuration, all debugout output goes to this
+circular buffer and can later be retrieved using the NSH `dmesg` command
 
 Here is the summary of what I had to do to get the RAMLOG working as the
 syslog device. I use a simulation configuration, but for this feature
 this does not matter.
 
-``` bash
+``` {.bash}
 tools/configure.sh sim:nsh
 make menuconfig
 ```
@@ -73,7 +68,7 @@ make menuconfig
 I added the following settings. First, these just give me some debug
 output to test against:
 
-``` c
+``` {.c}
 CONFIG_DEBUG=y
 CONFIG_DEBUG_FS=y
 CONFIG_DEBUG_SCHED=y
@@ -82,13 +77,13 @@ CONFIG_DEBUG_SCHED=y
 This configures the virtual file system to support the syslog device and
 is a necessary pre-condition for other settings:
 
-``` c
+``` {.c}
 CONFIG_SYSLOG=y
 ```
 
 These enables the RAMLOG and configure it for use as the syslog device
 
-``` c
+``` {.c}
 CONFIG_RAMLOG=y
 CONFIG_RAMLOG_CONSOLE_BUFSIZE=8192
 CONFIG_RAMLOG_NONBLOCKING=y
@@ -99,7 +94,7 @@ CONFIG_RAMLOG_SYSLOG=y
 Now when I run NuttX, I get output like this. The `dmesg` command now
 appears as an NSH command:
 
-``` bash
+``` {.bash}
 NuttShell (NSH) NuttX-7.1
 nsh> help
 help usage:  help [-v] [<cmd>]
@@ -116,7 +111,7 @@ hello
 
 The `dmesg` command dumps the contents and clears the RAMLOG:
 
-``` bash
+``` {.bash}
 nsh> dmesg
 nx_start: Entry
 up_unblock_task: Unblocking TCB=52bc70
@@ -161,7 +156,7 @@ nsh>
 As mentioned, the dmesg command clears the RAMLOG. So when it is used
 again, only new debug output is shown:
 
-``` bash
+``` {.bash}
 nsh> dmesg
 posix_spawn_exec: ERROR: exec failed: 22
 ```

@@ -1,41 +1,41 @@
-# ESP32-AUDIO-KIT
-
-<div class="tags">
+ESP32-AUDIO-KIT
+===============
 
 chip:esp32, chip:esp32a1s
-
-</div>
 
 The [Ai-Thinker ESP32 Audio
 Kit](https://docs.ai-thinker.com/en/esp32-audio-kit) is a development
 board for the ESP32 SoC from Espressif, based on Ai-Thinker ESP32-A1S
 audio module.
 
-|                                                          |
-| -------------------------------------------------------- |
-| ![Ai-Thinker ESP32 Audio Kit board](esp32-audio-kit.png) |
+  -------------------------------------------------------------------------
+  ![Ai-Thinker ESP32 Audio Kit board](esp32-audio-kit.png){.align-center}
+  -------------------------------------------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32-A1S module
->   - Audio Earphones Output
->   - Audio LINEIN Input
->   - 2 Microphones in the board (stereo audio input)
->   - 8 Buttons in the boards (1 RST Button and 7 user buttons)
->   - MicroSD card slot
+> -   ESP32-A1S module
+> -   Audio Earphones Output
+> -   Audio LINEIN Input
+> -   2 Microphones in the board (stereo audio input)
+> -   8 Buttons in the boards (1 RST Button and 7 user buttons)
+> -   MicroSD card slot
 
-Some of the ESP32 I/O pins are broken out to the board's pin header.
+Some of the ESP32 I/O pins are broken out to the board\'s pin header.
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 Silabs CP2102 converter and is available on the USB connector (UART
 label).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] normally is 0 if you
-don't have another USB/Serial adapter connected in your computer.
+don\'t have another USB/Serial adapter connected in your computer.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -52,15 +52,17 @@ software input.
 There are several on-board LEDs for that indicate the presence of power
 and USB activity.
 
-## I/O Mapping
+I/O Mapping
+-----------
 
-| I/O                     | Signal                                                                                                      | Notes        |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ |
-| 0 2 4 5 12              | BOOT Button DATA0 SDCard DATA1 SDCard KEY6 Button DATA2 SDCard                                              |              |
-| 13 14                   | KEY2 Button/DATA3 SDCard CLK SDCard                                                                         | (DIP Switch) |
-| 15 18 19 21 22 23 34 36 | CMD SDCard/JTAG MTDO KEY5 Button KEY3 Button/LED5 CTRL Audio AMP LED4 KEY4 Button SDCard Detect KEY1 Button | (DIP Switch) |
+  I/O                       Signal                                                                                                        Notes
+  ------------------------- ------------------------------------------------------------------------------------------------------------- --------------
+  0 2 4 5 12                BOOT Button DATA0 SDCard DATA1 SDCard KEY6 Button DATA2 SDCard                                                
+  13 14                     KEY2 Button/DATA3 SDCard CLK SDCard                                                                           (DIP Switch)
+  15 18 19 21 22 23 34 36   CMD SDCard/JTAG MTDO KEY5 Button KEY3 Button/LED5 CTRL Audio AMP LED4 KEY4 Button SDCard Detect KEY1 Button   (DIP Switch)
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -69,8 +71,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`minicom` or `picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `minicom` or `picocom` configured to 115200 8N1.
 
 ### audio
 
@@ -80,22 +82,22 @@ HTTP while connected to a Wi-Fi network.
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 bits/sample (sampled at 44.1kHz). This file must be placed into
-a folder in a computer that could be accessed on the same Wi-Fi network
-the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16
+bits/sample (sampled at 44.1kHz). This file must be placed into a folder
+in a computer that could be accessed on the same Wi-Fi network the ESP32
+will be connecting to.
 
-Python provides a simple HTTP server. <span class="title-ref">cd</span>
-to the audio file folder on the PC and run:
+Python provides a simple HTTP server. [cd]{.title-ref} to the audio file
+folder on the PC and run:
 
      python3 -m http.server
-    
+
     Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/)
 
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](esp32-audio-config-file.png)
+![](esp32-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -104,26 +106,18 @@ network:
      nsh> wapi essid wlan0 myssid 1
      nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to its
+Once connected, open NuttX\'s player and play the file according to its
 file name and the IP address of the HTTP server (For example
-<span class="title-ref">tone.wav</span> and
-<span class="title-ref">192.168.1.239:8000</span>, respectively):
+[tone.wav]{.title-ref} and [192.168.1.239:8000]{.title-ref},
+respectively):
 
      nsh> nxplayer
      nxplayer> play http://192.168.1.239:8000/tone.wav
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The codec implementation on the LyraT board was validated using 16-bit,
 44.1kHz WAV files. Other configurations might not work as expected.
-
-</div>
 
 ### nsh
 
@@ -140,22 +134,15 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.

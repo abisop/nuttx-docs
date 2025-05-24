@@ -1,34 +1,31 @@
-# ST Nucleo U5A5ZJ-Q
-
-<div class="tags">
+ST Nucleo U5A5ZJ-Q
+==================
 
 chip:stm32, chip:stm32u5, chip:stm32u5a5
-
-</div>
 
 This page file discusses the port of NuttX to the STMicroelectronics
 NUCLEO-U5A5ZJ-Q board. That board features the STM32U5A5ZJT6Q MCU with
 4MiB of Flash and 2500KiB of SRAM.
 
-## Status
+Status
+------
 
 2023-07-16: Initial port - works all ram memory and i2c(not extensively
 tested) The i2c driver is based on stm32l4 one
 
-## Clock Source
+Clock Source
+------------
 
 Only the low speed external (LSE) 32.768kHz crystal (X2) is installed in
 default configurations.
 
-> 
-> 
-> | FUNC       | GPIO |
-> | ---------- | ---- |
-> | OSC32\_IN  | PC14 |
-> | OSC32\_OUT | PC15 |
-> 
+>   FUNC         GPIO
+>   ------------ ------
+>   OSC32\_IN    PC14
+>   OSC32\_OUT   PC15
 
-## Serial Consoles
+Serial Consoles
+---------------
 
 ### Virtual COM Port on USART1
 
@@ -38,15 +35,13 @@ on connector CN10 (need some rework on PCB).
 
 Pins and Connectors:
 
-> 
-> 
-> | FUNC | GPIO | Pin     | NAME      |
-> | ---- | ---- | ------- | --------- |
-> | TXD: | PA9  | CN10 14 | T.VCP\_TX |
-> | RXD: | PA10 | CN9 13  | T.VCP\_RX |
-> 
+>   FUNC   GPIO   Pin       NAME
+>   ------ ------ --------- -----------
+>   TXD:   PA9    CN10 14   T.VCP\_TX
+>   RXD:   PA10   CN9 13    T.VCP\_RX
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -71,15 +66,15 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  All of these configurations are set up to build under Linux using
-    the "GNU Tools for ARM Embedded Processors" that is maintained by
+    the \"GNU Tools for ARM Embedded Processors\" that is maintained by
     ARM (unless stated otherwise in the description of the
     configuration).
-    
+
     > <https://developer.arm.com/open-source/gnu-toolchain/gnu-rm>

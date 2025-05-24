@@ -1,4 +1,5 @@
-# NXP S32K1XX
+NXP S32K1XX
+===========
 
 The [S32K1XX
 series](https://www.nxp.com/products/processors-and-microcontrollers/s32-automotive-platform/s32k-general-purpose-mcus/s32k1-microcontrollers-for-general-purpose:S32K1)
@@ -8,98 +9,51 @@ Cortex-M0+ core and can run at clockspeeds up to 48 MHz. The higher end
 chips are based on the Arm Cortex-M4F core which runs at up to 80 or 112
 MHz.
 
-## Supported MCUs
+Supported MCUs
+--------------
 
 The following list includes MCUs from the S32K1XX series and indicates
 whether they are supported in NuttX:
 
-<table>
-<thead>
-<tr class="header">
-<th>MCU</th>
-<th>Support</th>
-<th>Core</th>
-<th>Frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>S32K116</td>
-<td>Yes*</td>
-<td>Cortex-M0+</td>
-<td><blockquote>
-<p>48 MHz</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>S32K118</td>
-<td>Yes*</td>
-<td>Cortex-M0+</td>
-<td><blockquote>
-<p>48 MHz</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>S32K142</td>
-<td>Yes*</td>
-<td>Cortex-M4F</td>
-<td>112 MHz</td>
-</tr>
-<tr class="even">
-<td>S32K144</td>
-<td>Yes</td>
-<td>Cortex-M4F</td>
-<td>112 MHz</td>
-</tr>
-<tr class="odd">
-<td>S32K146</td>
-<td>Yes</td>
-<td>Cortex-M4F</td>
-<td>112 MHz</td>
-</tr>
-<tr class="even">
-<td>S32K148</td>
-<td>Yes</td>
-<td>Cortex-M4F</td>
-<td>112 MHz</td>
-</tr>
-<tr class="odd">
-<td>S32K142W</td>
-<td>No**</td>
-<td>Cortex-M4F</td>
-<td><blockquote>
-<p>80 MHz</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>S32K144W</td>
-<td>No**</td>
-<td>Cortex-M4F</td>
-<td><blockquote>
-<p>80 MHz</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++----------+---------+------------+-----------+
+| MCU      | Support | Core       | Frequency |
++==========+=========+============+===========+
+| S32K116  | Yes\*   | Cortex-M0+ | > 48 MHz  |
++----------+---------+------------+-----------+
+| S32K118  | Yes\*   | Cortex-M0+ | > 48 MHz  |
++----------+---------+------------+-----------+
+| S32K142  | Yes\*   | Cortex-M4F | 112 MHz   |
++----------+---------+------------+-----------+
+| S32K144  | Yes     | Cortex-M4F | 112 MHz   |
++----------+---------+------------+-----------+
+| S32K146  | Yes     | Cortex-M4F | 112 MHz   |
++----------+---------+------------+-----------+
+| S32K148  | Yes     | Cortex-M4F | 112 MHz   |
++----------+---------+------------+-----------+
+| S32K142W | No\*\*  | Cortex-M4F | > 80 MHz  |
++----------+---------+------------+-----------+
+| S32K144W | No\*\*  | Cortex-M4F | > 80 MHz  |
++----------+---------+------------+-----------+
 
-\* Supported but (mostly) untested.  
-\*\* Not supported (yet), but it is expected that existing code can be
-adapted with limited effort.
+| \* Supported but (mostly) untested.
+| \*\* Not supported (yet), but it is expected that existing code can be
+  adapted with limited effort.
 
-## Supported Modules & Peripherals
+Supported Modules & Peripherals
+-------------------------------
 
 The following list indicates modules and peripherals supported in NuttX.
 Note that this list does not include all MCU modules. Please refer to
 the S32K1XX Reference Manual for a complete overview of its features.
 
-| Peripheral                      | Support               | Comments                   |
-| ------------------------------- | --------------------- | -------------------------- |
-| ADC CMP eDMA                    | No No No              |                            |
-| EEPROM ENET                     | Yes Yes               | EEPROM emulated by FlexRAM |
-| FlexCAN                         | Yes                   | SocketCAN-compatible       |
-| FlexIO                          | Yes                   | Emulated I2C Master driver |
-| FTM GPIO                        | Yes Yes               | PWM driver only            |
-| LPI2C LPSPI LPUART QSPI RTC SAI | Yes Yes Yes No Yes No | I2C Master and Slave       |
+  Peripheral                        Support                 Comments
+  --------------------------------- ----------------------- ----------------------------
+  ADC CMP eDMA                      No No No                
+  EEPROM ENET                       Yes Yes                 EEPROM emulated by FlexRAM
+  FlexCAN                           Yes                     SocketCAN-compatible
+  FlexIO                            Yes                     Emulated I2C Master driver
+  FTM GPIO                          Yes Yes                 PWM driver only
+  LPI2C LPSPI LPUART QSPI RTC SAI   Yes Yes Yes No Yes No   I2C Master and Slave
 
 ### ADC
 
@@ -139,11 +93,11 @@ timers or programmable logic blocks.
 The `s32k1xx_flexio_i2c.c` driver implements an emulated I2C master
 using FlexIO. Albeit the current implementation has some limitations:
 
-  - Max I2C speed of 400KHz
-  - Max transfer of 12 bytes (Could be extended by utilizing EDMA)
-  - No abort on NACK reception, shifter simplies continues on
-  - No multi-master support
-  - No restart support
+-   Max I2C speed of 400KHz
+-   Max transfer of 12 bytes (Could be extended by utilizing EDMA)
+-   No abort on NACK reception, shifter simplies continues on
+-   No multi-master support
+-   No restart support
 
 ### FTM
 
@@ -151,21 +105,24 @@ A PWM driver based on FlexTimer (FTM) is available.
 
 ### GPIO
 
-Pins can be configured using :c`s32k1xx_pinconfig` function. Writing to
-pins is done by :c`s32k1xx_gpiowrite` function and reading is done by
-:c`s32k1xx_gpioread`.
+Pins can be configured using :c`s32k1xx_pinconfig`{.interpreted-text
+role="func"} function. Writing to pins is done by
+:c`s32k1xx_gpiowrite`{.interpreted-text role="func"} function and
+reading is done by :c`s32k1xx_gpioread`{.interpreted-text role="func"}.
 
 ### LPI2C
 
 Low-Power Inter-Integrated Circuit (I2C) module supporting an interface
 to an I2C bus as master and/or as a slave. The lower-half of this driver
-is initialize by calling :c`s32k1xx_i2cbus_initialize`.
+is initialize by calling :c`s32k1xx_i2cbus_initialize`{.interpreted-text
+role="func"}.
 
 ### LPSPI
 
 Low-Power Serial Peripheral Interface (SPI) module that supports an
 interface to an SPI bus as a master and/or a slave. The lower-half of
-this driver is initialize by calling :c`s32k1xx_lpspibus_initialize`.
+this driver is initialize by calling
+:c`s32k1xx_lpspibus_initialize`{.interpreted-text role="func"}.
 
 ### LPUART
 
@@ -186,6 +143,7 @@ Real-Time Clock module. A basic driver has been implemented.
 The Synchronous Audio Interface for digital audio over I2S (Inter-IC
 Sound) is only available on S32K148. No driver implemented.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

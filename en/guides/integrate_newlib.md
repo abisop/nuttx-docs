@@ -1,19 +1,13 @@
-# Integrating with Newlib
-
-<div class="warning">
-
-<div class="title">
+Integrating with Newlib
+=======================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Integrating+with+Newlib>
 
-</div>
-
-## Built-In C Library
+Built-In C Library
+------------------
 
 NuttX has its own, tiny, built-in C library. Along with that C library
 are all of the headers files with the definitions specific to that
@@ -23,25 +17,24 @@ that come with any other C library and trying to mix these with header
 files from other C libraries is bound to cause you problems.
 
 When GCC is built, it is built against a C library. The NuttX
-<span class="title-ref">buildroot</span> tools are, of course, built
-against the built-in NuttX C-library and would seem to be the obvious
-choice of tools to use. But there are many reasons to use other tool
-chains. As examples, the NuttX <span class="title-ref">buildroot</span>
-tools have some limitations in C++ support. Another example, is that you
-might want to use the higher-performance math library that is included
-in some other implementation of the C library.
+[buildroot]{.title-ref} tools are, of course, built against the built-in
+NuttX C-library and would seem to be the obvious choice of tools to use.
+But there are many reasons to use other tool chains. As examples, the
+NuttX [buildroot]{.title-ref} tools have some limitations in C++
+support. Another example, is that you might want to use the
+higher-performance math library that is included in some other
+implementation of the C library.
 
-There are many C libraries available:
-<span class="title-ref">glibc</span> and
-<span class="title-ref">uClibc</span> are commonly used with Linux
-tools. These should be avoided. Most embedded toolchains will be built
-against <span class="title-ref">newlib</span>. So if you are not using
-the NuttX buildroot toolchain, you will most likely be using a toolchain
-that has <span class="title-ref">newlib</span> built into it. Because of
-this, you may see issues if you include
-<span class="title-ref">newlib</span> header files into your NuttX code.
+There are many C libraries available: [glibc]{.title-ref} and
+[uClibc]{.title-ref} are commonly used with Linux tools. These should be
+avoided. Most embedded toolchains will be built against
+[newlib]{.title-ref}. So if you are not using the NuttX buildroot
+toolchain, you will most likely be using a toolchain that has
+[newlib]{.title-ref} built into it. Because of this, you may see issues
+if you include [newlib]{.title-ref} header files into your NuttX code.
 
-## Header File Issues
+Header File Issues
+------------------
 
 ### math.h
 
@@ -52,24 +45,21 @@ performant as a custom math library tuned for your processor
 architecture. There some addition issues with the NuttX math libraries
 as documented in the top-level TODO list.
 
-Many people choose to use the <span class="title-ref">newlib</span> math
-library. If you include `math.h` without selecting `CONFIG_LIBM=y`, you
-will probably get the <span class="title-ref">newlib</span> math library
-and you will certainly see a compilation error involving the definition
-of the type `wint_t`.
+Many people choose to use the [newlib]{.title-ref} math library. If you
+include `math.h` without selecting `CONFIG_LIBM=y`, you will probably
+get the [newlib]{.title-ref} math library and you will certainly see a
+compilation error involving the definition of the type `wint_t`.
 
 There have been many work arounds described in the NuttX forum. Here are
 a few:
 
-  - Copy the newlib `math.h` to `nuttx/include/math.h` and remove the
+-   Copy the newlib `math.h` to `nuttx/include/math.h` and remove the
     reference to `wint_t`.
-  - Add the following to `nuttx/libc/stdio/lib_libvsprintf.c`. I
+-   Add the following to `nuttx/libc/stdio/lib_libvsprintf.c`. I
     especially dislike this solution because it involves modification to
     a NuttX header file that cannot be accepted upstream.
 
-<!-- end list -->
-
-``` c
+``` {.c}
 /* Include floating point functions */
 
 #ifdef CONFIG_LIBC_FLOATINGPOINT
@@ -78,7 +68,7 @@ a few:
 #endif
 ```
 
-  - Provide your own version of `math.h` (for GCC only) containing the
+-   Provide your own version of `math.h` (for GCC only) containing the
     following. And add the path to this `math.h` to your `CFLAGS`
     include path arguments. The path can specified by adding `-system`
     or `-I` to the CFLAGS. The path to this `math.h` must be defined
@@ -86,9 +76,7 @@ a few:
     definition, then continue to include the default version of
     `math.h`.
 
-<!-- end list -->
-
-``` c
+``` {.c}
 #ifndef _MYMATH_H
 #define _MYMATH_H
 
@@ -98,15 +86,13 @@ a few:
 #endif /* _MYMATH_H */
 ```
 
-  - The PX4 team uses these patches to
+-   The PX4 team uses these patches to
     [cwhar](https://github.com/PX4/Firmware/blob/nuttx_v3/nuttx-patches/c%2B%2B11.patch)
     and
     [math.h](https://github.com/PX4/Firmware/blob/nuttx_v3/nuttx-patches/math.h.patch)
     to solve the issue. But note the comments in that code:
 
-<!-- end list -->
-
-``` c
+``` {.c}
 /* N.B. The following definitions are enabled at this time to allow the PX4
 * development to continue until there is a SAFE  solution to foreign
 * (non-nuttx) header file inclusion. There is a potential of a binary
@@ -115,21 +101,21 @@ a few:
 */
 ```
 
-  - Some people have suggested adding the type definition of `wint_t` to
+-   Some people have suggested adding the type definition of `wint_t` to
     `nuttx/include/sys/types.h` merely because that header file will
     then be included into the newlib `math.h`. This inclusion, of
-    course, also <span class="title-ref">very dangerous</span> since the
-    types in the NuttX `sys/types.h` header file may not agree with the
-    types in the pre-compiled newlib math library. This solution is not
-    recommended, in any case. The type `wint_t` is already correctly
-    defined in `nuttx/include/sys/wchar.h` which is the one and only
-    correct location per
+    course, also [very dangerous]{.title-ref} since the types in the
+    NuttX `sys/types.h` header file may not agree with the types in the
+    pre-compiled newlib math library. This solution is not recommended,
+    in any case. The type `wint_t` is already correctly defined in
+    `nuttx/include/sys/wchar.h` which is the one and only correct
+    location per
     [OpenGroup.org](http://pubs.opengroup.org/onlinepubs/007908775/xsh/wchar.h.html).
     It is a mystery to me why the newlib `math.h` header file uses
     `wint_t` without including `wchar.h`. If it did, then there would
     then this compilation issue would not exist (there could still be
     subtle binary compatibility issues).
-  - The ideal solution would be to integrate a third-party, optimized,
+-   The ideal solution would be to integrate a third-party, optimized,
     ARM math library into NuttX, building it using only NuttX header
     files. That would guarantee no binary incompatibility and would be a
     very useful contribution to NuttX.
@@ -140,20 +126,22 @@ required so that the linker can find and include the math library
 
 Update: This issue may have finally been resolved with this commit:
 
-    commit 894ca622e6a408e5fa858a3fee46fb16f32cf86c
-    Author: Xiang Xiao \<xiaoxiang@xiaomi.com\>
-    Date:   Mon Aug 27 06:26:37 2018 -0600
-    
-    include/sys/types:  Move wint_t and wctype_t from wchar.h to
-    types.h.  This change is compatible as before since wchar.h
-    include types.h indirectly.  This fixes a compilation error with
-    newlib's math.h:  'unknown type name wint_t'
+``` {.}
+commit 894ca622e6a408e5fa858a3fee46fb16f32cf86c
+Author: Xiang Xiao \<xiaoxiang@xiaomi.com\>
+Date:   Mon Aug 27 06:26:37 2018 -0600
+
+include/sys/types:  Move wint_t and wctype_t from wchar.h to
+types.h.  This change is compatible as before since wchar.h
+include types.h indirectly.  This fixes a compilation error with
+newlib's math.h:  'unknown type name wint_t'
+```
 
 ### cmath
 
 This error has been reported:
 
-``` bash
+``` {.bash}
 /nuttx/include/cxx/cmath:124:11: error: '::log2l' has not been declared...
 ```
 
@@ -174,7 +162,7 @@ which has similar disastrous results.
 One solution for GCC (only) would be to provide you own `alloca.h`
 containing:
 
-``` C
+``` {.C}
 #ifndef _ALLOCA_H
 #define _ALLOCA_H
 
@@ -193,7 +181,7 @@ you may still end up including the newlib `alloca.h`. So another
 solution might be to include your own `math.h`, for example, which
 contains something like like:
 
-``` C
+``` {.C}
 #ifndef _MYMATH_H
 #define _MYMATH_H
 #ifndef _ALLOCA_H
@@ -214,7 +202,8 @@ pre-processor variable `_ALLOC_H` matches the same idempotence variable
 used in the newlib `alloca.h`. Thus, any sneak inclusion of `alloca.h`
 with have not effect.
 
-## C++ Issues
+C++ Issues
+----------
 
 Most of the C++ issues that have not so much to do with header files as
 with C++ name mangling and strict typing.
@@ -223,7 +212,7 @@ with C++ name mangling and strict typing.
 
 The prototype for the C++ new operator is:
 
-``` C
+``` {.C}
 void *operator new(size_t nbytes)
 ```
 
@@ -233,7 +222,7 @@ GCC toolchains and has nothing to do with header file inclusion. NuttX
 supports a configuration option to work around this, change new to
 either:
 
-``` C
+``` {.C}
 #ifdef CONFIG_CXX_NEWLONG
 void *operator new(unsigned long nbytes)
 #else
@@ -243,22 +232,22 @@ void *operator new(unsigned int nbytes)
 
 This C++ name mangling issue has been around for years and varies from
 GCC compiler to GCC compiler, apparently due to some
-<span class="title-ref">newlib</span> configuration difference.
+[newlib]{.title-ref} configuration difference.
 
 ### uint32\_t
 
 Similarly, you may find that the definition of `uint32_t` in NuttX may
-be incompatible with your toolchain's libraries. You may, perhaps, see
+be incompatible with your toolchain\'s libraries. You may, perhaps, see
 errors like:
 
-``` bash
+``` {.bash}
 error: redeclaration of 'typedef long unsigned int std::uint_least32_t'
 ```
 
 The definition in the ARM header file at
 `nuttx/arch/arm/include/types.h` is:
 
-``` C
+``` {.C}
 typedef signed int _int32_t;
 typedef unsigned int _uint32_t;
 ```
@@ -270,7 +259,7 @@ the use of size\_t by your compiler. If you see errors such as the
 above, then you can replace these type definition to avoid C++ name
 mangling incompatibilities like:
 
-``` C
+``` {.C}
 typedef signed long _int32_t;
 typedef unsigned long _uint32_t;
 ```
@@ -293,27 +282,27 @@ Using newlib header files, you also encounter incompatibilities between
 the definitions of some types, the types `uint32_t` and `size_t` is
 often the sources of problems. For example:
 
-``` bash
+``` {.bash}
 error: redeclaration of 'typedef unsigned int std::size_t'
 ```
 
 The root cause of this issue is that the community cannot decide on the
-correct definition of `size_t`. NuttX uses this
-<span class="title-ref">flexible</span> definition of `size_t`:
+correct definition of `size_t`. NuttX uses this [flexible]{.title-ref}
+definition of `size_t`:
 
-``` c
+``` {.c}
 typedef uint32_t size_t;
 ```
 
-It is <span class="title-ref">flexible</span> in the sense that
-`uint32_t` is determined by architecture specific header files,
-<span class="title-ref">not</span> the RTOS itself. That definition will
-be either `unsigned long` or `unsigned int`. So the `size_t` type
-compatibility can differ with different compilers and also with
-different architectures (NOTE that since `size_t` should be wide enough
-to hold the size of the largest addressable object. `uint32_t` only
-works for 32-bit addressable machines. Perhaps, `size_t` should really
-be defined as type `uintptr_t`?).
+It is [flexible]{.title-ref} in the sense that `uint32_t` is determined
+by architecture specific header files, [not]{.title-ref} the RTOS
+itself. That definition will be either `unsigned long` or
+`unsigned int`. So the `size_t` type compatibility can differ with
+different compilers and also with different architectures (NOTE that
+since `size_t` should be wide enough to hold the size of the largest
+addressable object. `uint32_t` only works for 32-bit addressable
+machines. Perhaps, `size_t` should really be defined as type
+`uintptr_t`?).
 
 This can be fixed by changing the definition of `uint32_t` as described
 above. But that could introduce `uint32_t` name mangling
@@ -321,13 +310,13 @@ incompatibilities. In that case, you have no option but to decouple the
 definition of `size_t` from `uint32_t` by changing the definition in
 `nuttx/include/sys/types.h` to:
 
-``` c
+``` {.c}
 typedef unsigned int size_t;
 ```
 
 or
 
-``` c
+``` {.c}
 typedef unsigned long size_t;
 ```
 

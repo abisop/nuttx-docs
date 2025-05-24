@@ -1,5 +1,7 @@
-# QEMU Generic RV32/RV64
+QEMU Generic RV32/RV64
+======================
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

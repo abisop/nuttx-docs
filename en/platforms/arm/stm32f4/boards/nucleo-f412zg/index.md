@@ -1,10 +1,7 @@
-# ST Nucleo F412ZG
-
-<div class="tags">
+ST Nucleo F412ZG
+================
 
 chip:stm32, chip:stm32f4, chip:stm32f412
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the ST
 Nucleo F412ZG board from ST Micro. See
@@ -13,33 +10,34 @@ Nucleo F412ZG board from ST Micro. See
 
 NucleoF412ZG:
 
-  - Microprocessor: 32-bit ARM Cortex M4 at 100MHz STM32F412ZG
-  - Memory: 1 MB Flash and 256 KB SRAM
-  - ADC: 1x12-bit, 2.4 MSPS A/D converter: up to 16 channels
-  - DMA: 2x8-stream DMA controllers with FIFOs and burst support
-  - Timers: Up to 17 timers: up to 12 16-bit, 2 32-bit timers, two
+-   Microprocessor: 32-bit ARM Cortex M4 at 100MHz STM32F412ZG
+-   Memory: 1 MB Flash and 256 KB SRAM
+-   ADC: 1x12-bit, 2.4 MSPS A/D converter: up to 16 channels
+-   DMA: 2x8-stream DMA controllers with FIFOs and burst support
+-   Timers: Up to 17 timers: up to 12 16-bit, 2 32-bit timers, two
     watchdog timers, and a SysTick timer
-  - GPIO: Up to 114 I/O ports with interrupt capability
-  - I2C: Up to 4 I2C interfaces
-  - USARTs: Up to 4 USARTs
-  - SPIs: Up to 5 SPIs (5 I2S)
-  - SDIO interface (SD/MMC/eMMC)
-  - Advanced connectivity: USB 2.0 full-speed device/host/OTG controller
+-   GPIO: Up to 114 I/O ports with interrupt capability
+-   I2C: Up to 4 I2C interfaces
+-   USARTs: Up to 4 USARTs
+-   SPIs: Up to 5 SPIs (5 I2S)
+-   SDIO interface (SD/MMC/eMMC)
+-   Advanced connectivity: USB 2.0 full-speed device/host/OTG controller
     with PHY
-  - 2x CAN (2.0B Active)
-  - True random number generator
-  - CRC calculation unit
-  - 96-bit unique ID
-  - RTC
+-   2x CAN (2.0B Active)
+-   True random number generator
+-   CRC calculation unit
+-   96-bit unique ID
+-   RTC
 
 See:
 <https://www.st.com/content/ccc/resource/technical/document/user_manual/group0/26/49/90/2e/33/0d/4a/da/DM00244518/files/DM00244518.pdf/jcr:content/translations/en.DM00244518.pdf>
 
-  - Peripherals: 3 led, 2 push button
-  - Debug: Serial wire debug and JTAG interfaces
-  - Expansion I/F Ardino and Morpho Headers
+-   Peripherals: 3 led, 2 push button
+-   Debug: Serial wire debug and JTAG interfaces
+-   Expansion I/F Ardino and Morpho Headers
 
-## Hardware
+Hardware
+--------
 
 ### Buttons
 
@@ -52,8 +50,8 @@ The Nucleo F410RB provide a single user LED, LD2. LD2 is the green LED
 connected to Arduino signal D13 corresponding to MCU I/O PA5 (pin 21) or
 PB13 (pin 34) depending on the STM32target.
 
-  - When the I/O is HIGH value, the LED is on.
-  - When the I/O is LOW, the LED is off.
+-   When the I/O is HIGH value, the LED is on.
+-   When the I/O is LOW, the LED is off.
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
@@ -76,7 +74,8 @@ Thus if LD2, NuttX has successfully booted and is, apparently, running
 normally. If LD2 is flashing at approximately 2Hz, then a fatal error
 has been detected and the system has halted.
 
-## Serial Consoles
+Serial Consoles
+---------------
 
 ### USART1
 
@@ -86,7 +85,7 @@ Pins and Connectors:
          PB7   CN7 pin 21
     TXD: PA10  CN9 pin 3, CN10 pin 33
          PB6   CN5 pin 3, CN10 pin 17
-    
+
     NOTE:  You may need to edit the include/board.h to select different USART1
     pin selections.
 
@@ -119,7 +118,7 @@ Pins and Connectors:
          PD6
     TXD: PA2   CN9 pin 2(See SB13, 14, 62, 63). CN10 pin 35
          PD5
-    
+
     UART2 is the default in all of these configurations.
 
 TTL to RS-232 converter connection:
@@ -131,10 +130,10 @@ TTL to RS-232 converter connection:
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
+-   SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10 as USART signals. Thus SB13 and SB14 should be OFF.
-  - SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     disconnected to PA3 and PA2 on STM32 MCU.
 
 To configure USART2 as the console:
@@ -178,10 +177,10 @@ to use during board bring-up.
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
+-   SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10.
-  - SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     connected to PA3 and PA2 on STM32 MCU to have USART communication
     between them. Thus SB61, SB62 and SB63 should be OFF.
 
@@ -193,7 +192,8 @@ COM port? 115200 8N1?
 Default: As shipped, SB62 and SB63 are open and SB13 and SB14 closed, so
 the virtual COM port is enabled.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -206,7 +206,7 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.

@@ -1,4 +1,5 @@
-# Application OS vs. Internal OS Interfaces
+Application OS vs. Internal OS Interfaces
+=========================================
 
 NuttX provides a standard, portable OS interface for use by
 applications. This standard interface is controlled by the
@@ -16,7 +17,7 @@ unsuitable for use within the OS These properties include:
     general rule, internal OS logic must never modify the `errno` and
     particularly not by the inappropriate use of application OS
     interfaces within OS itself.
-    
+
     Within the OS, functions do not return error information via the
     `errno` variable. Instead, the majority of internal OS function
     return error information as an integer value: Returned values
@@ -28,7 +29,7 @@ unsuitable for use within the OS These properties include:
     *cancellation points*, i.e., when the task is operating in *deferred
     cancellation* state, it cannot be deleted or cancelled until it
     calls an application OS interface that is a cancellation point.
-    
+
     The POSIX specification is very specific about this, specific both
     in identifying which application OS interfaces are cancellation
     points and specific in the fact that it is prohibited for any OS
@@ -45,11 +46,11 @@ unsuitable for use within the OS These properties include:
     executing. So, for example, the `errno` at the time of a call is a
     completely different variable than, say, the `errno` while running
     in a work queue task.
-    
+
     File descriptors are an even better example: An open file on file
     descriptor 5 on task A is *not* the same open file as might be used
     on file descriptor 5 on task B.
-    
+
     As a result, internal OS logic may not use application OS interfaces
     that use file descriptors or any other *per-task* resource.
 
@@ -58,28 +59,28 @@ interfaces that do not break the above rules. These internal interfaces
 are intended for use *only* within the OS and should not be used by
 application logic. Some examples include:
 
-  - `nxsem_wait()`: functionally equivalent to the standard application
+-   `nxsem_wait()`: functionally equivalent to the standard application
     interface `sem_wait()`. However, `nxsem_wait()` will not modify the
     errno value and will not cause a cancellation point. (see
     `include/nuttx/semaphore.h` for other internal OS interfaces for
     semaphores).
-  - `nxsig_waitinfo()`: functionally equivalent to the standard
+-   `nxsig_waitinfo()`: functionally equivalent to the standard
     application interface `sigwaitinfo()`. However, `nxsig_waitinfo()`
     will not modify the errno value and will not cause a cancellation
     point (see `include/nuttx/signal.h` for other internal OS interfaces
     for signals).
-  - `nxmq_send()`: functionally equivalent to the standard application
+-   `nxmq_send()`: functionally equivalent to the standard application
     interface `mq_send()`. However, `nxmq_send()` will not modify the
     errno value and will not cause a cancellation point (see
     `include/nuttx/mqueue.h` for other internal OS interfaces for POSIX
     message queues).
-  - `file_read()`: functionally equivalent to the standard application
+-   `file_read()`: functionally equivalent to the standard application
     interface `read()`. However, `file_read()` will not modify the errno
     value, will not cause a cancellation point, and uses a special
     internal data structure in place of the file descriptor (see
     `include/nuttx/fs/fs.h` for other internal OS interfaces for VFS
     functions).
-  - `psock_recvfrom()`: functionally equivalent to the standard
+-   `psock_recvfrom()`: functionally equivalent to the standard
     application interface `recvfrom()`. However, `psock_recvfrom()` will
     not modify the errno value, will not cause a cancellation point, and
     uses a special internal data structure in place of the socket

@@ -1,11 +1,13 @@
-# Work Queues
+Work Queues
+===========
 
 **Work Queues**. NuttX provides *work queues*. Work queues are threads
 that service a queue of work items to be performed. They are useful for
 off-loading work to a different threading context, for delayed
 processing, or for serializing activities.
 
-## Classes of Work Queues
+Classes of Work Queues
+----------------------
 
 There are three different classes of work queues, each with different
 properties and intended usage. These classes of work queues along with
@@ -17,7 +19,7 @@ paragraphs.
 The dedicated high-priority work queue is intended to handle delayed
 processing from interrupt handlers. This work queue is required for some
 drivers but, if there are no complaints, can be safely disabled. The
-high priority worker thread also performs garbage collection --
+high priority worker thread also performs garbage collection \--
 completing any delayed memory deallocations from interrupt handlers. If
 the high-priority worker thread is disabled, then that clean up will be
 performed either by (1) the low-priority worker thread, if enabled, and
@@ -34,7 +36,7 @@ default priority is 224).
 **Thread Pool**. The work queues can be configured to support multiple,
 low-priority threads. This is essentially a *thread pool* that provides
 multi-threaded servicing of the queue work. This breaks the strict
-serialization of the "queue" (and hence, the work queue is no longer a
+serialization of the \"queue\" (and hence, the work queue is no longer a
 queue at all).
 
 Multiple worker threads are required to support, for example, I/O
@@ -53,12 +55,12 @@ then be adjusted to match the highest priority client.
 
 **Configuration Options**.
 
-  - `CONFIG_SCHED_HPWORK`. Enables the high priority work queue.
-  - `CONFIG_SCHED_HPNTHREADS`. The number of threads in the
-    high-priority queue's thread pool. Default: 1
-  - `CONFIG_SCHED_HPWORKPRIORITY`. The execution priority of the
+-   `CONFIG_SCHED_HPWORK`. Enables the high priority work queue.
+-   `CONFIG_SCHED_HPNTHREADS`. The number of threads in the
+    high-priority queue\'s thread pool. Default: 1
+-   `CONFIG_SCHED_HPWORKPRIORITY`. The execution priority of the
     high-priority worker thread. Default: 224
-  - `CONFIG_SCHED_HPWORKSTACKSIZE`. The stack size allocated for the
+-   `CONFIG_SCHED_HPWORKSTACKSIZE`. The stack size allocated for the
     worker thread in bytes. Default: 2048.
 
 ### Low Priority Kernel Work Queue
@@ -97,15 +99,15 @@ priority thread in your system.
 
 **Configuration Options**.
 
-  - `CONFIG_SCHED_LPWORK`. If CONFIG\_SCHED\_LPWORK is selected then a
+-   `CONFIG_SCHED_LPWORK`. If CONFIG\_SCHED\_LPWORK is selected then a
     lower-priority work queue will be enabled.
-  - `CONFIG_SCHED_LPNTHREADS`. The number of threads in the low-priority
-    queue's thread pool. Default: 1
-  - `CONFIG_SCHED_LPWORKPRIORITY`. The minimum execution priority of the
+-   `CONFIG_SCHED_LPNTHREADS`. The number of threads in the low-priority
+    queue\'s thread pool. Default: 1
+-   `CONFIG_SCHED_LPWORKPRIORITY`. The minimum execution priority of the
     lower priority worker thread. The priority of the all worker threads
     start at this priority. If priority inheritance is in effect, the
     priority may be boosted from this level. Default: 50.
-  - `CONFIG_SCHED_LPWORKPRIOMAX`. The maximum execution priority of the
+-   `CONFIG_SCHED_LPWORKPRIOMAX`. The maximum execution priority of the
     lower priority worker thread. Lower priority worker threads will be
     started at `CONFIG_SCHED_LPWORKPRIORITY` but their priority may be
     boosted due to priority inheritance. The boosted priority of the low
@@ -115,7 +117,7 @@ priority thread in your system.
     the lower priority thread. Clearly, in such a case, you would want
     to limit the maximum priority of the lower priority work thread.
     Default: 176.
-  - `CONFIG_SCHED_LPWORKSTACKSIZE`. The stack size allocated for the
+-   `CONFIG_SCHED_LPWORKSTACKSIZE`. The stack size allocated for the
     lower priority worker thread. Default: 2048.
 
 ### User-Mode Work Queue
@@ -136,14 +138,15 @@ internal, kernel-space facilities.
 
 **Configuration Options**.
 
-  - `CONFIG_LIBC_USRWORK`. If CONFIG\_LIBC\_USRWORK is also defined then
+-   `CONFIG_LIBC_USRWORK`. If CONFIG\_LIBC\_USRWORK is also defined then
     the user-mode work queue will be enabled.
-  - `CONFIG_LIBC_USRWORKPRIORITY`. The execution priority of the
+-   `CONFIG_LIBC_USRWORKPRIORITY`. The execution priority of the
     user-mode priority worker thread. Default: 100
-  - `CONFIG_LIBC_USRWORKSTACKSIZE`. The stack size allocated for the
+-   `CONFIG_LIBC_USRWORKSTACKSIZE`. The stack size allocated for the
     lower priority worker thread. Default: 2048.
 
-## Common Work Queue Interfaces
+Common Work Queue Interfaces
+----------------------------
 
 ### Work Queue IDs
 
@@ -154,26 +157,26 @@ the work queue:
 
 **Kernel-Mode Work Queue IDs:**
 
-  - `HPWORK`. This ID of the high priority work queue that should only
+-   `HPWORK`. This ID of the high priority work queue that should only
     be used for high-priority, time-critical, driver bottom-half
     functions.
-  - `LPWORK`. This is the ID of the low priority work queue that can be
+-   `LPWORK`. This is the ID of the low priority work queue that can be
     used for any purpose. If `CONFIG_SCHED_LPWORK` is not defined, then
     there is only one kernel work queue and `LPWORK` is equal to
     `HPWORK`.
 
 **User-Mode Work Queue IDs:**
 
-  - `USRWORK`. This is the ID of the user-mode work queue that can be
+-   `USRWORK`. This is the ID of the user-mode work queue that can be
     used for any purpose by applications. In a flat build, `USRWORK` is
     equal to `LPWORK` so that user applications will use the lower
     priority work queue (if there is one).
 
 ### Work Queue Interface Types
 
-  - `typedef void (*worker_t)(FAR void *arg);` Defines the type of the
+-   `typedef void (*worker_t)(FAR void *arg);` Defines the type of the
     work callback.
-  - `struct work_s`. Defines one entry in the work queue. This is a
+-   `struct work_s`. Defines one entry in the work queue. This is a
     client-allocated structure. Work queue clients should not reference
     any field in this structure since they are subject to change. The
     user only needs this structure in order to declare instances of the

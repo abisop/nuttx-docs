@@ -1,21 +1,24 @@
-# Vexriscv Core
+Vexriscv Core
+=============
 
-The vexriscv core only supports standard "Flat builds", consisting of a
-single binary.
+The vexriscv core only supports standard \"Flat builds\", consisting of
+a single binary.
 
-## Building
+Building
+--------
 
 Build the minimal NSH application:
 
     # Configure for NSH
      ./tools/configure.sh arty_a7:nsh
-    
+
     # Build Nuttx
      make
 
-## Booting
+Booting
+-------
 
-Create a file, 'boot.json' in the Nuttx root directory, with the
+Create a file, \'boot.json\' in the Nuttx root directory, with the
 following content:
 
     {

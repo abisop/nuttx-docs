@@ -1,4 +1,4 @@
-- [Introduction](//SUMMARY.md)
+- [Introduction](//doc_intro.md)
 - [applications](//applications/index.md)
    - [audioutils](//applications/audioutils/index.md)
       - [fmsynt](//applications/audioutils/fmsynt/index.md)
@@ -294,7 +294,6 @@
       - [dhcpd](//applications/netutils/dhcpd/index.md)
       - [discover](//applications/netutils/discover/index.md)
       - [esp8266](//applications/netutils/esp8266/index.md)
-         - index
       - [ftpc](//applications/netutils/ftpc/index.md)
       - [ftpd](//applications/netutils/ftpd/index.md)
       - [iper](//applications/netutils/iper/index.md)
@@ -556,7 +555,7 @@
          - [pci](//components/drivers/special/pci/index.md)
          - [power](//components/drivers/special/power/index.md)
             - [pm](//components/drivers/special/power/pm/index.md)
-         - sensors
+         - [sensors](//)
             - [adt7320](//components/drivers/special/sensors/adt7320.md)
             - [adxl345](//components/drivers/special/sensors/adxl345.md)
             - [adxl362](//components/drivers/special/sensors/adxl362.md)
@@ -573,7 +572,7 @@
             - [sensors_legacy](//components/drivers/special/sensors/sensors_legacy.md)
             - [sensors_uorb](//components/drivers/special/sensors/sensors_uorb.md)
             - [sht4x](//components/drivers/special/sensors/sht4x.md)
-         - wireless
+         - [wireless](//)
             - [rn2xx3](//components/drivers/special/wireless/rn2xx3.md)
       - [thermal](//components/drivers/thermal/index.md)
    - [filesystem](//components/filesystem/index.md)
@@ -605,9 +604,6 @@
       - [userfs](//components/filesystem/userfs.md)
       - [v9fs](//components/filesystem/v9fs.md)
       - [zipfs](//components/filesystem/zipfs.md)
-      - nuttxfs
-      - nxffs
-      - nxflat
    - [libs](//components/libs/index.md)
       - [libdsp](//components/libs/libdsp.md)
       - [libm](//components/libs/libm.md)
@@ -642,7 +638,7 @@
       - [nxtk](//components/nxgraphics/nxtk.md)
       - [nxwm_threading](//components/nxgraphics/nxwm_threading.md)
       - [sample](//components/nxgraphics/sample.md)
-      - nxwm_threading_model
+      - [nxwm_threading_model](//)
    - [tools](//components/tools/index.md)
 - [contributing](//contributing/index.md)
    - [coding_style](//contributing/coding_style.md)
@@ -667,11 +663,8 @@
    - [tasktraceinternal](//debugging/tasktraceinternal.md)
    - [tasktrace](//debugging/tasktrace.md)
    - [tasktraceuser](//debugging/tasktraceuser.md)
-   - gdb
+   - [gdb]//)
       - [irqinfo](//debugging/gdb/irqinfo.md)
-   - image
-- _extensions
-- [faq](//faq/index.md)
 - [guides](//guides/index.md)
    - [armv7m_runtimestackcheck](//guides/armv7m_runtimestackcheck.md)
    - [automounter](//guides/automounter.md)
@@ -727,8 +720,7 @@
    - [usingkernelthreads](//guides/usingkernelthreads.md)
    - [versioning_and_task_names](//guides/versioning_and_task_names.md)
    - [zerolatencyinterrupts](//guides/zerolatencyinterrupts.md)
-   - image
-   - porting-case-studies
+   - [porting-case-studies](//)
       - [bcm2711-rpi4b](//guides/porting-case-studies/bcm2711-rpi4b.md)
       - [port_arm_cm4](//guides/porting-case-studies/port_arm_cm4.md)
 - [implementation](//implementation/index.md)
@@ -747,41 +739,52 @@
    - [licensing](//introduction/licensing.md)
    - [resources](//introduction/resources.md)
    - [trademarks](//introduction/trademarks.md)
-- [logos](//logos/index.md)
+
 - [platforms](//platforms/index.md)
    - [arm](//platforms/arm/index.md)
       - [a1x](//platforms/arm/a1x/index.md)
-         - boards
+         - [boards](//)
             - [pcduino-a10](//platforms/arm/a1x/boards/pcduino-a10/index.md)
+               - [README](//platforms/arm/a1x/boards/pcduino-a10/README.md)
       - [am335x](//platforms/arm/am335x/index.md)
-         - boards
+         - [boards](//)
             - [beaglebone-black](//platforms/arm/am335x/boards/beaglebone-black/index.md)
+               - [README](//platforms/arm/am335x/boards/beaglebone-black/README.md)
       - [at32](//platforms/arm/at32/index.md)
-         - boards
+         - [boards](//)
             - [at32f437-mini](//platforms/arm/at32/boards/at32f437-mini/index.md)
+               - [README](//platforms/arm/at32/boards/at32f437-mini/README.md)
       - [bcm2708](//platforms/arm/bcm2708/index.md)
       - [c5471](//platforms/arm/c5471/index.md)
-         - boards
+         - [boards](//)
             - [c5471evm](//platforms/arm/c5471/boards/c5471evm/index.md)
+               - [README](//platforms/arm/c5471/boards/c5471evm/README.md)
       - [cxd56xx](//platforms/arm/cxd56xx/index.md)
-         - boards
+         - [boards](//)
             - [spresense](//platforms/arm/cxd56xx/boards/spresense/index.md)
+               - [README](//platforms/arm/cxd56xx/boards/spresense/README.md)
       - [dm320](//platforms/arm/dm320/index.md)
-         - boards
+         - [boards](//)
             - [ntosd-dm320](//platforms/arm/dm320/boards/ntosd-dm320/index.md)
+               - [README](//platforms/arm/dm320/boards/ntosd-dm320/README.md)
       - [efm32](//platforms/arm/efm32/index.md)
-         - boards
+         - [boards](//)
             - [efm32-g8xx-stk](//platforms/arm/efm32/boards/efm32-g8xx-stk/index.md)
+               - [README](//platforms/arm/efm32/boards/efm32-g8xx-stk/README.md)
             - [efm32gg-stk3700](//platforms/arm/efm32/boards/efm32gg-stk3700/index.md)
+               - [README](//platforms/arm/efm32/boards/efm32gg-stk3700/README.md)
             - [olimex-efm32g880f128-stk](//platforms/arm/efm32/boards/olimex-efm32g880f128-stk/index.md)
+               - [README](//platforms/arm/efm32/boards/olimex-efm32g880f128-stk/README.md)
       - [eoss3](//platforms/arm/eoss3/index.md)
-         - boards
+         - [boards](//)
             - [quickfeather](//platforms/arm/eoss3/boards/quickfeather/index.md)
+               - [README](//platforms/arm/eoss3/boards/quickfeather/README.md)
       - [fvp-v8r-aarch32](//platforms/arm/fvp-v8r-aarch32/index.md)
-         - boards
+         - [boards](//)
             - [fvp-armv8r-aarch32](//platforms/arm/fvp-v8r-aarch32/boards/fvp-armv8r-aarch32/index.md)
+               - [README](//platforms/arm/fvp-v8r-aarch32/boards/fvp-armv8r-aarch32/README.md)
       - [gd32f4](//platforms/arm/gd32f4/index.md)
-         - boards
+         - [boards](//)
             - [gd32f450zk-aiotbox](//platforms/arm/gd32f4/boards/gd32f450zk-aiotbox/index.md)
             - [gd32f450zk-eval](//platforms/arm/gd32f4/boards/gd32f450zk-eval/index.md)
             - [gd32f470ik-eval](//platforms/arm/gd32f4/boards/gd32f470ik-eval/index.md)
@@ -791,13 +794,14 @@
          - [goldfish_timer](//platforms/arm/goldfish/goldfish_timer.md)
       - [imx1](//platforms/arm/imx1/index.md)
       - [imx6](//platforms/arm/imx6/index.md)
-         - boards
+         - [boards](//)
             - [sabre-6quad](//platforms/arm/imx6/boards/sabre-6quad/index.md)
+               - [README](//platforms/arm/imx6/boards/sabre-6quad/README.md)
       - [imx9](//platforms/arm/imx9/index.md)
-         - boards
+         - [boards](//)
             - [imx95-evk](//platforms/arm/imx9/boards/imx95-evk/index.md)
       - [imxrt](//platforms/arm/imxrt/index.md)
-         - boards
+         - [boards](//)
             - [imxrt1020-evk](//platforms/arm/imxrt/boards/imxrt1020-evk/index.md)
             - [imxrt1050-evk](//platforms/arm/imxrt/boards/imxrt1050-evk/index.md)
             - [imxrt1060-evk](//platforms/arm/imxrt/boards/imxrt1060-evk/index.md)
@@ -805,77 +809,107 @@
             - [imxrt1170-evk](//platforms/arm/imxrt/boards/imxrt1170-evk/index.md)
             - [teensy-4.x](//platforms/arm/imxrt/boards/teensy-4.x/index.md)
       - [kinetis](//platforms/arm/kinetis/index.md)
-         - boards
+         - [boards](//)
             - [freedom-k28f](//platforms/arm/kinetis/boards/freedom-k28f/index.md)
+               - [README](//platforms/arm/kinetis/boards/freedom-k28f/README.md)
             - [freedom-k64f](//platforms/arm/kinetis/boards/freedom-k64f/index.md)
+               - [README](//platforms/arm/kinetis/boards/freedom-k64f/README.md)
             - [freedom-k66f](//platforms/arm/kinetis/boards/freedom-k66f/index.md)
+               - [README](//platforms/arm/kinetis/boards/freedom-k66f/README.md)
             - [kwikstik-k40](//platforms/arm/kinetis/boards/kwikstik-k40/index.md)
+               - [README](//platforms/arm/kinetis/boards/kwikstik-k40/README.md)
             - [teensy-3.x](//platforms/arm/kinetis/boards/teensy-3.x/index.md)
+               - [README](//platforms/arm/kinetis/boards/teensy-3.x/README.md)
             - [twr-k60n512](//platforms/arm/kinetis/boards/twr-k60n512/index.md)
+               - [README](//platforms/arm/kinetis/boards/twr-k60n512/README.md)
             - [twr-k64f120m](//platforms/arm/kinetis/boards/twr-k64f120m/index.md)
+               - [README](//platforms/arm/kinetis/boards/twr-k64f120m/README.md)
       - [kl](//platforms/arm/kl/index.md)
-         - boards
+         - [boards](//)
             - [freedom-kl25z](//platforms/arm/kl/boards/freedom-kl25z/index.md)
+               - [README](//platforms/arm/kl/boards/freedom-kl25z/README.md)
             - [freedom-kl26z](//platforms/arm/kl/boards/freedom-kl26z/index.md)
+               - [README](//platforms/arm/kl/boards/freedom-kl26z/README.md)
             - [teensy-lc](//platforms/arm/kl/boards/teensy-lc/index.md)
+               - [README](//platforms/arm/kl/boards/teensy-lc/README.md)
       - [lc823450](//platforms/arm/lc823450/index.md)
-         - boards
+         - [boards](//)
             - [lc823450-xgevk](//platforms/arm/lc823450/boards/lc823450-xgevk/index.md)
+               - [README](//platforms/arm/lc823450/boards/lc823450-xgevk/README.md)
       - [lpc17xx](//platforms/arm/lpc17xx/index.md)
-         - boards
+         - [boards](//)
             - [lincoln60](//platforms/arm/lpc17xx/boards/lincoln60/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/lincoln60/README.md)
             - [lpcxpresso-lpc1768](//platforms/arm/lpc17xx/boards/lpcxpresso-lpc1768/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/lpcxpresso-lpc1768/README.md)
             - [mbed](//platforms/arm/lpc17xx/boards/mbed/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/mbed/README.md)
             - [mcb1700](//platforms/arm/lpc17xx/boards/mcb1700/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/mcb1700/README.md)
             - [olimex-lpc1766stk](//platforms/arm/lpc17xx/boards/olimex-lpc1766stk/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/olimex-lpc1766stk/README.md)
             - [open1788](//platforms/arm/lpc17xx/boards/open1788/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/open1788/README.md)
             - [pnev5180b](//platforms/arm/lpc17xx/boards/pnev5180b/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/pnev5180b/README.md)
             - [u-blox-c027](//platforms/arm/lpc17xx/boards/u-blox-c027/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/u-blox-c027/README.md)
             - [zkit-arm-1769](//platforms/arm/lpc17xx/boards/zkit-arm-1769/index.md)
+               - [README](//platforms/arm/lpc17xx/boards/zkit-arm-1769/README.md)
       - [lpc214x](//platforms/arm/lpc214x/index.md)
-         - boards
+         - [boards](//)
             - [mcu123-lpc214x](//platforms/arm/lpc214x/boards/mcu123-lpc214x/index.md)
+               - [README](//platforms/arm/lpc214x/boards/mcu123-lpc214x/README.md)
             - [zp214xpa](//platforms/arm/lpc214x/boards/zp214xpa/index.md)
+               - [README](//platforms/arm/lpc214x/boards/zp214xpa/README.md)
       - [lpc2378](//platforms/arm/lpc2378/index.md)
-         - boards
+         - [boards](//)
             - [olimex-lpc2378](//platforms/arm/lpc2378/boards/olimex-lpc2378/index.md)
+               - [README](//platforms/arm/lpc2378/boards/olimex-lpc2378/README.md)
       - [lpc31xx](//platforms/arm/lpc31xx/index.md)
-         - boards
+         - [boards](//)
             - [ea3131](//platforms/arm/lpc31xx/boards/ea3131/index.md)
+               - [README](//platforms/arm/lpc31xx/boards/ea3131/README.md)
             - [ea3152](//platforms/arm/lpc31xx/boards/ea3152/index.md)
+               - [README](//platforms/arm/lpc31xx/boards/ea3152/README.md)
             - [olimex-lpc-h3131](//platforms/arm/lpc31xx/boards/olimex-lpc-h3131/index.md)
+               - [README](//platforms/arm/lpc31xx/boards/olimex-lpc-h3131/README.md)
       - [lpc40xx](//platforms/arm/lpc40xx/index.md)
-         - boards
-            - lpc4088-devkit
-            - lpc4088-quickstart
+         - [boards](//)
+            - [lpc4088-devkit](//platforms/arm/lpc40xx/boards/lpc4088-devkit/README.md)
+            - [lpc4088-quickstart](//platforms/arm/lpc40xx/boards/lpc4088-quickstart/README.md)
             - [lx_cpu](//platforms/arm/lpc40xx/boards/lx_cpu/index.md)
+               - [README](//platforms/arm/lpc40xx/boards/lx_cpu/README.md)
       - [lpc43xx](//platforms/arm/lpc43xx/index.md)
-         - boards
-            - bambino-200e
-            - lpc4330-xplorer
-            - lpc4337-ws
-            - lpc4357-evb
+         - [boards](//)
+            - [bambino-200e](//platforms/arm/lpc43xx/boards/bambino-200e/README.md)
+            - [lpc4330-xplorer](//platforms/arm/lpc43xx/boards/lpc4330-xplorer/README.md)
+            - [lpc4337-ws](//platforms/arm/lpc43xx/boards/lpc4337-ws/README.md)
+            - [lpc4357-evb](//platforms/arm/lpc43xx/boards/lpc4357-evb/README.md)
             - [lpc4370-link2](//platforms/arm/lpc43xx/boards/lpc4370-link2/index.md)
+            - [README](//platforms/arm/lpc43xx/boards/lpc4370-link2/README.md)
       - [lpc54xx](//platforms/arm/lpc54xx/index.md)
-         - boards
+         - [boards](//)
             - [lpcxpresso-lpc54628](//platforms/arm/lpc54xx/boards/lpcxpresso-lpc54628/index.md)
+               - [README](//platforms/arm/lpc54xx/boards/lpcxpresso-lpc54628/README.md)
       - [max326xx](//platforms/arm/max326xx/index.md)
-         - boards
+         - [boards](//)
             - [max32660-evsys](//platforms/arm/max326xx/boards/max32660-evsys/index.md)
+               - [README](//platforms/arm/max326xx/boards/max32660-evsys/README.md)
       - [moxart](//platforms/arm/moxart/index.md)
-         - boards
+         - [boards](//)
             - [moxa](//platforms/arm/moxart/boards/moxa/index.md)
       - [mps](//platforms/arm/mps/index.md)
-         - boards
+         - [boards](//)
             - [mps2-an500](//platforms/arm/mps/boards/mps2-an500/index.md)
             - [mps2-an512](//platforms/arm/mps/boards/mps2-an512/index.md)
             - [mps3-an547](//platforms/arm/mps/boards/mps3-an547/index.md)
-      - mx8mp
-         - boards
-            - verdin-mx8mp
+      - [mx8mp](//)
+         - [boards](//)
+            - [verdin-mx8mp](//platforms/arm/mx8mp/boards/verdin-mx8mp/README.md)
       - [nrf52](//platforms/arm/nrf52/index.md)
          - [ieee802154](//platforms/arm/nrf52/ieee802154.md)
-         - boards
+         - [boards](//)
             - [arduino-nano-33ble](//platforms/arm/nrf52/boards/arduino-nano-33ble/index.md)
             - [arduino-nano-33ble-rev2](//platforms/arm/nrf52/boards/arduino-nano-33ble-rev2/index.md)
             - [nrf52832-dk](//platforms/arm/nrf52/boards/nrf52832-dk/index.md)
@@ -883,36 +917,36 @@
             - [nrf52832-sparkfun](//platforms/arm/nrf52/boards/nrf52832-sparkfun/index.md)
             - [nrf52840-dk](//platforms/arm/nrf52/boards/nrf52840-dk/index.md)
             - [nrf52840-dongle](//platforms/arm/nrf52/boards/nrf52840-dongle/index.md)
-            - nrf52-feather
-               - [intex](//platforms/arm/nrf52/boards/nrf52-feather/intex.md)
+            - [nrf52-feather](//platforms/arm/nrf52/boards/nrf52-feather/intex.md)
             - [nrf9160-dk-nrf52](//platforms/arm/nrf52/boards/nrf9160-dk-nrf52/index.md)
             - [thingy52](//platforms/arm/nrf52/boards/thingy52/index.md)
             - [thingy91-nrf52](//platforms/arm/nrf52/boards/thingy91-nrf52/index.md)
             - [xiao-nrf52840](//platforms/arm/nrf52/boards/xiao-nrf52840/index.md)
       - [nrf53](//platforms/arm/nrf53/index.md)
-         - boards
+         - [boards](//)
             - [nrf5340-audio-dk](//platforms/arm/nrf53/boards/nrf5340-audio-dk/index.md)
             - [nrf5340-dk](//platforms/arm/nrf53/boards/nrf5340-dk/index.md)
             - [thingy53](//platforms/arm/nrf53/boards/thingy53/index.md)
       - [nrf91](//platforms/arm/nrf91/index.md)
-         - boards
+         - [boards](//)
             - [nrf9160-dk](//platforms/arm/nrf91/boards/nrf9160-dk/index.md)
             - [thingy91](//platforms/arm/nrf91/boards/thingy91/index.md)
       - [nuc1xx](//platforms/arm/nuc1xx/index.md)
-         - boards
+         - [boards](//)
             - [nutiny-nuc120](//platforms/arm/nuc1xx/boards/nutiny-nuc120/index.md)
+               - [README](//platforms/arm/nuc1xx/boards/nutiny-nuc120/README.md)
       - [phy62xx](//platforms/arm/phy62xx/index.md)
-         - boards
+         - [boards](//)
             - [phy6222](//platforms/arm/phy62xx/boards/phy6222/index.md)
       - [qemu](//platforms/arm/qemu/index.md)
-         - boards
+         - [boards](//)
             - [qemu-armv7a](//platforms/arm/qemu/boards/qemu-armv7a/index.md)
       - [ra4m1](//platforms/arm/ra4m1/index.md)
-         - boards
+         - [boards](//)
             - [arduino-r4-minima](//platforms/arm/ra4m1/boards/arduino-r4-minima/index.md)
             - [xiao-ra4m1](//platforms/arm/ra4m1/boards/xiao-ra4m1/index.md)
       - [rp2040](//platforms/arm/rp2040/index.md)
-         - boards
+         - [boards](//)
             - [adafruit-feather-rp2040](//platforms/arm/rp2040/boards/adafruit-feather-rp2040/index.md)
             - [adafruit-kb2040](//platforms/arm/rp2040/boards/adafruit-kb2040/index.md)
             - [adafruit-qt-py-rp2040](//platforms/arm/rp2040/boards/adafruit-qt-py-rp2040/index.md)
@@ -924,11 +958,12 @@
             - [waveshare-rp2040-lcd-1.28](//platforms/arm/rp2040/boards/waveshare-rp2040-lcd-1.28/index.md)
             - [waveshare-rp2040-zero](//platforms/arm/rp2040/boards/waveshare-rp2040-zero/index.md)
       - [rp23xx](//platforms/arm/rp23xx/index.md)
-         - boards
+         - [boards](//)
             - [raspberrypi-pico-2](//platforms/arm/rp23xx/boards/raspberrypi-pico-2/index.md)
+               - [README](//platforms/arm/rp23xx/boards/raspberrypi-pico-2/README.md)
             - [xiao-rp2350](//platforms/arm/rp23xx/boards/xiao-rp2350/index.md)
       - [s32k1xx](//platforms/arm/s32k1xx/index.md)
-         - boards
+         - [boards](//)
             - [rddrone-bms772](//platforms/arm/s32k1xx/boards/rddrone-bms772/index.md)
             - [s32k118evb](//platforms/arm/s32k1xx/boards/s32k118evb/index.md)
             - [s32k144evb](//platforms/arm/s32k1xx/boards/s32k144evb/index.md)
@@ -936,57 +971,63 @@
             - [s32k148evb](//platforms/arm/s32k1xx/boards/s32k148evb/index.md)
             - [ucans32k146](//platforms/arm/s32k1xx/boards/ucans32k146/index.md)
       - [s32k3xx](//platforms/arm/s32k3xx/index.md)
-         - boards
+         - [boards](//)
             - [mr-canhubk3](//platforms/arm/s32k3xx/boards/mr-canhubk3/index.md)
             - [s32k344evb](//platforms/arm/s32k3xx/boards/s32k344evb/index.md)
       - [sam34](//platforms/arm/sam34/index.md)
-         - boards
-            - [arduino-due](//platforms/arm/sam34/boards/arduino-due/index.md)
-            - [flipnclick-sam3x](//platforms/arm/sam34/boards/flipnclick-sam3x/index.md)
-            - [sam3u-ek](//platforms/arm/sam34/boards/sam3u-ek/index.md)
-            - [sam4cmp-db](//platforms/arm/sam34/boards/sam4cmp-db/index.md)
-            - [sam4e-ek](//platforms/arm/sam34/boards/sam4e-ek/index.md)
-            - [sam4l-xplained](//platforms/arm/sam34/boards/sam4l-xplained/index.md)
-            - [sam4s-xplained](//platforms/arm/sam34/boards/sam4s-xplained/index.md)
-            - [sam4s-xplained-pro](//platforms/arm/sam34/boards/sam4s-xplained-pro/index.md)
+         - [boards](//)
+            - [arduino-due](//platforms/arm/sam34/boards/arduino-due/README.md)
+            - [flipnclick-sam3x](//platforms/arm/sam34/boards/flipnclick-sam3x/README.md)
+            - [sam3u-ek](//platforms/arm/sam34/boards/sam3u-ek/README.md)
+            - [sam4cmp-db](//platforms/arm/sam34/boards/sam4cmp-db/README.md)
+            - [sam4e-ek](//platforms/arm/sam34/boards/sam4e-ek/README.md)
+            - [sam4l-xplained](//platforms/arm/sam34/boards/sam4l-xplained/README.md)
+            - [sam4s-xplained](//platforms/arm/sam34/boards/sam4s-xplained/README.md)
+            - [sam4s-xplained-pro](//platforms/arm/sam34/boards/sam4s-xplained-pro/README.md)
       - [sama5](//platforms/arm/sama5/index.md)
-         - boards
+         - [boards](//)
             - [giant-board](//platforms/arm/sama5/boards/giant-board/index.md)
             - [jupiter-nano](//platforms/arm/sama5/boards/jupiter-nano/index.md)
             - [sam5d3-xplained](//platforms/arm/sama5/boards/sam5d3-xplained/index.md)
             - [sama5d2-xult](//platforms/arm/sama5/boards/sama5d2-xult/index.md)
+               - [README](//platforms/arm/sama5/boards/sama5d2-xult/README.md)
             - [sama5d3x-ek](//platforms/arm/sama5/boards/sama5d3x-ek/index.md)
+               - [README](//platforms/arm/sama5/boards/sama5d3x-ek/README.md)
+               - [Using-NxPlayer](//platforms/arm/sama5/boards/sama5d3x-ek/Using-NxPlayer.md)
             - [sama5d3-xplained](//platforms/arm/sama5/boards/sama5d3-xplained/index.md)
+               - [README](//platforms/arm/sama5/boards/sama5d3-xplained/README.md)
             - [sama5d4-ek](//platforms/arm/sama5/boards/sama5d4-ek/index.md)
+               - [README](//platforms/arm/sama5/boards/sama5d4-ek/README.md)
+               - [RunningNxWM](//platforms/arm/sama5/boards/sama5d4-ek/RunningNxWM.md)
       - [samd2l2](//platforms/arm/samd2l2/index.md)
-         - boards
-            - [arduino-m0](//platforms/arm/samd2l2/boards/arduino-m0/index.md)
-            - [circuit-express](//platforms/arm/samd2l2/boards/circuit-express/index.md)
-            - [samd20-xplained](//platforms/arm/samd2l2/boards/samd20-xplained/index.md)
-            - [samd21-xplained](//platforms/arm/samd2l2/boards/samd21-xplained/index.md)
-            - [saml21-xplained](//platforms/arm/samd2l2/boards/saml21-xplained/index.md)
-            - [xiao-seeeduino](//platforms/arm/samd2l2/boards/xiao-seeeduino/index.md)
+         - [boards](//)
+            - [arduino-m0](//platforms/arm/samd2l2/boards/arduino-m0/README.md)
+            - [circuit-express](//platforms/arm/samd2l2/boards/circuit-express/README.md)
+            - [samd20-xplained](//platforms/arm/samd2l2/boards/samd20-xplained/README.md)
+            - [samd21-xplained](//platforms/arm/samd2l2/boards/samd21-xplained/README.md)
+            - [saml21-xplained](//platforms/arm/samd2l2/boards/saml21-xplained/README.md)
+            - [xiao-seeeduino](//platforms/arm/samd2l2/boards/xiao-seeeduino/README.md)
       - [samd5e5](//platforms/arm/samd5e5/index.md)
-         - boards
-            - [metro-m4](//platforms/arm/samd5e5/boards/metro-m4/index.md)
-            - [same54-xplained-pro](//platforms/arm/samd5e5/boards/same54-xplained-pro/index.md)
+         - [boards](//)
+            - [metro-m4](//platforms/arm/samd5e5/boards/metro-m4/README.md)
+            - [same54-xplained-pro](//platforms/arm/samd5e5/boards/same54-xplained-pro/README.md)
       - [samv7](//platforms/arm/samv7/index.md)
-         - boards
-            - [same70-qmtech](//platforms/arm/samv7/boards/same70-qmtech/index.md)
-            - [same70-xplained](//platforms/arm/samv7/boards/same70-xplained/index.md)
-            - [samv71-xult](//platforms/arm/samv7/boards/samv71-xult/index.md)
+         - [boards](//)
+            - [same70-qmtech](//platforms/arm/samv7/boards/same70-qmtech/README.md)
+            - [same70-xplained](//platforms/arm/samv7/boards/same70-xplained/README.md)
+            - [samv71-xult](//platforms/arm/samv7/boards/samv71-xult/README.md)
       - [stm32c0](//platforms/arm/stm32c0/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-c071rb](//platforms/arm/stm32c0/boards/nucleo-c071rb/index.md)
             - [nucleo-c092rc](//platforms/arm/stm32c0/boards/nucleo-c092rc/index.md)
       - [stm32f0](//platforms/arm/stm32f0/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-f072rb](//platforms/arm/stm32f0/boards/nucleo-f072rb/index.md)
             - [nucleo-f091rc](//platforms/arm/stm32f0/boards/nucleo-f091rc/index.md)
             - [stm32f051-discovery](//platforms/arm/stm32f0/boards/stm32f051-discovery/index.md)
             - [stm32f072-discovery](//platforms/arm/stm32f0/boards/stm32f072-discovery/index.md)
       - [stm32f1](//platforms/arm/stm32f1/index.md)
-         - boards
+         - [boards](//)
             - [cloudctrl](//platforms/arm/stm32f1/boards/cloudctrl/index.md)
             - [et-stm32-stamp](//platforms/arm/stm32f1/boards/et-stm32-stamp/index.md)
             - [fire-stm32v2](//platforms/arm/stm32f1/boards/fire-stm32v2/index.md)
@@ -1002,14 +1043,14 @@
             - [stm32vldiscovery](//platforms/arm/stm32f1/boards/stm32vldiscovery/index.md)
             - [viewtool-stm32f107](//platforms/arm/stm32f1/boards/viewtool-stm32f107/index.md)
       - [stm32f2](//platforms/arm/stm32f2/index.md)
-         - boards
+         - [boards](//)
             - [emw3162](//platforms/arm/stm32f2/boards/emw3162/index.md)
             - [nucleo-f207zg](//platforms/arm/stm32f2/boards/nucleo-f207zg/index.md)
             - [olimex-stm32-p207](//platforms/arm/stm32f2/boards/olimex-stm32-p207/index.md)
             - [photon](//platforms/arm/stm32f2/boards/photon/index.md)
             - [stm3220g-eval](//platforms/arm/stm32f2/boards/stm3220g-eval/index.md)
       - [stm32f3](//platforms/arm/stm32f3/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-f302r8](//platforms/arm/stm32f3/boards/nucleo-f302r8/index.md)
             - [nucleo-f303re](//platforms/arm/stm32f3/boards/nucleo-f303re/index.md)
             - [nucleo-f303ze](//platforms/arm/stm32f3/boards/nucleo-f303ze/index.md)
@@ -1017,7 +1058,7 @@
             - [stm32f334-disco](//platforms/arm/stm32f3/boards/stm32f334-disco/index.md)
             - [stm32f3discovery](//platforms/arm/stm32f3/boards/stm32f3discovery/index.md)
       - [stm32f4](//platforms/arm/stm32f4/index.md)
-         - boards
+         - [boards](//)
             - [axoloti](//platforms/arm/stm32f4/boards/axoloti/index.md)
             - [clicker2-stm32](//platforms/arm/stm32f4/boards/clicker2-stm32/index.md)
             - [mikroe-stm32f4](//platforms/arm/stm32f4/boards/mikroe-stm32f4/index.md)
@@ -1040,7 +1081,7 @@
             - [stm32f429i-disco](//platforms/arm/stm32f4/boards/stm32f429i-disco/index.md)
             - [stm32f4discovery](//platforms/arm/stm32f4/boards/stm32f4discovery/index.md)
       - [stm32f7](//platforms/arm/stm32f7/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-f722ze](//platforms/arm/stm32f7/boards/nucleo-f722ze/index.md)
             - [nucleo-f746zg](//platforms/arm/stm32f7/boards/nucleo-f746zg/index.md)
             - [nucleo-f767zi](//platforms/arm/stm32f7/boards/nucleo-f767zi/index.md)
@@ -1050,23 +1091,23 @@
             - [stm32f769i-disco](//platforms/arm/stm32f7/boards/stm32f769i-disco/index.md)
             - [stm32f777zit6-meadow](//platforms/arm/stm32f7/boards/stm32f777zit6-meadow/index.md)
       - [stm32g0](//platforms/arm/stm32g0/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-g070rb](//platforms/arm/stm32g0/boards/nucleo-g070rb/index.md)
             - [nucleo-g071rb](//platforms/arm/stm32g0/boards/nucleo-g071rb/index.md)
             - [nucleo-g0b1re](//platforms/arm/stm32g0/boards/nucleo-g0b1re/index.md)
             - [stm32g071b-disco](//platforms/arm/stm32g0/boards/stm32g071b-disco/index.md)
       - [stm32g4](//platforms/arm/stm32g4/index.md)
-         - boards
+         - [boards](//)
             - [b-g431b-esc1](//platforms/arm/stm32g4/boards/b-g431b-esc1/index.md)
             - [b-g474e-dpow1](//platforms/arm/stm32g4/boards/b-g474e-dpow1/index.md)
             - [nucleo-g431kb](//platforms/arm/stm32g4/boards/nucleo-g431kb/index.md)
             - [nucleo-g431rb](//platforms/arm/stm32g4/boards/nucleo-g431rb/index.md)
             - [nucleo-g474re](//platforms/arm/stm32g4/boards/nucleo-g474re/index.md)
       - [stm32h5](//platforms/arm/stm32h5/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-h563zi](//platforms/arm/stm32h5/boards/nucleo-h563zi/index.md)
       - [stm32h7](//platforms/arm/stm32h7/index.md)
-         - boards
+         - [boards](//)
             - [linum-stm32h753bi](//platforms/arm/stm32h7/boards/linum-stm32h753bi/index.md)
             - [nucleo-h743zi](//platforms/arm/stm32h7/boards/nucleo-h743zi/index.md)
             - [nucleo-h743zi2](//platforms/arm/stm32h7/boards/nucleo-h743zi2/index.md)
@@ -1076,16 +1117,16 @@
             - [stm32h747i-disco](//platforms/arm/stm32h7/boards/stm32h747i-disco/index.md)
             - [weact-stm32h743](//platforms/arm/stm32h7/boards/weact-stm32h743/index.md)
       - [stm32l0](//platforms/arm/stm32l0/index.md)
-         - boards
+         - [boards](//)
             - [b-l072z-lrwan1](//platforms/arm/stm32l0/boards/b-l072z-lrwan1/index.md)
             - [nucleo-l073rz](//platforms/arm/stm32l0/boards/nucleo-l073rz/index.md)
             - [stm32l0538-disco](//platforms/arm/stm32l0/boards/stm32l0538-disco/index.md)
       - [stm32l1](//platforms/arm/stm32l1/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-l152re](//platforms/arm/stm32l1/boards/nucleo-l152re/index.md)
             - [stm32ldiscovery](//platforms/arm/stm32l1/boards/stm32ldiscovery/index.md)
       - [stm32l4](//platforms/arm/stm32l4/index.md)
-         - boards
+         - [boards](//)
             - [b-l475e-iot01a](//platforms/arm/stm32l4/boards/b-l475e-iot01a/index.md)
             - [nucleo-l432kc](//platforms/arm/stm32l4/boards/nucleo-l432kc/index.md)
             - [nucleo-l452re](//platforms/arm/stm32l4/boards/nucleo-l452re/index.md)
@@ -1096,237 +1137,276 @@
             - [stm32l476vg-disco](//platforms/arm/stm32l4/boards/stm32l476vg-disco/index.md)
             - [stm32l4r9ai-disco](//platforms/arm/stm32l4/boards/stm32l4r9ai-disco/index.md)
       - [stm32l5](//platforms/arm/stm32l5/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-l552ze](//platforms/arm/stm32l5/boards/nucleo-l552ze/index.md)
             - [stm32l562e-dk](//platforms/arm/stm32l5/boards/stm32l562e-dk/index.md)
       - [stm32u5](//platforms/arm/stm32u5/index.md)
-         - boards
+         - [boards](//)
             - [b-u585i-iot02a](//platforms/arm/stm32u5/boards/b-u585i-iot02a/index.md)
             - [nucleo-u5a5zj-q](//platforms/arm/stm32u5/boards/nucleo-u5a5zj-q/index.md)
       - [stm32wb](//platforms/arm/stm32wb/index.md)
-         - boards
+         - [boards](//)
             - [flipperzero](//platforms/arm/stm32wb/boards/flipperzero/index.md)
             - [nucleo-wb55rg](//platforms/arm/stm32wb/boards/nucleo-wb55rg/index.md)
       - [stm32wl5](//platforms/arm/stm32wl5/index.md)
-         - boards
+         - [boards](//)
             - [nucleo-wl55jc](//platforms/arm/stm32wl5/boards/nucleo-wl55jc/index.md)
       - [str71x](//platforms/arm/str71x/index.md)
-         - boards
-            - olimex-strp711
+         - [boards](//)
+            - [olimex-strp711](//platforms/arm/str71x/boards/olimex-strp711/README.md)
       - [tiva](//platforms/arm/tiva/index.md)
-         - boards
-            - dk-tm4c129x
-            - eagle100
-            - ekk-lm3s9b96
-            - launchxl-cc1310
-            - launchxl-cc1312r1
-            - lm3s6432-s2e
-            - lm3s6965-ek
-            - lm3s8962-ek
-            - lm4f120-launchpad
-            - tm4c123g-launchpad
-            - tm4c1294-launchpad
-            - tm4c129e-launchpad
+         - [boards](//)
+            - [dk-tm4c129x](//platforms/arm/tiva/boards/dk-tm4c129x/README.md)
+            - [eagle100](//platforms/arm/tiva/boards/eagle100/README.md)
+            - [ekk-lm3s9b96](//platforms/arm/tiva/boards/ekk-lm3s9b96/README.md)
+            - [launchxl-cc1310](//platforms/arm/tiva/boards/launchxl-cc1310/README.md)
+            - [launchxl-cc1312r1](//platforms/arm/tiva/boards/launchxl-cc1312r1/README.md) 
+            - [lm3s6432-s2e](//platforms/arm/tiva/boards/lm3s6432-s2e/README.md) 
+            - [lm3s6965-ek](//platforms/arm/tiva/boards/lm3s6965-ek/README.md)
+            - [lm3s8962-ek](//platforms/arm/tiva/boards/lm3s8962-ek/README.md)
+            - [lm4f120-launchpad](//platforms/arm/tiva/boards/lm4f120-launchpad/README.md) 
+            - [tm4c123g-launchpad](//platforms/arm/tiva/boards/tm4c123g-launchpad/README.md)
+            - [tm4c1294-launchpad](//platforms/arm/tiva/boards/tm4c1294-launchpad/README.md)
+            - [tm4c129e-launchpad](//platforms/arm/tiva/boards/tm4c129e-launchpad/README.md)
       - [tms570](//platforms/arm/tms570/index.md)
-         - boards
-            - launchxl-tms57004
-            - tms570ls31x-usb-kit
+         - [boards](//)
+            - [launchxl-tms57004](//platforms/arm/tms570/boards/launchxl-tms57004/README.md) 
+            - [tms570ls31x-usb-kit](//platforms/arm/tms570/boards/tms570ls31x-usb-kit/README.md)
       - [xmc4](//platforms/arm/xmc4/index.md)
-         - boards
+         - [boards](//)
             - [xmc4500-relax](//platforms/arm/xmc4/boards/xmc4500-relax/index.md)
             - [xmc4700-relax](//platforms/arm/xmc4/boards/xmc4700-relax/index.md)
    - [arm64](//platforms/arm64/index.md)
       - [a527](//platforms/arm64/a527/index.md)
-         - boards
+         - [boards](//)
             - [avaota-a1](//platforms/arm64/a527/boards/avaota-a1/index.md)
       - [a64](//platforms/arm64/a64/index.md)
-         - boards
+         - [boards](//)
             - [pinephone](//platforms/arm64/a64/boards/pinephone/index.md)
       - [bcm2711](//platforms/arm64/bcm2711/index.md)
-         - boards
+         - [boards](//)
             - [raspberrypi-4b](//platforms/arm64/bcm2711/boards/raspberrypi-4b/index.md)
       - [fvp-v8r](//platforms/arm64/fvp-v8r/index.md)
-         - boards
+         - [boards](//)
             - [fvp-armv8r](//platforms/arm64/fvp-v8r/boards/fvp-armv8r/index.md)
+               - [README](//platforms/arm64/fvp-v8r/boards/fvp-armv8r/README.md)
       - [imx8](//platforms/arm64/imx8/index.md)
-         - boards
+         - [boards](//)
             - [imx8qm-mek](//platforms/arm64/imx8/boards/imx8qm-mek/index.md)
+               - [README](//platforms/arm64/imx8/boards/imx8qm-mek/README.md)
       - [imx9](//platforms/arm64/imx9/index.md)
-         - boards
+         - [boards](//)
             - [imx93-evk](//platforms/arm64/imx9/boards/imx93-evk/index.md)
+               - [README](//platforms/arm64/imx9/boards/imx93-evk/README.md)
       - [qemu](//platforms/arm64/qemu/index.md)
-         - boards
+         - [boards](//)
             - [qemu-armv8a](//platforms/arm64/qemu/boards/qemu-armv8a/index.md)
+               - [README](//platforms/arm64/qemu/boards/qemu-armv8a/README.md)
       - [rk3399](//platforms/arm64/rk3399/index.md)
-         - boards
+         - [boards](//)
             - [nanopi_m4](//platforms/arm64/rk3399/boards/nanopi_m4/index.md)
             - [pinephonepro](//platforms/arm64/rk3399/boards/pinephonepro/index.md)
       - [zynq-mpsoc](//platforms/arm64/zynq-mpsoc/index.md)
-         - boards
+         - [boards](//)
             - [zcu111](//platforms/arm64/zynq-mpsoc/boards/zcu111/index.md)
    - [avr](//platforms/avr/index.md)
       - [at32uc3](//platforms/avr/at32uc3/index.md)
-         - boards
+         - [boards](//)
             - [avr32dev1](//platforms/avr/at32uc3/boards/avr32dev1/index.md)
+               - [README](//platforms/avr/at32uc3/boards/avr32dev1/README.md)
       - [at90usb](//platforms/avr/at90usb/index.md)
-         - boards
+         - [boards](//)
             - [micropendous3](//platforms/avr/at90usb/boards/micropendous3/index.md)
+               - [README](//platforms/avr/at90usb/boards/micropendous3/README.md)
             - [teensy-2.0](//platforms/avr/at90usb/boards/teensy-2.0/index.md)
+               - [README](//platforms/avr/at90usb/boards/teensy-2.0/README.md)
       - [atmega](//platforms/avr/atmega/index.md)
-         - boards
+         - [boards](//)
             - [amber](//platforms/avr/atmega/boards/amber/index.md)
-            - arduino-mega2560
+               - [README](//platforms/avr/atmega/boards/amber/README.md)
+               - [arduino-mega2560](//platforms/avr/atmega/boards/arduino-mega2560/README.md)
             - [mega1284p-xplained](//platforms/avr/atmega/boards/mega1284p-xplained/index.md)
-            - moteino-mega
+            - [moteino-mega](//platforms/avr/atmega/boards/moteino-mega/README.md)
    - [ceva](//platforms/ceva/index.md)
       - [xc5](//platforms/ceva/xc5/index.md)
       - [xm6](//platforms/ceva/xm6/index.md)
    - [hc](//platforms/hc/index.md)
       - [m9s12](//platforms/hc/m9s12/index.md)
-         - boards
+         - [boards](//)
             - [demo9s12ne64](//platforms/hc/m9s12/boards/demo9s12ne64/index.md)
+               - [README](//platforms/hc/m9s12/boards/demo9s12ne64/README.md)
             - [ne64badge](//platforms/hc/m9s12/boards/ne64badge/index.md)
+               - [README](//platforms/hc/m9s12/boards/ne64badge/README.md)
    - [mips](//platforms/mips/index.md)
       - [pic32mx](//platforms/mips/pic32mx/index.md)
-         - boards
+         - [boards](//)
             - [mirtoo](//platforms/mips/pic32mx/boards/mirtoo/index.md)
+               - [README](//platforms/mips/pic32mx/boards/mirtoo/README.md)
             - [pic32mx7mmb](//platforms/mips/pic32mx/boards/pic32mx7mmb/index.md)
+               - [README](//platforms/mips/pic32mx/boards/pic32mx7mmb/README.md)
             - [pic32mx-starterkit](//platforms/mips/pic32mx/boards/pic32mx-starterkit/index.md)
+               - [README](//platforms/mips/pic32mx/boards/pic32mx-starterkit/README.md)
             - [sure-pic32mx](//platforms/mips/pic32mx/boards/sure-pic32mx/index.md)
+               - [README](//platforms/mips/pic32mx/boards/sure-pic32mx/README.md)
             - [ubw32](//platforms/mips/pic32mx/boards/ubw32/index.md)
+               - [README](//platforms/mips/pic32mx/boards/ubw32/README.md)
       - [pic32mz](//platforms/mips/pic32mz/index.md)
-         - boards
+         - [boards](//)
             - [chipkit-wifire](//platforms/mips/pic32mz/boards/chipkit-wifire/index.md)
+               - [README](//platforms/mips/pic32mz/boards/chipkit-wifire/README.md)
             - [flipnclick-pic32mz](//platforms/mips/pic32mz/boards/flipnclick-pic32mz/index.md)
+               - [README](//platforms/mips/pic32mz/boards/flipnclick-pic32mz/README.md)
             - [pic32mz-starterkit](//platforms/mips/pic32mz/boards/pic32mz-starterkit/index.md)
+               - [README](//platforms/mips/pic32mz/boards/pic32mz-starterkit/README.md)
    - [misco](//platforms/misco/index.md)
       - [lm32](//platforms/misco/lm32/index.md)
-         - boards
+         - [boards](//)
             - [misoc](//platforms/misco/lm32/boards/misoc/index.md)
+               - [README](//platforms/misco/lm32/boards/misoc/README.md)
    - [or1k](//platforms/or1k/index.md)
       - [mor1kx](//platforms/or1k/mor1kx/index.md)
-         - boards
+         - [boards](//)
             - [or1k](//platforms/or1k/mor1kx/boards/or1k/index.md)
+               - [README](//platforms/or1k/mor1kx/boards/or1k/README.md)
    - [renesas](//platforms/renesas/index.md)
       - [m16c](//platforms/renesas/m16c/index.md)
-         - boards
+         - [boards](//)
             - [skp16c26](//platforms/renesas/m16c/boards/skp16c26/index.md)
+               - [README](//platforms/renesas/m16c/boards/skp16c26/README.md)
       - [rx65n](//platforms/renesas/rx65n/index.md)
-         - boards
+         - [boards](//)
             - [rx65n-grrose](//platforms/renesas/rx65n/boards/rx65n-grrose/index.md)
+               - [README](//platforms/renesas/rx65n/boards/rx65n-grrose/README.md)
+               - [ROMFS](//platforms/renesas/rx65n/boards/rx65n-grrose/ROMFS.md)
             - [rx65n-rsk2mb](//platforms/renesas/rx65n/boards/rx65n-rsk2mb/index.md)
+               - [README](//platforms/renesas/rx65n/boards/rx65n-rsk2mb/README.md)
+               - [ROMFS](//platforms/renesas/rx65n/boards/rx65n-rsk2mb/ROMFS.md)
       - [sh1](//platforms/renesas/sh1/index.md)
-         - boards
+         - [boards](//)
             - [us7032evb1](//platforms/renesas/sh1/boards/us7032evb1/index.md)
+               - [README](//platforms/renesas/sh1/boards/us7032evb1/README.md)
    - [risc-v](//platforms/risc-v/index.md)
       - [bl602](//platforms/risc-v/bl602/index.md)
-         - boards
+         - [boards](//)
             - [bl602evb](//platforms/risc-v/bl602/boards/bl602evb/index.md)
       - [bl808](//platforms/risc-v/bl808/index.md)
-         - boards
+         - [boards](//)
             - [ox64](//platforms/risc-v/bl808/boards/ox64/index.md)
       - [c906](//platforms/risc-v/c906/index.md)
-         - boards
+         - [boards](//)
             - [smartl-c906](//platforms/risc-v/c906/boards/smartl-c906/index.md)
+               - [README](//platforms/risc-v/c906/boards/smartl-c906/README.md)
+               - [README-qemu](//platforms/risc-v/c906/boards/smartl-c906/README-qemu.md)
       - [eic7700x](//platforms/risc-v/eic7700x/index.md)
-         - boards
+         - [boards](//)
             - [starpro64](//platforms/risc-v/eic7700x/boards/starpro64/index.md)
       - [esp32c3](//platforms/risc-v/esp32c3/index.md)
-         - boards
+         - [boards](//)
             - [esp32c3-generic](//platforms/risc-v/esp32c3/boards/esp32c3-generic/index.md)
             - [esp32c3-xiao](//platforms/risc-v/esp32c3/boards/esp32c3-xiao/index.md)
       - [esp32c3-legacy](//platforms/risc-v/esp32c3-legacy/index.md)
-         - boards
+         - [boards](//)
             - [esp32c3-devkit](//platforms/risc-v/esp32c3-legacy/boards/esp32c3-devkit/index.md)
+               - [ROMFS](//platforms/risc-v/esp32c3-legacy/boards/esp32c3-devkit/ROMFS.md)
             - [esp32c3-devkit-rust-1](//platforms/risc-v/esp32c3-legacy/boards/esp32c3-devkit-rust-1/index.md)
+               - [README](//platforms/risc-v/esp32c3-legacy/boards/esp32c3-devkit-rust-1/README.md)
       - [esp32c6](//platforms/risc-v/esp32c6/index.md)
-         - boards
+         - [boards](//)
             - [esp32c6-devkitc](//platforms/risc-v/esp32c6/boards/esp32c6-devkitc/index.md)
             - [esp32c6-devkitm](//platforms/risc-v/esp32c6/boards/esp32c6-devkitm/index.md)
       - [esp32h2](//platforms/risc-v/esp32h2/index.md)
-         - boards
+         - [boards](//)
             - [esp32h2-devkit](//platforms/risc-v/esp32h2/boards/esp32h2-devkit/index.md)
       - [fe310](//platforms/risc-v/fe310/index.md)
-         - boards
+         - [boards](//)
             - [hifive1-revb](//platforms/risc-v/fe310/boards/hifive1-revb/index.md)
+               - [README](//platforms/risc-v/fe310/boards/hifive1-revb/README.md)
+               - [README-qemu](//platforms/risc-v/fe310/boards/hifive1-revb/README-qemu.md)
       - [hpm6000](//platforms/risc-v/hpm6000/index.md)
-         - boards
+         - [boards](//)
             - [hpm6360evk](//platforms/risc-v/hpm6000/boards/hpm6360evk/index.md)
       - [hpm6750](//platforms/risc-v/hpm6750/index.md)
-         - boards
+         - [boards](//)
             - [hpm6750evk2](//platforms/risc-v/hpm6750/boards/hpm6750evk2/index.md)
+               - [README](//platforms/risc-v/hpm6750/boards/hpm6750evk2/README.md)
       - [jh7110](//platforms/risc-v/jh7110/index.md)
-         - boards
+         - [boards](//)
             - [star64](//platforms/risc-v/jh7110/boards/star64/index.md)
       - [k210](//platforms/risc-v/k210/index.md)
-         - boards
+         - [boards](//)
             - [maix-bit](//platforms/risc-v/k210/boards/maix-bit/index.md)
+               - [README](//platforms/risc-v/k210/boards/maix-bit/README.md)
+               - [README-qemu](//platforms/risc-v/k210/boards/maix-bit/README-qemu.md)
       - [k230](//platforms/risc-v/k230/index.md)
-         - boards
+         - [boards](//)
             - [canmv230](//platforms/risc-v/k230/boards/canmv230/index.md)
       - [litex](//platforms/risc-v/litex/index.md)
-         - boards
+         - [boards](//)
             - [arty_a7](//platforms/risc-v/litex/boards/arty_a7/index.md)
+               - [README](//platforms/risc-v/litex/boards/arty_a7/README.md)
          - cores
             - [vexriscv](//platforms/risc-v/litex/cores/vexriscv/index.md)
             - [vexriscv_smp](//platforms/risc-v/litex/cores/vexriscv_smp/index.md)
       - [mpfs](//platforms/risc-v/mpfs/index.md)
-         - boards
+         - [boards](//)
             - [icicle](//platforms/risc-v/mpfs/boards/icicle/index.md)
       - [qemu-rv](//platforms/risc-v/qemu-rv/index.md)
-         - boards
+         - [boards](//)
             - [rv-virt](//platforms/risc-v/qemu-rv/boards/rv-virt/index.md)
       - [rv32m1](//platforms/risc-v/rv32m1/index.md)
-         - boards
+         - [boards](//)
             - [rv32m1-vega](//platforms/risc-v/rv32m1/boards/rv32m1-vega/index.md)
+               - [README](//platforms/risc-v/rv32m1/boards/rv32m1-vega/README.md)
       - [sg2000](//platforms/risc-v/sg2000/index.md)
-         - boards
+         - [boards](//)
             - [milkv_duos](//platforms/risc-v/sg2000/boards/milkv_duos/index.md)
    - [sim](//platforms/sim/index.md)
       - [network_linux](//platforms/sim/network_linux.md)
       - [network_vpnkit](//platforms/sim/network_vpnkit.md)
       - [sim](//platforms/sim/sim/index.md)
-         - boards
+         - [boards](//)
             - [sim](//platforms/sim/sim/boards/sim/index.md)
-         - images
+               - [README](//platforms/sim/sim/boards/sim/README.md)
    - [sparc](//platforms/sparc/index.md)
       - [bm3803](//platforms/sparc/bm3803/index.md)
-         - boards
+         - [boards](//)
             - [xx3803](//platforms/sparc/bm3803/boards/xx3803/index.md)
       - [bm3823](//platforms/sparc/bm3823/index.md)
-         - boards
+         - [boards](//)
             - [xx3823](//platforms/sparc/bm3823/boards/xx3823/index.md)
       - [s698pm](//platforms/sparc/s698pm/index.md)
-         - boards
+         - [boards](//)
             - [s698pm-dkit](//platforms/sparc/s698pm/boards/s698pm-dkit/index.md)
    - [tricore](//platforms/tricore/index.md)
       - [tc397](//platforms/tricore/tc397/index.md)
-         - boards
+         - [boards](//)
             - [kit_a2g_tc397_tft](//platforms/tricore/tc397/boards/kit_a2g_tc397_tft/index.md)
    - [x86](//platforms/x86/index.md)
       - [qemu](//platforms/x86/qemu/index.md)
-         - boards
+         - [boards](//)
             - [qemu-i486](//platforms/x86/qemu/boards/qemu-i486/index.md)
+               - [README](//platforms/x86/qemu/boards/qemu-i486/README.md)
    - [x86_64](//platforms/x86_64/index.md)
       - [intel64](//platforms/x86_64/intel64/index.md)
-         - boards
+         - [boards](//)
             - [qemu-intel64](//platforms/x86_64/intel64/boards/qemu-intel64/index.md)
    - [xtensa](//platforms/xtensa/index.md)
       - [esp32](//platforms/xtensa/esp32/index.md)
-         - boards
+         - [boards](//)
             - [esp32-2432S028](//platforms/xtensa/esp32/boards/esp32-2432S028/index.md)
             - [esp32-audio-kit](//platforms/xtensa/esp32/boards/esp32-audio-kit/index.md)
             - [esp32-devkitc](//platforms/xtensa/esp32/boards/esp32-devkitc/index.md)
             - [esp32-ethernet-kit](//platforms/xtensa/esp32/boards/esp32-ethernet-kit/index.md)
+               - [README](//platforms/xtensa/esp32/boards/esp32-ethernet-kit/README.md)
             - [esp32-lyrat](//platforms/xtensa/esp32/boards/esp32-lyrat/index.md)
             - [esp32-pico-kit](//platforms/xtensa/esp32/boards/esp32-pico-kit/index.md)
             - [esp32-wrover-kit](//platforms/xtensa/esp32/boards/esp32-wrover-kit/index.md)
       - [esp32s2](//platforms/xtensa/esp32s2/index.md)
-         - boards
+         - [boards](//)
             - [esp32s2-kaluga-1](//platforms/xtensa/esp32s2/boards/esp32s2-kaluga-1/index.md)
             - [esp32s2-saola-1](//platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index.md)
       - [esp32s3](//platforms/xtensa/esp32s3/index.md)
-         - boards
+         - [boards](//)
             - [esp32s3-devkit](//platforms/xtensa/esp32s3/boards/esp32s3-devkit/index.md)
             - [esp32s3-eye](//platforms/xtensa/esp32s3/boards/esp32s3-eye/index.md)
             - [esp32s3-korvo-2](//platforms/xtensa/esp32s3/boards/esp32s3-korvo-2/index.md)
@@ -1336,25 +1416,34 @@
             - [lckfb-szpi-esp32s3](//platforms/xtensa/esp32s3/boards/lckfb-szpi-esp32s3/index.md)
    - [z16](//platforms/z16/index.md)
       - [z16f](//platforms/z16/z16f/index.md)
-         - boards
+         - [boards](//)
             - [z16f2800100zcog](//platforms/z16/z16f/boards/z16f2800100zcog/index.md)
+               - [README](//platforms/z16/z16f/boards/z16f2800100zcog/README.md)
    - [z80](//platforms/z80/index.md)
       - [ez80](//platforms/z80/ez80/index.md)
-         - boards
+         - [boards](//)
             - [ez80f910200kitg](//platforms/z80/ez80/boards/ez80f910200kitg/index.md)
+               - [README](//platforms/z80/ez80/boards/ez80f910200kitg/README.md)
             - [ez80f910200zco](//platforms/z80/ez80/boards/ez80f910200zco/index.md)
+               - [README](//platforms/z80/ez80/boards/ez80f910200zco/README.md)
             - [makerlisp](//platforms/z80/ez80/boards/makerlisp/index.md)
+               - [README](//platforms/z80/ez80/boards/makerlisp/README.md)
             - [z20x](//platforms/z80/ez80/boards/z20x/index.md)
+               - [README](//platforms/z80/ez80/boards/z20x/README.md)
       - [z180](//platforms/z80/z180/index.md)
-         - boards
+         - [boards](//)
             - [p112](//platforms/z80/z180/boards/p112/index.md)
+               - [README](//platforms/z80/z180/boards/p112/README.md)
       - [z8](//platforms/z80/z8/index.md)
-         - boards
+         - [boards](//)
             - [z8encore000zco](//platforms/z80/z8/boards/z8encore000zco/index.md)
+               - [README](//platforms/z80/z8/boards/z8encore000zco/README.md)
             - [z8f64200100kit](//platforms/z80/z8/boards/z8f64200100kit/index.md)
+               - [README](//platforms/z80/z8/boards/z8f64200100kit/README.md)
       - [z80](//platforms/z80/z80/index.md)
-         - boards
+         - [boards](//)
             - [z80sim](//platforms/z80/z80/boards/z80sim/index.md)
+               - [README](//platforms/z80/z80/boards/z80sim/README.md)
 - [quickstart](//quickstart/index.md)
    - [compiling_cmake](//quickstart/compiling_cmake.md)
    - [compiling_make](//quickstart/compiling_make.md)
@@ -1398,7 +1487,4 @@
       - [13_boardctl](//reference/user/13_boardctl.md)
       - [13_logging](//reference/user/13_logging.md)
       - [structures](//reference/user/structures.md)
-   - ReleaseNotes
-   - _static
-      - images
-   - _templates
+- [faq](//faq/index.md)

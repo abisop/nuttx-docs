@@ -1,4 +1,5 @@
-# Zilog Z80
+Zilog Z80
+=========
 
 **Z80 Instruction Set Simulator**. This port uses the
 [SDCC](http://sdcc.sourceforge.net/) toolchain under Linux or Cygwin
@@ -41,25 +42,27 @@ the classic Z80 chip.
 
 Files in this directory include:
 
-  - `z80_head.asm`  
-    This is the main entry point into the Z80 program. This includes the
+`z80_head.asm`
+
+:   This is the main entry point into the Z80 program. This includes the
     handler for the RESET, power-up interrupt vector and address zero
     and all RST interrupts.
 
-  - `z80_rom.asm`  
-    Some architectures may have ROM located at address zero. In this
-    case, a special version of the "head" logic must be used. This
-    special "head" file is probably board-specific and, hence, belongs
+`z80_rom.asm`
+
+:   Some architectures may have ROM located at address zero. In this
+    case, a special version of the \"head\" logic must be used. This
+    special \"head\" file is probably board-specific and, hence, belongs
     in the board-specific boards/z80/z80/\<board-name\>/src directory.
     This file may, however, be used as a model for such a board-specific
     file.
-    
+
     z80\_rom.S is enabled by specifying CONFIG\_LINKER\_ROM\_AT\_0000 in
     the configuration file.
-    
+
     A board specific version in the boards/z80/z80/\<board-name\>/src
     directory can be used by:
-    
+
     1.  Define CONFIG\_ARCH\_HAVEHEAD
     2.  Add the board-specific head file, say \<filename\>.asm, to
         boards/z80/z80/\<board-name\>/src
@@ -67,22 +70,26 @@ Files in this directory include:
         boards/z80/z80/\<board-name\>/src directory containing the line:
         HEAD\_ASRC = \<file-name\>.asm
 
-  - `Make.defs`  
-    This is the standard makefile fragment that must be provided in all
+`Make.defs`
+
+:   This is the standard makefile fragment that must be provided in all
     chip directories. This fragment identifies the chip-specific file to
     be used in building libarch.
 
-  - `chip.h`  
-    This is the standard header file that must be provided in all chip
+`chip.h`
+
+:   This is the standard header file that must be provided in all chip
     directories.
 
-  - `z80_initialstate.c`, `z80_copystate.c`,
-    `z80_restoreusercontext.asm`, and `z80_saveusercontext.asm`  
-    These files implement the Z80 context switching logic
+`z80_initialstate.c`, `z80_copystate.c`, `z80_restoreusercontext.asm`, and `z80_saveusercontext.asm`
 
-  - `z80_schedulesigaction.c` and `z80_sigdeliver.c`  
-    These files implement Z80 signal handling.
+:   These files implement the Z80 context switching logic
 
-## Supported Boards
+`z80_schedulesigaction.c` and `z80_sigdeliver.c`
+
+:   These files implement Z80 signal handling.
+
+Supported Boards
+----------------
 
 > boards/*/*

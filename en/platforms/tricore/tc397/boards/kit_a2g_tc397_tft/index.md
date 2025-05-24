@@ -1,53 +1,57 @@
-# KIT\_A2G\_TC397\_TFT
+KIT\_A2G\_TC397\_TFT
+====================
 
 This page file describes the contents of the build configurations
 available for the NuttX TriCore port.
 
-## Infineon’s AURIX™- TC3xx [KIT\_A2G\_TC397\_TFT](https://www.infineon.com/cms/en/product/evaluation-boards/kit_a2g_tc397_5v_tft) Board
+Infineon's AURIX™- TC3xx [KIT\_A2G\_TC397\_TFT](https://www.infineon.com/cms/en/product/evaluation-boards/kit_a2g_tc397_5v_tft) Board
+-------------------------------------------------------------------------------------------------------------------------------------
 
 This port should work on KIT\_A2G\_TC397\_TFT with a proper CPU. The
 mandatory CPU features are:
 
-  - System Timer (STM)
-  - Asynchronous Serial Interface(ASCLIN) UART
-  - IRQs are managed by Interrupt Router(INT), IR Service Request
+-   System Timer (STM)
+-   Asynchronous Serial Interface(ASCLIN) UART
+-   IRQs are managed by Interrupt Router(INT), IR Service Request
     Control Registers(SRC).
 
-## Toolchains
+Toolchains
+----------
 
-Currently, only the Infineon’s AURIX™ Tasking toolchain is tested.
+Currently, only the Infineon's AURIX™ Tasking toolchain is tested.
 
-## Configurations
+Configurations
+--------------
 
 ### Common Configuration Notes
 
 1.  Each Tricore TC397 configuration is maintained in a sub-directory
     and can be selected as follow:
-    
+
         tools/configure.sh tc397:<subdir>
-    
+
     Where `<subdir>` is one of the configuration sub-directories
     described in the following paragraph.
-    
+
     NuttX Shell:
-    
+
         tools/configure.sh tc397:nsh
 
 2.  These configurations use the mconf-based configuration tool. To
     change a configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute `make menuconfig` in nuttx/ in order to start the
+    b.  Execute `make menuconfig` in nuttx/ in order to start the
         reconfiguration process.
 
 3.  By default, all configurations assume the Linux. This is easily
     reconfigured:
-    
+
         CONFIG_HOST_LINUX=y
 
 ### Configuration Sub-Directories
 
 ### ostest
 
-The "standard" NuttX examples/ostest configuration.
+The \"standard\" NuttX examples/ostest configuration.

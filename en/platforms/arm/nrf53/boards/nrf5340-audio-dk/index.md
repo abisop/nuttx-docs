@@ -1,49 +1,49 @@
-# Nordic nRF5340-Audio-DK
-
-<div class="tags">
+Nordic nRF5340-Audio-DK
+=======================
 
 chip:nrf53, chip:nrf5340
-
-</div>
 
 The
 [nRF5340-Audio-DK](https://www.nordicsemi.com/Products/Development-hardware/nRF5340-Audio-DK)
 is a development kit dedicated for Bluetooth LE Audio application based
 on the nRF5340 from Nordic.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-| Peripheral                                                                         | Support                     | NOTES |
-| ---------------------------------------------------------------------------------- | --------------------------- | ----- |
-| UART QSPI Buttons LEDs USB SD Card NFC PDM Microphone (VM3011) Audio DSP (CS47L63) | Yes No No No No No No No No |       |
+  Peripheral                                                                           Support                       NOTES
+  ------------------------------------------------------------------------------------ ----------------------------- -------
+  UART QSPI Buttons LEDs USB SD Card NFC PDM Microphone (VM3011) Audio DSP (CS47L63)   Yes No No No No No No No No   
 
-## Serial Console
+Serial Console
+--------------
 
 Serial console for the application core:
 
-| Pin   | Signal       | Notes         |
-| ----- | ------------ | ------------- |
-| P1.05 | APP UART0 TX | virtual COM 0 |
-| P1.04 | APP UART0 RX | virtual COM 0 |
+  Pin     Signal         Notes
+  ------- -------------- ---------------
+  P1.05   APP UART0 TX   virtual COM 0
+  P1.04   APP UART0 RX   virtual COM 0
 
 Serial console for the network core:
 
-| Pin   | Signal       | Notes         |
-| ----- | ------------ | ------------- |
-| P1.09 | NET UART0 TX | virtual COM 1 |
-| P1.08 | NET UART0 RX | virtual COM 1 |
+  Pin     Signal         Notes
+  ------- -------------- ---------------
+  P1.09   NET UART0 TX   virtual COM 1
+  P1.08   NET UART0 RX   virtual COM 1
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
 The nRF5340-Audio-DK has 4 user-controllable LEDs:
 
-| LED  | MCU   |
-| ---- | ----- |
-| LED1 | P0.31 |
-| LED2 | P1.01 |
-| LED3 | P1.02 |
+  LED    MCU
+  ------ -------
+  LED1   P0.31
+  LED2   P1.01
+  LED3   P1.02
 
 A low output illuminates the LED.
 
@@ -59,15 +59,16 @@ for application control of the LEDs:
 
 ### Pushbuttons
 
-| BUTTON  | MCU   |
-| ------- | ----- |
-| BUTTON1 | P0.02 |
-| BUTTON2 | P0.03 |
-| BUTTON3 | P0.04 |
-| BUTTON4 | P0.05 |
-| BUTTON5 | P0.06 |
+  BUTTON    MCU
+  --------- -------
+  BUTTON1   P0.02
+  BUTTON2   P0.03
+  BUTTON3   P0.04
+  BUTTON4   P0.05
+  BUTTON5   P0.06
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:

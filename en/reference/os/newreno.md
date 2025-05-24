@@ -1,13 +1,13 @@
-# Congestion Control NewReno
+Congestion Control NewReno
+==========================
 
-  - NewReno congestion control algorithm is used to solve the problem of
-    network congestion breakdown, which includes:
-    
-      - Slow Start
-      - Congestion Avoidance
-      - Fast Retransmission
-      - Fast Recovery.
-    
+NewReno congestion control algorithm is used to solve the problem of network congestion breakdown, which includes:
+
+:   -   Slow Start
+    -   Congestion Avoidance
+    -   Fast Retransmission
+    -   Fast Recovery.
+
     The implementation refers to RFC6582 and RFC5681. In addition, we
     optimize the congestion algorithm. In the congestion avoidance
     state, the maximum congestion window (max\_cwnd) is used to limit
@@ -16,33 +16,34 @@
     the current congestion window (cwnd) and the update weight is 0.875
     when an RTO timeout occurs.
 
-## Workflow
+Workflow
+--------
 
 The NewReno on the tcp sender adjusts the cwnd and ssthresh based on
 received ack and Retransmitted Timeout (RTO) events.
 
 Using the cwnd, together with snd\_wnd, controls the number of bytes
-sent to the network. Here's how newreno works, as following:
+sent to the network. Here\'s how newreno works, as following:
 
-  - Initialize the ssthresh and cwnd, on establishing the tcp
+-   Initialize the ssthresh and cwnd, on establishing the tcp
     connection.
-  - When the ack is received, check whether the ack is repeated.
+-   When the ack is received, check whether the ack is repeated.
 
->   - If yes, increase the dupack counts. If the dupack exceeds the Fast
+> -   If yes, increase the dupack counts. If the dupack exceeds the Fast
 >     Retransmission Threshold 3, after retransmitting the lost segments
 >     (Fast Retransmission), enter to the Fast Recovery state.
->   - If no, receive the new ack.
->       - If the current ackno is bigger than fr\_ack which is the
+> -   If no, receive the new ack.
+>     -   If the current ackno is bigger than fr\_ack which is the
 >         snd\_seq when Fast Retransmission occurs, exit the Fast
 >         Recovery state and enter to congestion avoidance.
->       - If the cwnd is less than ssthresh, increase the cwnd on slow
+>     -   If the cwnd is less than ssthresh, increase the cwnd on slow
 >         start state.
->       - If the cwnd is greater than or equal to ssthresh, the
+>     -   If the cwnd is greater than or equal to ssthresh, the
 >         increased cwnd can not exceed max\_cwnd.
 
-  - when RTO times out, reset the values of cwnd and ssthresh, update
+-   when RTO times out, reset the values of cwnd and ssthresh, update
     the max\_cwnd, and enter to Slow Start state.
-  - When sending a segment, the minimum value of cwnd and snd\_wnd is
+-   When sending a segment, the minimum value of cwnd and snd\_wnd is
     used to calculate the number of bytes that can be sent.
 
 The simple state transition diagram of the NewReno is shown below.
@@ -77,19 +78,22 @@ The simple state transition diagram of the NewReno is shown below.
     |                        v                      v
     '-----------------------------------------------'
 
-## Configuration Options
+Configuration Options
+---------------------
 
-  - `NET_TCP_CC_NEWRENO`  
-    Enable or disable NewRenofunction.
-    
+`NET_TCP_CC_NEWRENO`
+
+:   Enable or disable NewRenofunction.
+
     Depends on `NET_TCP_FAST_RETRANSMIT`.
 
-## Test
+Test
+----
 
 ### Test topology
 
     IP:10.0.1.1
-    
+
     +--------+
     --------| nuttx0 |--------
     |       +--------+       |
@@ -108,7 +112,7 @@ The simple state transition diagram of the NewReno is shown below.
     +-------+                +-------+
     sim1 | eth0  |                | eth0  | sim2
     +-------+                +-------+
-    
+
     IP:10.0.1.3              IP:10.0.1.4
 
 ### Test steps
@@ -116,67 +120,61 @@ The simple state transition diagram of the NewReno is shown below.
 Test the function on the Ubuntu 22.04 x86\_64 with NuttX SIM by
 following steps:
 
-  - 1.Configure the test environment
+1.Configure the test environment
 
-<!-- end list -->
+:   
 
-  - Set the nuttx0 inbound speed to 10Mbps.
+-   Set the nuttx0 inbound speed to 10Mbps.
 
-> 
-> 
-> ``` bash
+> ``` {.bash}
 > # Load fib module, and start ifb0 interface
 > modprobe ifb
 > ip link set dev ifb0 up
-> 
+>
 > # Import the nuttx0 ingress packets into ifb0
 > tc qdisc add dev nuttx0 handle ffff: ingress
 > tc filter add dev nuttx0 parent ffff: u32 match u32 0 0 action mirred egress redirect dev ifb0
-> 
+>
 > # Limit nuttx0 ingress 10Mbps
 > tc qdisc add dev ifb0 root tbf rate 10Mbit latency 50ms burst 1540
 > ```
 
-  - configure the sim simulator.
+-   configure the sim simulator.
 
->   - Start iperf3 server on ubuntu.
-> 
-> <!-- end list -->
-> 
-> ``` bash
+> -   Start iperf3 server on ubuntu.
+>
+> ``` {.bash}
 > iperf3 -s -i1 -p10003  #for sim1
 > iperf3 -s -i1 -p10004  #for sim2
 > ```
-> 
->   - start the emulators sim1 and sim2 and configure ip addresses.
-> 
-> <!-- end list -->
-> 
-> ``` bash
+>
+> -   start the emulators sim1 and sim2 and configure ip addresses.
+>
+> ``` {.bash}
 > # start and configure sim1
 > start gdb nuttx
 > ifconfig eth0 10.0.1.3
-> 
+>
 > # start and configure sim2
 > start gdb nuttx
 > ifconfig eth0 10.0.1.4 # sim2
 > ```
 
-  - 2.Stream Testing
+2.Stream Testing
 
-<!-- end list -->
+:   
 
-  - Use iperf3 to perform the stream testing.
+-   Use iperf3 to perform the stream testing.
 
-> 
-> 
-> ``` bash
+> ``` {.bash}
 > iperf3 -c 10.0.1.1 -i1 -t60 -p10003 # sim1
-> 
+>
 > iperf3 -c 10.0.1.1 -i1 -t60 -p10004 # sim2
 > ```
 
-  - 3.Comparison Testing
+3.Comparison Testing
+
+:   
 
 > Compares the test results of enabling and disabling NewReno.
 

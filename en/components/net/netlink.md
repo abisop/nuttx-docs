@@ -1,34 +1,36 @@
-# Netlink Route support
+Netlink Route support
+=====================
 
-Netlink Route (:c`NETLINK_ROUTE`) allow notifying msg when the network
-changes. And then apps can obtain these changes by monitoring to netlink
-socket messages.
+Netlink Route (:c`NETLINK_ROUTE`{.interpreted-text role="macro"}) allow
+notifying msg when the network changes. And then apps can obtain these
+changes by monitoring to netlink socket messages.
 
 NuttX supports Netlink Route groups
 
-  - RTMGRP\_IPV4\_ROUTE | RTMGRP\_IPV6\_ROUTE
-      - Notify when IPV4|IPV6 routing table changes.
-  - RTMGRP\_NEIGH
-      - Notify when ARP (IPV4) or neighbors (IPV6) table changes.
-  - RTNLGRP\_IPV6\_PREFIX
-      - Notify when IPV6 prefix changes.
+-   RTMGRP\_IPV4\_ROUTE \| RTMGRP\_IPV6\_ROUTE
+    -   Notify when IPV4\|IPV6 routing table changes.
+-   RTMGRP\_NEIGH
+    -   Notify when ARP (IPV4) or neighbors (IPV6) table changes.
+-   RTNLGRP\_IPV6\_PREFIX
+    -   Notify when IPV6 prefix changes.
 
-## Messages content
+Messages content
+----------------
 
-1.  RTMGRP\_IPV4\_ROUTE | RTMGRP\_IPV6\_ROUTE
+1.  RTMGRP\_IPV4\_ROUTE \| RTMGRP\_IPV6\_ROUTE
 
 > `RTM_NEWROUTE`, `RTM_DELROUTE`, `RTM_GETROUTE`: Create, remove or
 > receive information about a network route. These messages contain an
 > rtmsg structure with 3 optional sequence of rtattr structures
 > following.
-> 
-> ``` c
+>
+> ``` {.c}
 > struct getroute_recvfrom_ipv4addr_s
 > {
 >   struct rtattr attr;
 >   in_addr_t     addr;
 > };
-> 
+>
 > struct getroute_recvfrom_ipv4response_s
 > {
 >   struct nlmsghdr hdr;
@@ -37,13 +39,13 @@ NuttX supports Netlink Route groups
 >   struct getroute_recvfrom_ipv4addr_s genmask;
 >   struct getroute_recvfrom_ipv4addr_s gateway;
 > };
-> 
+>
 > struct getroute_recvfrom_ipv6addr_s
 > {
 >   struct rtattr  attr;
 >   net_ipv6addr_t addr;
 > };
-> 
+>
 > struct getroute_recvfrom_ipv6response_s
 > {
 >   struct nlmsghdr hdr;
@@ -62,8 +64,8 @@ NuttX supports Netlink Route groups
 > structures following. And the date will be `struct arpreq` in
 > `include/netinet/arp.h`or `struct neighbor_entry_s` in
 > `include/net/neighbor.h`
-> 
-> ``` c
+>
+> ``` {.c}
 > struct getneigh_recvfrom_response_s
 > {
 >   struct nlmsghdr hdr;
@@ -79,20 +81,20 @@ NuttX supports Netlink Route groups
 > contains an prefixmsg structure and two optional sequence of rtattr
 > structures following. And the `addr` and `prefix_cacheinfo` are parsed
 > from the RA message.
-> 
-> ``` c
+>
+> ``` {.c}
 > struct getprefix_recvfrom_addr_s
 > {
 >   struct rtattr  attr;
 >   net_ipv6addr_t addr;
 > };
-> 
+>
 > struct getprefix_recvfrom_cache_s
 > {
 >   struct rtattr           attr;
 >   struct prefix_cacheinfo pci;
 > };
-> 
+>
 > struct getprefix_recvfrom_response_s
 > {
 >   struct nlmsghdr  hdr;
@@ -102,9 +104,10 @@ NuttX supports Netlink Route groups
 > };
 > ```
 
-## Usage
+Usage
+-----
 
-``` c
+``` {.c}
 struct sockaddr_nl addr;
 struct nlmsghdr *hdr;
 uint8_t buffer[BUFSIZE];

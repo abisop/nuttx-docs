@@ -1,4 +1,5 @@
-# Porting to the BCM2711 (Raspberry Pi 4B)
+Porting to the BCM2711 (Raspberry Pi 4B)
+========================================
 
 This port was completed for the 12.7.0 version of the NuttX kernel, and
 was contributed by Matteo Golin.
@@ -12,7 +13,8 @@ port, which can be found [on his
 blog](https://linguini1.github.io/blog/2024/12/25/nuttx-bcm2711.html).
 The details below are a more concise summary of the porting process.
 
-## Researching
+Researching
+-----------
 
 The first step to porting a board to NuttX was researching the board and
 how NuttX works.
@@ -26,7 +28,7 @@ board.
 
 I primarily used the blog posts written by Lup Yuen Lee about porting
 NuttX to the PinePhone, another ARM Cortex-A based device. The articles
-are listed [here](https://github.com/lupyuen/pinephone-nuttx). Lup's
+are listed [here](https://github.com/lupyuen/pinephone-nuttx). Lup\'s
 articles provided me with an understanding of the NuttX boot process, as
 well as which files from the aarch64 support on NuttX were pulled into
 the build process for booting. He also showed how he created an initial
@@ -35,17 +37,18 @@ him to get NSH appearing in the console.
 
 Finally, I also of course needed the BCM2711 datasheet in order to
 figure out which registers were available to me for creating peripheral
-drivers. The BCM2711 datasheet isn't exceptionally detailed on many of
+drivers. The BCM2711 datasheet isn\'t exceptionally detailed on many of
 the features on the SoC, but it did provide enough detail to set up
 interrupts and get UART working.
 
-## Adding to the source tree
+Adding to the source tree
+-------------------------
 
 In order to build my code with the NuttX build system, I would have to
 add the board and the BCM2711 chip to the source tree for NuttX. This
 way, it would appear as an available configuration via the
-`tools/configure.sh` script and I could select options for it with `make
-menuconfig`.
+`tools/configure.sh` script and I could select options for it with
+`make menuconfig`.
 
 The first thing to do was to add the chip, which goes under the
 `arch/arm64` directory because it is an ARM 64 bit SoC. The chip
@@ -67,29 +70,31 @@ by the BCM2711. `ARCH_HAVE_MULTICPU` because it is a quad-core, and
 I also needed to now add the Raspberry Pi 4B board to the source tree.
 To do this, I copied the board folder for the PinePhone
 (`boards/arm64/a64/pinephone`) and renamed it `raspberrypi-4b`. I also
-deleted many of the files in this folder since they weren't applicable
+deleted many of the files in this folder since they weren\'t applicable
 to the Pi 4B, and substituted all mentions of the PinePhone with the
 Raspberry Pi 4B (in path names and header include guards).
 
 I then added the Pi 4B to the list of supported boards in
 `boards/Kconfig`. For this, I just needed to create an entry with the
 name `ARCH_BOARD_RASPBERRYPI_4B` and write that it depends on the
-`ARCH_CHIP_BCM2711`. No additional options necessary\! In two other
+`ARCH_CHIP_BCM2711`. No additional options necessary! In two other
 places in this file I also had to add some directives to make sure the
 Kconfig for the board was found properly. These set `ARCH_BOARD` to the
-name of the board directory "raspberrypi-4b" when the Pi 4B was
-selected, and `source`'d the Kconfig under
+name of the board directory \"raspberrypi-4b\" when the Pi 4B was
+selected, and `source`\'d the Kconfig under
 `boards/arm64/bcm2711/raspberrypi-4b` when selected.
 
-The default configuration for this board was copied from the PinePhone's
-NSH configuration, which I modified to use the correct board name, chip,
-and hardware specific settings. It was still incomplete because there
-was no code to actually boot into NSH, but it was a starting point.
+The default configuration for this board was copied from the
+PinePhone\'s NSH configuration, which I modified to use the correct
+board name, chip, and hardware specific settings. It was still
+incomplete because there was no code to actually boot into NSH, but it
+was a starting point.
 
 This was basically all I needed for the board to show up as a possible
-configuration in the source tree\!
+configuration in the source tree!
 
-## Mapping out the chip
+Mapping out the chip
+--------------------
 
 To start writing code for the BCM2711, I needed to map out the chip.
 This included the register addresses and the memory mapping, which could
@@ -106,7 +111,7 @@ different fields. For instance, the two mini-SPI peripherals had the
 same structure, each with 12 registers. The way I commonly saw these
 macros implemented was something like:
 
-``` c
+``` {.c}
 #define BCM_AUX_SPI1_BASEADDR (BCM_AUX_BASEADDR + BCM_AUX_SPI1_OFFSET)
 
 #define BCM_AUX_SPI_CNTL0_REG_OFFSET (0x00) /* SPI control register 0 */
@@ -123,7 +128,7 @@ the code less error prone later, because any mistakes made while copying
 the long list of fields and registers from the datasheet can be changed
 in one place.
 
-``` c
+``` {.c}
 #define BCM_SPI_CNTL0_EN (1 << 11) /* Enable SPI interface */
 ```
 
@@ -133,7 +138,7 @@ datasheet and listed them all as macros with names. I also had to define
 the number of IRQS, which was 216 in this case. The `MPID_TO_CORE(mpid)`
 macro was copied from another arm64 implementation.
 
-``` c
+``` {.c}
 #define NR_IRQS 216
 #define MPID_TO_CORE(mpid) (((mpid) >> MPIDR_AFF0_SHIFT) & MPIDR_AFFLVL_MASK)
 
@@ -154,7 +159,7 @@ roughly 4GB in size. 64 MB of that is reserved for the memory-mapped
 I/O, so I had to be sure to remove that. I also defined the load address
 of the kernel in memory for the chip.
 
-``` c
+``` {.c}
 #define CONFIG_RAMBANK1_ADDR (0x000000000)
 
 /* Both the 4GB and 8GB ram variants use all the size in RAMBANK1 */
@@ -173,11 +178,12 @@ Raspberry Pi 4B kernel. This scripts tells the compiler how to lay out
 the kernel code in memory and what addresses to use. I was able to copy
 it from the PinePhone and just change the load address to `0x480000`.
 
-## Figuring out the boot
+Figuring out the boot
+---------------------
 
 The first thing I wanted to do was determine how much work had already
 been done for aarch64 that would allow me to more easily complete the
-port. In Lup's blogs, he tested out support for his core type (ARM
+port. In Lup\'s blogs, he tested out support for his core type (ARM
 Cortex-A53 on the PinePhone) by booting the aarch64 instance of QEMU
 with NuttX using that core. I decided to take the same approach, and was
 able to successfully boot on ARM Cortex-A72 using QEMU following his
@@ -192,8 +198,8 @@ timer configuration, interrupt handling and drivers for a lot of the
 standard features in aarch64 architectures. I did not have to deal with
 any of this because of them, and it really cut down on the amount of
 assembly I had to read and understand. I also barely had to write any
-assembly outside of debugging the boot process a little (we'll get to
-that later). Not to mention I had Lup's well-written articles to guide
+assembly outside of debugging the boot process a little (we\'ll get to
+that later). Not to mention I had Lup\'s well-written articles to guide
 me.
 
 In order to compile and boot the board, I had to add a definition for
@@ -201,7 +207,7 @@ In order to compile and boot the board, I had to add a definition for
 to get past the compilation stage. I also defined the `GICR_OFFSET` and
 `GICR_BASE` macros for the GICv2 interrupt controller by copying them
 from the Allwinner chip, which used the same controller. After reading
-further in Lup's blog, I learned that the boot script has a `PRINT`
+further in Lup\'s blog, I learned that the boot script has a `PRINT`
 macro which is called early in the boot process, and requires an
 implementation of `up_lowputc` to print to the console. This would be
 the first thing I need to implement. This compiled, but when I booted
@@ -216,10 +222,10 @@ multimeter and confirm that the GPIO did get set, so I knew that the
 `arm64_earlyprint_init` function was getting called. Something was wrong
 with my UART configuration.
 
-I then tried directly manipulating registers to put the text "hi" in the
-UART FIFO. When I booted again, this printed, but then was followed by
-some garbled output. It appeared that the the `char *` pointer passed to
-the print function was getting garbled. After troubleshooting by
+I then tried directly manipulating registers to put the text \"hi\" in
+the UART FIFO. When I booted again, this printed, but then was followed
+by some garbled output. It appeared that the the `char *` pointer passed
+to the print function was getting garbled. After troubleshooting by
 printing characters directly by calling my `arm64_lowputc` in the
 assembly boot script, I discovered that I could print a string from the
 C definition if I declared the string as static. I also investigated the
@@ -227,11 +233,11 @@ elf generated by building and confirmed the string was located in
 `.rodata`. I was suspicious that I was loading the kernel incorrectly
 into memory and some addresses were getting mixed up. Sure enough, I had
 defined the load address in the linker script as `0x80000` instead of
-`0x480000`. Fixing this allowed me to see the boot messages properly\!
+`0x480000`. Fixing this allowed me to see the boot messages properly!
 
 I received this message in the console:
 
-``` console
+``` {.console}
 ----gic_validate_dist_version: No GIC version detect
 arm64_gic_initialize: no distributor detected, giving up ret=-19
 _assert: Current Version: NuttX  12.6.0-RC0 6791d4a1c4-dirty Aug  4 2024 00:38:21 arm64
@@ -242,7 +248,7 @@ I had accidentally kept the GICv3 in my config files when copying things
 from other boards, and changed it to GICv2. That resolved the issue and
 presented me with a new one:
 
-``` console
+``` {.console}
 MESS:00:00:06.144520:0:----_assert: Current Version: NuttX  12.6.0-RC0 f81fb7a076-dirty Aug  4 2024 16:16:30 arm64
 _assert: Assertion failed panic: at file: common/arm64_fatal.c:375 task: Idle_Task process: Kernel 0x4811e4
 ```
@@ -250,7 +256,7 @@ _assert: Assertion failed panic: at file: common/arm64_fatal.c:375 task: Idle_Ta
 After enabling all of the debug output in the build options, this
 became:
 
-``` console
+``` {.console}
 arm64_oneshot_initialize: cycle_per_tick 54000
 arm64_fatal_error: reason = 0
 arm64_fatal_error: CurrentEL: MODE_EL1
@@ -267,7 +273,7 @@ caused by the `ldaxr` instruction, which the ARM documentation said
 could only be used once the MMU was enabled. I then enabled the MMU as
 well as its debug information and was greeted with the lovely error:
 
-``` console
+``` {.console}
 MESS:00:00:06.174977:0:----arm64_mmu_init: xlat tables:
 arm64_mmu_init: base table(L1): 0x4cb000, 64 entries
 arm64_mmu_init: 0: 0x4c4000
@@ -334,9 +340,9 @@ Some more debugging allowed me to determine that the `CONFIG_RAM_START`
 and `CONFIG_RAM_SIZE` macros in the defconfig for my nsh configuration
 were still set to the values from the PinePhone that I copied from. I
 set these to the correct values for the Raspberry Pi 4B and got much
-further\!
+further!
 
-``` console
+``` {.console}
 MESS:00:00:06.211786:0:----irq_attach: In irq_attach
 irq_attach: before spin_lock_irqsave
 spin_lock_irqsave: me: 0
@@ -384,13 +390,13 @@ dump_task:       0     0   0 FIFO     Kthread - Running            0000000000000
 CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyUSB0
 ```
 
-We actually got into tasks now\! It appears stdin failed to open because
+We actually got into tasks now! It appears stdin failed to open because
 in my Mini-UART driver implementation I had the `attach` and `ioctl`
 functions return `-ENOSYS`. Just changing this to 0 for success in the
 interim allowed us to get even further, and I could see the beginnings
 of NSH spawning.
 
-``` console
+``` {.console}
 mm_initialize: Heap: name=Umem, start=0x4cc000 size=4222828544
 mm_addregion: [Umem] Region 1: base=0x4cc2a8 size=4222827856
 mm_malloc: Allocated 0x4cc2d0, size 144
@@ -439,7 +445,7 @@ but eventually I determined that the BCM2711 datasheet actually had an
 error where the TX and RX interrupt fields were swapped in the
 datasheet. A blog post online had mentioned this for the BCM2835, but it
 appeared to be an issue on this chip as well. Now we were booting into
-NSH\!
+NSH!
 
 It was at this point that the port is considered a success, since I was
 able to boot into NSH and successfully run the `ostest` benchmark. I

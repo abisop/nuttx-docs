@@ -1,10 +1,7 @@
-# Olimex STM32-P207
-
-<div class="tags">
+Olimex STM32-P207
+=================
 
 chip:stm32, chip:stm32f4, chip:stm32f407
-
-</div>
 
 The NuttX configuration for the Olimex STM32-P407 is derives more or
 less directly from the Olimex STM32-P207 board support. The P207 and
@@ -12,37 +9,39 @@ P407 seem to share the same board design. Other code comes from the
 STM3240G board support (which has the same crystal and clocking) and
 from the STM32 F4 Discovery (which has the same STM32 part)
 
-## Board Support
+Board Support
+-------------
 
 The following peripherals are available in this configuration.
 
-  - LEDs: Show the system status
-  - Buttons: TAMPER-button, WKUP-button, J1-Joystick (consists of
+-   LEDs: Show the system status
+-   Buttons: TAMPER-button, WKUP-button, J1-Joystick (consists of
     RIGHT-, UP-, LEFT-, DOWN-, and CENTER-button).
-  - ADC: ADC1 samples the red trim potentiometer AN\_TR Built in app
-    'adc' works.
-  - USB-FS-OTG: There is a USB-A-connector (host) connected to the full
+-   ADC: ADC1 samples the red trim potentiometer AN\_TR Built in app
+    \'adc\' works.
+-   USB-FS-OTG: There is a USB-A-connector (host) connected to the full
     speed STM32 OTG inputs.
-  - USB-HS-OTG: The other connector (device) is connected to the high
+-   USB-HS-OTG: The other connector (device) is connected to the high
     speed STM32 OTG inputs.
-  - CAN: Built in app 'can' works, but apart from that not really
+-   CAN: Built in app \'can\' works, but apart from that not really
     tested.
-  - Ethernet: Ping to other station on the network works.
-  - microSD: Not fully functional. See below.
-  - LCD: Nokia 6610. This is similar the Nokia 6100 LCD used on other
+-   Ethernet: Ping to other station on the network works.
+-   microSD: Not fully functional. See below.
+-   LCD: Nokia 6610. This is similar the Nokia 6100 LCD used on other
     Olimex boards. There is a driver for that LCD at
     Obsoleted/nuttx/drivers/lcd/nokia6100.c, however, it was removed
     because it was not properly integrated. It uses a 9-bit SPI
     interface which is difficult to get working properly.
-  - External SRAM: Support is included for the onboard SRAM. It uses
+-   External SRAM: Support is included for the onboard SRAM. It uses
     SRAM settings from another board that might need to be tweaked.
     Difficult to test because the SRAM conflicts with both RS232 ports.
-  - Other: Buzzer, Camera, Temperature sensor, audio have not been
+-   Other: Buzzer, Camera, Temperature sensor, audio have not been
     tested.
 
 > If so, then it requires a 9-bit
 
-## microSD Card Interface
+microSD Card Interface
+----------------------
 
 ### microSD Connector
 
@@ -61,7 +60,7 @@ The following peripherals are available in this configuration.
     7   DAT0/D0       SD_D0/DCMI_D2     PC8  GPIO_SDIO_D0
     8   DAT1/RES      SD_D1/DCMI_D3     PC9  GPIO_SDIO_D1
     --- ------------- ----------------- -------------------------
-    
+
     NOTES:
     1. DAT4, DAT4, DAT6, and DAT7 not connected.
     2. There are no alternative pin selections.
@@ -111,7 +110,7 @@ Application Configuration -\> NSH Library:
 
 3.  If you try mounting an SD card with nothing in the slot, the mount
     will fail:
-    
+
         nsh> mount -t vfat /dev/mmcsd0 /mnt/sdcard
         nsh: mount: mount failed: 19
 
@@ -120,11 +119,11 @@ Application Configuration -\> NSH Library:
 2017-01-28: There is no card communication. All commands to the SD card
 timeout.
 
-## OTGFS Host
+OTGFS Host
+----------
 
-> 
-
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -150,28 +149,30 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    > 1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    > a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
     >     see additional README.txt files in the NuttX tools repository.
-    > 2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    > b.  Execute \'make menuconfig\' in nuttx/ in order to start the
     >     reconfiguration process.
 
 2.  Serial Output
-    
+
     > This configuraiont produces all of its test output on the serial
     > console. This configuration has USART3 enabled as a serial
     > console. This is the connector labeled RS232\_2. This can easily
-    > be changed by reconfiguring with 'make menuconfig'.
+    > be changed by reconfiguring with \'make menuconfig\'.
 
 3.  Toolchain
-    
+
     > By default, the host platform is set to be Linux using the NuttX
     > buildroot toolchain. The host and/or toolchain selection can
-    > easily be changed with 'make menuconfig'.
+    > easily be changed with \'make menuconfig\'.
 
-4.    - Note that CONFIG\_STM32\_DISABLE\_IDLE\_SLEEP\_DURING\_DEBUG is
-        enabled so  
-        that the JTAG connection is not disconnected by the idle loop.
+4.  
+
+    Note that CONFIG\_STM32\_DISABLE\_IDLE\_SLEEP\_DURING\_DEBUG is enabled so
+
+    :   that the JTAG connection is not disconnected by the idle loop.
 
 ### Configuration sub-directories
 
@@ -195,10 +196,10 @@ device and the HID keyboard example at apps/examples/hidkbd.
 
 STATUS: 2018-10-07: Not all keyboards will connect successfully. I have
 not looked into the details but it may be that those keyboards are not
-compatible with the driver (which only accepts "boot" keyboards). Also,
-when typing input into the HID keyboard, characters are often missing
-and sometimes duplicated. This is like some issue with the read logic of
-drivers/usbhost\_hidkbc.c.
+compatible with the driver (which only accepts \"boot\" keyboards).
+Also, when typing input into the HID keyboard, characters are often
+missing and sometimes duplicated. This is like some issue with the read
+logic of drivers/usbhost\_hidkbc.c.
 
 ### kelf
 
@@ -208,17 +209,21 @@ are loaded into user space.
 
 NOTES:
 
-1.    - See build recommendations and instructions for combining the
-        .hex  
-        files under the section entitled "Protected Mode Build" above.
+1.  
 
-2.    - Unlike other versions of apps/examples/elf configurations, the
-        test  
-        ELF programs are not provided internally on a ROMFS or CROMFS
+    See build recommendations and instructions for combining the .hex
+
+    :   files under the section entitled \"Protected Mode Build\" above.
+
+2.  
+
+    Unlike other versions of apps/examples/elf configurations, the test
+
+    :   ELF programs are not provided internally on a ROMFS or CROMFS
         file system. This is due to the fact that those file systems are
         built in user space and there is no mechanism in the build
         system to easily get them into the kernel space.
-        
+
         Instead, the programs must be copied to a USB FLASH drive from
         your host PC. The programs can be found at
         apps/examples/elf/tests/romfs. All of those files should be
@@ -234,24 +239,28 @@ programs are loaded into the protected kernel space.
 
 NOTES:
 
-1.    - See build recommendations and instructions for combining the
-        .hex  
-        files under the section entitled "Protected Mode Build" above.
+1.  
 
-2.    - Unlike other versions of apps/examples/module configurations,
-        the test  
-        ELF modules are not provided internally on a ROMFS or CROMFS
+    See build recommendations and instructions for combining the .hex
+
+    :   files under the section entitled \"Protected Mode Build\" above.
+
+2.  
+
+    Unlike other versions of apps/examples/module configurations, the test
+
+    :   ELF modules are not provided internally on a ROMFS or CROMFS
         file system. This is due to the fact that those file systems are
         built in user space and there is no mechanism in the build
         system to easily get them into the kernel space.
-        
+
         Instead, the module(s) must be copied to a USB FLASH drive from
         your host PC. The module(s) can be found at
         apps/examples/module/driver/fsroot. All of those file(s) should
         be copied to the USB FLASH drive. Like the kelf configuration,
         the logic in apps/example/module will wait on power up until the
         USB FLASH drive has been inserted and initialized.
-        
+
         STATUS: 2018-08-07: After some struggle, the configuration
         appears to be working correctly.
 
@@ -264,7 +273,7 @@ are built separately.
 NOTES:
 
 1.  See build recommendations and instructions for combining the .hex
-    files under the section entitled "Protected Mode Build" above.
+    files under the section entitled \"Protected Mode Build\" above.
 
 ### module
 
@@ -310,13 +319,13 @@ apps/examples/nsh
 NOTES:
 
 1.  USB host support for USB FLASH sticks is enabled. See the notes
-    above under "OTGFS Host".
-    
+    above under \"OTGFS Host\".
+
     STATUS: I have seen this work with some FLASH sticks but not with
     others. I have not studied the failure case carefully. They seem to
     fail because the request is NAKed. That is not a failure, however,
     that is normal behavior when the FLASH is not ready.
-    
+
     There have been other cases like this with the STM32 host drivers:
     in the event of NAKs, other drivers retry and wait for the data. The
     STM32 does not but returns the NAK failure immediately. My guess is
@@ -324,11 +333,11 @@ NOTES:
     reliable.
 
 2.  Kernel Modules / Shared Libraries
-    
+
     I used this configuration for testing NuttX kernel modules in the
     FLAT build with the following configuration additions to the
     configuration file:
-    
+
         CONFIG_BOARDCTL_OS_SYMTAB=y
         CONFIG_EXAMPLES_MODULE=y
         CONFIG_EXAMPLES_MODULE_BUILTINFS=y
@@ -341,10 +350,10 @@ NOTES:
         CONFIG_LIBC_ELF_ALIGN_LOG2=2
         CONFIG_LIBC_ELF_BUFFERINCR=32
         CONFIG_LIBC_ELF_BUFFERSIZE=128
-        
+
         Add the following for testing shared libraries in the FLAT
         build::
-        
+
         CONFIG_LIBC_DLFCN=y
         CONFIG_EXAMPLES_SOTEST=y
         CONFIG_EXAMPLES_SOTEST_BUILTINFS=y
@@ -372,69 +381,70 @@ throughput considerations to assure that there is no Rx data overrun.
 General usage instructions:
 
 1.  Common Setup:
-    
+
         [on target]
         nsh> mount -t vfat /dev/sda /mnt
-        
+
         [on Linux host]
          sudo stty -F /dev/ttyS0 9600
          sudo stty -F /dev/ttyS0 crtscts *
          sudo stty -F /dev/ttyS0 raw
          sudo stty -F /dev/ttyS0
-        
+
         * Because hardware flow control will be enabled on the target side
           in this configuration.
 
 2.  Host-to-Target File Transfer:
-    
+
         [on target]
         nsh> rz
-        
+
         [on host]
          sudo sz <filename> [-l nnnn] </dev/ttyS0 >/dev/ttyS0
-        
+
         Where <filename> is the file that you want to transfer. If -l nnnn is
         not specified, then there will likely be packet buffer overflow errors.
         nnnn should be set to a strictly less than CONFIG_SYSTEM_ZMODEM_PKTBUFSIZE.
         All testing was performed with -l 512.
-        
+
         If you are using the NuttX implementation of rz and sz on the Linux host,
         then the last command simplifies to just::
-        
+
         [on host]
          cp README.txt /tmp/.
          sudo ./sz -d /dev/ttyS1 README.txt
-        
+
         Assuming that /dev/ttyS0 is the serial and /dev/ttyS1 is the zmodem port
         on the Linux host as well.  NOTE:  By default, files will be transferred
         to and from the /tmp directory only.
-        
+
         Refer to the README file at apps/examples/zmodem for detailed information
         about building rz/sz for the host and about zmodem usage in general.
 
 3.  Target-to-Host File Transfer:
-    
+
         [on host]
          rz </dev/ttyS0 >/dev/ttyS0
-    
+
     The transferred file will end up in the current directory.
-    
+
     If you are using the NuttX implementation of rz and sz on the Linux
     host, then the last command simplifies to just:
-    
+
         [on host]
          ./rz
-    
+
     The transferred file will lie in the /tmp directory.
-    
+
     Then on the target side:
-    
+
         [on target]
         nsh sz <filename>
-    
+
     Where \<filename\> is the file that you want to transfer.
 
-## STATUS
+STATUS
+------
 
 2016-12-21: This board configuration was ported from the Olimex STM32
 P207 port. Note that none of the above features have been verified. USB,

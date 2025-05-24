@@ -1,17 +1,20 @@
-# ZipFS
+ZipFS
+=====
 
 Zipfs is a read only file system that mounts a zip file as a NuttX file
 system through the NuttX VFS interface. This allows users to read files
 while decompressing them, without requiring additional storage space.
 
-## CONFIG
+CONFIG
+------
 
-``` bash
+``` {.bash}
 CONFIG_FS_ZIPFS=y
 CONFIG_LIB_ZLIB=y
 ```
 
-## Example
+Example
+-------
 
 1.  `./tools/configure.sh sim:zipfs` build sim platform with zipfs
     support.
@@ -23,9 +26,7 @@ CONFIG_LIB_ZLIB=y
     `/zipfs`.
 6.  Use cat/ls command to test.
 
-<!-- end list -->
-
-``` bash
+``` {.bash}
 nsh> ls /zip
 /zip:
  a/1

@@ -1,4 +1,5 @@
-# Zilog ZNEO Z16F
+Zilog ZNEO Z16F
+===============
 
 **Zilog z16f2800100zcog development kit**. This port use the Zilog
 z16f2800100zcog development kit and the Zilog ZDS-II Windows command
@@ -13,6 +14,7 @@ was added in NuttX-7.2. Refer to the NuttX board
 [README](https://github.com/apache/nuttx/blob/master/Documentation/platforms/z16/z16f/boards/z16f2800100zcog/README.txt)
 file for further information.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

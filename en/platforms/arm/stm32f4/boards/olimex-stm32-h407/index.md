@@ -1,10 +1,7 @@
-# Olimex STM32-H407
-
-<div class="tags">
+Olimex STM32-H407
+=================
 
 chip:stm32, chip:stm32f4, chip:stm32f407
-
-</div>
 
 The Olimex STM32-H407 configuration is based on stm32Fdiscovery and
 Olimex STM32-H405.
@@ -16,16 +13,19 @@ include/board.h
 nsh - Only basic shell response tested on USART2 nsh\_uext - Basic shell
 response tested on USART6 (UEXT)
 
-## LEDs
+LEDs
+----
 
 The H407 board has 1 Status LED;
 
-## SDCard
+SDCard
+------
 
-Expects to be plugged in else hangs. TODO: Shouldn't hang. SDIO 4bit
-with pulls/downs on pins. Doesn't have a SD card detect pin.
+Expects to be plugged in else hangs. TODO: Shouldn\'t hang. SDIO 4bit
+with pulls/downs on pins. Doesn\'t have a SD card detect pin.
 
-## UARTs
+UARTs
+-----
 
 On the H407 board, ?? all uarts are available for pin mappings USART2
 can be used for nsh console like on Discovery board, or you can use

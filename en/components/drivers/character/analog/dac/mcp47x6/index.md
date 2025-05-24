@@ -1,22 +1,24 @@
-# Microchip MCP4706/4716/4726
+Microchip MCP4706/4716/4726
+===========================
 
 Microchip MCP4706/4716/4726 DAC.
 
 The digital-analog-converter operates over I2C.
 
-  - `include/nuttx/analog/mcp47x6.h`. All structures and APIs needed to
+-   `include/nuttx/analog/mcp47x6.h`. All structures and APIs needed to
     work with DAC drivers are provided in this header file.
 
 The following features are configurable via the `ioctl` interface of the
 device:
 
-  - gain
-  - power down
-  - voltage reference
+-   gain
+-   power down
+-   voltage reference
 
-## Usage Example
+Usage Example
+-------------
 
-``` c
+``` {.c}
 #include <nuttx/analog/dac.h>
 #include <nuttx/analog/mcp47x6.h>
 

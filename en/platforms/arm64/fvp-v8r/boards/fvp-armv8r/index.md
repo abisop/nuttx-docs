@@ -1,7 +1,4 @@
-# fvp-armv8r
-
-<div class="tags">
+fvp-armv8r
+==========
 
 chip:virt
-
-</div>

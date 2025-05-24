@@ -1,54 +1,56 @@
-# Memory Technology Device Drivers
+Memory Technology Device Drivers
+================================
 
-MTD stands for "Memory Technology Devices". This directory contains
+MTD stands for \"Memory Technology Devices\". This directory contains
 drivers that operate on various memory technology devices and provide an
 MTD interface. That MTD interface may then be used by higher level logic
 to control access to the memory device.
 
 See include/nuttx/mtd/mtd.h for additional information.
 
-  - `include/nuttx/mtd/mtd.h`. All structures and APIs needed to work
+-   `include/nuttx/mtd/mtd.h`. All structures and APIs needed to work
     with MTD drivers are provided in this header file.
 
-  - `struct mtd_dev_s`. Each MTD device driver must implement an
+-   `struct mtd_dev_s`. Each MTD device driver must implement an
     instance of `struct mtd_dev_s`. That structure defines a call table
     with the following methods:
-    
+
     Erase the specified erase blocks (units are erase blocks):
-    
+
     Read/write from the specified read/write blocks:
-    
+
     Some devices may support byte oriented reads (optional). Most MTD
     devices are inherently block oriented so byte-oriented accesses are
     not supported. It is recommended that low-level drivers not support
     read() if it requires buffering.
-    
+
     Some devices may also support byte oriented writes (optional). Most
     MTD devices are inherently block oriented so byte-oriented accesses
     are not supported. It is recommended that low-level drivers not
     support read() if it requires buffering. This interface is only
     available if `CONFIG_MTD_BYTE_WRITE` is defined.
-    
+
     Support other, less frequently used commands:
-    
-      - `MTDIOC_GEOMETRY`: Get MTD geometry
-      - `MTDIOC_BULKERASE`: Erase the entire device
-    
+
+    -   `MTDIOC_GEOMETRY`: Get MTD geometry
+    -   `MTDIOC_BULKERASE`: Erase the entire device
+
     is provided via a single `ioctl` method (see
     `include/nuttx/fs/ioctl.h`):
 
-  - **Binding MTD Drivers**. MTD drivers are not normally directly
+-   **Binding MTD Drivers**. MTD drivers are not normally directly
     accessed by user code, but are usually bound to another, higher
     level device driver. In general, the binding sequence is:
-    
+
     1.  Get an instance of `struct mtd_dev_s` from the hardware-specific
         MTD device driver, and
     2.  Provide that instance to the initialization method of the higher
         level device driver.
 
-  - **Examples**: `drivers/mtd/m25px.c` and `drivers/mtd/ftl.c`
+-   **Examples**: `drivers/mtd/m25px.c` and `drivers/mtd/ftl.c`
 
-## EEPROM
+EEPROM
+------
 
 EEPROMs are a form of Memory Technology Device (MTD). EEPROMs are
 non-volatile memory like FLASH, but differ in underlying memory
@@ -63,7 +65,8 @@ may not be convenient to use the more complex MTD interface but instead
 use the simple character interface provided by the EEPROM drivers. See
 drivers/eeprom.
 
-## CFI FLASH
+CFI FLASH
+---------
 
 CFI, the full name of which is Common Flash Interface, is a standard
 proposed by JEDEC (Joint Electron Device Engineering Council) in 2003.
@@ -78,12 +81,13 @@ size, erase speed, special features, and more. In other words, it is
 equivalent to loading the data manual of Flash into the physical device
 of Flash, It can be read and used by relevant personnel when needed.
 
-CFI's instruction link:
+CFI\'s instruction link:
 <https://netwinder.osuosl.org/pub/netwinder/docs/nw/flash/29220403.pdf>
 CFI supports intel and amd instruction sets, and currently device
 drivers are already supported
 
-## NAND MEMORY
+NAND MEMORY
+-----------
 
 ### Files
 
@@ -107,22 +111,22 @@ effort. See the STATUS section below.
 The NuttX FLASH File System (NXFFS) works well with NOR-like FLASH but
 does not work well with NAND. Some simple usability issues include:
 
-  - NXFFS can be very slow. The first time that you start the system, be
+-   NXFFS can be very slow. The first time that you start the system, be
     prepared for a wait; NXFFS will need to format the NAND volume. I
-    have lots of debug on so I don't yet know what the optimized wait
+    have lots of debug on so I don\'t yet know what the optimized wait
     will be. But with debug ON, software ECC, and no DMA the wait is in
     many tens of minutes (and substantially longer if many debug options
     are enabled.
-  - On subsequent boots, after the NXFFS file system has been created
+-   On subsequent boots, after the NXFFS file system has been created
     the delay will be less. When the new file system is empty, it will
     be very fast. But the NAND-related boot time can become substantial
     whenthere has been a lot of usage of the NAND. This is because NXFFS
     needs to scan the NAND device and build the in-memory dataset needed
     to access NAND and there is more that must be scanned after the
     device has been used. You may want tocreate a separate thread at
-    boot time to bring up NXFFS so that you don't delay the
+    boot time to bring up NXFFS so that you don\'t delay the
     boot-to-prompt time excessively in these longer delay cases.
-  - There is another NXFFS related performance issue: When the FLASH is
+-   There is another NXFFS related performance issue: When the FLASH is
     fully used, NXFFS will restructure the entire FLASH, the delay to
     restructure the entire FLASH will probably be even larger. This
     solution in this case is to implement an NXFSS clean-up daemon that
@@ -131,7 +135,7 @@ does not work well with NAND. Some simple usability issues include:
 
 But there is a more serious, showstopping problem with NXFFS and NAND:
 
-  - Bad NXFFS behavior with NAND: If you restart NuttX, the files that
+-   Bad NXFFS behavior with NAND: If you restart NuttX, the files that
     you wrote to NAND will be gone. Why? Because the multiple writes
     have corrupted the NAND ECC bits. See STATUS below. NXFFS would
     require a major overhaul to be usable with NAND.
@@ -142,7 +146,7 @@ FLASH model in several ways. For one thing, NAND requires error
 correction (ECC) bytes that must be set in order to work around bit
 failures. This affects NXFFS in two ways:
 
-  - First, write failures are not fatal. Rather, they should be tried by
+-   First, write failures are not fatal. Rather, they should be tried by
     bad blocks and simply ignored. This is because unrecoverable bit
     failures will cause read failures when reading from NAND. Setting
     the CONFIG\_EXPERIMENTAL+CONFIG\_NXFFS\_NAND option will enable this
@@ -151,7 +155,7 @@ failures. This affects NXFFS in two ways:
 \[CONFIG\_NXFFS\_NAND is only available is CONFIG\_EXPERIMENTAL is also
 selected.\]
 
-  - Secondly, NXFFS will write a block many times. It tries to keep bits
+-   Secondly, NXFFS will write a block many times. It tries to keep bits
     in the erased state and assumes that it can overwrite those bits to
     change them from the erased to the non-erased state. This works will
     with NOR-like FLASH. NAND behaves this way too. But the problem with
@@ -181,7 +185,7 @@ write a sector, FTL will read the entire erase block into memory, erase
 the block on FLASH, modify the sector and re-write the erase block back
 to FLASH. For large NANDs this can be very inefficient. For example, I
 am currently using nand with a 128KB erase block size and 2K page size
-so each write can cause a 256KB data transfer\!
+so each write can cause a 256KB data transfer!
 
 NOTE that there is some caching logic within FAT and FTL so that this
 cached erase block can be reused if possible and writes will be deferred

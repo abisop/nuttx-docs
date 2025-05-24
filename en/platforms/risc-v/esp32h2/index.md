@@ -1,74 +1,79 @@
-# Espressif ESP32-H2
+Espressif ESP32-H2
+==================
 
 The ESP32-H2 is an ultra-low-power and highly integrated SoC with a
 RISC-V core and supports 2.4 GHz transceiver, Bluetooth 5 (LE) and the
 802.15.4 protocol.
 
-  - Address Space
-      - 452 KB of internal memory address space accessed from the
+-   Address Space
+    -   452 KB of internal memory address space accessed from the
         instruction bus
-      - 452 KB of internal memory address space accessed from the data
+    -   452 KB of internal memory address space accessed from the data
         bus
-      - 832 KB of peripheral address space
-      - 16 MB of external memory virtual address space accessed from the
+    -   832 KB of peripheral address space
+    -   16 MB of external memory virtual address space accessed from the
         instruction bus
-      - 16 MB of external memory virtual address space accessed from the
+    -   16 MB of external memory virtual address space accessed from the
         data bus
-      - 260 KB of internal DMA address space
-  - Internal Memory
-      - 128 KB ROM
-      - 320 KB SRAM (16 KB can be configured as Cache)
-      - 4 KB of SRAM in RTC
-  - External Memory
-      - Up to 16 MB of external flash
-  - Peripherals
-      - Multiple peripherals
-  - GDMA
-      - 7 modules are capable of DMA operations.
+    -   260 KB of internal DMA address space
+-   Internal Memory
+    -   128 KB ROM
+    -   320 KB SRAM (16 KB can be configured as Cache)
+    -   4 KB of SRAM in RTC
+-   External Memory
+    -   Up to 16 MB of external flash
+-   Peripherals
+    -   Multiple peripherals
+-   GDMA
+    -   7 modules are capable of DMA operations.
 
-## ESP32-H2 Toolchain
+ESP32-H2 Toolchain
+------------------
 
-A generic RISC-V toolchain can be used to build ESP32-H2 projects. It's
+A generic RISC-V toolchain can be used to build ESP32-H2 projects. It\'s
 recommended to use the same toolchain used by NuttX CI. Please refer to
 the Docker
 [container](https://github.com/apache/nuttx/tree/master/tools/ci/docker/linux/Dockerfile)
 and check for the current compiler version being used. For instance:
 
-    ###############################################################################
-    # Build image for tool required by RISCV builds
-    ###############################################################################
-    FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
-    # Download the latest RISCV GCC toolchain prebuilt by xPack
-    RUN mkdir riscv-none-elf-gcc && \
-    curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
-    | tar -C riscv-none-elf-gcc --strip-components 1 -xz
+``` {.}
+###############################################################################
+# Build image for tool required by RISCV builds
+###############################################################################
+FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
+# Download the latest RISCV GCC toolchain prebuilt by xPack
+RUN mkdir riscv-none-elf-gcc && \
+curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
+| tar -C riscv-none-elf-gcc --strip-components 1 -xz
+```
 
-It uses the xPack's prebuilt toolchain based on GCC 13.2.0-2.
+It uses the xPack\'s prebuilt toolchain based on GCC 13.2.0-2.
 
 ### Installing
 
 First, create a directory to hold the toolchain:
 
-``` console
+``` {.console}
  mkdir -p /path/to/your/toolchain/riscv-none-elf-gcc
 ```
 
 Download and extract toolchain:
 
-``` console
+``` {.console}
  curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
 | tar -C /path/to/your/toolchain/riscv-none-elf-gcc --strip-components 1 -xz
 ```
 
 Add the toolchain to your \`PATH\`:
 
-``` console
+``` {.console}
  echo "export PATH=/path/to/your/toolchain/riscv-none-elf-gcc/bin:PATH" >> ~/.bashrc
 ```
 
-You can edit your shell's rc files if you don't use bash.
+You can edit your shell\'s rc files if you don\'t use bash.
 
-## Building and flashing NuttX
+Building and flashing NuttX
+---------------------------
 
 ### Installing esptool
 
@@ -78,13 +83,7 @@ flash the image into the board.
 
 It can be installed with: `pip install esptool>=4.8.1`.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Installing `esptool.py` may required a Python virtual environment on
 newer systems. This will be the case if the `pip install` command throws
@@ -94,18 +93,17 @@ If you are not familiar with virtual environments, refer to [Managing
 esptool on virtual environment]() for instructions on how to install
 `esptool.py`.
 
-</div>
-
 ### Bootloader and partitions
 
-NuttX can boot the ESP32-H2 directly using the so-called "Simple Boot".
-An externally-built 2nd stage bootloader is not required in this case as
-all functions required to boot the device are built within NuttX. Simple
-boot does not require any specific configuration (it is selectable by
-default if no other 2nd stage bootloader is used). For compatibility
-among other SoCs and future options of 2nd stage bootloaders, the
-commands `make bootloader` and the `ESPTOOL_BINDIR` option (for the
-`make flash`) are kept (and ignored if Simple Boot is used).
+NuttX can boot the ESP32-H2 directly using the so-called \"Simple
+Boot\". An externally-built 2nd stage bootloader is not required in this
+case as all functions required to boot the device are built within
+NuttX. Simple boot does not require any specific configuration (it is
+selectable by default if no other 2nd stage bootloader is used). For
+compatibility among other SoCs and future options of 2nd stage
+bootloaders, the commands `make bootloader` and the `ESPTOOL_BINDIR`
+option (for the `make flash`) are kept (and ignored if Simple Boot is
+used).
 
 If other features are required, an externally-built 2nd stage bootloader
 is needed. The bootloader is built using the `make bootloader` command.
@@ -119,22 +117,14 @@ ignored if Simple Boot is used, for instance):
 
      make bootloader
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 It is recommended that if this is the first time you are using the board
 with NuttX to perform a complete SPI FLASH erase.
 
-``` console
+``` {.console}
  esptool.py erase_flash
 ```
-
-</div>
 
 ### Building and flashing
 
@@ -147,11 +137,11 @@ to build and flash the NuttX firmware simply by running:
 
 where:
 
-  - `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
-  - `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
+-   `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
+-   `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
     bootloader and the partition table (if applicable): when built using
     the `make bootloader`, these files are placed into `nuttx` folder.
-  - `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
+-   `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
 
 ### Flashing NSH Example
 
@@ -191,7 +181,7 @@ where `<port>` is the serial port where the board is connected:
     Took 0.27s to erase flash block
     Wrote 249856 bytes at 0x00000000 in 5.0 seconds (401.4 kbit/s)...
     Hash of data verified.
-    
+
     Leaving...
     Hard resetting via RTS pin...
 
@@ -203,7 +193,8 @@ NuttX console:
     nsh> uname -a
     NuttX 12.8.0 759d37b97c-dirty Mar  5 2025 20:16:34 risc-v esp32h2-devkit
 
-## Debugging
+Debugging
+---------
 
 This section describes debugging techniques for the ESP32-H2.
 
@@ -219,70 +210,45 @@ for more information on how to build OpenOCD for ESP32-H2.
 You do not need an external JTAG to debug, the ESP32-H2 integrates a
 USB-to-JTAG adapter.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 One must configure the USB drivers to enable JTAG communication. Please
 check [Configure USB
 Drivers](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32h2/api-guides/jtag-debugging/configure-builtin-jtag.html#configure-usb-drivers)
 for more information.
 
-</div>
-
 OpenOCD can then be used:
 
     openocd -s <tcl_scripts_path> -c 'set ESP_RTOS hwthread' -f board/esp32c3-builtin.cfg -c 'init; reset halt; esp appimage_offset 0x0'
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 \- `appimage_offset` should be set to `0x0` when `Simple Boot` is used.
 For MCUboot, this value should be set to
 `CONFIG_ESPRESSIF_OTA_PRIMARY_SLOT_OFFSET` value (`0x10000` by default).
 - `-s <tcl_scripts_path>` defines the path to the OpenOCD scripts.
-Usually set to <span class="title-ref">tcl</span> if running openocd
-from its source directory. It can be omitted if
-<span class="title-ref">openocd-esp32</span> were installed in the
-system with <span class="title-ref">sudo make install</span>.
-
-</div>
+Usually set to [tcl]{.title-ref} if running openocd from its source
+directory. It can be omitted if [openocd-esp32]{.title-ref} were
+installed in the system with [sudo make install]{.title-ref}.
 
 If you want to debug with an external JTAG adapter it can be connected
 as follows:
 
-| ESP32-H2 Pin | JTAG Signal |
-| ------------ | ----------- |
-| GPIO2        | TMS         |
-| GPIO5        | TDI         |
-| GPIO4        | TCK         |
-| GPIO3        | TDO         |
+  ESP32-H2 Pin   JTAG Signal
+  -------------- -------------
+  GPIO2          TMS
+  GPIO5          TDI
+  GPIO4          TCK
+  GPIO3          TDO
 
 Furthermore, an efuse needs to be burnt to be able to debug:
 
     espefuse.py -p <port> burn_efuse DIS_USB_JTAG
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Burning eFuses is an irreversible operation, so please consider the
 above option before starting the process.
-
-</div>
 
 OpenOCD can then be used:
 
@@ -303,22 +269,13 @@ whereas the content of the `gdbinit` file is:
     thb nsh_main
     c
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `nuttx` is the ELF file generated by the build process. Please note that
 `CONFIG_DEBUG_SYMBOLS` must be enabled in the `menuconfig`.
 
-</div>
-
-Please refer to
-\[<span class="title-ref">/quick\](</span>/quick.md)start/debugging\`
-for more information about debugging techniques.
+Please refer to \[[/quick\](]{.title-ref}/quick.md)start/debugging\` for
+more information about debugging techniques.
 
 ### Stack Dump and Backtrace Dump
 
@@ -331,36 +288,20 @@ In order to enable this feature, the following options must be enabled
 in the NuttX configuration: `CONFIG_SCHED_BACKTRACE`,
 `CONFIG_DEBUG_SYMBOLS` and, optionally, `CONFIG_ALLSYMS`.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The first two options enable the backtrace dump. The third option
 enables the backtrace dump with the associated symbols, but increases
 the size of the generated NuttX binary.
 
-</div>
-
 Espressif also provides a tool to translate the backtrace dump into a
 human-readable format. This tool is called `btdecode.sh` and is
 available at `tools/espressif/btdecode.sh` of NuttX repository.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 This tool is not necessary if `CONFIG_ALLSYMS` is enabled. In this case,
 the backtrace dump contains the function names.
-
-</div>
 
 #### Example - Crash Dump
 
@@ -407,51 +348,41 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     Backtrace for task 2:
     0x42012df0: assert_on_task at backtrace_main.c:158
      (inlined by) backtrace_main at backtrace_main.c:194
-    
+
     Backtrace dump for all tasks:
-    
+
     Backtrace for task 2:
     0x42012df0: assert_on_task at backtrace_main.c:158
      (inlined by) backtrace_main at backtrace_main.c:194
-    
+
     Backtrace for task 1:
     0x420089a2: sys_call2 at syscall.h:227
      (inlined by) up_switch_context at riscv_switchcontext.c:95
-    
+
     Backtrace for task 0:
     0x42008420: up_idle at esp_idle.c:74
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-The following list indicates the state of peripherals' support in NuttX:
+The following list indicates the state of peripherals\' support in
+NuttX:
 
-<table>
-<thead>
-<tr class="header">
-<th>Peripheral</th>
-<th>Support</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>ADC AES Bluetooth CAN/TWAI DMA DS ECC eFuse GPIO HMAC</p></td>
-<td><blockquote>
-<p>Yes No No Yes Yes No No Yes Yes No</p>
-</blockquote></td>
-<td><blockquote>
-<p>Oneshot and internal temperature sensor</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><p>I2C I2S LED/PWM MCPWM Pulse Counter RMT RNG RSA RTC SHA SPI SPIFLASH SPIRAM Timers UART USB Serial Watchdog Wifi XTS</p></td>
-<td><blockquote>
-<p>Yes Yes Yes No Yes Yes Yes No Yes No Yes Yes No Yes Yes Yes Yes No No</p>
-</blockquote></td>
-<td><p>Master and Slave mode supported</p></td>
-</tr>
-</tbody>
-</table>
++----------------------+----------------------+----------------------+
+| Peripheral           | Support              | NOTES                |
++======================+======================+======================+
+| ADC AES Bluetooth    | > Yes No No Yes Yes  | > Oneshot and        |
+| CAN/TWAI DMA DS ECC  | > No No Yes Yes No   | > internal           |
+| eFuse GPIO HMAC      |                      | > temperature sensor |
++----------------------+----------------------+----------------------+
+| I2C I2S LED/PWM      | > Yes Yes Yes No Yes | Master and Slave     |
+| MCPWM Pulse Counter  | > Yes Yes No Yes No  | mode supported       |
+| RMT RNG RSA RTC SHA  | > Yes Yes No Yes Yes |                      |
+| SPI SPIFLASH SPIRAM  | > Yes Yes No No      |                      |
+| Timers UART USB      |                      |                      |
+| Serial Watchdog Wifi |                      |                      |
+| XTS                  |                      |                      |
++----------------------+----------------------+----------------------+
 
 ### Analog-to-digital converter (ADC)
 
@@ -467,54 +398,30 @@ the attenuation and resolution.
 The ADC unit is accessible using the ADC character driver, which returns
 data for the enabled channels.
 
-The ADC unit can be enabled in the menu `System Type --> Peripheral
-Support --> Analog-to-digital converter (ADC)`.
+The ADC unit can be enabled in the menu
+`System Type --> Peripheral Support --> Analog-to-digital converter (ADC)`{.interpreted-text
+role="menuselection"}.
 
-Then, it can be customized in the menu `System Type --> ADC
-Configuration`, which includes operating mode, gain and channels.
+Then, it can be customized in the menu
+`System Type --> ADC Configuration`{.interpreted-text
+role="menuselection"}, which includes operating mode, gain and channels.
 
-<table>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>ADC1 GPIO</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td><blockquote>
-<p>5</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++---------+-----------+
+| Channel | ADC1 GPIO |
++=========+===========+
+| 0       | > 1       |
++---------+-----------+
+| 1       | > 2       |
++---------+-----------+
+| 2       | > 3       |
++---------+-----------+
+| 3       | > 4       |
++---------+-----------+
+| 4       | > 5       |
++---------+-----------+
 
-## \_<span class="title-ref">Managing esptool on virtual environment</span>
+\_[Managing esptool on virtual environment]{.title-ref}
+-------------------------------------------------------
 
 This section describes how to install `esptool`, `imgtool` or any other
 Python packages in a proper environment.
@@ -585,10 +492,11 @@ following command:
      deactivate
 
 This will return your shell prompt to its normal state. You can
-reactivate the virtual environment at any time by running the `source
-myenv/bin/activate` command again. You can also delete the virtual
-environment by deleting the directory that contains it.
+reactivate the virtual environment at any time by running the
+`source myenv/bin/activate` command again. You can also delete the
+virtual environment by deleting the directory that contains it.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

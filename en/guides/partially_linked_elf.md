@@ -1,19 +1,13 @@
-# ELF Programs – With Symbol Tables
-
-<div class="warning">
-
-<div class="title">
+ELF Programs -- With Symbol Tables
+==================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=139629543>
 
-</div>
-
-## Updating a Release System with ELF Programs – With Symbol Tables
+Updating a Release System with ELF Programs -- With Symbol Tables
+-----------------------------------------------------------------
 
 You can easily extend the firmware in your released, embedded system
 using ELF programs provided via a file system. For example, an SD card
@@ -21,13 +15,13 @@ or, perhaps, downloaded into on-board SPI FLASH.
 
 In order to support such post-release updates, your released firmware
 must support execution of ELF programs loaded into RAM and symbol tables
-also provided via the file system (see
-<span class="title-ref">apps/examples/elf</span>).
+also provided via the file system (see [apps/examples/elf]{.title-ref}).
 
 The files shown in this Wiki page can be downloaded
 [here](https://cwiki.apache.org/confluence/download/attachments/139629402/elfprog-wsymtab.tar.gz?version=1&modificationDate=1576735523000&api=v2)
 
-## Creating a Symbol Table
+Creating a Symbol Table
+-----------------------
 
 There are several ways to create an application symbol table. Only two
 are compatible with the example provided here:
@@ -36,7 +30,7 @@ are compatible with the example provided here:
     firmware and add it to your board-specific bring-up logic. This
     technique is typically used in kernel mode with
     `CONFIG_USER_INITPATH=y`.
-    
+
     In this setup, the system does not initialize using a standard C
     call like `nsh_main()`. Instead, it starts with an `init` ELF
     program, similar to how Linux initializes. The configuration option
@@ -44,34 +38,34 @@ are compatible with the example provided here:
     minimal set of symbols required by the `init` program. Once
     initialized, the `init` program would typically call `boardctl()` to
     put the final symbol table in place.
-    
+
     To enable this method, you must:
-    
-      - Set `CONFIG_EXECFUNCS_HAVE_SYMTAB=y` in your configuration.
-      - Provide a symbol table with the global name
+
+    -   Set `CONFIG_EXECFUNCS_HAVE_SYMTAB=y` in your configuration.
+    -   Provide a symbol table with the global name
         `CONFIG_EXECFUNCS_SYMTAB_ARRAY` with the variable name
         `CONFIG_EXECFUNCS_NSYMBOLS_VAR` that holds the number of symbol
         entries. The default symbol table name is `g_symtab`.
-    
-    In this example, let's illustrate this using an STM32F4-Discovery
+
+    In this example, let\'s illustrate this using an STM32F4-Discovery
     configuration. We will assume that you have modified the
     `boards/arm/stm32/stm32fdiscovery/src/stm32_bringup.c` file, adding
     the following:
-    
-    ``` c
+
+    ``` {.c}
     #include <stdio.h>
     #include <nuttx/binfmt/symtab.h>
-    
+
     const struct symtab_s g_symtab[] = {
         {"printf", (FAR void *)printf}
     };
-    
+
     int g_nsymbols = 1;
     ```
-    
+
     This is a simple symbol table containing only the symbol string
-    "printf," whose value is the address of the function `printf()`.
-    
+    \"printf,\" whose value is the address of the function `printf()`.
+
     There is, of course, a lot more that could be said about generating
     symbol tables. NuttX provides specialized tools in the `tools/`
     directory and instructions elsewhere for generating more extensive
@@ -84,16 +78,17 @@ are compatible with the example provided here:
     use is `BOARDIOC_APP_SYMTAB`. This command provides the symbol table
     in the same way as the board-specific logic but allows for
     application-level control.
-    
+
     To use this approach, you need to:
-    
-      - Enable the configurations `CONFIG_LIB_BOARDCTL=y` and
+
+    -   Enable the configurations `CONFIG_LIB_BOARDCTL=y` and
         `CONFIG_BOARDCTL_APP_SYMTAB=y`.
-      - Include application logic to provide the symbol table. If
+    -   Include application logic to provide the symbol table. If
         `CONFIG_EXAMPLES_NSH_SYMTAB=y` is set, NSH can handle this
         automatically.
 
-## Export Package
+Export Package
+--------------
 
 At the time of firmware release, you should create and save an export
 package. This export package contains all the necessary files required
@@ -104,10 +99,10 @@ network NSH configuration. This setup assumes that you have the
 STM32F4DIS-BB baseboard. The demonstration also requires support for
 externally modifiable media, such as:
 
-  - Removable media, like an SD card or USB flash drive.
-  - An internal file system remotely accessible via USB MSC, FTP, or
+-   Removable media, like an SD card or USB flash drive.
+-   An internal file system remotely accessible via USB MSC, FTP, or
     other protocols.
-  - A remote file system, such as NFS.
+-   A remote file system, such as NFS.
 
 In this demonstration, the networking NSH configuration uses the SD card
 on the STM32 baseboard. Other NSH configurations can also be used,
@@ -120,7 +115,7 @@ card](https://www.youtube.com/watch?v=H28t4RbOXqI).)
 
 Example for STM32F4-Discovery:
 
-``` shell
+``` {.shell}
  make distclean
  tools/configure.sh -c stm32f4discovery:netnsh
  make menuconfig
@@ -128,18 +123,18 @@ Example for STM32F4-Discovery:
 
 Required configurations:
 
-  - Disable networking: `# CONFIG_NET is not set`
-  - Enable ELF binary support: `CONFIG_ELF=y`,
+-   Disable networking: `# CONFIG_NET is not set`
+-   Enable ELF binary support: `CONFIG_ELF=y`,
     `CONFIG_LIBC_EXECFUNCS=y`, `CONFIG_EXECFUNCS_HAVE_SYMTAB=y`,
     `CONFIG_EXECFUNCS_SYMTAB_ARRAY="g_symtab"` and
     `CONFIG_EXECFUNCS_NSYMBOLS_VAR="g_nsymbols"`
-  - Enable PATH variable support: `CONFIG_BINFMT_EXEPATH=y`,
+-   Enable PATH variable support: `CONFIG_BINFMT_EXEPATH=y`,
     `CONFIG_PATH_INITIAL="/bin"`
-  - Enable execution from NSH: `CONFIG_NSH_FILE_APPS=y`
+-   Enable execution from NSH: `CONFIG_NSH_FILE_APPS=y`
 
 Then, build the NuttX firmware image and the export package:
 
-``` shell
+``` {.shell}
  make
  make export
 ```
@@ -149,7 +144,7 @@ top-level NuttX directory called `nuttx-export-x.y.zip` (where x.y
 corresponds to the version, determined by the .version file in the same
 directory). The contents of this ZIP file are organized as follows:
 
-``` text
+``` {.text}
 nuttx-export-x.x
 |- arch/
 |- build/
@@ -160,7 +155,8 @@ nuttx-export-x.x
 `- .config
 ```
 
-## Add-On Build Directory
+Add-On Build Directory
+----------------------
 
 In order to create the add-on ELF program, you will need:
 
@@ -172,13 +168,14 @@ The example Makefile discussed below assumes the use of a GNU toolchain.
 Note that non-GNU toolchains would likely require a significantly
 different Makefile and linker script.
 
-## Hello Example
+Hello Example
+-------------
 
-To keep things manageable, let's use a concrete example. Suppose the ELF
-program that we wish to add to the release code is the simple source
+To keep things manageable, let\'s use a concrete example. Suppose the
+ELF program that we wish to add to the release code is the simple source
 file `hello.c`:
 
-``` c
+``` {.c}
 #include <stdio.h>
 
 int main(int argc, char **argv)
@@ -188,7 +185,7 @@ int main(int argc, char **argv)
 }
 ```
 
-Let's say that we have a directory called `addon` that contains the
+Let\'s say that we have a directory called `addon` that contains the
 following:
 
 1.  The `hello.c` source file.
@@ -196,12 +193,13 @@ following:
 3.  A linker script called `gnu-elf.ld` needed by the Makefile.
 4.  The export package `nuttx-export-7.25.zip`.
 
-## Building the ELF Program
+Building the ELF Program
+------------------------
 
 The first step in creating the ELF program is to unzip the export
 package. Starting in the `addon` directory:
 
-``` shell
+``` {.shell}
  cd addon
  ls
 gnu-elf.ld hello.c Makefile nuttx-export-7.25.zip
@@ -213,7 +211,7 @@ source file. - `Makefile` builds the ELF program. -
 
 Unzip the export package as follows:
 
-``` shell
+``` {.shell}
  unzip nuttx-export-7.25.zip
 ```
 
@@ -221,11 +219,12 @@ This creates a new directory called `nuttx-export-7.25`, containing all
 the content from the released NuttX code required to build the ELF
 program.
 
-## The Makefile
+The Makefile
+------------
 
 To build the ELF program, simply run:
 
-``` shell
+``` {.shell}
  make
 ```
 
@@ -237,7 +236,7 @@ Only the resulting `hello` file is needed.
 
 The Makefile used to create the ELF program is as follows:
 
-``` shell
+``` {.shell}
 include nuttx-export-7.25/build/Make.defs
 
 # Long calls are need to call from RAM into FLASH
@@ -289,12 +288,13 @@ rm -f (BIN)
 rm -f *.o
 ```
 
-## The Linker Script
+The Linker Script
+-----------------
 
 The linker script that I am using in this example, gnu-elf.ld, contains
 the following:
 
-``` shell
+``` {.shell}
 SECTIONS
 {
 .text 0x00000000 :
@@ -359,7 +359,8 @@ SECTIONS
 }
 ```
 
-## Replacing NSH Built-In Functions
+Replacing NSH Built-In Functions
+--------------------------------
 
 Files can be executed by NSH from the command line by simply typing the
 name of the ELF program. This requires (1) that the feature be enabled
@@ -370,7 +371,7 @@ to the mount point of the file system that may contain ELF programs.
 In this example, there is no application in the base firmware called
 `hello`. So attempts to run `hello` will fail:
 
-``` shell
+``` {.shell}
 nsh> hello
 nsh: hello: command not found
 nsh>
@@ -379,7 +380,7 @@ nsh>
 But if we mount the SD card containing the `hello` image that we created
 above, then we can successfully execute the `hello` command:
 
-``` shell
+``` {.shell}
 nsh> mount -t vfat /dev/mmcsd0 /bin
 nsh> ls /bin
 /bin:
@@ -407,15 +408,16 @@ to run the program called `hello` from the file system it will run
 successfully. The built-in version will be ignored. It has been replaced
 with the version in the file system.
 
-## Tightly Coupled Memories
+Tightly Coupled Memories
+------------------------
 
 Most MCUs based on ARMv7-M family processors support some kind of
 Tightly Coupled Memory (TCM). These TCMs have somewhat different
 properties for specialized operations. Depending on the bus matrix of
 the processor, you may not be able to execute programs from the TCM. For
 instance, the STM32 F4 supports Core Coupled Memory (CCM), but since it
-is tied directly to the D-bus, it cannot be used to execute programs\!
-On the other hand, the STM32F3 has a CCM that is accessible to both the
+is tied directly to the D-bus, it cannot be used to execute programs! On
+the other hand, the STM32F3 has a CCM that is accessible to both the
 D-Bus and the I-Bus, in which case it should be possible to execute
 programs from this TCM.
 
@@ -433,7 +435,7 @@ program in memory.
 Therefore, it is necessary on STM32 F4 platforms to include the
 following configuration setting:
 
-``` shell
+``` {.shell}
 CONFIG_STM32_CCMEXCLUDE=y
 ```
 

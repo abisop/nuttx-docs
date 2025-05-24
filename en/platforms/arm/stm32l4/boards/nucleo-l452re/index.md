@@ -1,47 +1,48 @@
-# ST Nucleo L452RE
-
-<div class="tags">
+ST Nucleo L452RE
+================
 
 chip:stm32, chip:stm32l4, chip:stm32l452
-
-</div>
 
 This page file discusses the port of NuttX to the STMicro Nucleo-L452RE
 board. That board features the STM32L452RET6 MCU with 512KiB of FLASH
 and 160KiB of SRAM.
 
-## LEDs
+LEDs
+----
 
 The Nucleo-64 board has one user controllable LED, User LD2. This green
 LED is a user LED connected to Arduino signal D13 corresponding to STM32
 I/O PA5 (PB13 on other some other Nucleo-64 boards).
 
-  - When the I/O is HIGH value, the LED is on
-  - When the I/O is LOW, the LED is off
+-   When the I/O is HIGH value, the LED is on
+-   When the I/O is LOW, the LED is off
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
 include/board.h and src/stm32\_autoleds.c. The LEDs are used to encode
 OS-related events as follows when the red LED (PE24) is available:
 
-> SYMBOL Meaning LD2 ------------------- -----------------------
-> -----------LED\_STARTED NuttX has been started OFF LED\_HEAPALLOCATE
-> Heap has been allocated OFF LED\_IRQSENABLED Interrupts enabled OFF
-> LED\_STACKCREATED Idle stack created ON LED\_INIRQ In an interrupt No
-> change LED\_SIGNAL In a signal handler No change LED\_ASSERTION An
-> assertion failed No change LED\_PANIC The system has crashed Blinking
-> LED\_IDLE MCU is is sleep mode Not used
+> SYMBOL Meaning LD2 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+> \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+> \-\-\-\-\-\-\-\-\-\--LED\_STARTED NuttX has been started OFF
+> LED\_HEAPALLOCATE Heap has been allocated OFF LED\_IRQSENABLED
+> Interrupts enabled OFF LED\_STACKCREATED Idle stack created ON
+> LED\_INIRQ In an interrupt No change LED\_SIGNAL In a signal handler
+> No change LED\_ASSERTION An assertion failed No change LED\_PANIC The
+> system has crashed Blinking LED\_IDLE MCU is is sleep mode Not used
 
 Thus if LD2, NuttX has successfully booted and is, apparently, running
 normally. If LD2 is flashing at approximately 2Hz, then a fatal error
 has been detected and the system has halted.
 
-## Buttons
+Buttons
+-------
 
 B1 USER: the user button is connected to the I/O PC13 (pin 2) of the
 STM32 microcontroller.
 
-## Serial Console
+Serial Console
+--------------
 
 ### USART1
 
@@ -87,7 +88,7 @@ Pins and Connectors:
          PA14
          PD5
 
-See "Virtual COM Port" and "RS-232 Shield" below.
+See \"Virtual COM Port\" and \"RS-232 Shield\" below.
 
 ### USART3
 
@@ -119,10 +120,10 @@ to use during board bring-up.
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
+-   SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10.
-  - SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     connected to PA3 and PA2 on STM32 MCU to have USART communication
     between them. Thus SB61, SB62 and SB63 should be OFF.
 
@@ -146,9 +147,10 @@ Supports a single RS-232 connected via:
     CN9 Pin 2 PA2  USART2_TXD TXD
 
 Support for this shield is enabled by selecting USART2 and configuring
-SB13, 14, 62, and 63 as described above under "Virtual COM Port"
+SB13, 14, 62, and 63 as described above under \"Virtual COM Port\"
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -174,23 +176,23 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  Unless stated otherwise, all configurations generate console output
-    on USART2, as described above under "Serial Console". The elevant
+    on USART2, as described above under \"Serial Console\". The elevant
     configuration settings are listed below:
-    
+
         CONFIG_STM32_USART2=y
         CONFIG_STM32_USART2_SERIALDRIVER=y
         CONFIG_STM32_USART=y
-        
+
         CONFIG_USART2_SERIALDRIVER=y
         CONFIG_USART2_SERIAL_CONSOLE=y
-        
+
         CONFIG_USART2_RXBUFSIZE=256
         CONFIG_USART2_TXBUFSIZE=256
         CONFIG_USART2_BAUD=115200
@@ -199,21 +201,21 @@ NOTES:
         CONFIG_USART2_2STOP=0
 
 3.  All of these configurations are set up to build under Linux using
-    the "GNU Tools for ARM Embedded Processors" that is maintained by
+    the \"GNU Tools for ARM Embedded Processors\" that is maintained by
     ARM (unless stated otherwise in the description of the
     configuration).
-    
+
     > <https://developer.arm.com/open-source/gnu-toolchain/gnu-rm>
-    
-    That toolchain selection can easily be reconfigured using 'make
-    menuconfig'. Here are the relevant current settings:
-    
+
+    That toolchain selection can easily be reconfigured using \'make
+    menuconfig\'. Here are the relevant current settings:
+
     Build Setup:
-    
+
         CONFIG_HOST_LINUX=y                 : Linux environment
-    
+
     System Type -\> Toolchain:
-    
+
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y  : GNU ARM EABI toolchain
 
 ### Configuration sub-directories

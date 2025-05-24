@@ -1,41 +1,40 @@
-# Adafruit KB2040 Kee Boar
-
-<div class="tags">
+Adafruit KB2040 Kee Boar
+========================
 
 chip:rp2040
-
-</div>
 
 The KB2040 Kee Boar is a general purpose RP2040 board supplied by
 Adafruit.
 
-![](KB2040.png)
+![](KB2040.png){.align-center}
 
 See the [Adafruit
 website](https://learn.adafruit.com/adafruit-kb2040/overview) for
 information about Adafruit KB2040.
 
-## Features
+Features
+--------
 
-  - RP2040 microcontroller chip
-  - Dual-core ARM Cortex M0+ processor, flexible clock running up to 133
+-   RP2040 microcontroller chip
+-   Dual-core ARM Cortex M0+ processor, flexible clock running up to 133
     MHz
-  - 264kB of SRAM, and 8MB of on-board Flash memory
-  - Castellated module allows soldering direct to carrier boards
-  - USB Host and Device support via type C connector.
-  - Low-power sleep and dormant modes
-  - Drag & drop programming using mass storage over USB
-  - 18 multi-function GPIO pins
-  - 2× SPI, 2× I2C, 2× UART, 3× 12-bit ADC, 16× controllable PWM
+-   264kB of SRAM, and 8MB of on-board Flash memory
+-   Castellated module allows soldering direct to carrier boards
+-   USB Host and Device support via type C connector.
+-   Low-power sleep and dormant modes
+-   Drag & drop programming using mass storage over USB
+-   18 multi-function GPIO pins
+-   2× SPI, 2× I2C, 2× UART, 3× 12-bit ADC, 16× controllable PWM
     channels
-  - Accurate clock and timer on-chip
-  - Temperature sensor
-  - Accelerated floating point libraries on-chip
-  - 8 × Programmable IO (PIO) state machines for custom peripheral
+-   Accurate clock and timer on-chip
+-   Temperature sensor
+-   Accelerated floating point libraries on-chip
+-   8 × Programmable IO (PIO) state machines for custom peripheral
     support
-  - On-board STEMMA QT connector for quick I2C connection.
+-   On-board STEMMA QT connector for quick I2C connection.
 
-## Serial Console
+Serial Console
+--------------
 
 By default a serial console appears on pins 1 (TX GPIO0) and pin 2 (RX
 GPIO1). This console runs a 115200-8N1.
@@ -43,7 +42,8 @@ GPIO1). This console runs a 115200-8N1.
 The board can be configured to use the USB connection as the serial
 console.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 There is a BOOT button which if held down when power is first applied or
 the RESET button is pressed will cause the RP2040 to boot into program
@@ -55,26 +55,28 @@ power.
 
 A ws2812 (NeoPixel) smart RGB LED controlled by GPIO17.
 
-## Pin Mapping
+Pin Mapping
+-----------
 
 Pads numbered anticlockwise from USB connector.
 
-| Pad                                   | Signal                                                                                          | Notes                               |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------- |
-| 1                                     | D+                                                                                              | Alternate USB data connection.      |
-| 2                                     | GPIO0                                                                                           | Default TX for UART0 serial console |
-| 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 | GPIO1 Ground Ground GPIO2 GPIO3 GPIO4 GPIO5 GPIO6 GPIO7 GPIO8 GPIO9 GPIO10 GPIO19 GPIO20 GPIO18 | Default RX for UART0 serial console |
-| 18                                    | GPIO26                                                                                          | ADC0                                |
-| 19                                    | GPIO27                                                                                          | ADC1                                |
-| 20                                    | GPIO28                                                                                          | ADC2                                |
-| 21 22                                 | GPIO29 Ground                                                                                   | ADC3                                |
-| 23                                    | Raw                                                                                             | Connected to USB +5V line           |
-| 24                                    | D-                                                                                              | Alternate USB data connection.      |
+  Pad                                     Signal                                                                                            Notes
+  --------------------------------------- ------------------------------------------------------------------------------------------------- -------------------------------------
+  1                                       D+                                                                                                Alternate USB data connection.
+  2                                       GPIO0                                                                                             Default TX for UART0 serial console
+  3 4 5 6 7 8 9 10 11 12 13 14 15 16 17   GPIO1 Ground Ground GPIO2 GPIO3 GPIO4 GPIO5 GPIO6 GPIO7 GPIO8 GPIO9 GPIO10 GPIO19 GPIO20 GPIO18   Default RX for UART0 serial console
+  18                                      GPIO26                                                                                            ADC0
+  19                                      GPIO27                                                                                            ADC1
+  20                                      GPIO28                                                                                            ADC2
+  21 22                                   GPIO29 Ground                                                                                     ADC3
+  23                                      Raw                                                                                               Connected to USB +5V line
+  24                                      D-                                                                                                Alternate USB data connection.
 
 The board has a STEMMA QT connector that is also connected to pins GPI12
 (I2C1 SDA) and GPI13 (I2C1 SDA).
 
-## Power Supply
+Power Supply
+------------
 
 The Raspberry Pi Pico can be powered via the USB connector, or by
 supplying +5V to pin 23.
@@ -82,58 +84,58 @@ supplying +5V to pin 23.
 The Raspberry Pi Pico chip run on 3.3 volts. This is supplied by an
 onboard voltage regulator.
 
-## Supported Capabilities
+Supported Capabilities
+----------------------
 
 NuttX supports the following RP2040 capabilities:
 
-  - UART (console port)
-      - GPIO 0 (UART0 TX) and GPIO 1 (UART0 RX) are used for the
+-   UART (console port)
+    -   GPIO 0 (UART0 TX) and GPIO 1 (UART0 RX) are used for the
         console.
-  - I2C
-  - SPI (master only)
-  - DMAC
-  - PWM
-  - ADC
-  - Watchdog
-  - USB device
-      - MSC, CDC/ACM serial and these composite device are supported.
-      - CDC/ACM serial device can be used for the console.
-  - PIO (RP2040 Programmable I/O)
-  - Flash ROM Boot
-  - SRAM Boot
-      - If Pico SDK is available, nuttx.uf2 file which can be used in
+-   I2C
+-   SPI (master only)
+-   DMAC
+-   PWM
+-   ADC
+-   Watchdog
+-   USB device
+    -   MSC, CDC/ACM serial and these composite device are supported.
+    -   CDC/ACM serial device can be used for the console.
+-   PIO (RP2040 Programmable I/O)
+-   Flash ROM Boot
+-   SRAM Boot
+    -   If Pico SDK is available, nuttx.uf2 file which can be used in
         BOOTSEL mode will be created.
-  - Persistent flash filesystem in unused flash ROM
-  - WiFi wireless communication
+-   Persistent flash filesystem in unused flash ROM
+-   WiFi wireless communication
 
 There is currently no direct user mode access to these RP2040 hardware
 features:
 
-  - SPI Slave Mode
-  - SSI
-  - RTC
-  - Timers
+-   SPI Slave Mode
+-   SSI
+-   RTC
+-   Timers
 
 NuttX also provide support for these external devices:
 
-  - BMP180 sensor at I2C0 (don't forget to define I2C0 GPIOs at "I2C0
-    GPIO pin assign" in Board Selection menu)
-  - INA219 sensor / module (don't forget to define I2C0 GPIOs at "I2C0
-    GPIO pin assign" in Board Selection menu)
-  - SHT4X sensor at I2C0
-  - Pico Display Pack (ST7789 LCD)
-      - RGB leds and buttons are not supported yet.
-  - Pico Audio Pack (PCM5100A I2S DAC)
-      - I2S interface is realized by PIO.
-  - WS2812 smart pixel support
+-   BMP180 sensor at I2C0 (don\'t forget to define I2C0 GPIOs at \"I2C0
+    GPIO pin assign\" in Board Selection menu)
+-   INA219 sensor / module (don\'t forget to define I2C0 GPIOs at \"I2C0
+    GPIO pin assign\" in Board Selection menu)
+-   SHT4X sensor at I2C0
+-   Pico Display Pack (ST7789 LCD)
+    -   RGB leds and buttons are not supported yet.
+-   Pico Audio Pack (PCM5100A I2S DAC)
+    -   I2S interface is realized by PIO.
+-   WS2812 smart pixel support
 
-## Installation
+Installation
+------------
 
 1.  Download Raspberry Pi Pico SDK.
 
-<!-- end list -->
-
-``` console
+``` {.console}
  git clone -b 2.0.0 https://github.com/raspberrypi/pico-sdk.git
 ```
 
@@ -141,27 +143,23 @@ NuttX also provide support for these external devices:
 
 > Instructions can be found here:
 > <https://github.com/raspberrypi/picotool>
-> 
+>
 > If you are on Arch Linux, you can install the picotool through the
 > AUR:
 
-``` console
+``` {.console}
  yay -S picotool
 ```
 
 3.  Set PICO\_SDK\_PATH environment variable
 
-<!-- end list -->
-
-``` console
+``` {.console}
  export PICO_SDK_PATH=<absolute_path_to_pico-sdk_directory>
 ```
 
 4.  Configure and build NuttX
 
-<!-- end list -->
-
-``` console
+``` {.console}
  git clone https://github.com/apache/nuttx.git nuttx
  git clone https://github.com/apache/nuttx-apps.git apps
  cd nuttx
@@ -172,17 +170,18 @@ NuttX also provide support for these external devices:
 
 5.  Connect the Adafruit KB2040 board to USB port while pressing BOOT.
     The board will be detected as USB Mass Storage Device. Then copy
-    "nuttx.uf2" into the device (Same manner as the standard Pico SDK
+    \"nuttx.uf2\" into the device (Same manner as the standard Pico SDK
     applications installation).
 
 6.  To access the console, GPIO 0 (TX) and GPIO 1 (RX) pins must be
     connected to the device such as USB-serial converter.
-    
-    <span class="title-ref">usbnsh</span> configuration provides the
-    console access by USB CDC/ACM serial decive. The console is
-    available by using a terminal software on the USB host.
 
-## Configurations
+    [usbnsh]{.title-ref} configuration provides the console access by
+    USB CDC/ACM serial decive. The console is available by using a
+    terminal software on the USB host.
+
+Configurations
+--------------
 
 ### audiopack
 
@@ -214,36 +213,36 @@ support for ENC28J60.
 
 ENC28J60 SPI ethernet controller supports:
 
->   - IP address is configured by DHCP.
->   - DNS address is 8.8.8.8 (CONFIG\_NETINIT\_DNSIPADDR)
->   - NTP client is enabled.
+> -   IP address is configured by DHCP.
+> -   DNS address is 8.8.8.8 (CONFIG\_NETINIT\_DNSIPADDR)
+> -   NTP client is enabled.
 
-| ENC28J60 | Raspberry Pi Pico W      |
-| -------- | ------------------------ |
-| GND      | GND (Pin 3 or 38 or ...) |
-| 3.3V     | 3V3 OUT (Pin 36)         |
-| SI       | GP15 (SPI1 TX) (Pin 20)  |
-| SCK      | GP14 (SPI1 SCK) (Pin 19) |
-| CS       | GP13 (SPI1 CSn) (Pin 17) |
-| SO       | GP12 (SPI1 RX) (Pin 16)  |
-| INT      | GP11 (Pin 15)            |
-| RESET    | GP10 (Pin 14)            |
+  ENC28J60   Raspberry Pi Pico W
+  ---------- ---------------------------
+  GND        GND (Pin 3 or 38 or \...)
+  3.3V       3V3 OUT (Pin 36)
+  SI         GP15 (SPI1 TX) (Pin 20)
+  SCK        GP14 (SPI1 SCK) (Pin 19)
+  CS         GP13 (SPI1 CSn) (Pin 17)
+  SO         GP12 (SPI1 RX) (Pin 16)
+  INT        GP11 (Pin 15)
+  RESET      GP10 (Pin 14)
 
-ENC28J60 connections
+  : ENC28J60 connections
 
 ### lcd1602
 
 NuttShell configuration (console enabled in UART0, at 115200 bps) with
 support for LCD1602 Segment LCD Display (I2C).
 
-| PCF8574 BackPack | Raspberry Pi Pico W      |
-| ---------------- | ------------------------ |
-| GND              | GND (Pin 3 or 38 or ...) |
-| VCC              | 5V Vbus (Pin 40)         |
-| SDA              | GP4 (I2C0 SDA) (Pin 6)   |
-| SCL              | GP5 (I2C0 SCL) (Pin 7)   |
+  PCF8574 BackPack   Raspberry Pi Pico W
+  ------------------ ---------------------------
+  GND                GND (Pin 3 or 38 or \...)
+  VCC                5V Vbus (Pin 40)
+  SDA                GP4 (I2C0 SDA) (Pin 6)
+  SCL                GP5 (I2C0 SCL) (Pin 7)
 
-LCD1602 connections
+  : LCD1602 connections
 
 ### nsh
 
@@ -269,18 +268,18 @@ with both ARM cores enabled.
 NuttShell configuration (console enabled in UART0, at 115200 bps) with
 SPI SD card support enabled.
 
-| SD card slot | Raspberry Pi Pico W      |
-| ------------ | ------------------------ |
-| DAT2         | Not connected            |
-| DAT3/CS      | GP17 (SPI0 CSn) (Pin 22) |
-| CMD /DI      | GP19 (SPI0 TX) (Pin 25)  |
-| VDD          | 3V3 OUT (Pin 36)         |
-| CLK/SCK      | GP18 (SPI0 SCK) (Pin 24) |
-| VSS          | GND (Pin 3 or 38 or ...) |
-| DAT0/DO      | GP16 (SPI0 RX) (Pin 21)  |
-| DAT1         | Not connected            |
+  SD card slot   Raspberry Pi Pico W
+  -------------- ---------------------------
+  DAT2           Not connected
+  DAT3/CS        GP17 (SPI0 CSn) (Pin 22)
+  CMD /DI        GP19 (SPI0 TX) (Pin 25)
+  VDD            3V3 OUT (Pin 36)
+  CLK/SCK        GP18 (SPI0 SCK) (Pin 24)
+  VSS            GND (Pin 3 or 38 or \...)
+  DAT0/DO        GP16 (SPI0 RX) (Pin 21)
+  DAT1           Not connected
 
-spisd connections
+  : spisd connections
 
 Card hot swapping is not supported.
 
@@ -289,32 +288,32 @@ Card hot swapping is not supported.
 NuttShell configuration (console enabled in UART0, at 115200 bps) with
 support for SSD1306 OLED display (I2C) test configuration.
 
-| SSD1306 | Raspberry Pi Pico W      |
-| ------- | ------------------------ |
-| GND     | GND (Pin 3 or 38 or ...) |
-| VCC     | 3V3 OUT (Pin 36)         |
-| SDA     | GP4 (I2C0 SDA) (Pin 6)   |
-| SCL     | GP5 (I2C0 SCL) (Pin 7)   |
+  SSD1306   Raspberry Pi Pico W
+  --------- ---------------------------
+  GND       GND (Pin 3 or 38 or \...)
+  VCC       3V3 OUT (Pin 36)
+  SDA       GP4 (I2C0 SDA) (Pin 6)
+  SCL       GP5 (I2C0 SCL) (Pin 7)
 
-SSD1306 connections
+  : SSD1306 connections
 
 ### st7735
 
 NuttShell configuration (console enabled in UART0, at 115200 bps) with
 support for ST7735 SPI LCD.
 
-| st7735  | Raspberry Pi Pico W      |
-| ------- | ------------------------ |
-| GND     | GND (Pin 3 or 38 or ...) |
-| VCC     | 5V Vbus (Pin 40)         |
-| SDA     | GP15 (SPI1 TX) (Pin 20)  |
-| SCK     | GP14 (SPI1 SCK) (Pin 19) |
-| CS      | GP13 (SPI1 CSn) (Pin 17) |
-| AO(D/C) | GP12 (SPI1 RX) (Pin 16)  |
-| BL      | GP11 (Pin 15)            |
-| RESET   | GP10 (Pin 14)            |
+  st7735    Raspberry Pi Pico W
+  --------- ---------------------------
+  GND       GND (Pin 3 or 38 or \...)
+  VCC       5V Vbus (Pin 40)
+  SDA       GP15 (SPI1 TX) (Pin 20)
+  SCK       GP14 (SPI1 SCK) (Pin 19)
+  CS        GP13 (SPI1 CSn) (Pin 17)
+  AO(D/C)   GP12 (SPI1 RX) (Pin 16)
+  BL        GP11 (Pin 15)
+  RESET     GP10 (Pin 14)
 
-ST7735 connections
+  : ST7735 connections
 
 ### usbmsc
 
@@ -340,20 +339,22 @@ support for st7789.
 NuttShell configuration (console enabled in UART0, at 115200 bps) with
 support for usbmsc.
 
-## License exceptions
+License exceptions
+------------------
 
 The following files are originated from the files in Pico SDK. So, the
 files are licensed under 3-Clause BSD same as Pico SDK.
 
-  - arch/arm/src/rp2040/rp2040\_clock.c
-  - arch/arm/src/rp2040/rp2040\_pll.c
-  - arch/arm/src/rp2040/rp2040\_xosc.c
-      - These are created by referring the Pico SDK clock
+-   arch/arm/src/rp2040/rp2040\_clock.c
+-   arch/arm/src/rp2040/rp2040\_pll.c
+-   arch/arm/src/rp2040/rp2040\_xosc.c
+    -   These are created by referring the Pico SDK clock
         initialization.
-  - arch/arm/src/rp2040/rp2040\_pio.c
-  - arch/arm/src/rp2040/rp2040\_pio.h
-  - arch/arm/src/rp2040/rp2040\_pio\_instructions.h
-      - These provide the similar APIs to Pico SDK's hardware\_pio APIs.
-  - arch/arm/src/rp2040/hardware/\*.h
-      - These are generated from rp2040.svd originally provided in Pico
+-   arch/arm/src/rp2040/rp2040\_pio.c
+-   arch/arm/src/rp2040/rp2040\_pio.h
+-   arch/arm/src/rp2040/rp2040\_pio\_instructions.h
+    -   These provide the similar APIs to Pico SDK\'s hardware\_pio
+        APIs.
+-   arch/arm/src/rp2040/hardware/\*.h
+    -   These are generated from rp2040.svd originally provided in Pico
         SDK.

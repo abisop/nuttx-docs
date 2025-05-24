@@ -1,44 +1,55 @@
-# Teensy-4.x
+Teensy-4.x
+==========
 
-The [Teensy 4.0](https://www.pjrc.com/store/teensy40.html) and
-[Teensy 4.1](https://www.pjrc.com/store/teensy41.html) are development
-boards from PJRC. Both boards use i.MX RT1060 MCU, feature several I/Os
-pins and on-board LED.
+The [Teensy 4.0](https://www.pjrc.com/store/teensy40.html) and [Teensy
+4.1](https://www.pjrc.com/store/teensy41.html) are development boards
+from PJRC. Both boards use i.MX RT1060 MCU, feature several I/Os pins
+and on-board LED.
 
-## Features
+Features
+--------
 
-  -   - Processor
-        
-          - MIMXRT1062DVL6A processor
+-   
 
-  -   - Memory
-        
-          - 1 MB RAM memory
-          - 2 MB Flash (Teensy 4.0)
-          - 8 MB Flash (Teensy 4.1)
-          - 1 SDIO (4 bit) native SD
+    Processor
 
-  -   - Connectivity
-        
-          - Micro USB host
-          - CAN transceivers
-          - UART, SPI, I2C
-          - PWM output pins
-          - 10/100 Mb Ethernet (Teensy 4.1 only)
-          - Digital audio in/out
+    :   -   MIMXRT1062DVL6A processor
 
-## LEDs
+-   
+
+    Memory
+
+    :   -   1 MB RAM memory
+        -   2 MB Flash (Teensy 4.0)
+        -   8 MB Flash (Teensy 4.1)
+        -   1 SDIO (4 bit) native SD
+
+-   
+
+    Connectivity
+
+    :   -   Micro USB host
+        -   CAN transceivers
+        -   UART, SPI, I2C
+        -   PWM output pins
+        -   10/100 Mb Ethernet (Teensy 4.1 only)
+        -   Digital audio in/out
+
+LEDs
+----
 
 There are two LED status indicators located on the Teensy-4.x board. The
 functions of these LEDs include:
 
-  -   - RED LED (loading status)
-        
-          - dim: ready
-          - bright: writing
-          - blink: no USB
+-   
 
-  - USER LED (D3)
+    RED LED (loading status)
+
+    :   -   dim: ready
+        -   bright: writing
+        -   blink: no USB
+
+-   USER LED (D3)
 
 Only a single LED, D3, is under software control.
 
@@ -47,22 +58,23 @@ defined. In that case, the usage by the board port is defined in
 include/board.h and src/imxrt\_autoleds.c. The LED is used to encode
 OS-related events as follows:
 
-| SYMBOL            | Meaning                 | LED   |
-| ----------------- | ----------------------- | ----- |
-| LED\_STARTED      | NuttX has been started  | OFF   |
-| LED\_HEAPALLOCATE | Heap has been allocated | OFF   |
-| LED\_IRQSENABLED  | Interrupts enabled      | OFF   |
-| LED\_STACKCREATED | Idle stack created      | ON    |
-| LED\_INIRQ        | In an interrupt         | N/C   |
-| LED\_SIGNAL       | In a signal handler     | N/C   |
-| LED\_ASSERTION    | An assertion failed     | N/C   |
-| LED\_PANIC        | The system has crashed  | FLASH |
+  SYMBOL              Meaning                   LED
+  ------------------- ------------------------- -------
+  LED\_STARTED        NuttX has been started    OFF
+  LED\_HEAPALLOCATE   Heap has been allocated   OFF
+  LED\_IRQSENABLED    Interrupts enabled        OFF
+  LED\_STACKCREATED   Idle stack created        ON
+  LED\_INIRQ          In an interrupt           N/C
+  LED\_SIGNAL         In a signal handler       N/C
+  LED\_ASSERTION      An assertion failed       N/C
+  LED\_PANIC          The system has crashed    FLASH
 
 Thus if the LED is statically on, NuttX has successfully booted and is,
 apparently, running normally. If the LED is flashing at approximately
 2Hz, then a fatal error has been detected and the system has halted.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh-4.0
 
@@ -106,7 +118,7 @@ incremental encoder. Phase A is connected to GPIO\_EMC\_07 (pin 33),
 phase B to GPIO\_EMC\_06 (pin 4) and INDEX to GPIO\_B0\_12 (pin 32).
 Only encoder 1 is connected to those pins.
 
-Function of the encoder can be tested by application "qe".
+Function of the encoder can be tested by application \"qe\".
 
 ### netnsh-4.1
 
@@ -120,8 +132,8 @@ not have Ethernet capability.
 ### pikron-bb
 
 This is a configuration that compiles the NuttX for use with open
-source/hardware [Base Board for
-Teensy 4.1](https://gitlab.com/pikron/projects/imxrt-devel/-/wikis/teensy_bb).
+source/hardware [Base Board for Teensy
+4.1](https://gitlab.com/pikron/projects/imxrt-devel/-/wikis/teensy_bb).
 It includes CAN drivers, communication over serial port, Ethernet
 support, support for 240 x 320 pixels LCD display and configuration
 options for using NuttX with pysimCoder. NuttX also runs in tickless
@@ -135,8 +147,8 @@ designed for that.
 This configuration is similar to the nsh configuration with enabled
 FlexPWM driver. Submodules 1 (pin 4) and 2 (pin 5) of FlexPWM2 are
 turned on as well as multiple channel PWM output. Functionality can be
-tested with example application "pwm". Each channel runs different duty
-cycle.
+tested with example application \"pwm\". Each channel runs different
+duty cycle.
 
 This configuration can be easily changed to work with Teensy 4.0 by
 selecting `CONFIG_TEENSY_40=y`.
@@ -148,7 +160,7 @@ support of connecting micro SD card.
 
 You can mount micro SD card by:
 
-``` console
+``` {.console}
  mount -t vfat /dev/mmcsd0 /mnt
 ```
 
@@ -159,20 +171,21 @@ not have micro SD card slot.
 
 This is an nsh configuration (see above) for Teensy-4.x with added
 support of connecting LCD TFT display with ST7789 controller. You can
-run framebuffer demo by starting "fb" in console. The LCD display is
+run framebuffer demo by starting \"fb\" in console. The LCD display is
 connected via SPI4.
 
 This configuration can be easily changed to work with Teensy 4.0 by
 selecting `CONFIG_TEENSY_40=y`.
 
-## Flash
+Flash
+-----
 
 Teensy 4.x boards does not have debugger therefore external firmware has
 to be used to load NuttX. [Teensy
 Loader](https://www.pjrc.com/teensy/loader_cli.html) can be installed
 and then NuttX can be loaded by:
 
-``` console
+``` {.console}
  teensy_loader_cli --mcu=TEENSY41 -v -w nuttx.hex
 ```
 

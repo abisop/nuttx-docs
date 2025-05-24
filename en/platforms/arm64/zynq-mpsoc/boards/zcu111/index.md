@@ -1,68 +1,79 @@
-# Zynq UltraScale+ RFSoC ZCU111
-
-<div class="tags">
+Zynq UltraScale+ RFSoC ZCU111
+=============================
 
 chip:xczu28dr, chip:fpga, chip:zynq, chip:ultrascale
-
-</div>
 
 The
 [ZCU111](https://www.xilinx.com/products/boards-and-kits/zcu111.html) is
 a development board based on the Zynq UltraScale+ RFSoC(XCZU28DR) from
 XilinX(AMD).
 
-## Features
+Features
+--------
 
-  -   - **RF Data Converter**
-        
-          - **12-bit ADC:** 8, Max Rate 4.096G
-          - **14-bit DAC:** 8, Max Rate 6.554G
-          - **SD-FEC:** SD-FEC
+-   
 
-  -   - **Memory**
-        
-          - **PS DDR4:** 4GB 64-bit SODIMM
-          - **SD-Card:** Yes
-          - **M.2 SATA Connector:** Yes
-          - **QSPI:** 2
+    **RF Data Converter**
 
-  -   - **Communications & Networking**
-        
-          - **USB UART/JTAG:** 1
-          - **RJ45:** 1
-          - **SFP+:** 4
-          - **USB 3.0:** 1
+    :   -   **12-bit ADC:** 8, Max Rate 4.096G
+        -   **14-bit DAC:** 8, Max Rate 6.554G
+        -   **SD-FEC:** SD-FEC
 
-  -   - **Expansion Connectors**
-        
-          - **FMC-HPC Connector:** 2
-          - **PMOD:** 2
-          - **RFMC 1.0:** 2
-          - **QSPI:** 2
+-   
 
-  -   - **Control & I/O**
-        
-          - **I2C:** Yes
-          - **PMBUS:** Yes
-          - **JTAG PC4 Header:** Yes
+    **Memory**
 
-  -   - **Boot Options**
-        
-          - **ISD Boot:** Yes
-          - **QSPI Boot:** Yes
-          - **JTAG Boot:** Yes
+    :   -   **PS DDR4:** 4GB 64-bit SODIMM
+        -   **SD-Card:** Yes
+        -   **M.2 SATA Connector:** Yes
+        -   **QSPI:** 2
 
-  - **DDR4 SODIMM:** 4GB 64-bit, 2400MT/s, attached to Processor
+-   
+
+    **Communications & Networking**
+
+    :   -   **USB UART/JTAG:** 1
+        -   **RJ45:** 1
+        -   **SFP+:** 4
+        -   **USB 3.0:** 1
+
+-   
+
+    **Expansion Connectors**
+
+    :   -   **FMC-HPC Connector:** 2
+        -   **PMOD:** 2
+        -   **RFMC 1.0:** 2
+        -   **QSPI:** 2
+
+-   
+
+    **Control & I/O**
+
+    :   -   **I2C:** Yes
+        -   **PMBUS:** Yes
+        -   **JTAG PC4 Header:** Yes
+
+-   
+
+    **Boot Options**
+
+    :   -   **ISD Boot:** Yes
+        -   **QSPI Boot:** Yes
+        -   **JTAG Boot:** Yes
+
+-   **DDR4 SODIMM:** 4GB 64-bit, 2400MT/s, attached to Processor
     Subsystem (PS)
 
-## Serial Console
+Serial Console
+--------------
 
 Serial console for the PS:
 
-| Pin   | Signal   | Notes         |
-| ----- | -------- | ------------- |
-| MIO18 | UART0 TX | USB UART COM0 |
-| MIO19 | UART0 RX | USB UART COM0 |
+  Pin     Signal     Notes
+  ------- ---------- ---------------
+  MIO18   UART0 TX   USB UART COM0
+  MIO19   UART0 RX   USB UART COM0
 
 PS-side UART interface and is connected to the FTDI U34 FT4232HL
 USB-to-Quad-UART bridge port B Connect ZCU111 to our computer with the
@@ -70,13 +81,15 @@ USB Cable. On our computer start a Serial Terminal and connect to the
 USB Serial Port at **115200 bps**. NuttX will appear in the Serial
 Console when it boots on zcu111.
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 The PS-side pushbutton SW19 is connected to MIO22 (pin U1.Y28). The
 PS-side LED DS50, which is physically placed adjacent to the pushbutton,
 is connected to MIO23(pin U1.U29).
 
-## Networking
+Networking
+----------
 
 The ZCU111 board uses the TI DP83867IRPAP Ethernet RGMII PHY for
 Ethernet communications at 10 Mb/s, 100 Mb/s, or 1000 Mb/s. The board
@@ -85,21 +98,21 @@ cable is through a RJ-45 connector with built-in magnetics. The Ethernet
 connections from XCZU28DR to the DP83867 PHY device at are listed in
 fllowing:
 
-| Pin | XCZU28DR Name         | Pin | DP83867 Name     |
-| --- | --------------------- | --- | ---------------- |
-| J32 | MIO65\_ENET\_TX\_D0   | 38  | TX\_DO           |
-| J34 | MIO66\_ENET\_TX\_D1   | 37  | TX\_D1           |
-| K28 | MIO67\_ENET\_TX\_D2   | 36  | TX\_D2           |
-| K29 | MIO68\_ENET\_TX\_D3   | 35  | TX\_D3           |
-| K30 | MIO69\_ENET\_TX\_CTRL | 52  | TX\_EN\_TX\_CTRL |
-| K31 | MIO70\_ENET\_RX\_CLK  | 43  | RX\_CLK          |
-| K32 | MIO71\_ENET\_RX\_D0   | 44  | RX\_DO           |
-| K33 | MIO72\_ENET\_RX\_D1   | 45  | RX\_D1           |
-| K34 | MIO73\_ENET\_RX\_D2   | 46  | RX\_D2           |
-| L29 | MIO74\_ENET\_RX\_D3   | 47  | RX\_D3           |
-| L30 | MIO75\_ENET\_RX\_CTRL | 53  | RX\_DV\_RX\_CTRL |
-| L33 | MIO76\_ENET\_MDC      | 20  | MDC              |
-| L34 | MIO77\_ENET\_MDIO     | 21  | MDIO             |
+  Pin   XCZU28DR Name           Pin   DP83867 Name
+  ----- ----------------------- ----- ------------------
+  J32   MIO65\_ENET\_TX\_D0     38    TX\_DO
+  J34   MIO66\_ENET\_TX\_D1     37    TX\_D1
+  K28   MIO67\_ENET\_TX\_D2     36    TX\_D2
+  K29   MIO68\_ENET\_TX\_D3     35    TX\_D3
+  K30   MIO69\_ENET\_TX\_CTRL   52    TX\_EN\_TX\_CTRL
+  K31   MIO70\_ENET\_RX\_CLK    43    RX\_CLK
+  K32   MIO71\_ENET\_RX\_D0     44    RX\_DO
+  K33   MIO72\_ENET\_RX\_D1     45    RX\_D1
+  K34   MIO73\_ENET\_RX\_D2     46    RX\_D2
+  L29   MIO74\_ENET\_RX\_D3     47    RX\_D3
+  L30   MIO75\_ENET\_RX\_CTRL   53    RX\_DV\_RX\_CTRL
+  L33   MIO76\_ENET\_MDC        20    MDC
+  L34   MIO77\_ENET\_MDIO       21    MDIO
 
 Networking is supported via GEM3. DHCP is not used in this
 configuration; rather, a hard-coded IP address of 192.168.0.15 is used
@@ -107,7 +120,8 @@ with a netmask of 255.255.255.0. The host is assumed to be 192.168.0.101
 in places. You can reconfigure to enabled DHCPC or to change these
 addresses as you see fit.
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:
@@ -141,7 +155,8 @@ need create boot image with zynqmp\_fsbl.elf, zynqmp\_pmufw.elf,
 bl31.elf and nuttx.elf in Vivado SDK or XSCT shell. Also we need Flash
 BOOT.BIN intothe QSPI FLASH(in QSPI boot mode).
 
-## ARM64 Toolchain
+ARM64 Toolchain
+---------------
 
 There are two ways to install the toolchain for Zynq MPSoC: The first
 way is download the ARM64 Toolchain `aarch64-none-elf` from [Arm GNU
@@ -150,33 +165,34 @@ Downloads](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads).
 Add the downloaded toolchain `gcc-arm-...-aarch64-none-elf/bin` to the
 `PATH` Environment Variable such as:
 
-``` console
+``` {.console}
  echo "export PATH=/home/username/tools/gcc-arm-11.2-2022.02-x86_64-aarch64-none-elf/bin:PATH" >> ~/.profile
 ```
 
-You can edit your .profile files if you don't use bash.
+You can edit your .profile files if you don\'t use bash.
 
 The second way is install Vivado SDK or Vitis development environment
 which included a complete `aarch64-none-elf` toolchain and we also add
 it to the `PATH` Environment Variable such as:
 
-``` console
+``` {.console}
  echo "export PATH=/home/username/tools/Xilinx/SDK/2018.3/gnu/aarch64/lin/aarch64-none/bin:PATH" >> ~/.profile
 ```
 
-You can edit your .profile files if you don't use bash.
+You can edit your .profile files if you don\'t use bash.
 
-Note: nuttx.elf build by toolchain install in first way can't be
+Note: nuttx.elf build by toolchain install in first way can\'t be
 debugged by Vivado SDK which use toolchain of second way for gdb version
 incompatibility.
 
 Check the ARM64 Toolchain:
 
-``` console
+``` {.console}
  aarch64-none-elf-gcc -v
 ```
 
-## Building
+Building
+--------
 
 There are two types of NuttX image for Zynq MPSoC: debug by JTAG and
 boot from FLASH.
@@ -185,7 +201,7 @@ boot from FLASH.
 
 We just configure the NuttX project and build the project:
 
-``` console
+``` {.console}
  cd nuttx
  tools/configure.sh zcu111:jtag
  make
@@ -203,7 +219,7 @@ nuttx.elf, we also need to build zynqmp\_fsbl.elf, zynqmp\_pmufw.elf and
 bl31.elf To build nuttx.elf we just configure the NuttX project and
 build the project:
 
-``` console
+``` {.console}
  cd nuttx
  tools/configure.sh zcu111:nsh
  make
@@ -215,7 +231,7 @@ To build bl31.elf we should fetch Fetch sources of ARM Trusted Firmware
 (ATF) and checkout the tags that corresponding to the SDK version. Take
 Vivado 2018.3 for example:
 
-``` console
+``` {.console}
  git clone https://github.com/Xilinx/arm-trusted-firmware.git
  cd arm-trusted-firmware
  git checkout xilinx-v2018.3
@@ -225,28 +241,28 @@ By default, the Arm-trusted firmware builds for OCM space at address
 0xFFFEA000, and ATF assume that UBoot or nuttx.elf located at address
 0x08000000. Then we just build bl31.elf with:
 
-``` console
+``` {.console}
  make CROSS_COMPILE=aarch64-none-elf- PLAT=zynqmp RESET_TO_BL31=1
 ```
 
-But, with DEBUG flag set to 1, it can't fit in OCM, so by default with
+But, with DEBUG flag set to 1, it can\'t fit in OCM, so by default with
 DEBUG=1, it builds for DDR location 0x1000 with build flag DEBUG=1
 mentioned while building. Alternatively, user has always an option to
 build for the location of their choice by specifying the build flags
 ZYNQMP\_ATF\_MEM\_BASE, ZYNQMP\_ATF\_MEM\_SIZE while building. The flag
 ZYNQMP\_ATF\_MEM\_BASE specifies the base address of ATF and flag
 ZYNQMP\_ATF\_MEM\_SIZE specifies the maximum size the ATF image can be.
-what's more we can specifies the target address of Uboot or nuttx.elf by
-PRELOADED\_BL33\_BASE. for zcu111:nsh configuration Example bl31 build
-command:
+what\'s more we can specifies the target address of Uboot or nuttx.elf
+by PRELOADED\_BL33\_BASE. for zcu111:nsh configuration Example bl31
+build command:
 
-``` console
+``` {.console}
  make CROSS_COMPILE=aarch64-none-elf- PLAT=zynqmp RESET_TO_BL31=1 ZYNQMP_ATF_MEM_BASE=0x10000 ZYNQMP_ATF_MEM_SIZE=0x40000 PRELOADED_BL33_BASE=0x100000
 ```
 
-If we don't dubug bl31 we just build bl31 in following command:
+If we don\'t dubug bl31 we just build bl31 in following command:
 
-``` console
+``` {.console}
  make CROSS_COMPILE=aarch64-none-elf- PLAT=zynqmp RESET_TO_BL31=1 PRELOADED_BL33_BASE=0x100000
 ```
 
@@ -272,24 +288,28 @@ appropriate platform, processor, and template to create
 zynqmp\_pmufw.elf. We can also create PMU Firmware from system hardware
 project hdf file by hsi command line:
 
-    proc generate_pmufw {} {
-        if {[file exists pmu_fw/zynqmp_pmufw.elf] != 1} {
-            set pmufw_design [hsi::create_sw_design pmu_1 -proc psu_pmu_0 -app zynqmp_pmufw]
-            hsi::add_library libmetal
-            hsi::generate_app -dir pmu_fw -compile
-            return "pmu_fw/zynqmp_pmufw.elf"
-        }
+``` {.}
+proc generate_pmufw {} {
+    if {[file exists pmu_fw/zynqmp_pmufw.elf] != 1} {
+        set pmufw_design [hsi::create_sw_design pmu_1 -proc psu_pmu_0 -app zynqmp_pmufw]
+        hsi::add_library libmetal
+        hsi::generate_app -dir pmu_fw -compile
         return "pmu_fw/zynqmp_pmufw.elf"
     }
+    return "pmu_fw/zynqmp_pmufw.elf"
+}
+```
 
 In order to call this procs, the user needs to open the hdf
 (hsi::open\_hw\_design):
 
-    proc create_pmufw {hdf} {
-        hsi::open_hw_design hdf
-        set pmufw [generate_pmufw]
-        hsi::close_hw_design [hsi::current_hw_design]
-    }
+``` {.}
+proc create_pmufw {hdf} {
+    hsi::open_hw_design hdf
+    set pmufw [generate_pmufw]
+    hsi::close_hw_design [hsi::current_hw_design]
+}
+```
 
 Create a TCL script with HSI commands above -\> Create a TCL script with
 HSI commands above -\> Launch XSCT 2018.3 -\> Change directory to the
@@ -312,44 +332,44 @@ Xilinx Vitis or Vivado SDK IDE or hsi command line. To create FSBL by
 Vitis or Vivado SDK IDE just launch VITIS or Vivado SDK and do following
 flow:
 
-  - Provide path where VITIS workspace and project need to be created.
+-   Provide path where VITIS workspace and project need to be created.
     With this VITIS workspace will be created
 
-  - (Optional step) To work with local repos, Select "Xilinx" (ALT - x)
-    -\> Repositories. Against Local Repositories, click on "New..." and
-    provide path of the local repo
+-   (Optional step) To work with local repos, Select \"Xilinx\" (ALT -
+    x) -\> Repositories. Against Local Repositories, click on
+    \"New\...\" and provide path of the local repo
 
-  - Select File--\>New--\>Application Project to open "New Project"
+-   Select File\--\>New\--\>Application Project to open \"New Project\"
     window, provide name for FSBL project
 
-  -   - In the “Platform” section, click on “Create a new platform from
-        hardware (XSA)” and select pre-defined hardware platform for
-        ZynqMP.
-        
-          - Alternatively, to create a new/custom platform from a .xsa
-            file, click on “+”, browse and select the XSA file and a new
+-   
+
+    In the "Platform" section, click on "Create a new platform from hardware (XSA)" and select pre-defined hardware platform for ZynqMP.
+
+    :   -   Alternatively, to create a new/custom platform from a .xsa
+            file, click on "+", browse and select the XSA file and a new
             hardware platform is created.
 
-  - In the "Domain" window, select the processor
-    psu\_cortexa53\_0/psu\_cortexr5\_0, OS as standalone and Language as
-    C.
+-   In the \"Domain\" window, select the processor
+    psu\_cortexa53\_0/psu\_cortexr5\_0, OS as standalone and Language
+    as C.
 
-  - Click Next and select "Zynq MP FSBL"
+-   Click Next and select \"Zynq MP FSBL\"
 
-  - Click "Finish" to generate the A53/R5 FSBL. This populates the FSBL
-    code and also builds it (along with BSP)
+-   Click \"Finish\" to generate the A53/R5 FSBL. This populates the
+    FSBL code and also builds it (along with BSP)
 
-  -   - Debug prints in FSBL are now disabled by default. To enable
-        debug prints, define symbol: FSBL\_DEBUG\_INFO.
-        
-          - In VITIS this can be done by: right click on FSBL
-            application project -\> select “C/C++ Build Settings” -\>
-            “Tool Settings” tab -\> Symbols (under ARM v8 gcc
-            compiler)
-          - Click on Add (+) icon and Enter Value: FSBL\_DEBUG\_INFO,
-            click on "OK" to close the "Enter Value" screen
+-   
 
-  - In case any of the source files (FSBL or BSP) need to be modified,
+    Debug prints in FSBL are now disabled by default. To enable debug prints, define symbol: FSBL\_DEBUG\_INFO.
+
+    :   -   In VITIS this can be done by: right click on FSBL
+            application project -\> select "C/C++ Build Settings" -\>
+            "Tool Settings" tab -\> Symbols (under ARM v8 gcc compiler)
+        -   Click on Add (+) icon and Enter Value: FSBL\_DEBUG\_INFO,
+            click on \"OK\" to close the \"Enter Value\" screen
+
+-   In case any of the source files (FSBL or BSP) need to be modified,
     browse the file, make the change and save the file, build the
     project. elf file will be present in the Debug/Release folder of
     FSBL project.
@@ -357,25 +377,29 @@ flow:
 To create FSBL by XSCT command line just launch XSCT console and execute
 following TCL script with HSI commands:
 
-    proc generate_fsbl {} {
-        if {[file exists zynqmp_fsbl/zynqmp_fsbl.elf] != 1} {
-            set fsbl_design [hsi::create_sw_design fsbl_1 -proc psu_cortexa53_0 -app zynqmp_fsbl]
-            common::set_property APP_COMPILER "aarch64-none-elf-gcc" fsbl_design
-            common::set_property -name APP_COMPILER_FLAGS -value "-DRSA_SUPPORT -DFSBL_DEBUG_INFO -DXPS_BOARD_ZCU111" -objects fsbl_design
-            hsi::add_library libmetal
-            hsi::generate_app -dir zynqmp_fsbl -compile
-        }
-        return "zynqmp_fsbl/zynqmp_fsbl.elf"
+``` {.}
+proc generate_fsbl {} {
+    if {[file exists zynqmp_fsbl/zynqmp_fsbl.elf] != 1} {
+        set fsbl_design [hsi::create_sw_design fsbl_1 -proc psu_cortexa53_0 -app zynqmp_fsbl]
+        common::set_property APP_COMPILER "aarch64-none-elf-gcc" fsbl_design
+        common::set_property -name APP_COMPILER_FLAGS -value "-DRSA_SUPPORT -DFSBL_DEBUG_INFO -DXPS_BOARD_ZCU111" -objects fsbl_design
+        hsi::add_library libmetal
+        hsi::generate_app -dir zynqmp_fsbl -compile
     }
+    return "zynqmp_fsbl/zynqmp_fsbl.elf"
+}
+```
 
 In order to call this procs, the user needs to open the hdf
 (hsi::open\_hw\_design):
 
-    proc create_fsbl {hdf} {
-        hsi::open_hw_design hdf
-        set fsbl [generate_fsbl]
-        hsi::close_hw_design [hsi::current_hw_design]
-    }
+``` {.}
+proc create_fsbl {hdf} {
+    hsi::open_hw_design hdf
+    set fsbl [generate_fsbl]
+    hsi::close_hw_design [hsi::current_hw_design]
+}
+```
 
 Create a TCL script with HSI commands above -\> Create a TCL script with
 HSI commands above -\> Launch XSCT 2018.3 -\> Change directory to the
@@ -388,32 +412,36 @@ You can create BOOT.bin images using the BIF attributes and the Bootgen
 command. For this configuration, the BIF file(named fsbl.bif) contains
 the following attributes:
 
-    the_ROM_image:
-    {
-      [fsbl_config]a53_x64
-      [bootloader]zynqmp_fsbl.elf
-      [pmufw_image]zynqmp_pmufw.elf
-      [destination_cpu = a53-0, exception_level = el-3, trustzone]bl31.elf
-      [destination_cpu = a53-0, exception_level = el-1]nuttx.elf
-    }
+``` {.}
+the_ROM_image:
+{
+  [fsbl_config]a53_x64
+  [bootloader]zynqmp_fsbl.elf
+  [pmufw_image]zynqmp_pmufw.elf
+  [destination_cpu = a53-0, exception_level = el-3, trustzone]bl31.elf
+  [destination_cpu = a53-0, exception_level = el-1]nuttx.elf
+}
+```
 
 The Vitis IDE calls the following Bootgen command to generate the
 BOOT.bin image for this configuration:
 
-    bootgen -image fsbl.bif -arch zynqmp -o .\BOOT.bin
+``` {.}
+bootgen -image fsbl.bif -arch zynqmp -o .\BOOT.bin
+```
 
 ### Flash BOOT.bin to QSPI FLASH
 
 We can flash BOOT.bin into QSPI FLASH in following flow:
 
-  - In the Vivado SDK/Vitis IDE, select Xilinx -\> Program Flash.
-  - In the Program Flash wizard, browse to and select the BOOT.bin image
+-   In the Vivado SDK/Vitis IDE, select Xilinx -\> Program Flash.
+-   In the Program Flash wizard, browse to and select the BOOT.bin image
     file that was created as a part of this example.
-  - Select **qspi-x8-dual\_parallel** as the Flash type.
-  - Set the Offset as 0 and select the BOOT.bin file.
-  - Click Program to start the process of programming the QSPI flash
+-   Select **qspi-x8-dual\_parallel** as the Flash type.
+-   Set the Offset as 0 and select the BOOT.bin file.
+-   Click Program to start the process of programming the QSPI flash
     with the BOOT.bin.
-  - Wait until you see the message “Flash Operation Successful” in the
+-   Wait until you see the message "Flash Operation Successful" in the
     console.
 
 Set mode switch SW6 to QSPI32, NuttX will appear in the Serial Console

@@ -1,10 +1,7 @@
-# ST Nucleo WL55JC
-
-<div class="tags">
+ST Nucleo WL55JC
+================
 
 chip:stm32, chip:stm32wl, chip:stm32wl55
-
-</div>
 
 The
 [Nucleo-WL55JC](https://www.st.com/en/evaluation-tools/nucleo-wl55jc.html)
@@ -13,43 +10,46 @@ I/O, 3 onboard LEDs and buttons, integrated stlink for easy debug and
 flashing and on-board LoRa receiver with external antenna. NSH can be
 easily access via virtual serial port from usb.
 
-## Features
+Features
+--------
 
-  - STM32WL55JC MCU, 256K FLASH, 64K SRAM
-  - 32768 Hz LSE crystal
-  - 32 MHz HSE crystal
-  - Embedded stlink-v3 debugger (debug/flash and virtual serial port)
-  - Reset button
-  - 3 user programmable LEDs
-  - 3 user programmable buttons
-  - Power indicator LED
-  - LoRa radio with antenna
-  - 64 Nucleo I/O
-  - Arduino compatible pinout
+-   STM32WL55JC MCU, 256K FLASH, 64K SRAM
+-   32768 Hz LSE crystal
+-   32 MHz HSE crystal
+-   Embedded stlink-v3 debugger (debug/flash and virtual serial port)
+-   Reset button
+-   3 user programmable LEDs
+-   3 user programmable buttons
+-   Power indicator LED
+-   LoRa radio with antenna
+-   64 Nucleo I/O
+-   Arduino compatible pinout
 
-## Pin Mapping
+Pin Mapping
+-----------
 
 Pin mapping can be altered by (de)soldering bridges, by default board
 uses following mapping:
 
-| Pin             | Signal                               | Notes                        |
-| --------------- | ------------------------------------ | ---------------------------- |
-| PA2             | LPUART1 TX                           | Virtual serial port over usb |
-| PA3             | LPUART2 RX                           | Virtual serial port over usb |
-| PB6             | USART1 TX                            | D1 on Arduino pinout         |
-| PB7 PA0 PA1 PC6 | USART1 RX Button 1 Button 2 Button 3 | R0 on Arduino pinout         |
-| PB15            | Blue LED                             | Active HIGH                  |
-| PB11            | Red LED                              | Active HIGH                  |
-| PB9             | Green LED                            | Active HIGH                  |
+  Pin               Signal                                 Notes
+  ----------------- -------------------------------------- ------------------------------
+  PA2               LPUART1 TX                             Virtual serial port over usb
+  PA3               LPUART2 RX                             Virtual serial port over usb
+  PB6               USART1 TX                              D1 on Arduino pinout
+  PB7 PA0 PA1 PC6   USART1 RX Button 1 Button 2 Button 3   R0 on Arduino pinout
+  PB15              Blue LED                               Active HIGH
+  PB11              Red LED                                Active HIGH
+  PB9               Green LED                              Active HIGH
 
-## Default Peripherals Configuration
+Default Peripherals Configuration
+---------------------------------
 
 ### LED
 
 Green and Red LEDs are used by the system at boot to show system state.
 Once system is booted these LEDs are for user to control. When
 CONFIG\_ARCH\_LEDS is set, Blue LED is reserved by OS for reporting
-system status. When CONFIG\_ARCH\_LEDS is not set, OS state won't be
+system status. When CONFIG\_ARCH\_LEDS is not set, OS state won\'t be
 reported on any of the LEDs and all 3 LEDs are available for user right
 from the start.
 
@@ -66,7 +66,8 @@ prompt will be waiting for you there. Serial device does not disappear
 when flashing and resetting board - it can be left opened and flashing
 will work without problems.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -80,7 +81,8 @@ board is capable of. These programs and settings are usually absolutely
 useless in production code and are here just to show, by example, what
 you can do with the board.
 
-## Flash & Debug
+Flash & Debug
+-------------
 
 Both flashing and debugging are done using the embedded stlink-v3
 debugger. OpenOCD can be invoked in the following way to flash:

@@ -1,56 +1,52 @@
-# ST STM32H747I-DISCO
-
-<div class="tags">
+ST STM32H747I-DISCO
+===================
 
 chip:stm32, chip:stm32h7, chip:stm32h747
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM32H747I-DISCO development board featuring the STM32H747I MCU.
 The STM32H747I is a Cortex-M7 and -M4 dual core with 2MBytes Flash
 memory and 1MByte SRAM. The board features:
 
-  - On-board ST-Link v3E for programming and debugging,
-  - 4 color user LEDs
-  - One pushbuttons (user and reset)
-  - Four-way joystick controller with select key
-  - 32.768 kHz crystal oscillator
-  - USB OTG HS with Micro-AB connectors
-  - Ethernet connector compliant with IEEE-802.3-2002
-  - Board connectors:
-      - Camera
-      - USB with Micro-AB
-      - SWD
-      - Ethernet RJ45
-      - Arduino Uno V3
-      - Pmod
-      - STMod+
+-   On-board ST-Link v3E for programming and debugging,
+-   4 color user LEDs
+-   One pushbuttons (user and reset)
+-   Four-way joystick controller with select key
+-   32.768 kHz crystal oscillator
+-   USB OTG HS with Micro-AB connectors
+-   Ethernet connector compliant with IEEE-802.3-2002
+-   Board connectors:
+    -   Camera
+    -   USB with Micro-AB
+    -   SWD
+    -   Ethernet RJ45
+    -   Arduino Uno V3
+    -   Pmod
+    -   STMod+
 
 Refer to the <http://www.st.com> website for further information about
 this board (search keyword: STM32H747I-DISCO)
 
-## Serial Console
+Serial Console
+--------------
 
 1.  Virtual Console.
-    
-    The virtual console uses Serial Port 1 (USART1).
-    
-    > 
-    > 
-    > | VCOM Signal | Pin  |
-    > | ----------- | ---- |
-    > | SERIAL\_RX  | PA10 |
-    > | SERIAL\_TX  | PA9  |
-    > 
 
+    The virtual console uses Serial Port 1 (USART1).
+
+    >   VCOM Signal   Pin
+    >   ------------- ------
+    >   SERIAL\_RX    PA10
+    >   SERIAL\_TX    PA9
+    >
     > These signals are internally connected to the on board ST-Link.
-    
+
     The virtual console is the default serial console in all
     configurations unless otherwise stated in the description of the
     configuration.
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -60,7 +56,7 @@ can be selected as follow:
     tools/configure.sh [options] stm32h747i-disco:<subdir>
 
 Where options should specify the host build platform (-l for Linux, -c
-for Cygwin under Windows, etc.). Try 'tools/configure.sh -h' for the
+for Cygwin under Windows, etc.). Try \'tools/configure.sh -h\' for the
 complete list of options.
 
 Before starting the build, make sure that (1) your PATH environment
@@ -80,24 +76,28 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
-2.    - Unless stated otherwise, all configurations generate console  
-        output on the ST-Link VCOM, USART1.
+2.  
+
+    Unless stated otherwise, all configurations generate console
+
+    :   output on the ST-Link VCOM, USART1.
 
 3.  Unless otherwise stated, the configurations are setup for Linux by
     default:
-    
-    >   - Build Setup:  
-    >     CONFIG\_HOST\_LINUX=y : Linux host operating system
+
+    > Build Setup:
+    >
+    > :   CONFIG\_HOST\_LINUX=y : Linux host operating system
 
 4.  All of these configurations use the general arm-none-eabi toolchain
     for Linux That toolchain selection can easily be reconfigured using
-    'make menuconfig'.
+    \'make menuconfig\'.
 
 5.  These configurations all assume that you are loading code using
     something like the ST-Link v3E JTAG. None of these configurations

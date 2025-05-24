@@ -1,7 +1,4 @@
-# nanopi\_m4
-
-<div class="tags">
+nanopi\_m4
+==========
 
 chip:rk3399
-
-</div>

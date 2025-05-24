@@ -1,3 +1,4 @@
-# User file system
+User file system
+================
 
 See `include/nuttx/fs/userfs.h`.

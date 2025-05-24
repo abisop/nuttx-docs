@@ -1,37 +1,32 @@
-# ST STM32F429I-DISCO
-
-<div class="tags">
+ST STM32F429I-DISCO
+===================
 
 chip:stm32, chip:stm32f4, chip:stm32f429
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM32F429I-DISCO development board featuring the STM32F429ZIT6
 MCU. The STM32F429ZIT6 is a 180MHz Cortex-M4 operation with 2Mbit Flash
 memory and 256kbytes. The board features:
 
-  - On-board ST-LINK/V2 for programming and debugging,
-  - On-board 64 Mbits (8 Mbytes) External SDRAM (1 Mbit x 16-bit x
+-   On-board ST-LINK/V2 for programming and debugging,
+-   On-board 64 Mbits (8 Mbytes) External SDRAM (1 Mbit x 16-bit x
     4-bank)
-  - L3GD20, ST MEMS motion sensor, 3-axis digital output gyroscope,
-  - TFT 2.4" LCD, 262K color RGB, 240 x 320 pixels
-  - Touchscreen controller
-  - Two user LEDs and two push-buttons,
-  - USB OTG FS with micro-AB connector, and
-  - Easy access to most MCU pins.
+-   L3GD20, ST MEMS motion sensor, 3-axis digital output gyroscope,
+-   TFT 2.4\" LCD, 262K color RGB, 240 x 320 pixels
+-   Touchscreen controller
+-   Two user LEDs and two push-buttons,
+-   USB OTG FS with micro-AB connector, and
+-   Easy access to most MCU pins.
 
-<!-- end list -->
+NOTE: Includes basic NSH command support with full 8MByte SDRAM + the
 
-  - NOTE: Includes basic NSH command support with full 8MByte SDRAM +
-    the  
-    internal 256K. Unsupported are the LCD and USB interfaces.
-    
+:   internal 256K. Unsupported are the LCD and USB interfaces.
+
     The board pin configuration to support on-board SDRAM and LCD
     prevents use of the OTG FS module which is normally used for USB NSH
     sessions. Instead, the board routes the OTG HS pins to the USB OTG
     connector.
-    
+
     The NSH configuration / testing that has been done so far was
     performed by connecting an external RS-232 line driver to pins PA9
     (TX) and PA10 (RX) and configuring USART1 as the NSH console.
@@ -43,25 +38,26 @@ NOTE: This port was based on the original discovery kit,
 STM32F429I-DISCO. That board has been superseded by the new
 STM32F429I-DISC1.
 
-## Setup and Programming Flash
+Setup and Programming Flash
+---------------------------
 
 I use a USB cable to power and program it. And I use a USB/Serial
 connected to pins PA9 and PA10 for the serial console (See the section
-"UARTs" below).
+\"UARTs\" below).
 
 FLASH may be programmed:
 
-  - Via USB using STM32 ST-Link Utility
+-   Via USB using STM32 ST-Link Utility
 
-  - Via USB using OpenOCD. This command may be used to flash the
+-   Via USB using OpenOCD. This command may be used to flash the
     firmware using OpenOCD:
-    
+
          sudo openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c init -c "reset halt" -c "flash write_image erase nuttx.bin 0x08000000"
 
-  - Via JTAG/SWD connected to the SWD connector CN2.
-    
+-   Via JTAG/SWD connected to the SWD connector CN2.
+
     CN4 Jumpers. Remove jumpers to enable signals at SWD connector CN2.:
-    
+
         SWD 6-Pin STM32F429i-Discovery Connector CN2
         Pin   Signal Name       Description
         ----- ------ ---------- ------------------------------
@@ -71,7 +67,7 @@ FLASH may be programmed:
         Pin 4 T_JTMS SWDIO      SWD data input/output
         Pin 5 T_NRST NRST       Reset of target MCU
         Pin 6 T_SWO  SWO        Reserved
-        
+
         SWD 20-pin J-Link Connector
         Pin    Name      Type   Description
         ------ --------- ------ ------------------------------
@@ -86,11 +82,12 @@ FLASH may be programmed:
         Pin 15 RESET     I/O    Target CPU reset signal (nRST)
         Pin 17 Not used  NC     Not connected in J-Link
         Pin 19 5V-Supply Output Supplies power to some boards.
-        
+
         Pins 4, 45, 8, 10, 12, 14, 16, 18 and 20 are GND pins in J-Link.  They
         should also be connected to ground in the target system.
 
-## LEDs
+LEDs
+----
 
 The STM32F429I-DISCO board has two user LEDs; green, and red on the
 board. These LEDs are not used by the board port unless
@@ -110,19 +107,20 @@ encode OS-related events as follows:
     LED_ASSERTION        An assertion failed      ON       ON
     LED_PANIC            The system has crashed   ON       BLINK
     LED_IDLE             STM32 is is sleep mode   (Optional, not used)
-    
+
     * In normal mode, LED1 will be on and LED2 might flicker a bit as IRQs
       and SIGNALS are processed.
     * If LED1 is on and LED2 is blinking, then NuttX probably failed to boot
       or is in a PANIC condition.
 
-## UARTs
+UARTs
+-----
 
 On the STM32F429I-DISCO board, because of pin mappings to support the
 onboard SDRAM and LCD, the only UARTs that have both RX and TX pins
 available are USART1 and UART5. Other USARTS could be used for RX or TX
 only, or they could be used for full-duplex if the other pin functions
-aren't being used (i.e. LCD or SDRAM).
+aren\'t being used (i.e. LCD or SDRAM).
 
 ### UART/USART PINS
 
@@ -143,62 +141,78 @@ If solder bridges SB11 and SB12 are closed, then USART1 will be
 connected to the ST-Link and should be available over USB as a virtual
 COM interface.
 
-## Timer Inputs/Outputs
+Timer Inputs/Outputs
+--------------------
 
-  - ::
-    
-      - TIM1  
-        CH1 PA8\[1\], PE9\[1\] CH2 PA9, PE11\[1\] CH3 PA10, PE13\[1\]
+::
+
+:   
+
+    TIM1
+
+    :   CH1 PA8\[1\], PE9\[1\] CH2 PA9, PE11\[1\] CH3 PA10, PE13\[1\]
         CH4 PA11\[1\], PE14\[1\]
-    
-      - TIM2  
-        CH1 PA0\[1\], PA15\[1\], PA5 CH2 PA1\[1\], PB3\[1\] CH3
+
+    TIM2
+
+    :   CH1 PA0\[1\], PA15\[1\], PA5 CH2 PA1\[1\], PB3\[1\] CH3
         PA2\[1\], PB10\[1\] CH4 PA3\[1\], PB11\[1\]
-    
-      - TIM3  
-        CH1 PA6\[1\], PB4, PC6\[1\] CH2 PA7\[1\], PB5\[1\], PC7\[1\] CH3
+
+    TIM3
+
+    :   CH1 PA6\[1\], PB4, PC6\[1\] CH2 PA7\[1\], PB5\[1\], PC7\[1\] CH3
         PB0\[1\], PC8 CH4 PB1\[1\], PC9\[1\]
-    
-      - TIM4  
-        CH1 PB6\[1\], PD12\[1\] CH2 PB7, PD13\[1\] CH3 PB8\[1\],
+
+    TIM4
+
+    :   CH1 PB6\[1\], PD12\[1\] CH2 PB7, PD13\[1\] CH3 PB8\[1\],
         PD14\[1\] CH4 PB9\[1\], PD15\[1\]
-    
-      - TIM5  
-        CH1 PA0\[1\], PH10\[1\] CH2 PA1\[1\], PH11\[1\] CH3 PA2\[1\],
+
+    TIM5
+
+    :   CH1 PA0\[1\], PH10\[1\] CH2 PA1\[1\], PH11\[1\] CH3 PA2\[1\],
         PH12\[1\] CH4 PA3\[1\], PI0\[2\]
-    
-      - TIM8  
-        CH1 PC6\[1\], PI5\[2\] CH2 PC7\[1\], PI6\[2\] CH3 PC8, PI7\[2\]
+
+    TIM8
+
+    :   CH1 PC6\[1\], PI5\[2\] CH2 PC7\[1\], PI6\[2\] CH3 PC8, PI7\[2\]
         CH4 PC9\[1\], PI2\[2\]
-    
-      - TIM9  
-        CH1 PA2\[1\], PE5 CH2 PA3\[1\], PE6
-    
-      - TIM10  
-        CH1 PB8\[1\], PF6
-    
-      - TIM11  
-        CH1 PB9\[1\], PF7\[1\]
-    
-      - TIM12  
-        CH1 PH6\[1\], PB14\[1\] CH2 PC15\[1\], PH9\[1\]
-    
-      - TIM13  
-        CH1 PA6\[1\], PF8\[1\]
-    
-      - TIM14  
-        CH1 PA7\[1\], PF9\[1\]
-    
+
+    TIM9
+
+    :   CH1 PA2\[1\], PE5 CH2 PA3\[1\], PE6
+
+    TIM10
+
+    :   CH1 PB8\[1\], PF6
+
+    TIM11
+
+    :   CH1 PB9\[1\], PF7\[1\]
+
+    TIM12
+
+    :   CH1 PH6\[1\], PB14\[1\] CH2 PC15\[1\], PH9\[1\]
+
+    TIM13
+
+    :   CH1 PA6\[1\], PF8\[1\]
+
+    TIM14
+
+    :   CH1 PA7\[1\], PF9\[1\]
+
     \[1\] Indicates pins that have other on-board functions and should
     be used only with care (See table 6 in the STM32F429I-DISCO User
     Guide). The rest are free I/O pins (This need to be updated. They
-    are incorrect\!) \[2\] Port I pins are not supported by the MCU
+    are incorrect!) \[2\] Port I pins are not supported by the MCU
 
-## FMC SDRAM
+FMC SDRAM
+---------
 
 ### On-board SDRAM
 
-The STM32F429I-DISCO has 8 MBytes on-board SDRAM connected to the MCU's
+The STM32F429I-DISCO has 8 MBytes on-board SDRAM connected to the MCU\'s
 SDRAM Bank 2 connections (Bank 6 of the FMC). This means the 8 MiB (when
 enabled) is mapped to address 0xD0000000-0xD07FFFFF. The port for the
 STM32F429I-DISCO board includes support for using the onboard 8M SDRAM.
@@ -248,7 +262,8 @@ There are 4 possible SRAM configurations:
                      CONFIG_STM32_EXTERNAL_RAM defined
                      CONFIG_STM32_CCMEXCLUDE NOT defined
 
-## Configurations
+Configurations
+--------------
 
 Each STM32F429I-DISCO configuration is maintained in a sub-directory and
 can be selected as follow:
@@ -259,17 +274,17 @@ Where \<subdir\> is one of the following:
 
 ### extflash:
 
-This is another NSH example. If differs from other 'nsh' configurations
-in that this configuration defines an external 8 MByte SPI FLASH (the
-SST25VF064C part from Silicon Storage Technology, Inc.) which must be be
-connected to the Discovery board's SPI4 pins on the expansion pins.
-Additionally, this demo uses UART1 for the console
+This is another NSH example. If differs from other \'nsh\'
+configurations in that this configuration defines an external 8 MByte
+SPI FLASH (the SST25VF064C part from Silicon Storage Technology, Inc.)
+which must be be connected to the Discovery board\'s SPI4 pins on the
+expansion pins. Additionally, this demo uses UART1 for the console
 
 NOTES:
 
 1.  This configuration assumes an SST25VF064C 8Mbyte SPI FLASH is
     connected to SPI4 on the following Discovery board Pins:
-    
+
         SCK:   Port PE2   Board Connector P1, Pin 15
         MOSI:  Port PE6   Board Connector P1, Pin 11
         MISO:  Port PE5   Board Connector P1, Pin 14
@@ -335,37 +350,37 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  By default, this configuration uses the ARM EABI toolchain for
     Windows and builds under Cygwin (or probably MSYS). That can easily
     be reconfigured, of course.:
-    
+
         CONFIG_HOST_WINDOWS=y                   : Builds under Windows
         CONFIG_WINDOWS_CYGWIN=y                 : Using Cygwin
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y      : GNU EABI toolchain for Windows
 
 3.  This example supports the PWM test (apps/examples/pwm) but this must
     be manually enabled by selecting:
-    
+
         CONFIG_PWM=y              : Enable the generic PWM infrastructure
         CONFIG_STM32_TIM4=y       : Enable TIM4
         CONFIG_STM32_TIM4_PWM=y   : Use TIM4 to generate PWM output
-    
+
     See also apps/examples/README.txt
-    
+
     Special PWM-only debug options:
-    
+
         CONFIG_DEBUG_PWM_INFO
 
 4.  This example supports the Quadrature Encode test
     (apps/examples/qencoder) but this must be manually enabled by
     selecting:
-    
+
         CONFIG_EXAMPLES_QENCODER=y : Enable the apps/examples/qencoder
         CONFIG_SENSORS=y           : Enable support for sensors
         CONFIG_SENSORS_QENCODER=y          : Enable the generic Quadrature Encoder infrastructure
@@ -373,33 +388,33 @@ NOTES:
         CONFIG_STM32_TIM2=n        : (Or optionally TIM2)
         CONFIG_STM32_TIM8_QE=y     : Use TIM8 as the quadrature encoder
         CONFIG_STM32_TIM2_QE=y     : (Or optionally TIM2)
-    
+
     See also apps/examples/README.txt. Special debug options:
-    
+
         CONFIG_DEBUG_SENSORS
 
 5.  This example supports the watchdog timer test
     (apps/examples/watchdog) but this must be manually enabled by
     selecting:
-    
+
         CONFIG_EXAMPLES_WATCHDOG=y : Enable the apps/examples/watchdog
         CONFIG_WATCHDOG=y          : Enables watchdog timer driver support
         CONFIG_STM32_WWDG=y        : Enables the WWDG timer facility, OR
         CONFIG_STM32_IWDG=y        : Enables the IWDG timer facility (but not both)
-    
+
     The WWDG watchdog is driven off the (fast) 42MHz PCLK1 and, as
     result, has a maximum timeout value of 49 milliseconds. for WWDG
     watchdog, you should also add the following to the configuration
     file:
-    
+
         CONFIG_EXAMPLES_WATCHDOG_PINGDELAY=20
         CONFIG_EXAMPLES_WATCHDOG_TIMEOUT=49
-    
+
     The IWDG timer has a range of about 35 seconds and should not be an
     issue.
 
 6.  USB Support (CDC/ACM device):
-    
+
         CONFIG_STM32_OTGFS=y          : STM32 OTG FS support
         CONFIG_USBDEV=y               : USB device support must be enabled
         CONFIG_CDCACM=y               : The CDC/ACM driver must be built
@@ -407,19 +422,19 @@ NOTES:
         CONFIG_NSH_ARCHINIT=y         : To perform USB initialization
 
 7.  Using the USB console.
-    
+
     The STM32F429I-DISCO NSH configuration can be set up to use a USB
     CDC/ACM (or PL2303) USB console. The normal way that you would
     configure the the USB console would be to change the .config file
     like this:
-    
+
         CONFIG_STM32_OTGFS=y           : STM32 OTG FS support
         CONFIG_USART2_SERIAL_CONSOLE=n : Disable the USART2 console
         CONFIG_DEV_CONSOLE=n           : Inhibit use of /dev/console by other logic
         CONFIG_USBDEV=y                : USB device support must be enabled
         CONFIG_CDCACM=y                : The CDC/ACM driver must be built
         CONFIG_CDCACM_CONSOLE=y        : Enable the CDC/ACM USB console.
-    
+
     NOTE: When you first start the USB console, you have hit ENTER a few
     times before NSH starts. The logic does this to prevent sending USB
     data before there is anything on the host side listening for USB
@@ -429,7 +444,7 @@ NOTES:
     configuration will also create a NSH USB console but this version
     will use /dev/console. Instead, it will use the normal /dev/ttyACM0
     USB serial device for the console:
-    
+
         CONFIG_STM32_OTGFS=y           : STM32 OTG FS support
         CONFIG_USART2_SERIAL_CONSOLE=y : Keep the USART2 console
         CONFIG_DEV_CONSOLE=y           : /dev/console exists (but NSH won't use it)
@@ -437,103 +452,103 @@ NOTES:
         CONFIG_CDCACM=y                : The CDC/ACM driver must be built
         CONFIG_CDCACM_CONSOLE=n        : Don't use the CDC/ACM USB console.
         CONFIG_NSH_USBCONSOLE=y        : Instead use some other USB device for the console
-    
+
     The particular USB device that is used is:
-    
+
         CONFIG_NSH_USBCONDEV="/dev/ttyACM0"
-    
+
     The advantage of this configuration is only that it is easier to bet
     working. This alternative does has some side effects:
-    
-      - When any other device other than /dev/console is used for a user
+
+    -   When any other device other than /dev/console is used for a user
         interface, linefeeds (n) will not be expanded to carriage return
         / linefeeds (rn). You will need to set your terminal program to
         account for this.
-      - /dev/console still exists and still refers to the serial port.
+    -   /dev/console still exists and still refers to the serial port.
         So you can still use certain kinds of debug output (see
         include/debug.h, all debug output from interrupt handlers will
         be lost.
-      - But don't enable USB debug output\! Since USB is console is used
+    -   But don\'t enable USB debug output! Since USB is console is used
         for USB debug output and you are using a USB console, there will
         be infinite loops and deadlocks: Debug output generates USB
         debug output which generatates USB debug output, etc. If you
         want USB debug output, you should consider enabling USB trace
         (CONFIG\_USBDEV\_TRACE) and perhaps the USB monitor
         (CONFIG\_USBMONITOR).
-    
+
     See the usbnsh configuration below for more information on
     configuring USB trace output and the USB monitor.
 
 9.  USB OTG FS Host Support. The following changes will enable support
     for a USB host on the STM32F429I-DISCO, including support for a mass
     storage class driver:
-    
+
     Device Drivers -\> CONFIG\_USBDEV=n : Make sure the USB device
     support is disabled CONFIG\_USBHOST=y : Enable USB host support
     CONFIG\_USBHOST\_ISOC\_DISABLE=y
-    
+
     Device Drivers -\> USB Host Driver Support CONFIG\_USBHOST\_MSC=y :
     Enable the mass storage class
-    
+
     System Type -\> STM32 Peripheral Support CONFIG\_STM32\_OTGHS=y :
     Enable the STM32 USB OTG FH block (FS mode) CONFIG\_STM32\_SYSCFG=y
     : Needed for all USB OTF HS support
-    
+
     RTOS Features -\> Work Queue Support CONFIG\_SCHED\_WORKQUEUE=y :
     High priority worker thread support is required
     CONFIG\_SCHED\_HPWORK=y : for the mass storage class driver.
-    
+
     File Systems -\> CONFIG\_FS\_FAT=y : Needed by the USB host mass
     storage class.
-    
+
     Board Selection -\> CONFIG\_BOARDCTL=y : Needed for
     CONFIG\_NSH\_ARCHINIT
-    
+
     Application Configuration -\> NSH Library CONFIG\_NSH\_ARCHINIT=y :
     Architecture specific USB initialization : is needed for NSH
-    
+
     With those changes, you can use NSH with a FLASH pen driver as shown
     belong. Here NSH is started with nothing in the USB host slot:
-    
+
     NuttShell (NSH) NuttX-x.yy nsh\> ls /dev /dev: console null ttyS0
-    
+
     After inserting the FLASH drive, the /dev/sda appears and can be
     mounted like this:
-    
+
     nsh\> ls /dev /dev: console null sda ttyS0 nsh\> mount -t vfat
     /dev/sda /mnt/stuff nsh\> ls /mnt/stuff /mnt/stuff: -rw-rw-rw- 16236
     filea.c
-    
+
     And files on the FLASH can be manipulated to standard interfaces:
-    
-    nsh\> echo "This is a test" \>/mnt/stuff/atest.txt nsh\> ls
+
+    nsh\> echo \"This is a test\" \>/mnt/stuff/atest.txt nsh\> ls
     /mnt/stuff /mnt/stuff: -rw-rw-rw- 16236 filea.c -rw-rw-rw- 16
     atest.txt nsh\> cat /mnt/stuff/atest.txt This is a test nsh\> cp
     /mnt/stuff/filea.c fileb.c nsh\> ls /mnt/stuff /mnt/stuff:
     -rw-rw-rw- 16236 filea.c -rw-rw-rw- 16 atest.txt -rw-rw-rw- 16236
     fileb.c
-    
-    To prevent data loss, don't forget to un-mount the FLASH drive
+
+    To prevent data loss, don\'t forget to un-mount the FLASH drive
     before removing it:
-    
+
     nsh\> umount /mnt/stuff
 
 10. I used this configuration to test the USB hub class. I did this
     testing with the following changes to the configuration (in addition
     to those listed above for base USB host/mass storage class support):
-    
+
     > Drivers -\> USB Host Driver Support CONFIG\_USBHOST\_HUB=y :
     > Enable the hub class CONFIG\_USBHOST\_ASYNCH=y : Asynchronous I/O
     > supported needed for hubs
-    > 
+    >
     > Board Selection -\>
     > CONFIG\_STM32F429IDISCO\_USBHOST\_STACKSIZE=2048 (bigger than it
     > needs to be)
-    > 
+    >
     > RTOS Features -\> Work Queue Support CONFIG\_SCHED\_LPWORK=y : Low
     > priority queue support is needed CONFIG\_SCHED\_LPNTHREADS=1
     > CONFIG\_SCHED\_LPWORKSTACKSIZE=1024
-    
+
     NOTES:
 
 11. It is necessary to perform work on the low-priority work queue (vs.
@@ -543,7 +558,7 @@ NOTES:
 
 12. Stack usage make increase when USB hub support is enabled because
     the nesting depth of certain USB host class logic can increase.
-    
+
     STATUS: 2015-04-30 Appears to be fully functional.
 
 ### nx
@@ -560,11 +575,11 @@ UnitTest.
 NOTES:
 
 1.  The NxWM window manager can be found here:
-    
+
         apps/graphics/NxWidgets/nxwm
-    
+
     The NxWM unit test can be found at:
-    
+
         apps/graphics/NxWidgets/UnitTests/nxwm
 
 STATUS: 17-01-08: There are instabilities in this configuration that
@@ -589,18 +604,18 @@ would likely make the interface easier to use.
 
 ### usbnsh
 
-This is another NSH example. If differs from other 'nsh' configurations
-in that this configurations uses a USB serial device for console I/O.
-Such a configuration is useful on the stm32f429i-disco which has no
-builtin RS-232 drivers.
+This is another NSH example. If differs from other \'nsh\'
+configurations in that this configurations uses a USB serial device for
+console I/O. Such a configuration is useful on the stm32f429i-disco
+which has no builtin RS-232 drivers.
 
 NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 2.  This configuration does have UART1 output enabled and set up as the
     system logging device. To use this UART, you must add an external
@@ -622,18 +637,20 @@ NOTES:
     of the DISCO board on PA9 and PA10 of connector P1.
 
 2.  The mass storage device will appear as /dev/sda and supports FAT
-    formatted "thumb" flash drives with:
-    
+    formatted \"thumb\" flash drives with:
+
         nsh> mount -t vfat /dev/sda /mount_name
 
-## STM32F429I-DISCO LTDC Framebuffer demo example
+STM32F429I-DISCO LTDC Framebuffer demo example
+----------------------------------------------
 
 STM32F429I-DISCO LTDC Framebuffer demo example
 
 ### Configure and build
 
-  - ::  
-    cd tools ./configure -a \<appdir\> stm32f429i-disco/fb cd .. make
+::
+
+:   cd tools ./configure -a \<appdir\> stm32f429i-disco/fb cd .. make
 
 ### Framebuffer calculation
 

@@ -1,4 +1,5 @@
-# Espressif ESP32-S3
+Espressif ESP32-S3
+==================
 
 The ESP32-S3 is a series of single and dual-core SoCs from Espressif
 based on Harvard architecture Xtensa LX7 CPUs and with on-chip support
@@ -10,11 +11,12 @@ exceptions, the address mapping of two CPUs is symmetric, meaning they
 use the same addresses to access the same memory. Multiple peripherals
 in the system can access embedded memory via DMA.
 
-On dual-core SoCs, the two CPUs are typically named "PRO\_CPU" and
-"APP\_CPU" (for "protocol" and "application"), however for most purposes
-the two CPUs are interchangeable.
+On dual-core SoCs, the two CPUs are typically named \"PRO\_CPU\" and
+\"APP\_CPU\" (for \"protocol\" and \"application\"), however for most
+purposes the two CPUs are interchangeable.
 
-## ESP32-S3 Toolchain
+ESP32-S3 Toolchain
+------------------
 
 The toolchain used to build ESP32-S3 firmware can be either downloaded
 or built from the sources. It is **highly** recommended to use (download
@@ -24,22 +26,24 @@ Please refer to the Docker
 [container](https://github.com/apache/nuttx/tree/master/tools/ci/docker/linux/Dockerfile)
 and check for the current compiler version being used. For instance:
 
-    ###############################################################################
-    # Build image for tool required by ESP32 builds
-    ###############################################################################
-    FROM nuttx-toolchain-base AS nuttx-toolchain-esp32
-    # Download the latest ESP32 GCC toolchain prebuilt by Espressif
-    RUN mkdir -p xtensa-esp32-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32-elf-gcc --strip-components 1 -xJ
-    
-    RUN mkdir -p xtensa-esp32s2-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s2-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32s2-elf-gcc --strip-components 1 -xJ
-    
-    RUN mkdir -p xtensa-esp32s3-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s3-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32s3-elf-gcc --strip-components 1 -xJ
+``` {.}
+###############################################################################
+# Build image for tool required by ESP32 builds
+###############################################################################
+FROM nuttx-toolchain-base AS nuttx-toolchain-esp32
+# Download the latest ESP32 GCC toolchain prebuilt by Espressif
+RUN mkdir -p xtensa-esp32-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32-elf-gcc --strip-components 1 -xJ
+
+RUN mkdir -p xtensa-esp32s2-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s2-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32s2-elf-gcc --strip-components 1 -xJ
+
+RUN mkdir -p xtensa-esp32s3-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s3-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32s3-elf-gcc --strip-components 1 -xJ
+```
 
 For ESP32-S3, the toolchain version is based on GGC 12.2.0
 (`xtensa-esp32s3-elf-12.2.0_20230208`)
@@ -48,31 +52,31 @@ For ESP32-S3, the toolchain version is based on GGC 12.2.0
 
 First, create a directory to hold the toolchain:
 
-``` console
+``` {.console}
  mkdir -p /path/to/your/toolchain/xtensa-esp32s3-elf-gcc
 ```
 
 Download and extract toolchain:
 
-``` console
+``` {.console}
  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s3-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
 | tar -C xtensa-esp32s3-elf-gcc --strip-components 1 -xJ
 ```
 
 Add the toolchain to your \`PATH\`:
 
-``` console
+``` {.console}
  echo "export PATH=/path/to/your/toolchain/xtensa-esp32s3-elf-gcc/bin:PATH" >> ~/.bashrc
 ```
 
-You can edit your shell's rc files if you don't use bash.
+You can edit your shell\'s rc files if you don\'t use bash.
 
 ### Building from source
 
 You can also build the toolchain yourself. The steps to build the
 toolchain with crosstool-NG on Linux are as follows
 
-``` console
+``` {.console}
  git clone https://github.com/espressif/crosstool-NG.git
  cd crosstool-NG
  git submodule update --init
@@ -90,7 +94,8 @@ toolchain with crosstool-NG on Linux are as follows
 These steps are given in the setup guide in [ESP-IDF
 documentation](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/linux-setup-scratch.html).
 
-## Building and flashing NuttX
+Building and flashing NuttX
+---------------------------
 
 ### Installing esptool
 
@@ -100,13 +105,7 @@ flash the image into the board.
 
 It can be installed with: `pip install esptool>=4.8.1`.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Installing `esptool.py` may required a Python virtual environment on
 newer systems. This will be the case if the `pip install` command throws
@@ -116,15 +115,13 @@ If you are not familiar with virtual environments, refer to [Managing
 esptool on virtual environment]() for instructions on how to install
 `esptool.py`.
 
-</div>
-
 ### Bootloader and partitions
 
-NuttX can boot the ESP32-S3 directly using the so-called "Simple Boot".
-An externally-built 2nd stage bootloader is not required in this case as
-all functions required to boot the device are built within NuttX. Simple
-boot does not require any specific configuration (it is selectable by
-default if no other 2nd stage bootloader is used).
+NuttX can boot the ESP32-S3 directly using the so-called \"Simple
+Boot\". An externally-built 2nd stage bootloader is not required in this
+case as all functions required to boot the device are built within
+NuttX. Simple boot does not require any specific configuration (it is
+selectable by default if no other 2nd stage bootloader is used).
 
 If other features are required, an externally-built 2nd stage bootloader
 is needed. The bootloader is built using the `make bootloader` command.
@@ -138,22 +135,14 @@ ignored if Simple Boot is used, for instance):
 
      make bootloader
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 It is recommended that if this is the first time you are using the board
 with NuttX to perform a complete SPI FLASH erase.
 
-``` console
+``` {.console}
  esptool.py erase_flash
 ```
-
-</div>
 
 ### Building and Flashing
 
@@ -166,11 +155,11 @@ to build and flash the NuttX firmware simply by running:
 
 where:
 
-  - `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
-  - `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
+-   `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
+-   `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
     bootloader and the partition table (if applicable): when built using
     the `make bootloader`, these files are placed into `nuttx` folder.
-  - `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
+-   `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
 
 ### Flashing NSH Example
 
@@ -210,7 +199,7 @@ where `<port>` is the serial port where the board is connected:
     Compressed 206776 bytes to 74469...
     Wrote 206776 bytes (74469 compressed) at 0x00000000 in 2.7 seconds (effective 620.3 kbit/s)...
     Hash of data verified.
-    
+
     Leaving...
     Hard resetting via RTS pin...
 
@@ -222,7 +211,8 @@ NuttX console:
     nsh> uname -a
     NuttX 12.8.0 759d37b97c-dirty Mar  5 2025 20:23:46 xtensa esp32s3-devkit
 
-## Debugging
+Debugging
+---------
 
 This section describes debugging techniques for the ESP32-S3.
 
@@ -239,47 +229,30 @@ The quickest and most convenient way to start with JTAG debugging is
 through a USB cable connected to the D+/D- USB pins of ESP32-S3. No need
 for an external JTAG adapter and extra wiring/cable to connect JTAG to
 ESP32-S3. Most of the ESP32-S3 boards have a USB connector that can be
-used for JTAG debugging. This is the case for the `ESP32-S3-DevKit
-<platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:ESP32S3-DevKit>`
-board.
-
-<div class="note">
-
-<div class="title">
+used for JTAG debugging. This is the case for the
+`ESP32-S3-DevKit <platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:ESP32S3-DevKit>`{.interpreted-text
+role="ref"} board.
 
 Note
-
-</div>
 
 One must configure the USB drivers to enable JTAG communication. Please
 check [Configure USB
 Drivers](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html?highlight=udev#configure-usb-drivers)
 for more information.
 
-</div>
-
 OpenOCD can then be used:
 
     openocd -s <tcl_scripts_path> -c 'set ESP_RTOS hwthread' -f board/esp32s3-builtin.cfg -c 'init; reset halt; esp appimage_offset 0x0'
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 \- `appimage_offset` should be set to `0x0` when `Simple Boot` is used.
 For MCUboot, this value should be set to
 `CONFIG_ESP32S3_OTA_PRIMARY_SLOT_OFFSET` value (`0x10000` by default). -
 `-s <tcl_scripts_path>` defines the path to the OpenOCD scripts. Usually
-set to <span class="title-ref">tcl</span> if running openocd from its
-source directory. It can be omitted if
-<span class="title-ref">openocd-esp32</span> were installed in the
-system with <span class="title-ref">sudo make install</span>.
-
-</div>
+set to [tcl]{.title-ref} if running openocd from its source directory.
+It can be omitted if [openocd-esp32]{.title-ref} were installed in the
+system with [sudo make install]{.title-ref}.
 
 Once OpenOCD is running, you can use GDB to connect to it and debug your
 application:
@@ -296,22 +269,13 @@ whereas the content of the `gdbinit` file is:
     thb nsh_main
     c
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `nuttx` is the ELF file generated by the build process. Please note that
 `CONFIG_DEBUG_SYMBOLS` must be enabled in the `menuconfig`.
 
-</div>
-
-Please refer to
-\[<span class="title-ref">/quick\](</span>/quick.md)start/debugging\`
-for more information about debugging techniques.
+Please refer to \[[/quick\](]{.title-ref}/quick.md)start/debugging\` for
+more information about debugging techniques.
 
 ### Stack Dump and Backtrace Dump
 
@@ -324,36 +288,20 @@ In order to enable this feature, the following options must be enabled
 in the NuttX configuration: `CONFIG_SCHED_BACKTRACE`,
 `CONFIG_DEBUG_SYMBOLS` and, optionally, `CONFIG_ALLSYMS`.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The first two options enable the backtrace dump. The third option
 enables the backtrace dump with the associated symbols, but increases
 the size of the generated NuttX binary.
 
-</div>
-
 Espressif also provides a tool to translate the backtrace dump into a
 human-readable format. This tool is called `btdecode.sh` and is
 available at `tools/espressif/btdecode.sh` of NuttX repository.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 This tool is not necessary if `CONFIG_ALLSYMS` is enabled. In this case,
 the backtrace dump contains the function names.
-
-</div>
 
 #### Example - Crash Dump
 
@@ -414,9 +362,9 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x42011ba0: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
     0x40000000: ?? ??:0
-    
+
     Backtrace dump for all tasks:
-    
+
     Backtrace for task 2:
     0x4201fc6c: sched_dumpstack at sched_dumpstack.c:69
     0x40377098: dump_backtrace at assert.c:418
@@ -435,7 +383,7 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x42011ba0: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
     0x40000000: ?? ??:0
-    
+
     Backtrace for task 1:
     0x4201e131: nxsem_wait at sem_wait.c:217
     0x4201e033: nxsched_waitpid at sched_waitpid.c:165
@@ -451,7 +399,7 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x42011ba0: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
     0x40000000: ?? ??:0
-    
+
     Backtrace for task 0:
     0x42010f37: nx_start at nx_start.c:772 (discriminator 1)
     0x40374dda: __esp32s3_start at esp32s3_start.c:439 (discriminator 1)
@@ -465,13 +413,15 @@ The above output shows the backtrace of the tasks. By checking it, it is
 possible to track the functions that were being executed when the crash
 occurred.
 
-## Using QEMU
+Using QEMU
+----------
 
 Get or build QEMU from [here](https://github.com/espressif/qemu/wiki).
 The minimum supported version is 9.0.0.
 
-Enable the `ESP32S3_QEMU_IMAGE` config found in `Board Selection -->
-ESP32S3 binary image for QEMU`.
+Enable the `ESP32S3_QEMU_IMAGE` config found in
+`Board Selection --> ESP32S3 binary image for QEMU`{.interpreted-text
+role="menuselection"}.
 
 Build and generate the QEMU image:
 
@@ -488,52 +438,34 @@ can be run as:
 Networking is possible using the openeth MAC driver. Enable
 `ESP32S3_OPENETH` option and set the nic in QEMU:
 
->  qemu-system-xtensa -nographic -machine esp32s3 -drive
+> \ qemu-system-xtensa -nographic -machine esp32s3 -drive
 > file=nuttx.merged.bin,if=mtd,format=raw -nic user,model=open\_eth
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-The following list indicates the state of peripherals' support in NuttX:
+The following list indicates the state of peripherals\' support in
+NuttX:
 
-<table>
-<thead>
-<tr class="header">
-<th>Peripheral</th>
-<th>Support</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>ADC AES Bluetooth Camera CAN/TWAI DMA eFuse GPIO</p></td>
-<td><blockquote>
-<p>Yes Yes Yes No Yes Yes Yes Yes</p>
-</blockquote></td>
-<td><p>Oneshot</p></td>
-</tr>
-<tr class="even">
-<td><p>I2C I2S LCD LED/PWM MCPWM Pulse_CNT RMT RNG RSA RTC SDIO SD/MMC SHA SPI SPIFLASH SPIRAM Timers Touch UART</p></td>
-<td><blockquote>
-<p>Yes Yes No Yes Yes Yes Yes Yes No Yes No Yes No Yes Yes Yes Yes Yes Yes</p>
-</blockquote></td>
-<td><p>Master and Slave mode supported</p></td>
-</tr>
-<tr class="odd">
-<td><p>USB OTG USB SERIAL Watchdog</p></td>
-<td><blockquote>
-<p>Yes Yes Yes</p>
-</blockquote></td>
-<td><p>CDC/ACM console supported</p></td>
-</tr>
-<tr class="even">
-<td>Wi-Fi</td>
-<td><blockquote>
-<p>Yes</p>
-</blockquote></td>
-<td>WPA3-SAE supported</td>
-</tr>
-</tbody>
-</table>
++----------------------+----------------------+----------------------+
+| Peripheral           | Support              | NOTES                |
++======================+======================+======================+
+| ADC AES Bluetooth    | > Yes Yes Yes No Yes | Oneshot              |
+| Camera CAN/TWAI DMA  | > Yes Yes Yes        |                      |
+| eFuse GPIO           |                      |                      |
++----------------------+----------------------+----------------------+
+| I2C I2S LCD LED/PWM  | > Yes Yes No Yes Yes | Master and Slave     |
+| MCPWM Pulse\_CNT RMT | > Yes Yes Yes No Yes | mode supported       |
+| RNG RSA RTC SDIO     | > No Yes No Yes Yes  |                      |
+| SD/MMC SHA SPI       | > Yes Yes Yes Yes    |                      |
+| SPIFLASH SPIRAM      |                      |                      |
+| Timers Touch UART    |                      |                      |
++----------------------+----------------------+----------------------+
+| USB OTG USB SERIAL   | > Yes Yes Yes        | CDC/ACM console      |
+| Watchdog             |                      | supported            |
++----------------------+----------------------+----------------------+
+| Wi-Fi                | > Yes                | WPA3-SAE supported   |
++----------------------+----------------------+----------------------+
 
 ### Analog-to-digital converter (ADC)
 
@@ -550,141 +482,49 @@ the attenuation and resolution.
 Each ADC unit is accessible using the ADC character driver, which
 returns data for the enabled channels.
 
-The ADC unit can be enabled in the menu `System Type --> ESP32-S3
-Peripheral Selection --> Analog-to-digital converter (ADC)`.
+The ADC unit can be enabled in the menu
+`System Type --> ESP32-S3 Peripheral Selection --> Analog-to-digital converter (ADC)`{.interpreted-text
+role="menuselection"}.
 
-Then, it can be customized in the menu `System Type --> ADC
-Configuration`, which includes operating mode, gain and channels.
+Then, it can be customized in the menu
+`System Type --> ADC Configuration`{.interpreted-text
+role="menuselection"}, which includes operating mode, gain and channels.
 
-<table>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>ADC1 GPIO</th>
-<th>ADC2 GPIO</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-<td><blockquote>
-<p>11</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-<td><blockquote>
-<p>12</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-<td><blockquote>
-<p>13</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-<td><blockquote>
-<p>14</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td><blockquote>
-<p>5</p>
-</blockquote></td>
-<td><blockquote>
-<p>15</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td><blockquote>
-<p>6</p>
-</blockquote></td>
-<td><blockquote>
-<p>16</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td><blockquote>
-<p>7</p>
-</blockquote></td>
-<td><blockquote>
-<p>17</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td><blockquote>
-<p>8</p>
-</blockquote></td>
-<td><blockquote>
-<p>18</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td><blockquote>
-<p>9</p>
-</blockquote></td>
-<td><blockquote>
-<p>19</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td><blockquote>
-<p>10</p>
-</blockquote></td>
-<td><blockquote>
-<p>20</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
-
-<div class="warning">
-
-<div class="title">
++---------+-----------+-----------+
+| Channel | ADC1 GPIO | ADC2 GPIO |
++=========+===========+===========+
+| 0       | > 1       | > 11      |
++---------+-----------+-----------+
+| 1       | > 2       | > 12      |
++---------+-----------+-----------+
+| 2       | > 3       | > 13      |
++---------+-----------+-----------+
+| 3       | > 4       | > 14      |
++---------+-----------+-----------+
+| 4       | > 5       | > 15      |
++---------+-----------+-----------+
+| 5       | > 6       | > 16      |
++---------+-----------+-----------+
+| 6       | > 7       | > 17      |
++---------+-----------+-----------+
+| 7       | > 8       | > 18      |
++---------+-----------+-----------+
+| 8       | > 9       | > 19      |
++---------+-----------+-----------+
+| 9       | > 10      | > 20      |
++---------+-----------+-----------+
 
 Warning
-
-</div>
 
 Minimum and maximum measurable voltages may saturate around 100 mV and
 3000 mV, respectively.
 
-</div>
-
 ### Wi-Fi
-
-<div class="tip">
-
-<div class="title">
 
 Tip
 
-</div>
-
 Boards usually expose a `wifi` defconfig which enables Wi-Fi. On
 ESP32-S3, SMP is enabled to enhance Wi-Fi performance.
-
-</div>
 
 A standard network interface will be configured and can be initialized
 such as:
@@ -698,35 +538,20 @@ In this case a connection to AP with SSID `myssid` is done, using
 `mypasswd` as password. IP address is obtained via DHCP using `renew`
 command. You can check the result by running `ifconfig` afterwards.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.
 
 ### Wi-Fi SoftAP
 
 It is possible to use ESP32-S3 as an Access Point (SoftAP).
 
-<div class="tip">
-
-<div class="title">
-
 Tip
-
-</div>
 
 Boards usually expose a `sta_softap` defconfig which enables Wi-Fi (STA
 + SoftAP). On ESP32-S3, SMP is enabled to enhance Wi-Fi performance.
-
-</div>
 
 If you are using this board config profile you can run these commands to
 be able to connect your smartphone or laptop to your board:
@@ -740,18 +565,11 @@ In this case, you are creating the access point `nuttxapp` in your board
 and to connect to it on your smartphone you will be required to type the
 password `mypasswd` using WPA2.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>`{.interpreted-text
+role="ref"} for more information.
 
 The `dhcpd_start` is necessary to let your board to associate an IP to
 your smartphone.
@@ -764,10 +582,10 @@ is available for the application.
 
 Please check the following examples for more information:
 
-  - `esp32s3-devkit:psram_octal
-    <platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:psram_octal>`
-  - `esp32s3-devkit:psram_quad
-    <platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:psram_quad>`
+-   `esp32s3-devkit:psram_octal <platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:psram_octal>`{.interpreted-text
+    role="ref"}
+-   `esp32s3-devkit:psram_quad <platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:psram_quad>`{.interpreted-text
+    role="ref"}
 
 #### Moving not initialized data to the external PSRAM
 
@@ -785,7 +603,8 @@ initialized on runtime.
 This is particularly useful when the internal RAM is not enough to hold
 all the data.
 
-## \_<span class="title-ref">Managing esptool on virtual environment</span>
+\_[Managing esptool on virtual environment]{.title-ref}
+-------------------------------------------------------
 
 This section describes how to install `esptool`, `imgtool` or any other
 Python packages in a proper environment.
@@ -856,10 +675,11 @@ following command:
      deactivate
 
 This will return your shell prompt to its normal state. You can
-reactivate the virtual environment at any time by running the `source
-myenv/bin/activate` command again. You can also delete the virtual
-environment by deleting the directory that contains it.
+reactivate the virtual environment at any time by running the
+`source myenv/bin/activate` command again. You can also delete the
+virtual environment by deleting the directory that contains it.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

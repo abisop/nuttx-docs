@@ -1,74 +1,88 @@
-# i.MX RT1064 EVK
+i.MX RT1064 EVK
+===============
 
 [i.MX RT1064
 EVK](https://www.nxp.com/design/development-boards/i-mx-evaluation-and-development-boards/mimxrt1064-evk-i-mx-rt1064-evaluation-kit:MIMXRT1064-EVK)
 is an evaluation kit by NXP company. This kit uses the i.MX RT1064
 crossover MCU with ARM Cortex M7 core.
 
-## Features
+Features
+--------
 
-  -   - Processor
-        
-          - MIMXRT1066DVL6A processor
+-   
 
-  -   - Memory
-        
-          - 1 Mb OCRAM memory
-          - 256 Mb SDRAM memory
-          - 512 Mb Hyper Flash - Populated but 0 ohm DNP
-          - 64 Mb QSPI Flash
-          - TF socket for SD card
+    Processor
 
-  -   - Display and Audio
-        
-          - Parallel LCD connector
-          - Camera connector
-          - Audio CODEC
-          - 4-pole audio headphone jack
-          - External speaker connection
-          - Microphone
-          - SPDIF connector
+    :   -   MIMXRT1066DVL6A processor
 
-  -   - Connectivity
-        
-          - Micro USB host and OTG connectors
-          - Ethernet (10/100T) connector
-          - CAN transceivers
-          - Arduino® interface
+-   
 
-  -   - Sensors
-        
-          - FXOS8700CQ 6-Axis Ecompass (3-Axis Mag, 3-Axis Accel)
+    Memory
 
-## Serial Console
+    :   -   1 Mb OCRAM memory
+        -   256 Mb SDRAM memory
+        -   512 Mb Hyper Flash - Populated but 0 ohm DNP
+        -   64 Mb QSPI Flash
+        -   TF socket for SD card
+
+-   
+
+    Display and Audio
+
+    :   -   Parallel LCD connector
+        -   Camera connector
+        -   Audio CODEC
+        -   4-pole audio headphone jack
+        -   External speaker connection
+        -   Microphone
+        -   SPDIF connector
+
+-   
+
+    Connectivity
+
+    :   -   Micro USB host and OTG connectors
+        -   Ethernet (10/100T) connector
+        -   CAN transceivers
+        -   Arduino® interface
+
+-   
+
+    Sensors
+
+    :   -   FXOS8700CQ 6-Axis Ecompass (3-Axis Mag, 3-Axis Accel)
+
+Serial Console
+--------------
 
 Virtual console port provided by OpenSDA:
 
-|            |                  |             |
-| ---------- | ---------------- | ----------- |
-| UART1\_TXD | GPIO\_AD\_B0\_12 | LPUART1\_TX |
-| UART1\_RXD | GPIO\_AD\_B0\_13 | LPUART1\_RX |
+  ------------ ------------------ -------------
+  UART1\_TXD   GPIO\_AD\_B0\_12   LPUART1\_TX
+  UART1\_RXD   GPIO\_AD\_B0\_13   LPUART1\_RX
+  ------------ ------------------ -------------
 
 Arduino RS-232 Shield:
 
-|     |    |          |                  |             |
-| --- | -- | -------- | ---------------- | ----------- |
-| J22 | D0 | UART\_RX | GPIO\_AD\_B1\_07 | LPUART3\_RX |
-| J22 | D1 | UART\_TX | GPIO\_AD\_B1\_06 | LPUART3\_TX |
+  ----- ---- ---------- ------------------ -------------
+  J22   D0   UART\_RX   GPIO\_AD\_B1\_07   LPUART3\_RX
+  J22   D1   UART\_TX   GPIO\_AD\_B1\_06   LPUART3\_TX
+  ----- ---- ---------- ------------------ -------------
 
-## LEDs and buttons
+LEDs and buttons
+----------------
 
 ### LEDs
 
 There are four LED status indicators located on the EVK Board. The
 functions of these LEDs include:
 
-| Pin | Description  |
-| --- | ------------ |
-| D3  | Power Supply |
-| D18 | User LED     |
-| D20 | OpenSDA      |
-| D21 | Reset LED    |
+  Pin   Description
+  ----- --------------
+  D3    Power Supply
+  D18   User LED
+  D20   OpenSDA
+  D21   Reset LED
 
 Only a single LED, D18, is under software control. It connects to
 GPIO\_AD\_B0\_09 which is shared with JTAG\_TDI and ENET\_RST
@@ -78,16 +92,16 @@ defined. In that case, the usage by the board port is defined in
 include/board.h and src/imxrt\_autoleds.c. The LED is used to encode
 OS-related events as follows:
 
-| SYMBOL            | Meaning                 | LED   |
-| ----------------- | ----------------------- | ----- |
-| LED\_STARTED      | NuttX has been started  | OFF   |
-| LED\_HEAPALLOCATE | Heap has been allocated | OFF   |
-| LED\_IRQSENABLED  | Interrupts enabled      | OFF   |
-| LED\_STACKCREATED | Idle stack created      | ON    |
-| LED\_INIRQ        | In an interrupt         | N/C   |
-| LED\_SIGNAL       | In a signal handler     | N/C   |
-| LED\_ASSERTION    | An assertion failed     | N/C   |
-| LED\_PANIC        | The system has crashed  | FLASH |
+  SYMBOL              Meaning                   LED
+  ------------------- ------------------------- -------
+  LED\_STARTED        NuttX has been started    OFF
+  LED\_HEAPALLOCATE   Heap has been allocated   OFF
+  LED\_IRQSENABLED    Interrupts enabled        OFF
+  LED\_STACKCREATED   Idle stack created        ON
+  LED\_INIRQ          In an interrupt           N/C
+  LED\_SIGNAL         In a signal handler       N/C
+  LED\_ASSERTION      An assertion failed       N/C
+  LED\_PANIC          The system has crashed    FLASH
 
 Thus if the LED is statically on, NuttX has successfully booted and is,
 apparently, running normally. If the LED is flashing at approximately
@@ -97,17 +111,18 @@ apparently, running normally. If the LED is flashing at approximately
 
 There are five user interface switches on the MIMXRT1050 EVK Board:
 
->   - SW1: Power Switch (slide switch fir power from J2)
->   - SW2: ON/OFF Button
->   - SW3: Power-on Reset button state forces to reset the system power
+> -   SW1: Power Switch (slide switch fir power from J2)
+> -   SW2: ON/OFF Button
+> -   SW3: Power-on Reset button state forces to reset the system power
 >     except SNVS domain
->   - SW9: Reset button
->   - SW8: User button GPIO5-00
+> -   SW9: Reset button
+> -   SW8: User button GPIO5-00
 
 Only the user button is available to the software. It is sensed on the
 WAKEUP pin which will be pulled low when the button is pressed.
 
-## J-Link External Debug Probe
+J-Link External Debug Probe
+---------------------------
 
 Install the J-Link Debug Host Tools and make sure they are in your
 search path.
@@ -116,7 +131,8 @@ Attach a J-Link 20-pin connector to J21. Check that jumpers J47 and J48
 are off (they are on by default when boards ship from the factory) to
 ensure SWD signals are disconnected from the OpenSDA microcontroller.
 
-## Configurations
+Configurations
+--------------
 
 ### can
 
@@ -149,14 +165,14 @@ The configuration also includes CAN utilities as candump and cansend.
 This is identical to the nsh configuration below except that NuttX is
 built as a protected mode, monolithic module and the user applications
 are built separately. It is recommends to use a special make command;
-not just 'make' but make with the following two arguments:
+not just \'make\' but make with the following two arguments:
 
-``` console
+``` {.console}
  make pass1 pass2
 ```
 
-In the normal case (just 'make'), make will attempt to build both
-user-and kernel-mode blobs more or less interleaved. This actual works\!
+In the normal case (just \'make\'), make will attempt to build both
+user-and kernel-mode blobs more or less interleaved. This actual works!
 However, for me it is very confusing so I prefer the above make command:
 Make the user-space binaries first (pass1), then make the kernel-space
 binaries (pass2)
@@ -166,18 +182,18 @@ NOTES:
 At the end of the build, there will be several files in the top-level
 NuttX build directory:
 
-  - PASS1:
-    
-      - nuttx\_user.elf - The pass1 user-space ELF file
-      - nuttx\_user.hex - The pass1 Intel HEX format file (selected in
-        defconfig)
-      - User.map - Symbols in the user-space ELF file
+PASS1:
 
-  - PASS2:
-    
-      - nuttx - The pass2 kernel-space ELF file
-      - nuttx.hex - The pass2 Intel HEX file (selected in defconfig)
-      - System.map - Symbols in the kernel-space ELF file
+:   -   nuttx\_user.elf - The pass1 user-space ELF file
+    -   nuttx\_user.hex - The pass1 Intel HEX format file (selected in
+        defconfig)
+    -   User.map - Symbols in the user-space ELF file
+
+PASS2:
+
+:   -   nuttx - The pass2 kernel-space ELF file
+    -   nuttx.hex - The pass2 Intel HEX file (selected in defconfig)
+    -   System.map - Symbols in the kernel-space ELF file
 
 The J-Link programmer will accept files in .hex, .mot, .srec, and .bin
 formats.
@@ -186,10 +202,10 @@ Combining .hex files. If you plan to use the .hex files with your
 debugger or FLASH utility, then you may need to combine the two hex
 files into a single .hex file. Here is how you can do that.
 
-The 'tail' of the nuttx.hex file should look something like this (with
+The \'tail\' of the nuttx.hex file should look something like this (with
 my comments added beginning with \#):
 
-``` console
+``` {.console}
  tail nuttx.hex
 #xx xxxx 00 data records
 ...
@@ -204,10 +220,10 @@ my comments added beginning with \#):
 
 Use an editor such as vi to remove the 05 and 01 records.
 
-The 'head' of the nuttx\_user.hex file should look something like this
+The \'head\' of the nuttx\_user.hex file should look something like this
 (again with my comments added beginning with \#):
 
-``` console
+``` {.console}
  head nuttx_user.hex
 #xx xxxx 04 Extended Linear Address Record
 :02 0000 04 6020 7A
@@ -223,7 +239,7 @@ Nothing needs to be done here. The nuttx\_user.hex file should be fine.
 Combine the edited nuttx.hex and un-edited nuttx\_user.hex file to
 produce a single combined hex file:
 
-``` console
+``` {.console}
  cat nuttx.hex nuttx_user.hex >combined.hex
 ```
 
@@ -262,13 +278,13 @@ touchscreen sensor IC.
 
 IMXRT1064 MCU provides the integrated LCD driver.
 
-  - The LCD panel features:
-    
-      - size 4.3"
-      - resolution 480×272 RGB
-      - backlight driver
-      - dimensions \[mm\]: 105.5 (W) x 67.2(H) x 4.35(D) Max.
+The LCD panel features:
 
-To run the lvgl demo please type "lvgldemo" at nsh prompt:
+:   -   size 4.3\"
+    -   resolution 480×272 RGB
+    -   backlight driver
+    -   dimensions \[mm\]: 105.5 (W) x 67.2(H) x 4.35(D) Max.
+
+To run the lvgl demo please type \"lvgldemo\" at nsh prompt:
 
     nsh> lvgldemo

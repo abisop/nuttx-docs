@@ -1,73 +1,78 @@
-# Espressif ESP32-C3
+Espressif ESP32-C3
+==================
 
 The ESP32-C3 is an ultra-low-power and highly integrated SoC with a
 RISC-V core and supports 2.4 GHz Wi-Fi and Bluetooth Low Energy.
 
-  - Address Space
-      - 800 KB of internal memory address space accessed from the
+-   Address Space
+    -   800 KB of internal memory address space accessed from the
         instruction bus
-      - 560 KB of internal memory address space accessed from the data
+    -   560 KB of internal memory address space accessed from the data
         bus
-      - 1016 KB of peripheral address space
-      - 8 MB of external memory virtual address space accessed from the
+    -   1016 KB of peripheral address space
+    -   8 MB of external memory virtual address space accessed from the
         instruction bus
-      - 8 MB of external memory virtual address space accessed from the
+    -   8 MB of external memory virtual address space accessed from the
         data bus
-      - 480 KB of internal DMA address space
-  - Internal Memory
-      - 384 KB ROM
-      - 400 KB SRAM (16 KB can be configured as Cache)
-      - 8 KB of SRAM in RTC
-  - External Memory
-      - Up to 16 MB of external flash
-  - Peripherals
-      - 35 peripherals
-  - GDMA
-      - 7 modules are capable of DMA operations.
+    -   480 KB of internal DMA address space
+-   Internal Memory
+    -   384 KB ROM
+    -   400 KB SRAM (16 KB can be configured as Cache)
+    -   8 KB of SRAM in RTC
+-   External Memory
+    -   Up to 16 MB of external flash
+-   Peripherals
+    -   35 peripherals
+-   GDMA
+    -   7 modules are capable of DMA operations.
 
-## ESP32-C3 Toolchain
+ESP32-C3 Toolchain
+------------------
 
-A generic RISC-V toolchain can be used to build ESP32-C3 projects. It's
+A generic RISC-V toolchain can be used to build ESP32-C3 projects. It\'s
 recommended to use the same toolchain used by NuttX CI. Please refer to
 the Docker
 [container](https://github.com/apache/nuttx/tree/master/tools/ci/docker/linux/Dockerfile)
 and check for the current compiler version being used. For instance:
 
-    ###############################################################################
-    # Build image for tool required by RISCV builds
-    ###############################################################################
-    FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
-    # Download the latest RISCV GCC toolchain prebuilt by xPack
-    RUN mkdir riscv-none-elf-gcc && \
-    curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
-    | tar -C riscv-none-elf-gcc --strip-components 1 -xz
+``` {.}
+###############################################################################
+# Build image for tool required by RISCV builds
+###############################################################################
+FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
+# Download the latest RISCV GCC toolchain prebuilt by xPack
+RUN mkdir riscv-none-elf-gcc && \
+curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
+| tar -C riscv-none-elf-gcc --strip-components 1 -xz
+```
 
-It uses the xPack's prebuilt toolchain based on GCC 13.2.0-2.
+It uses the xPack\'s prebuilt toolchain based on GCC 13.2.0-2.
 
 ### Installing
 
 First, create a directory to hold the toolchain:
 
-``` console
+``` {.console}
  mkdir -p /path/to/your/toolchain/riscv-none-elf-gcc
 ```
 
 Download and extract toolchain:
 
-``` console
+``` {.console}
  curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
 | tar -C /path/to/your/toolchain/riscv-none-elf-gcc --strip-components 1 -xz
 ```
 
 Add the toolchain to your \`PATH\`:
 
-``` console
+``` {.console}
  echo "export PATH=/path/to/your/toolchain/riscv-none-elf-gcc/bin:PATH" >> ~/.bashrc
 ```
 
-You can edit your shell's rc files if you don't use bash.
+You can edit your shell\'s rc files if you don\'t use bash.
 
-## Building and flashing NuttX
+Building and flashing NuttX
+---------------------------
 
 ### Installing esptool
 
@@ -77,13 +82,7 @@ image into the board.
 
 It can be installed with: `pip install esptool>=4.8.1`.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Installing `esptool.py` may required a Python virtual environment on
 newer systems. This will be the case if the `pip install` command throws
@@ -93,15 +92,13 @@ If you are not familiar with virtual environments, refer to [Managing
 esptool on virtual environment]() for instructions on how to install
 `esptool.py`.
 
-</div>
-
 ### Bootloader and partitions
 
-NuttX can boot the ESP32-C3 directly using the so-called "Simple Boot".
-An externally-built 2nd stage bootloader is not required in this case as
-all functions required to boot the device are built within NuttX. Simple
-boot does not require any specific configuration (it is selectable by
-default if no other 2nd stage bootloader is used).
+NuttX can boot the ESP32-C3 directly using the so-called \"Simple
+Boot\". An externally-built 2nd stage bootloader is not required in this
+case as all functions required to boot the device are built within
+NuttX. Simple boot does not require any specific configuration (it is
+selectable by default if no other 2nd stage bootloader is used).
 
 If other features, like [Secure Boot and Flash
 Encryption](#secure-boot-and-flash-encryption), are required, an
@@ -116,22 +113,14 @@ built (they will be ignored if Simple Boot is used, for instance):
 
      make bootloader
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 It is recommended that if this is the first time you are using the board
 with NuttX to perform a complete SPI FLASH erase.
 
-``` console
+``` {.console}
  esptool.py erase_flash
 ```
-
-</div>
 
 ### Building and Flashing
 
@@ -144,11 +133,11 @@ to build and flash the NuttX firmware simply by running:
 
 where:
 
-  - `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
-  - `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
+-   `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
+-   `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
     bootloader and the partition table (if applicable): when built using
     the `make bootloader`, these files are placed into `nuttx` folder.
-  - `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
+-   `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
 
 ### Flashing NSH Example
 
@@ -187,7 +176,7 @@ where `<port>` is the serial port where the board is connected:
     Compressed 240768 bytes to 104282...
     Wrote 240768 bytes (104282 compressed) at 0x00000000 in 3.4 seconds (effective 568.4 kbit/s)...
     Hash of data verified.
-    
+
     Leaving...
     Hard resetting via RTS pin...
 
@@ -199,7 +188,8 @@ NuttX console:
     nsh> uname -a
     NuttX 12.8.0 759d37b97c-dirty Mar  5 2025 19:58:56 risc-v esp32c3-generic
 
-## Debugging
+Debugging
+---------
 
 This section describes debugging techniques for the ESP32-C3.
 
@@ -216,77 +206,52 @@ ESP32-C3 has a built-in JTAG circuitry and can be debugged without any
 additional chip. Only an USB cable connected to the D+/D- pins is
 necessary:
 
-| ESP32-C3 Pin | USB Signal |
-| ------------ | ---------- |
-| GPIO18       | D-         |
-| GPIO19       | D+         |
-| 5V           | V\_BUS     |
-| GND          | Ground     |
-
-<div class="note">
-
-<div class="title">
+  ESP32-C3 Pin   USB Signal
+  -------------- ------------
+  GPIO18         D-
+  GPIO19         D+
+  5V             V\_BUS
+  GND            Ground
 
 Note
-
-</div>
 
 One must configure the USB drivers to enable JTAG communication. Please
 check [Configure USB
 Drivers](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32c3/api-guides/jtag-debugging/configure-builtin-jtag.html#configure-usb-drivers)
 for more information.
 
-</div>
-
 OpenOCD can then be used:
 
     openocd -s <tcl_scripts_path> -c 'set ESP_RTOS hwthread' -f board/esp32c3-builtin.cfg -c 'init; reset halt; esp appimage_offset 0x0'
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 \- `appimage_offset` should be set to `0x0` when `Simple Boot` is used.
 For MCUboot, this value should be set to
 `CONFIG_ESPRESSIF_OTA_PRIMARY_SLOT_OFFSET` value (`0x10000` by default).
 - `-s <tcl_scripts_path>` defines the path to the OpenOCD scripts.
-Usually set to <span class="title-ref">tcl</span> if running openocd
-from its source directory. It can be omitted if
-<span class="title-ref">openocd-esp32</span> were installed in the
-system with <span class="title-ref">sudo make install</span>.
-
-</div>
+Usually set to [tcl]{.title-ref} if running openocd from its source
+directory. It can be omitted if [openocd-esp32]{.title-ref} were
+installed in the system with [sudo make install]{.title-ref}.
 
 If you want to debug with an external JTAG adapter it can be connected
 as follows:
 
-| ESP32-C6 Pin | JTAG Signal |
-| ------------ | ----------- |
-| GPIO4        | TMS         |
-| GPIO5        | TDI         |
-| GPIO6        | TCK         |
-| GPIO7        | TDO         |
+  ESP32-C6 Pin   JTAG Signal
+  -------------- -------------
+  GPIO4          TMS
+  GPIO5          TDI
+  GPIO6          TCK
+  GPIO7          TDO
 
 Furthermore, an efuse needs to be burnt to be able to debug:
 
     espefuse.py -p <port> burn_efuse DIS_USB_JTAG
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Burning eFuses is an irreversible operation, so please consider the
 above option before starting the process.
-
-</div>
 
 OpenOCD can then be used:
 
@@ -307,22 +272,13 @@ whereas the content of the `gdbinit` file is:
     thb nsh_main
     c
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `nuttx` is the ELF file generated by the build process. Please note that
 `CONFIG_DEBUG_SYMBOLS` must be enabled in the `menuconfig`.
 
-</div>
-
-Please refer to
-\[<span class="title-ref">/quick\](</span>/quick.md)start/debugging\`
-for more information about debugging techniques.
+Please refer to \[[/quick\](]{.title-ref}/quick.md)start/debugging\` for
+more information about debugging techniques.
 
 ### Stack Dump and Backtrace Dump
 
@@ -335,36 +291,20 @@ In order to enable this feature, the following options must be enabled
 in the NuttX configuration: `CONFIG_SCHED_BACKTRACE`,
 `CONFIG_DEBUG_SYMBOLS` and, optionally, `CONFIG_ALLSYMS`.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The first two options enable the backtrace dump. The third option
 enables the backtrace dump with the associated symbols, but increases
 the size of the generated NuttX binary.
 
-</div>
-
 Espressif also provides a tool to translate the backtrace dump into a
 human-readable format. This tool is called `btdecode.sh` and is
 available at `tools/espressif/btdecode.sh` of NuttX repository.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 This tool is not necessary if `CONFIG_ALLSYMS` is enabled. In this case,
 the backtrace dump contains the function names.
-
-</div>
 
 #### Example - Crash Dump
 
@@ -411,17 +351,17 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     Backtrace for task 2:
     0x42012df2: assert_on_task at backtrace_main.c:158
      (inlined by) backtrace_main at backtrace_main.c:194
-    
+
     Backtrace dump for all tasks:
-    
+
     Backtrace for task 2:
     0x42012df2: assert_on_task at backtrace_main.c:158
      (inlined by) backtrace_main at backtrace_main.c:194
-    
+
     Backtrace for task 1:
     0x420089a8: sys_call2 at syscall.h:227
      (inlined by) up_switch_context at riscv_switchcontext.c:95
-    
+
     Backtrace for task 0:
     0x42008420: up_idle at esp_idle.c:74
 
@@ -429,67 +369,38 @@ The above output shows the backtrace of the tasks. By checking it, it is
 possible to track the functions that were being executed when the crash
 occurred.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-The following list indicates the state of peripherals' support in NuttX:
+The following list indicates the state of peripherals\' support in
+NuttX:
 
-<table>
-<thead>
-<tr class="header">
-<th>Peripheral</th>
-<th>Support</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>ADC AES Bluetooth CAN/TWAI DMA DS</p></td>
-<td><blockquote>
-<p>Yes No Yes Yes No No</p>
-</blockquote></td>
-<td><p>Oneshot</p></td>
-</tr>
-<tr class="even">
-<td><p>eFuse GPIO HMAC</p></td>
-<td><blockquote>
-<p>Yes Yes No</p>
-</blockquote></td>
-<td><p>Also virtual mode supported</p></td>
-</tr>
-<tr class="odd">
-<td><p>I2C I2S LED/PWM RMT RNG RSA RTC SHA SPI SPIFLASH SPIRAM Timers UART USB Serial</p></td>
-<td><blockquote>
-<p>Yes Yes Yes Yes Yes No Yes No Yes Yes No Yes Yes Yes</p>
-</blockquote></td>
-<td><p>Master and Slave mode supported</p></td>
-</tr>
-<tr class="even">
-<td>Watchdog</td>
-<td><blockquote>
-<p>Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>XTWDT supported</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>Wi-Fi</td>
-<td><blockquote>
-<p>Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>WPA3-SAE supported</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++----------------------+----------------------+----------------------+
+| Peripheral           | Support              | NOTES                |
++======================+======================+======================+
+| ADC AES Bluetooth    | > Yes No Yes Yes No  | Oneshot              |
+| CAN/TWAI DMA DS      | > No                 |                      |
++----------------------+----------------------+----------------------+
+| eFuse GPIO HMAC      | > Yes Yes No         | Also virtual mode    |
+|                      |                      | supported            |
++----------------------+----------------------+----------------------+
+| I2C I2S LED/PWM RMT  | > Yes Yes Yes Yes    | Master and Slave     |
+| RNG RSA RTC SHA SPI  | > Yes No Yes No Yes  | mode supported       |
+| SPIFLASH SPIRAM      | > Yes No Yes Yes Yes |                      |
+| Timers UART USB      |                      |                      |
+| Serial               |                      |                      |
++----------------------+----------------------+----------------------+
+| Watchdog             | > Yes                | > XTWDT supported    |
++----------------------+----------------------+----------------------+
+| Wi-Fi                | > Yes                | > WPA3-SAE supported |
++----------------------+----------------------+----------------------+
 
 ### Analog-to-digital converter (ADC)
 
 Two ADC units are available for the ESP32-C3:
 
-  - ADC1 with 5 channels.
-  - ADC2 with 1 channel and internal voltage reading. **This unit is not
+-   ADC1 with 5 channels.
+-   ADC2 with 1 channel and internal voltage reading. **This unit is not
     implemented.**
 
 Those units are independent and can be used simultaneously. During
@@ -503,66 +414,34 @@ the attenuation and resolution.
 The ADC unit is accessible using the ADC character driver, which returns
 data for the enabled channels.
 
-The ADC1 unit can be enabled in the menu `System Type --> Peripheral
-Support --> Analog-to-digital converter (ADC)`.
+The ADC1 unit can be enabled in the menu
+`System Type --> Peripheral Support --> Analog-to-digital converter (ADC)`{.interpreted-text
+role="menuselection"}.
 
-Then, it can be customized in the menu `System Type --> ADC
-Configuration`, which includes operating mode, gain and channels.
+Then, it can be customized in the menu
+`System Type --> ADC Configuration`{.interpreted-text
+role="menuselection"}, which includes operating mode, gain and channels.
 
-<table>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>ADC1 GPIO</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td><blockquote>
-<p>0</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
-
-<div class="warning">
-
-<div class="title">
++---------+-----------+
+| Channel | ADC1 GPIO |
++=========+===========+
+| 0       | > 0       |
++---------+-----------+
+| 1       | > 1       |
++---------+-----------+
+| 2       | > 2       |
++---------+-----------+
+| 3       | > 3       |
++---------+-----------+
+| 4       | > 4       |
++---------+-----------+
 
 Warning
 
-</div>
-
 Maximum measurable voltage may saturate around 2900 mV.
 
-</div>
-
-## Secure Boot and Flash Encryption
+Secure Boot and Flash Encryption
+--------------------------------
 
 ### Secure Boot
 
@@ -577,71 +456,47 @@ MCUboot (read more about MCUboot [here](https://docs.mcuboot.com/)).
 The Secure Boot process on the ESP32-C3 involves the following steps
 performed:
 
-1.  The first stage bootloader verifies the second stage bootloader's
+1.  The first stage bootloader verifies the second stage bootloader\'s
     RSA-PSS signature. If the verification is successful, the first
     stage bootloader loads and executes the second stage bootloader.
 2.  When the second stage bootloader loads a particular application
-    image, the application's signature (RSA, ECDSA or ED25519) is
+    image, the application\'s signature (RSA, ECDSA or ED25519) is
     verified by MCUboot. If the verification is successful, the
     application image is executed.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Once enabled, Secure Boot will not boot a modified bootloader. The
 bootloader will only boot an application firmware image if it has a
 verified digital signature. There are implications for reflashing
 updated images once Secure Boot is enabled. You can find more
-information about the ESP32-C3's Secure boot
+information about the ESP32-C3\'s Secure boot
 [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/security/secure-boot-v2.html).
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the bootloader image is built on top of the Hardware Abstraction
 Layer component of [ESP-IDF](https://github.com/espressif/esp-idf), the
 [API port by Espressif](https://docs.mcuboot.com/readme-espressif.html)
 will be used by MCUboot rather than the original NuttX port.
 
-</div>
-
 ### Flash Encryption
 
 Flash encryption is intended for encrypting the contents of the
-ESP32-C3's off-chip flash memory. Once this feature is enabled, firmware
-is flashed as plaintext, and then the data is encrypted in place on the
-first boot. As a result, physical readout of flash will not be
-sufficient to recover most flash contents.
-
-<div class="warning">
-
-<div class="title">
+ESP32-C3\'s off-chip flash memory. Once this feature is enabled,
+firmware is flashed as plaintext, and then the data is encrypted in
+place on the first boot. As a result, physical readout of flash will not
+be sufficient to recover most flash contents.
 
 Warning
-
-</div>
 
 After enabling Flash Encryption, an encryption key is generated
 internally by the device and cannot be accessed by the user for
 re-encrypting data and re-flashing the system, hence it will be
 permanently encrypted. Re-flashing an encrypted system is complicated
 and not always possible. You can find more information about the
-ESP32-C3's Flash Encryption
+ESP32-C3\'s Flash Encryption
 [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/security/flash-encryption.html).
-
-</div>
 
 ### Prerequisites
 
@@ -665,37 +520,35 @@ application binary images, respectively, of the compiled project:
      espsecure.py generate_signing_key --version 2 bootloader_signing_key.pem
      imgtool keygen --key app_signing_key.pem --type rsa-3072
 
-<div class="important">
-
-<div class="title">
-
 Important
-
-</div>
 
 The contents of the key files must be stored securely and kept secret.
 
-</div>
-
 ### Enabling Secure Boot and Flash Encryption
 
-To enable Secure Boot for the current project, go to the project's NuttX
-directory, execute `make menuconfig` and the following steps:
+To enable Secure Boot for the current project, go to the project\'s
+NuttX directory, execute `make menuconfig` and the following steps:
 
-> 1.  Enable experimental features in `Build Setup --> Show experimental
->     options`;
-> 2.  Enable MCUboot in `Application Configuration --> Bootloader
->     Utilities --> MCUboot`;
-> 3.  Change image type to `MCUboot-bootable format` in `System Type -->
->     Application Image Configuration --> Application Image Format`;
-> 4.  Enable building MCUboot from the source code by selecting `Build
->     binaries from source`; in `System Type --> Application Image
->     Configuration --> Source for bootloader binaries`;
-> 5.  Enable Secure Boot in `System Type --> Application Image
->     Configuration --> Enable hardware Secure Boot in bootloader`;
+> 1.  Enable experimental features in
+>     `Build Setup --> Show experimental options`{.interpreted-text
+>     role="menuselection"};
+> 2.  Enable MCUboot in
+>     `Application Configuration --> Bootloader Utilities --> MCUboot`{.interpreted-text
+>     role="menuselection"};
+> 3.  Change image type to `MCUboot-bootable format` in
+>     `System Type --> Application Image Configuration --> Application Image Format`{.interpreted-text
+>     role="menuselection"};
+> 4.  Enable building MCUboot from the source code by selecting
+>     `Build binaries from source`; in
+>     `System Type --> Application Image Configuration --> Source for bootloader binaries`{.interpreted-text
+>     role="menuselection"};
+> 5.  Enable Secure Boot in
+>     `System Type --> Application Image Configuration --> Enable hardware Secure Boot in bootloader`{.interpreted-text
+>     role="menuselection"};
 > 6.  If you want to protect the SPI Bus against data sniffing, you can
->     enable Flash Encryption in `System Type --> Application Image
->     Configuration --> Enable Flash Encryption on boot`.
+>     enable Flash Encryption in
+>     `System Type --> Application Image Configuration --> Enable Flash Encryption on boot`{.interpreted-text
+>     role="menuselection"}.
 
 Now you can design an update and confirm agent to your application.
 Check the [MCUboot design guide](https://docs.mcuboot.com/design.html)
@@ -715,32 +568,26 @@ device (it will automatically be in the confirmed state, you can learn
 more about image confirmation
 [here](https://docs.mcuboot.com/design.html#image-swapping)). To flash
 to the primary image slot, select `Application image primary slot` in
-`System Type --> Application Image Configuration --> Target slot for
-image flashing` and compile it using `make -j
-ESPSEC_KEYDIR=~/signing_keys`.
+`System Type --> Application Image Configuration --> Target slot for image flashing`{.interpreted-text
+role="menuselection"} and compile it using
+`make -j ESPSEC_KEYDIR=~/signing_keys`.
 
-When creating update images, make sure to change `System Type -->
-Application Image Configuration --> Target slot for image flashing` to
-`Application image secondary slot`.
-
-<div class="important">
-
-<div class="title">
+When creating update images, make sure to change
+`System Type --> Application Image Configuration --> Target slot for image flashing`{.interpreted-text
+role="menuselection"} to `Application image secondary slot`.
 
 Important
 
-</div>
-
 When deploying your application, make sure to disable UART Download Mode
-by selecting `Permanently disabled` in `System Type --> Application
-Image Configuration --> UART ROM download mode` and change usage mode to
-`Release` in <span class="title-ref">System Type --\> Application Image
-Configuration --\> Enable usage mode</span>. **After disabling UART
-Download Mode you will not be able to flash other images through UART.**
+by selecting `Permanently disabled` in
+`System Type --> Application Image Configuration --> UART ROM download mode`{.interpreted-text
+role="menuselection"} and change usage mode to `Release` in [System Type
+\--\> Application Image Configuration \--\> Enable usage
+mode]{.title-ref}. **After disabling UART Download Mode you will not be
+able to flash other images through UART.**
 
-</div>
-
-## \_<span class="title-ref">Managing esptool on virtual environment</span>
+\_[Managing esptool on virtual environment]{.title-ref}
+-------------------------------------------------------
 
 This section describes how to install `esptool`, `imgtool` or any other
 Python packages in a proper environment.
@@ -811,10 +658,11 @@ following command:
      deactivate
 
 This will return your shell prompt to its normal state. You can
-reactivate the virtual environment at any time by running the `source
-myenv/bin/activate` command again. You can also delete the virtual
-environment by deleting the directory that contains it.
+reactivate the virtual environment at any time by running the
+`source myenv/bin/activate` command again. You can also delete the
+virtual environment by deleting the directory that contains it.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

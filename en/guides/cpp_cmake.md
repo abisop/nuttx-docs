@@ -1,4 +1,5 @@
-# C++ Example using CMake
+C++ Example using CMake
+=======================
 
 In some situations, developers intend to implement software using the
 NuttX platform in a previously set hardware and configuration where it
@@ -8,53 +9,53 @@ for the application.
 
 Some approaches are possible to do that today:
 
-  - <https://cwiki.apache.org/confluence/display/NUTTX/Building+NuttX+with+Applications+Outside+of+the+Source+Tree>
-  - <https://www.programmersought.com/article/61604062421/>
+-   <https://cwiki.apache.org/confluence/display/NUTTX/Building+NuttX+with+Applications+Outside+of+the+Source+Tree>
+-   <https://www.programmersought.com/article/61604062421/>
 
 We have been seen the increase of the use of C++ language in embedded
 systems application. And CMake (<https://www.cmake.org>) is the
 preferred build system used to build C++ projects. NuttX support C++
 based projects.
 
-Using the 'build as a library' procedure of NuttX, it is possible to
+Using the \'build as a library\' procedure of NuttX, it is possible to
 build NuttX applications using C++ language and also the cmake build
 tool.
 
 This document will show how to reimplement the hellocpp project using
 this cmake.
 
-## Preparation
+Preparation
+-----------
 
 1.  Base NuttX compilation changes
-    
+
     > For this example, load the configuration
-    > 'stm32f4discovery:testlibcxx' for building
-    > 
-    > ``` console
+    > \'stm32f4discovery:testlibcxx\' for building
+    >
+    > ``` {.console}
     >  cd nuttx
     >  ./tools/configure.sh stm32f4discovery:testlibcxx
     > ```
-    > 
+    >
     > In menuconfig, the main points to be changed on a typical NuttX
     > configuration are the following:
-    > 
-    >   - Set RTOS Features -\> Tasks and Scheduling -\> Application
-    >     entry point to 'hellocpp\_main'
-    >   - Build NuttX and generate the export
-    > 
-    > <!-- end list -->
-    > 
-    > ``` console
+    >
+    > -   Set RTOS Features -\> Tasks and Scheduling -\> Application
+    >     entry point to \'hellocpp\_main\'
+    > -   Build NuttX and generate the export
+    >
+    > ``` {.console}
     >  make export
     > ```
 
-## Creating the project
+Creating the project
+--------------------
 
 1.  Create your project file structure
-    
+
     > The project structure is organized as follow:
-    > 
-    > ``` console
+    >
+    > ``` {.console}
     > hellocpp/
     > hellocpp/CMakeLists.txt
     > hellocpp/cmake/stm32f4discovery.cmake
@@ -64,19 +65,15 @@ this cmake.
     > hellocpp/src/HelloWorld.h
     > hellocpp/src/HelloWorld.cpp
     > ```
-    > 
-    > The directory 'nuttx-export-10.0.1' is the unzipped content from
+    >
+    > The directory \'nuttx-export-10.0.1\' is the unzipped content from
     > the file created during make export procedure done before.
 
 2.  File contents
 
-<!-- end list -->
+-   hellocpp/CMakeLists.txt
 
-  - hellocpp/CMakeLists.txt
-
-<!-- end list -->
-
-``` cmake
+``` {.cmake}
 cmake_minimum_required(VERSION 3.2...3.15)
 
 project(HelloCpp
@@ -120,11 +117,9 @@ set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(src)
 ```
 
-  - hellocpp/cmake/stm32f4discovery.cmake
+-   hellocpp/cmake/stm32f4discovery.cmake
 
-<!-- end list -->
-
-``` cmake
+``` {.cmake}
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
@@ -157,11 +152,9 @@ set(AC_HW_FLAGS         "{AC_HW_FLAGS} -pipe")
 set(AC_LINKER_FLAGS     "--entry=__start -nostdlib -T{MCU_LINKER_SCRIPT}")
 ```
 
-  - hellocpp/src/CMakeLists.txt
+-   hellocpp/src/CMakeLists.txt
 
-<!-- end list -->
-
-``` cmake
+``` {.cmake}
 set(HEADER_FILES
         HelloWorld.h
 )
@@ -199,11 +192,9 @@ target_link_libraries({EXE_NAME} supc++)
 target_link_libraries({EXE_NAME} --end-group)
 ```
 
-  - hellocpp/src/main.cpp
+-   hellocpp/src/main.cpp
 
-<!-- end list -->
-
-``` c++
+``` {.c++}
 #include "HelloWorld.h"
 #include <nuttx/config.h>
 
@@ -224,11 +215,9 @@ extern "C"
 }
 ```
 
-  - hellocpp/src/HelloWorld.h
+-   hellocpp/src/HelloWorld.h
 
-<!-- end list -->
-
-``` c++
+``` {.c++}
 #ifndef HELLOWORLD_H_
 #define HELLOWORLD_H_
 
@@ -247,11 +236,9 @@ class CHelloWorld
 #endif
 ```
 
-  - hellocpp/src/HelloWorld.cpp
+-   hellocpp/src/HelloWorld.cpp
 
-<!-- end list -->
-
-``` c++
+``` {.c++}
 #include <cstdio>
 #include <string>
 
@@ -283,11 +270,12 @@ bool CHelloWorld::HelloWorld(void) {
 }
 ```
 
-## Building
+Building
+--------
 
 To launch build, you use the cmake procedure:
 
-``` console
+``` {.console}
  mkdir build
  cd build
  cmake ..

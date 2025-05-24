@@ -1,16 +1,17 @@
-# sama5d2-xult
+sama5d2-xult
+============
 
 This is the port of NuttX to the Atmel SAMA5D3x-EK development boards
 (where x=1,3,4, or 5). These boards feature the Atmel SAMA5D3
 microprocessors. Four different SAMA5D3x-EK kits are available
 
-  - SAMA5D31-EK with the ATSAMA5D1
+-   SAMA5D31-EK with the ATSAMA5D1
     (<http://www.atmel.com/devices/sama5d31.aspx>)
-  - SAMA5D33-EK with the ATSAMA5D3
+-   SAMA5D33-EK with the ATSAMA5D3
     (<http://www.atmel.com/devices/sama5d33.aspx>)
-  - SAMA5D34-EK with the ATSAMA5D4
+-   SAMA5D34-EK with the ATSAMA5D4
     (<http://www.atmel.com/devices/sama5d34.aspx>)
-  - SAMA5D35-EK with the ATSAMA5D5
+-   SAMA5D35-EK with the ATSAMA5D5
     (<http://www.atmel.com/devices/sama5d35.aspx>)
 
 The each consist of an identical base board with different plug-in

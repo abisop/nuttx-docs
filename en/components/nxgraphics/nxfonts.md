@@ -1,8 +1,11 @@
-# NX Fonts Support (`NXFONTS`)
+NX Fonts Support (`NXFONTS`)
+============================
 
-## NXFONTS types
+NXFONTS types
+-------------
 
-## Wide Font Support
+Wide Font Support
+-----------------
 
 Question:
 
@@ -21,7 +24,7 @@ Answer:
 
 All of critical font interfaces allow for 16-bit character sets:
 
-``` C
+``` {.C}
 FAR const struct nx_fontbitmap_s *nxf_getbitmap(NXHANDLE handle, uint16_t ch)
 ```
 
@@ -35,11 +38,11 @@ single file nxfonts\_bitmaps.c (and the function nxf\_getglyphset() in
 the file nxfonts\_getfont.c) . nxfonts\_bitmaps.c is used to
 auto-generate 7/8-bit font data sents. Here is how that works:
 
-  - Each 7-8 bit file is described by a header file like, for example,
+-   Each 7-8 bit file is described by a header file like, for example,
     nxfonts\_sans17x22.h.
-  - At build time each of these header files is used to create a C file,
+-   At build time each of these header files is used to create a C file,
     like, nxfonts\_bitmaps\_sans17x22.c.
-  - It creates the C file (like nxfonts\_bitmaps\_sans17x22.c) by
+-   It creates the C file (like nxfonts\_bitmaps\_sans17x22.c) by
     compiling nxfonts\_bitmaps.c and including nxfonts\_sans17x22.h to
     create the font dataset at build time.
 
@@ -48,7 +51,7 @@ the 7-bit font range (codes \< 128) or the 8-bit range (code \>= 128 \>
 256). The fonts are kept in simple arrays splitting the data up into
 ranges of values lets you above the non-printable codes at the beginning
 and end of each range. There is even a comment in the code there
-"Someday, perhaps 16-bit fonts will go here".
+\"Someday, perhaps 16-bit fonts will go here\".
 
 #### Adding Wide Fonts
 
@@ -75,11 +78,11 @@ problem, but on many microcontrollers it will be quite limiting.
 
 Options are:
 
-  - **Font Compression** Addition of some font compression algorithm in
+-   **Font Compression** Addition of some font compression algorithm in
     NuttX. However, Chinese character bitmaps do not compress well: Many
     of them contain so much data that there is not much of anything to
     compress. Some actually expand under certain compression algorithms.
-  - **Mass Storage** A better option would be put the wide the fonts in
+-   **Mass Storage** A better option would be put the wide the fonts in
     file system, in NAND or serial FLASH or on an SD card. In this case,
     additional logic would be required to (1) format a font binary file
     and to (2) access the font binary from the file system as needed.

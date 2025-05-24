@@ -1,28 +1,29 @@
-# The NuttX Simulation
+The NuttX Simulation
+====================
 
 The NuttX simulation is a port of NuttX to run as a process under Linux
 or Cygwin and probably other POSIX contexts as well.
 
 Reference: The `sim` configuration file
-\[<span class="title-ref">/platform\](</span>/platform.md)s/sim/sim/index\`.
+\[[/platform\](]{.title-ref}/platform.md)s/sim/sim/index\`.
 
-## How the Simulator is Built
+How the Simulator is Built
+--------------------------
 
-The simulator isn't a virtual machine or anything like that. It is just
+The simulator isn\'t a virtual machine or anything like that. It is just
 a single thread that implements a non-preemptive version of NuttX using
 `setjmp`/`longjmp` to do the context switches.
 
-![](simulation.png)
+![](simulation.png){.align-center}
 
-## The nuttx.rel Blob
+The nuttx.rel Blob
+------------------
 
 The first thing that you have to understand is how the simulation is
 built. Look at `arch/sim/src/Makefile`. This target builds the NuttX
 executable (simplified for clarity):
 
-> 
-> 
-> ``` console
+> ``` {.console}
 > nuttx(EXEEXT): nuttx.rel (HOSTOBJS)
 >     (CC) (CCLINKFLAGS) (LIBPATHS) -o (TOPDIR)/@ nuttx.rel (HOSTOBJS) (DRVLIB) (STDLIBS)
 > ```
@@ -30,9 +31,7 @@ executable (simplified for clarity):
 The secret is `nuttx.rel`. That is a blob that contains the entire Nuttx
 simulation. It is built like this:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 > nuttx.rel : libarch(LIBEXT) board/libboard(LIBEXT) (HOSTOS)-names.dat (LINKOBJS)
 >     (LD) -r (LDLINKFLAGS) (RELPATHS) (EXTRA_LIBPATHS) -o @ (REQUIREDOBJS) --start-group (RELLIBS) (EXTRA_LIBS) --end-group
 >     (OBJCOPY) --redefine-syms=(HOSTOS)-names.dat @
@@ -40,16 +39,17 @@ simulation. It is built like this:
 
 The first `(LD)` builds a partially linked, relocatable object (hence,
 the extension `.rel`). This contains all of the NuttX objects. So
-`nuttx.rel` is the entire "fish bowl" that the NuttX simulation lives.
+`nuttx.rel` is the entire \"fish bowl\" that the NuttX simulation lives.
 
 The second `(OBJCOPY)` line is the thing the irrevocable severs the
-NuttX "fish bowl" from the host environment. It renames most of the
+NuttX \"fish bowl\" from the host environment. It renames most of the
 symbols in `nuttx.rel` so that they do not collide with the symbols use
 by the host system. Look in `arch/sim/src/nuttx-names.dat`. So `open()`
 becomes `NXopen()`, `close()` becomes `NXclose()`, read becomes
 `NXread()`, etc.
 
-## The (HOSTOBJ) Blob
+The \(HOSTOBJ) Blob
+--------------------
 
 The `(HOSTOBJS)` contains the final host interface. This is the host PC
 blob and in this one, there is no re-naming: `open()` goes to the real
@@ -57,7 +57,8 @@ system `open()`, `close()` goes to the real system `close()`, etc. When
 these two blobs are linked together in the final `(CC`, you have the
 simulation.
 
-## Accessing Host Devices Using FIFOs?
+Accessing Host Devices Using FIFOs?
+-----------------------------------
 
 ### General Concepts
 
@@ -70,7 +71,7 @@ system namespace).
 To further complicate things, nothing in the simulation can call into a
 host interface that blocks. Why? Because this is not a NuttX blocking
 call, this is a host system blocking call. It just not block that one
-NuttX thread; it blocks the entire simulation\!
+NuttX thread; it blocks the entire simulation!
 
 But you can add special, low level interface between the NuttX and the
 Host blobs so that they can communicate. The Host blob could access the
@@ -84,7 +85,8 @@ create a host pthread to service a device interface. That pthread can
 wait for I/O without blocking the whole simulation on the main thread
 (that is how the simulated console I/O works, for example).
 
-## Toward a General Design
+Toward a General Design
+-----------------------
 
 There is no design in place for accessing Host devices from the
 simulation. Here are some directions that I would investigate, however.
@@ -96,8 +98,8 @@ and write from FIFOs to intermediate the interaction with the host PC
 device?
 
 On the NuttX side the target logic would call `open()`, `close()`,
-`read()`, ... to access the FIFO. These are, of course, really
-`NXopen()`, `NXclose()`, `NXread()`, ...
+`read()`, \... to access the FIFO. These are, of course, really
+`NXopen()`, `NXclose()`, `NXread()`, \...
 
 On the Host PC side it would call `open()`, `close()`, `read()`, .. to
 access the host device driver. These are real host device accesses. But
@@ -118,10 +120,11 @@ host device to a NuttX FIFO. Within the NuttX blob, simulation logic
 should be able to open, close, read, etc. the FIFO just as though it
 were the real device.
 
-> NuttX Target Code \<---\>NuttX FIFO\<---\>Host Interface\<----\>Host
-> Driver
+> NuttX Target Code \<\-\--\>NuttX FIFO\<\-\--\>Host
+> Interface\<\-\-\--\>Host Driver
 
-## What is Wrong With That?
+What is Wrong With That?
+------------------------
 
 There is a one big problem: if logic in the Host blob calls `NXwrite()`,
 that could potentially cause a NuttX context switch. Remember that a
@@ -130,7 +133,7 @@ followed by a `longjmp()` that switches to the new context. All of this
 must happen on the main thread of the simulation.
 
 But if `NXwrite()` causes a context switch, then the switch would occur
-on the pthread of the Host device handler\! That would be very bad. The
+on the pthread of the Host device handler! That would be very bad. The
 Host driver could not return until all of the NuttX tasks finally
 terminate. That would need to be avoided.
 
@@ -144,9 +147,10 @@ because the IDLE thread is correctly running on the main thread of the
 simulation.
 
 Pretty kludgey. This just begs for a better solution. If only the
-simulation supported interrupts...
+simulation supported interrupts\...
 
-## Simulated Interrupts
+Simulated Interrupts
+--------------------
 
 The current NuttX host simulation has no interrupts and, hence, is
 non-preemptible. Also, without simulated interrupts, there can be no
@@ -159,24 +163,24 @@ timer and UART events.
 I have been thinking about how to implement simulated interrupts in the
 simulation. I think a solution would work like this.
 
->   - In the earliest initialization, simulator could start a host
+> -   In the earliest initialization, simulator could start a host
 >     simulation interrupt thread and setup a signal handler to catch
 >     signals on the main thread. One signal, say `SIGUSER` could
 >     indicate a context switch. This would be a type `SA_SIGINFO` and
 >     the context switch information would be provided in the `sival_t`
 >     field of the `siginfo`.
-> 
->   - Interrupt logic could be implemented on a host pthread. The host
+>
+> -   Interrupt logic could be implemented on a host pthread. The host
 >     pthread, like a hardware interrupt, executes asynchronously
 >     outside of the operating system. The interrupt thread could wait
 >     for a host signal or a host message and, upon receipt, perform
 >     simulated interrupt logic.
-> 
->   - `up_interrupt_context()` would need to be implemented; it is only
+>
+> -   `up_interrupt_context()` would need to be implemented; it is only
 >     a stub now. I think this could be done with a simple global
 >     boolean like:
->     
->     ``` console
+>
+>     ``` {.console}
 >     bool g_in_interrupt;
 >     xcpt_reg_t g_context_regs;
 >     ```
@@ -188,24 +192,22 @@ handler would also need to clear `g_context_regs` on entry.
 `up_interrupt_contest()` would then just report the state of the
 boolean.
 
->   - All context switching functions would also need to check this
+> -   All context switching functions would also need to check this
 >     boolean (`up_block_task()`, `up_unblock_task()`,
 >     `up_reprioritize_rtr()`, `up_releasepending()` and perhaps
 >     others). It set, they should not perform the context switch.
 >     Instead, they should set `g_context_regs` to the context switch
 >     register array.
-> 
-> >   - Before *returning* and before clearing `g_in_interrupt`, the
+>
+> > -   Before *returning* and before clearing `g_in_interrupt`, the
 > >     host simulated interrupt logic would check `g_context_regs`. If
 > >     non-NULL, then a context switch is required on *return* from the
 > >     simulated interrupt. In this case, the simulation thread would
 > >     signal the main thread with the `SIGUSER` signal.
-> >   - The `SIGUSER` signal handler would perform the context with
+> > -   The `SIGUSER` signal handler would perform the context with
 > >     logic something like the following:
-> > 
-> > <!-- end list -->
-> > 
-> > ``` c
+> >
+> > ``` {.c}
 > > struct tcb_s *rtcb = sched_self();              /* Get the TCB of the currently executing thread */
 > > xcpt_reg_t *regs = siginfo->si_value.sival_ptr; /* The new register state to be instantiated */
 > > if (!up_setjump(rtcb->xcp.regs)                 /* Save the current context */
@@ -236,16 +238,17 @@ be masked. That would prevent any further context switches until the
 signal handler returns. Can we simply *unmask* `SIGUSER` signal to get
 more context switches? I would need to experiment to know for sure.
 
-## Supported Devices
+Supported Devices
+-----------------
 
 ### Serial Console
 
-The simulation's serial console is provided by wrapping host *stdin* and
-*stdout* so that it appears to be `/dev/console`. Serial data from the
-host *stdin* is sampled in the IDLE loop. If serial data is available,
-the IDLE loop will *post* simulated UART activity. The fidelity of this
-simulation could be improved with simulated interrupts when UART data is
-available.
+The simulation\'s serial console is provided by wrapping host *stdin*
+and *stdout* so that it appears to be `/dev/console`. Serial data from
+the host *stdin* is sampled in the IDLE loop. If serial data is
+available, the IDLE loop will *post* simulated UART activity. The
+fidelity of this simulation could be improved with simulated interrupts
+when UART data is available.
 
 ### Host File System Access
 
@@ -261,9 +264,9 @@ repository directory.
 Networking is supported for the simulation using TUN/TAP interface under
 Linux or using WPCap under Windows. A README file providing instruction
 for setting up the TUN/TAP interface under Linux is provided in the
-\[<span class="title-ref">/platform\](</span>/platform.md)s/sim/sim/index\`.
-The network is again handled by the IDLE loop in the simulator and could
-benefit from simulated interrupts.
+\[[/platform\](]{.title-ref}/platform.md)s/sim/sim/index\`. The network
+is again handled by the IDLE loop in the simulator and could benefit
+from simulated interrupts.
 
 ### USB
 
@@ -288,7 +291,7 @@ on the simulated CPU threads for a few context switches then fails
 during a setjmp() operation. I suspect that this is not an issue with
 the NuttX SMP logic but more likely some chaos in the pthread controls.
 I have seen similar such strange behavior other times that I have tried
-to use setjmp/longmp from a signal handler\! Like when I tried to
+to use setjmp/longmp from a signal handler! Like when I tried to
 implement simulated interrupts using signals.
 
 Apparently, if longjmp is invoked from the context of a signal handler,
@@ -297,7 +300,7 @@ the result is undefined:
 
 You can enable SMP for ostest configuration by enabling:
 
-``` bash
+``` {.bash}
 Add:     CONFIG_SPINLOCK=y
 Add:     CONFIG_SMP=y
 Add:     CONFIG_SMP_NCPUS=2
@@ -307,14 +310,14 @@ Add:     CONFIG_SMP_IDLETHREAD_STACKSIZE=2048
 You also must enable near-realtime-performance otherwise even long
 timeouts will expire before a CPU thread even has a chance to execute.
 
-``` bash
+``` {.bash}
 Remove:  # CONFIG_SIM_WALLTIME is not set
 Add:     CONFIG_SIM_WALLTIME=y
 ```
 
 And you can enable some additional debug output with:
 
-``` bash
+``` {.bash}
 Remove:  # CONFIG_DEBUG_SCHED is not set
 Add:     CONFIG_DEBUG_SCHED=y
 
@@ -324,7 +327,7 @@ Add:     CONFIG_SCHED_INSTRUMENTATION=y
 
 The SMP configuration will run with:
 
-``` bash
+``` {.bash}
 CONFIG_SMP_NCPUS=1
 ```
 
@@ -340,7 +343,7 @@ try to restart NSH on CPU0 and, again, the same quirkiness occurs.
 
 But for example, this command:
 
-``` bash
+``` {.bash}
 nsh> sleep 1 &
 ```
 

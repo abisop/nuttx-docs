@@ -1,4 +1,5 @@
-# NXP LPC214x
+NXP LPC214x
+===========
 
 Support is provided for the NXP LPC214x family of processors. In
 particular, support is provided for (1) the mcu123.com lpc214x
@@ -30,51 +31,53 @@ and 45 fast GPIO lines with up to nine edge or level sensitive external
 interrupt pins make these microcontrollers suitable for industrial
 control and medical systems.
 
-## Features
+Features
+--------
 
-  - 16-bit/32-bit ARM7TDMI-S microcontroller in a tiny LQFP64 package.
-  - 8 kB to 40 kB of on-chip static RAM and 32 kB to 512 kB of on-chip
+-   16-bit/32-bit ARM7TDMI-S microcontroller in a tiny LQFP64 package.
+-   8 kB to 40 kB of on-chip static RAM and 32 kB to 512 kB of on-chip
     flash memory. 128-bit wide interface/accelerator enables high-speed
     60 MHz operation.
-  - In-System Programming/In-Application Programming (ISP/IAP) via
+-   In-System Programming/In-Application Programming (ISP/IAP) via
     on-chip boot loader software. Single flash sector or full chip erase
     in 400 ms and programming of 256 B in 1 ms.
-  - EmbeddedICE RT and Embedded Trace interfaces offer real-time
+-   EmbeddedICE RT and Embedded Trace interfaces offer real-time
     debugging with the on-chip RealMonitor software and high-speed
     tracing of instruction execution.
-  - USB 2.0 Full-speed compliant device controller with 2 kB of endpoint
+-   USB 2.0 Full-speed compliant device controller with 2 kB of endpoint
     RAM. In addition, the LPC2146/48 provides 8 kB of on-chip RAM
     accessible to USB by DMA.
-  - One or two (LPC2141/42 vs. LPC2144/46/48) 10-bit ADCs provide a
+-   One or two (LPC2141/42 vs. LPC2144/46/48) 10-bit ADCs provide a
     total of 6/14 analog inputs, with conversion times as low as 2.44 us
     per channel.
-  - Single 10-bit DAC provides variable analog output (LPC2142/44/46/48
+-   Single 10-bit DAC provides variable analog output (LPC2142/44/46/48
     only).
-  - Two 32-bit timers/external event counters (with four capture and
+-   Two 32-bit timers/external event counters (with four capture and
     four compare channels each), PWM unit (six outputs) and watchdog.
-  - Low power Real-Time Clock (RTC) with independent power and 32 kHz
+-   Low power Real-Time Clock (RTC) with independent power and 32 kHz
     clock input.
-  - Multiple serial interfaces including two UARTs (16C550), two Fast
+-   Multiple serial interfaces including two UARTs (16C550), two Fast
     I2C-bus (400 kbit/s), SPI and SSP with buffering and variable data
     length capabilities.
-  - Vectored Interrupt Controller (VIC) with configurable priorities and
+-   Vectored Interrupt Controller (VIC) with configurable priorities and
     vector addresses.
-  - Up to 45 of 5 V tolerant fast general purpose I/O pins in a tiny
+-   Up to 45 of 5 V tolerant fast general purpose I/O pins in a tiny
     LQFP64 package.
-  - Up to 21 external interrupt pins available.
-  - 60 MHz maximum CPU clock available from programmable on-chip PLL
+-   Up to 21 external interrupt pins available.
+-   60 MHz maximum CPU clock available from programmable on-chip PLL
     with settling time of 100 us.
-  - On-chip integrated oscillator operates with an external crystal from
+-   On-chip integrated oscillator operates with an external crystal from
     1 MHz to 25 MHz.
-  - Power saving modes include Idle and Power-down.
-  - Individual enable/disable of peripheral functions as well as
+-   Power saving modes include Idle and Power-down.
+-   Individual enable/disable of peripheral functions as well as
     peripheral clock scaling for additional power optimization.
-  - Processor wake-up from Power-down mode via external interrupt or
+-   Processor wake-up from Power-down mode via external interrupt or
     BOD.
-  - Single power supply chip with POR and BOD circuits:
-  - CPU operating voltage range of 3.0 V to 3.6 V (3.3 V +- 10 pct) with
+-   Single power supply chip with POR and BOD circuits:
+-   CPU operating voltage range of 3.0 V to 3.6 V (3.3 V +- 10 pct) with
     5 V tolerant I/O pads.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,25 +1,23 @@
-# ESP-WROVER-KIT
-
-<div class="tags">
+ESP-WROVER-KIT
+==============
 
 chip:esp32, chip:esp32wrover32
-
-</div>
 
 The
 [ESP-WROVER-KIT](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-wrover-kit.html)
 is a development board for the ESP32 SoC from Espressif, based on a
 ESP32-WROVER-B module.
 
-|                                                                             |                                                                             |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| ![ESP-WROVER-KIT board layout - front](esp-wrover-kit-v4.1-layout-back.png) | ![ESP-WROVER-KIT board layout - back](esp-wrover-kit-v4.1-layout-front.png) |
+  -------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------
+  ![ESP-WROVER-KIT board layout - front](esp-wrover-kit-v4.1-layout-back.png){.align-center}   ![ESP-WROVER-KIT board layout - back](esp-wrover-kit-v4.1-layout-front.png){.align-center}
+  -------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32-WROVER-B module
->   - LCD screen
->   - MicroSD card slot
+> -   ESP32-WROVER-B module
+> -   LCD screen
+> -   MicroSD card slot
 
 Its another distinguishing feature is the embedded FTDI FT2232HL chip,
 an advanced multi-interface USB bridge. This chip enables to use JTAG
@@ -27,10 +25,11 @@ for direct debugging of ESP32 through the USB interface without a
 separate JTAG debugger. ESP-WROVER-KIT makes development convenient,
 easy, and cost-effective.
 
-Most of the ESP32 I/O pins are broken out to the board's pin headers for
-easy access.
+Most of the ESP32 I/O pins are broken out to the board\'s pin headers
+for easy access.
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 FT2232HL converter and is available on the USB connector USB CON8 (J5).
@@ -39,7 +38,8 @@ It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 1,
 since the first interface (\[n\] == 0) is dedicated to the USB-to-JTAG
 interface.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -59,13 +59,15 @@ and USB activity.
 
 There is an RGB LED available for software.
 
-## Pin Mapping
+Pin Mapping
+-----------
 
-| Pin                       | Signal                                                                                                                  | Notes |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----- |
-| 0 2 4 5 18 19 21 22 23 25 | RGB LED Red / BOOT Button RGB LED Green RGB LED Blue LCD Backlight LCD Reset LCD Clock LCD D/C LCD CS LCD MOSI LCD MISO |       |
+  Pin                         Signal                                                                                                                    Notes
+  --------------------------- ------------------------------------------------------------------------------------------------------------------------- -------
+  0 2 4 5 18 19 21 22 23 25   RGB LED Red / BOOT Button RGB LED Green RGB LED Blue LCD Backlight LCD Reset LCD Clock LCD D/C LCD CS LCD MOSI LCD MISO   
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -74,8 +76,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB1 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### autopm
 
@@ -153,8 +155,8 @@ following commands:
 ### leds
 
 This configuration demonstrates the use of the on-board RGB LED with the
-<span class="title-ref">userleds</span> subsystem. To check the included
-example, you can execute the following application:
+[userleds]{.title-ref} subsystem. To check the included example, you can
+execute the following application:
 
     nsh> leds
     leds_main: Starting the led_daemon
@@ -182,12 +184,12 @@ NuttX LCD driver. You can find LVGL here:
     https://github.com/lvgl/lvgl
 
 This configuration uses the LVGL demonstration at
-<span class="title-ref">apps/examples/lvgldemo</span>.
+[apps/examples/lvgldemo]{.title-ref}.
 
 ### mmcsdspi
 
-This configuration is used to mount a FAT/FAT32 SD Card into the OS'
-filesystem. To access the card's files, execute the following commands:
+This configuration is used to mount a FAT/FAT32 SD Card into the OS\'
+filesystem. To access the card\'s files, execute the following commands:
 
     nsh> mount -t vfat /dev/mmcsd0 /mnt
     nsh> ls /mnt/
@@ -248,22 +250,15 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.

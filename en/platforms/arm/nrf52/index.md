@@ -1,48 +1,54 @@
-# Nordic nRF52
+Nordic nRF52
+============
 
 The nRF52 series of chips from Nordic Semiconductor are based around an
 ARM Cortex-M4 core running at 64 MHz and feature Bluetooth Low Energy
 (BLE) support.
 
-## Memory Map
+Memory Map
+----------
 
 ### nRF52832
 
-| Block Name | Start Address | Length |
-| ---------- | ------------- | ------ |
-| FLASH      | 0x00000000    | 512K   |
-| RAM        | 0x20000000    | 64K    |
+  Block Name   Start Address   Length
+  ------------ --------------- --------
+  FLASH        0x00000000      512K
+  RAM          0x20000000      64K
 
 ### nRF52840
 
-| Block Name | Start Address | Length |
-| ---------- | ------------- | ------ |
-| FLASH      | 0x00000000    | 1024K  |
-| RAM        | 0x20000000    | 256K   |
+  Block Name   Start Address   Length
+  ------------ --------------- --------
+  FLASH        0x00000000      1024K
+  RAM          0x20000000      256K
 
-## Clock Configuration
+Clock Configuration
+-------------------
 
 Clock settings are handled via Kconfig options, which determines whether
 to start external crystal for the HFCLK, whether to start the LFCLK and
 which oscillator to use.
 
-## System Timer
+System Timer
+------------
 
 The clock used for providing system time can be chosen via Kconfig. You
 can choose to use ARM SysTick or use RTC in tickless mode.
 
-## Regulator Control
+Regulator Control
+-----------------
 
 DC/DC regulator can be made to be enabled at boot via Kconfig.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
 The following list indicates peripherals supported in NuttX:
 
-| Peripheral                                                             | Support                                             | Notes              |
-| ---------------------------------------------------------------------- | --------------------------------------------------- | ------------------ |
-| GPIO GPIOTE I2S MWU NFCT PDM PPI PWM QDEC QSPI                         | Yes Yes No No No No Yes Yes No Yes                  |                    |
-| RADIO RNG RTC SAADC SPIM SPIS TEMP TIMER TWIM TWIS UART UARTE USBD WDT | Yes Yes Yes Yes Yes No No Yes Yes No Yes No Yes Yes | BLE, IEEE 802.15.4 |
+  Peripheral                                                               Support                                               Notes
+  ------------------------------------------------------------------------ ----------------------------------------------------- --------------------
+  GPIO GPIOTE I2S MWU NFCT PDM PPI PWM QDEC QSPI                           Yes Yes No No No No Yes Yes No Yes                    
+  RADIO RNG RTC SAADC SPIM SPIS TEMP TIMER TWIM TWIS UART UARTE USBD WDT   Yes Yes Yes Yes Yes No No Yes Yes No Yes No Yes Yes   BLE, IEEE 802.15.4
 
 Peripherals such as AAR, ACL, CCM, ECB are not directly used by NuttX
 since they are part of BLE controller implementation (link).
@@ -71,35 +77,30 @@ which allows to control pin state via tasks/events.
 ### ADC
 
 The SAADC peripheral is exposed via standard ADC driver. The lower-half
-of this driver is initialized by calling :c`nrf52_adcinitialize`.
+of this driver is initialized by calling
+:c`nrf52_adcinitialize`{.interpreted-text role="func"}.
 
 ### I2C
 
 I2C is supported both in polling and interrupt mode (via EasyDMA).
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The I2C peripheral does not support sending two transfers without
 sending a START nor RSTART. For this reason, this is supported via an
 internal buffer where messages will be first copied to and sent
 together.
 
-</div>
-
-The lower-half of I2C bus is initialized by :c`nrf52_i2cbus_initialize`.
-There's also a software (bitbang) I2C implementation for nRF52. The
-lower-half is initialized via :c`nrf52_i2c_bitbang_initialize`.
+The lower-half of I2C bus is initialized by
+:c`nrf52_i2cbus_initialize`{.interpreted-text role="func"}. There\'s
+also a software (bitbang) I2C implementation for nRF52. The lower-half
+is initialized via :c`nrf52_i2c_bitbang_initialize`{.interpreted-text
+role="func"}.
 
 ### SPI
 
 SPI is supported both in polling and interrupt-based (via EasyDMA) mode.
-The latter supports arbitrarily long transfers using Nordic's list-mode
+The latter supports arbitrarily long transfers using Nordic\'s list-mode
 EasyDMA (intermediate transfers are currently still manually started).
 
 It is possible to use SPI without either MOSI/MISO pin defined by simply
@@ -162,13 +163,14 @@ The watchdog is supported via low-level API interface and also via
 standard watchdog driver. The driver is written so as to handle an
 already running watchdog, which may have been set by a bootloader.
 
-## BLE Support
+BLE Support
+-----------
 
-BLE is supported in nRF52 using Nordic's [SoftDevice
+BLE is supported in nRF52 using Nordic\'s [SoftDevice
 Controller](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrfxlib/softdevice_controller/README.html),
 using HCI interface. To enable BLE support you need to call
-:c`nrf52_sdc_initialize` on boot, which will initialize the BLE
-controller.
+:c`nrf52_sdc_initialize`{.interpreted-text role="func"} on boot, which
+will initialize the BLE controller.
 
 SDC support involves registering various high-priority zero-latency
 interrupts and thus requires enabling BASEPRI and high-priority
@@ -180,11 +182,13 @@ will be unavailable. Some PPI channels will also be ocuppied
 (`NRF52_PPI_NUM_CONFIGURABLE_CHANNELS` will be set accordingly in this
 case).
 
-## IEEE 802.15.4 Support
+IEEE 802.15.4 Support
+---------------------
 
 Details about IEEE 802.15.4 support for nRF52 can be found in
-\[<span class="title-ref">ieee802154</span>.\](<span class="title-ref">ieee802154</span>..md)
+\[[ieee802154]{.title-ref}.\]([ieee802154]{.title-ref}..md)
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/* ieee802154.rst

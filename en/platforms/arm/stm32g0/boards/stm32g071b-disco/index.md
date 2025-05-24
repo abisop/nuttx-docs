@@ -1,10 +1,7 @@
-# ST STM32G071B-DISCO
-
-<div class="tags">
+ST STM32G071B-DISCO
+===================
 
 chip:stm32, chip:stm32g0, chip:stm32g071
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM32G071B-DISCO development board. The STM32G071B-DISCO board

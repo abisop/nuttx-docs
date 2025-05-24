@@ -1,29 +1,32 @@
-# Fortify
+Fortify
+=======
 
-## Overview
+Overview
+--------
 
 A common error in C programs is invoking functions that might exceed
 memory bounds, causing crashes or undefined behavior. Examples include
 incorrect usage of functions like `memcpy` and `memset`.
-<span class="title-ref">FORTIFY\_SOURCE</span> is a mechanism designed
-to help developers quickly detect and mitigate boundary-related issues
-caused by improper use of library functions.
+[FORTIFY\_SOURCE]{.title-ref} is a mechanism designed to help developers
+quickly detect and mitigate boundary-related issues caused by improper
+use of library functions.
 
-## Support
+Support
+-------
 
-<span class="title-ref">FORTIFY\_SOURCE</span> is implemented as a
-software check by the compiler and is supported across all
-architectures. It works by adding additional validation checks to
-standard library function calls.
+[FORTIFY\_SOURCE]{.title-ref} is implemented as a software check by the
+compiler and is supported across all architectures. It works by adding
+additional validation checks to standard library function calls.
 
-## Usage
+Usage
+-----
 
-To enable <span class="title-ref">FORTIFY\_SOURCE</span>, configure the
-kernel with the following option:
+To enable [FORTIFY\_SOURCE]{.title-ref}, configure the kernel with the
+following option:
 
 `CONFIG_FORTIFY_SOURCE=level`
 
-Where <span class="title-ref">level</span> can be set as:
+Where [level]{.title-ref} can be set as:
 
 1.  **Compile-time Checks**: Detects issues during compilation by
     analyzing source code.
@@ -34,21 +37,22 @@ Where <span class="title-ref">level</span> can be set as:
 
 ### FORTIFY\_SOURCE Overview
 
-<span class="title-ref">FORTIFY\_SOURCE</span> detects potential
-security vulnerabilities by statically analyzing source code at compile
-time. It replaces standard library function calls with safer versions
-that include additional boundary checks. These safer versions validate
-the operation's boundaries and the input's validity before performing
+[FORTIFY\_SOURCE]{.title-ref} detects potential security vulnerabilities
+by statically analyzing source code at compile time. It replaces
+standard library function calls with safer versions that include
+additional boundary checks. These safer versions validate the
+operation\'s boundaries and the input\'s validity before performing
 certain operations.
 
-## GCC Built-in Functions
+GCC Built-in Functions
+----------------------
 
 The GCC compiler internally implements two key functions for
 \`FORTIFY\_SOURCE\`:
 
-  - `__builtin_object_size`: Determines the size of a statically
+-   `__builtin_object_size`: Determines the size of a statically
     allocated object.
-  - `__builtin_dynamic_object_size`: Determines the size of dynamically
+-   `__builtin_dynamic_object_size`: Determines the size of dynamically
     allocated objects (e.g., via `malloc`).
 
 Starting with GCC 12, these functions support retrieving the size of
@@ -59,13 +63,13 @@ compiler can compute the corresponding size. Using this size, it is
 possible to check for potential out-of-bounds behavior in runtime
 operations.
 
-## Example: memcpy Implementation in NuttX
+Example: memcpy Implementation in NuttX
+---------------------------------------
 
-The following example demonstrates how
-<span class="title-ref">FORTIFY\_SOURCE</span> can be used to enhance
-security in a `memcpy` implementation in NuttX:
+The following example demonstrates how [FORTIFY\_SOURCE]{.title-ref} can
+be used to enhance security in a `memcpy` implementation in NuttX:
 
-``` c
+``` {.c}
 fortify_function(memcpy) 
 FAR void *memcpy(FAR void *dest,
                  FAR const void *src,

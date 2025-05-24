@@ -1,15 +1,16 @@
-# IO Expander Device Drivers
+IO Expander Device Drivers
+==========================
 
-  - `include/nuttx/ioexpander/ioexpander.h` and
+-   `include/nuttx/ioexpander/ioexpander.h` and
     `include/nuttx/ioexpander/gpio.h`. All structures and APIs needed to
     work with ioexpander drivers are provided in this header file.
-  - `struct ioexpander_ops_s`. Each ioexpand device driver must
+-   `struct ioexpander_ops_s`. Each ioexpand device driver must
     implement an instance of `struct ioexpander_ops_s`. That structure
     defines a call table with the methods, and we also provide macros to
     help access methods.
-  - we also provide method `gpio_lower_half` to make ioexpander
+-   we also provide method `gpio_lower_half` to make ioexpander
     compatible with normal gpio.
-  - **Binding ioexpander Drivers**. ioexpander drivers are not normally
+-   **Binding ioexpander Drivers**. ioexpander drivers are not normally
     directly accessed by user code, we should always get lower level
     drivers, for example I2C, and map extended gpio feature same asa
     normal gpio. See for example, `int nrf52_sx1509_initialize(void)` in
@@ -22,7 +23,7 @@
         device instance.
     3.  Then use ioe device instance to do ioexpander operations, or use
         `gpio_lower_half` to make ioexpand compatible with normal gpio.
-  - **Examples**: `drivers/ioexpander/pca9555.c`,
+-   **Examples**: `drivers/ioexpander/pca9555.c`,
     `drivers/input/aw86225.c`, `drivers/analog/lmp92001.c`,
     `drivers/ioexpander/ioe_rpmsg.c`,
     `boards/sim/sim/sim/src/sim_ioexpander.c`,

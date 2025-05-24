@@ -1,26 +1,31 @@
-# rv-virt
+rv-virt
+=======
 
-## RISC-V Toolchain
+RISC-V Toolchain
+----------------
 
-Any generic RISC-V toolchain can be used. It's recommended to use the
+Any generic RISC-V toolchain can be used. It\'s recommended to use the
 same toolchain used by NuttX CI.
 
 Please refer to the [Docker
 container](https://github.com/apache/nuttx/tree/master/tools/ci/docker/linux/Dockerfile)
 and check for the current compiler version being used. For instance:
 
-    ###############################################################################
-    # Build image for tool required by RISCV builds
-    ###############################################################################
-    FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
-    # Download the latest RISCV GCC toolchain prebuilt by xPack
-    RUN mkdir riscv-none-elf-gcc && \
-    curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
-    | tar -C riscv-none-elf-gcc --strip-components 1 -xz
+``` {.}
+###############################################################################
+# Build image for tool required by RISCV builds
+###############################################################################
+FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
+# Download the latest RISCV GCC toolchain prebuilt by xPack
+RUN mkdir riscv-none-elf-gcc && \
+curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
+| tar -C riscv-none-elf-gcc --strip-components 1 -xz
+```
 
-It uses the xPack's prebuilt toolchain based on GCC 13.2.0-2.
+It uses the xPack\'s prebuilt toolchain based on GCC 13.2.0-2.
 
-## RISC-V QEMU
+RISC-V QEMU
+-----------
 
 Build and install `qemu`:
 
@@ -30,21 +35,27 @@ Build and install `qemu`:
      make
      sudo make install
 
-## Minimum Requirement
+Minimum Requirement
+-------------------
 
 The table below lists all the minimum versions for QEMU and OpenSBI. For
 stability, it is also recommended to use the latest QEMU and OpenSBI.
 
-| Extension    | QEMU Version | OpenSBI Version |
-| ------------ | ------------ | --------------- |
-| No extension | 6.2.0        | v1.0            |
-| SSTC         | 7.2.9        | v1.1            |
-| AIA          | 8.2.0        | v1.2            |
+  -------------------------------------------------------------
+  Extension                    QEMU Version   OpenSBI Version
+  ---------------------------- -------------- -----------------
+  No extension                 6.2.0          v1.0
+
+  SSTC                         7.2.9          v1.1
+
+  AIA                          8.2.0          v1.2
+  -------------------------------------------------------------
 
 For users who wish to use their own OpenSBI, please refer to [OpenSBI
 repository](https://github.com/riscv-software-src/opensbi).
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -52,7 +63,7 @@ following commands:
      ./tools/configure.sh rv-virt:<config_name>
 
 Where \<config\_name\> is the name of the configuration you want to use,
-i.e.: nsh, knsh, knsh64...
+i.e.: nsh, knsh, knsh64\...
 
 To build it, run the following command:
 
@@ -62,18 +73,10 @@ or, with more verbosity:
 
      make V=1 -j(nproc)
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Some configurations require additional steps to be built. Please refer
 to the specific configurations to check it out
-
-</div>
 
 Finally, to run it, use the following command:
 
@@ -118,8 +121,8 @@ Identical to the [citest](#citest) configuration, but for 64-bit RISC-V.
 
 ### fb
 
-Uses the VirtIO GPU driver to run the <span class="title-ref">fb</span>
-demo application on 32-bit RISC-V.
+Uses the VirtIO GPU driver to run the [fb]{.title-ref} demo application
+on 32-bit RISC-V.
 
 To run it with QEMU, use the following command:
 
@@ -151,7 +154,7 @@ and 64-bit RISC-V.
 To run it with QEMU, use the following command:
 
      dd if=/dev/zero of=./mydisk-1gb.img bs=1M count=1024
-    
+
      qemu-system-riscv64 -semihosting -M virt,aclint=on -cpu rv64 -smp 8 \
       -global virtio-mmio.force-legacy=false \
       -device virtio-serial-device,bus=virtio-mmio-bus.0 \
@@ -173,9 +176,9 @@ support for 64-bit RISC-V.
 
 This is similar to the [nsh](#nsh) configuration except that NuttX is
 built as a kernel-mode, monolithic module, and the user applications are
-built separately. It uses <span class="title-ref">hostfs</span> and QEMU
-in semi-hosting mode to load the user-space applications. This is
-intended to 32-bit RISC-V.
+built separately. It uses [hostfs]{.title-ref} and QEMU in semi-hosting
+mode to load the user-space applications. This is intended to 32-bit
+RISC-V.
 
 To build it, use the following command:
 
@@ -188,8 +191,8 @@ To build it, use the following command:
 
 Run it with QEMU using the default command for 32-bit RISC-V.
 
-In <span class="title-ref">nsh</span>, applications can be run from the
-<span class="title-ref">/system/bin</span> directory:
+In [nsh]{.title-ref}, applications can be run from the
+[/system/bin]{.title-ref} directory:
 
     nsh> /system/bin/hello
 
@@ -198,9 +201,9 @@ In <span class="title-ref">nsh</span>, applications can be run from the
 Similar to `knsh_romfs`, but enabling on-demand paging: this
 configuration simulates a 4MiB device (using QEMU), but sets the number
 of heap pages equal to `CONFIG_ARCH_HEAP_NPAGES=2048`. This means that
-each process's heap is 8MiB, whereas
+each process\'s heap is 8MiB, whereas
 `CONFIG_POSIX_SPAWN_DEFAULT_STACKSIZE` is `1048576` (1MiB) represents
-the stack size of the processes (which is allocated from the process's
+the stack size of the processes (which is allocated from the process\'s
 heap). This configuration is used for 32-bit RISC-V which implements the
 Sv32 MMU specification and enables processes to have their own address
 space larger than the available physical memory. This is particularly
@@ -209,8 +212,8 @@ useful for implementing a set of programming language interpreters.
 ### knsh\_romfs
 
 Similar to the [knsh](#knsh) configuration, but uses ROMFS instead of
-<span class="title-ref">hostfs</span>. A ROMFS image is generated and
-linked to the kernel. This requires re-running `make`:
+[hostfs]{.title-ref}. A ROMFS image is generated and linked to the
+kernel. This requires re-running `make`:
 
      make V=1 -j(nproc)
      make export V=1 -j(nproc)
@@ -225,8 +228,8 @@ To run it, use the following command:
 
      qemu-system-riscv32 -M virt,aclint=on -cpu rv32 -kernel nuttx -nographic
 
-In <span class="title-ref">nsh</span>, applications can be run from the
-<span class="title-ref">/system/bin</span> directory:
+In [nsh]{.title-ref}, applications can be run from the
+[/system/bin]{.title-ref} directory:
 
     nsh> /system/bin/hello
 
@@ -236,8 +239,8 @@ Similar to the [knsh](#knsh) configuration, but for 64-bit RISC-V.
 
 Run it with QEMU using the default command for 64-bit RISC-V.
 
-In <span class="title-ref">nsh</span>, applications can be run from the
-<span class="title-ref">/system/bin</span> directory:
+In [nsh]{.title-ref}, applications can be run from the
+[/system/bin]{.title-ref} directory:
 
     nsh> /system/bin/hello
 
@@ -273,7 +276,7 @@ for 32-bit RISC-V.
 To run it with QEMU, use the following command:
 
      dd if=/dev/zero of=./mydisk-1gb.img bs=1M count=1024
-    
+
      qemu-system-riscv32 -semihosting -M virt,aclint=on -cpu rv32 -smp 8 \
       -global virtio-mmio.force-legacy=false \
       -device virtio-serial-device,bus=virtio-mmio-bus.0 \
@@ -293,7 +296,7 @@ Similar to the [netnsh](#netnsh) configuration, but for 64-bit RISC-V.
 To run it with QEMU, use the following command:
 
      dd if=/dev/zero of=./mydisk-1gb.img bs=1M count=1024
-    
+
      qemu-system-riscv64 -semihosting -M virt,aclint=on -cpu rv64 -smp 8 \
       -global virtio-mmio.force-legacy=false \
       -device virtio-serial-device,bus=virtio-mmio-bus.0 \
@@ -314,7 +317,7 @@ for 64-bit RISC-V.
 To run it with QEMU, use the following command:
 
      dd if=/dev/zero of=./mydisk-1gb.img bs=1M count=1024
-    
+
      qemu-system-riscv64 -semihosting -M virt,aclint=on -cpu rv64 -smp 8 \
       -global virtio-mmio.force-legacy=false \
       -device virtio-serial-device,bus=virtio-mmio-bus.0 \
@@ -335,7 +338,7 @@ Similar to the [netnsh](#netnsh) configuration, but with SMP support for
 To run it with QEMU, use the following command:
 
      dd if=/dev/zero of=./mydisk-1gb.img bs=1M count=1024
-    
+
      qemu-system-riscv32 -semihosting -M virt,aclint=on -cpu rv32 -smp 8 \
       -global virtio-mmio.force-legacy=false \
       -device virtio-serial-device,bus=virtio-mmio-bus.0 \
@@ -360,9 +363,8 @@ Enables the Python interpreter for NuttX. This configuration is based on
 [netnsh](#netnsh).
 
 For more information on how to build and run Python on NuttX, please
-refer to the \[<span class="title-ref">Python Interpreter
-\</application\](\`Python Interpreter
-\</application.md)s/interpreters/python/index\></span> page.
+refer to the \[[Python Interpreter \</application\](\`Python Interpreter
+\</application.md)s/interpreters/python/index\>]{.title-ref} page.
 
 ### nsh64
 
@@ -408,14 +410,15 @@ We can finish the session with `quit` command in NSH session.
 Note the above command line uses UNIX domain socket so please change the
 socket parameters on hosts without UNIX domain socket.
 
-## RISC-V GDB Debugging
+RISC-V GDB Debugging
+--------------------
 
 First of all, make sure to select `CONFIG_DEBUG_SYMBOLS=y` in
-<span class="title-ref">menuconfig</span>.
+[menuconfig]{.title-ref}.
 
 After building the kernel (and the applications, in kernel mode), use
-the toolchain's GDB to debug RISC-V applications. For instance, if you
-are using the xPack's prebuilt toolchain, you can use the following
+the toolchain\'s GDB to debug RISC-V applications. For instance, if you
+are using the xPack\'s prebuilt toolchain, you can use the following
 command to start GDB:
 
      riscv-none-elf-gdb-py3 -ix tools/pynuttx/gdbinit.py --tui nuttx
@@ -451,19 +454,11 @@ application, use the following command:
      riscv-none-elf-readelf -WS ../apps/bin/hello | grep .text
     [ 1] .text             PROGBITS        c0000000 001000 0009e0 00  AX  0   0  2
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-Pay attention that `riscv-none-elf-readelf` refers to your toolchain's
+Pay attention that `riscv-none-elf-readelf` refers to your toolchain\'s
 readelf utility. Adjust accordingly if you are using a different
 toolchain.
-
-</div>
 
 Then, look for the `.text` section address and use the `c0000000` as the
 address to load the symbols.

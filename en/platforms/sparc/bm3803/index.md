@@ -1,5 +1,7 @@
-# BM3803
+BM3803
+======
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

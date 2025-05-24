@@ -1,10 +1,7 @@
-# ESP32-Ethernet-Kit V1.2
-
-<div class="tags">
+ESP32-Ethernet-Kit V1.2
+=======================
 
 chip:esp32, chip:esp32wrover32
-
-</div>
 
 The ESP32-Ethernet-Kit is an Ethernet-to-Wi-Fi development board that
 enables Ethernet devices to be interconnected over Wi-Fi. At the same
@@ -14,7 +11,7 @@ the board schematic
 [here](https://dl.espressif.com/dl/schematics/SCH_ESP32-Ethernet-Kit_A_V1.2_20200528.pdf).
 
 ![ESP32-Ethernet-Kit V1.2 Board
-Layout](esp32-ethernet-kit-v1.2-overview.png)
+Layout](esp32-ethernet-kit-v1.2-overview.png){.align-center}
 
 It consists of two development boards, the Ethernet board A and the PoE
 board B. The Ethernet board (A) contains Bluetooth/Wi-Fi dual-mode
@@ -23,7 +20,7 @@ Transceiver (PHY). The PoE board (B) provides power over Ethernet
 functionality. The A board can work independently, without the board B
 installed.
 
-![ESP32-Ethernet-Kit V1.2](esp32-ethernet-kit-v1.2.jpg)
+![ESP32-Ethernet-Kit V1.2](esp32-ethernet-kit-v1.2.jpg){.align-center}
 
 For the application loading and monitoring, the Ethernet board (A) also
 features FTDI FT2232H chip - an advanced multi-interface USB bridge.
@@ -34,17 +31,19 @@ The block diagram below presents main components of the
 ESP32-Ethernet-Kit.
 
 ![ESP32-Ethernet-Kit V1.2 Electrical Block
-Diagram](esp32-ethernet-kit-v1.1-block-diagram.png)
+Diagram](esp32-ethernet-kit-v1.1-block-diagram.png){.align-center}
 
-## Features
+Features
+--------
 
->   - ESP32-WROVER-E Module
->   - JTAG through USB
->   - Ethernet
->   - Power over Ethernet (PoE)
->   - USB-to-UART bridge via micro USB port
+> -   ESP32-WROVER-E Module
+> -   JTAG through USB
+> -   Ethernet
+> -   Power over Ethernet (PoE)
+> -   USB-to-UART bridge via micro USB port
 
-## Functional Description
+Functional Description
+----------------------
 
 The following figures describe the key components, interfaces, and
 controls of the ESP32-Ethernet-Kit.
@@ -52,7 +51,7 @@ controls of the ESP32-Ethernet-Kit.
 ### Ethernet Board (A)
 
 ![ESP32-Ethernet-Kit - Ethernet board (A)
-layout](esp32-ethernet-kit-a-v1.2-layout.jpg)
+layout](esp32-ethernet-kit-a-v1.2-layout.jpg){.align-center}
 
 ### PoE Board (B)
 
@@ -61,60 +60,39 @@ provide a power supply for the Ethernet board (A). The main components
 of the PoE board (B) are shown on the image below.
 
 ![ESP32-Ethernet-Kit - PoE board (B)
-layout](esp32-ethernet-kit-b-v1.0-layout.png)
+layout](esp32-ethernet-kit-b-v1.0-layout.png){.align-center}
 
 The PoE board (B) has the following features:
 
->   - Support for IEEE 802.3at
->   - Power output: 5 V, 1.4 A
+> -   Support for IEEE 802.3at
+> -   Power output: 5 V, 1.4 A
 
 To take advantage of the PoE functionality the RJ45 Port of the Ethernet
 board (A) should be connected with an Ethernet cable to a switch that
 supports PoE. When the Ethernet board (A) detects 5 V power output from
 the PoE board (B), the USB power will be automatically cut off.
 
-## Function Switch
+Function Switch
+---------------
 
 When in On position, this DIP switch is routing listed GPIOs to FT2232H
 to provide JTAG functionality. When in Off position, the GPIOs may be
 used for other purposes.
 
-<table>
-<thead>
-<tr class="header">
-<th>DIP SW</th>
-<th>GPIO Pin</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>1</p>
-</blockquote></td>
-<td>GPIO13</td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-<td>GPIO12</td>
-</tr>
-<tr class="odd">
-<td><blockquote>
-<p>3</p>
-</blockquote></td>
-<td>GPIO15</td>
-</tr>
-<tr class="even">
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-<td>GPIO14</td>
-</tr>
-</tbody>
-</table>
++--------+----------+
+| DIP SW | GPIO Pin |
++========+==========+
+| > 1    | GPIO13   |
++--------+----------+
+| > 2    | GPIO12   |
++--------+----------+
+| > 3    | GPIO15   |
++--------+----------+
+| > 4    | GPIO14   |
++--------+----------+
 
-## RMII Clock Selection
+RMII Clock Selection
+--------------------
 
 The ethernet MAC and PHY under RMII working mode need a common 50 MHz
 reference clock (i.e. RMII clock) that can be provided either
@@ -123,12 +101,12 @@ externally, or generated from internal ESP32 APLL (not recommended).
 ### RMII Clock Sourced Externally by PHY
 
 By default, the ESP32-Ethernet-Kit is configured to provide RMII clock
-for the IP101GRI PHY's 50M\_CLKO output. The clock signal is generated
+for the IP101GRI PHY\'s 50M\_CLKO output. The clock signal is generated
 by the frequency multiplication of 25 MHz crystal connected to the PHY.
 For details, please see the figure below.
 
 ![RMII Clock from IP101GRI
-PHY](esp32-ethernet-kit-rmii-clk-from-phy.png)
+PHY](esp32-ethernet-kit-rmii-clk-from-phy.png){.align-centeralign-center}
 
 Please note that the PHY is reset on power up by pulling the RESET\_N
 signal down with a resistor. ESP32 should assert RESET\_N high with
@@ -137,14 +115,14 @@ Otherwise ESP32 may enter download mode (when the clock signal of
 REF\_CLK\_50M is at a high logic level during the GPIO0 power-up
 sampling phase).
 
-### RMII Clock Sourced Internally from ESP32's APLL
+### RMII Clock Sourced Internally from ESP32\'s APLL
 
 Another option is to source the RMII Clock from internal ESP32 APLL, see
 figure below. The clock signal coming from GPIO0 is first inverted, to
 account for transmission line delay, and then supplied to the PHY.
 
 ![RMII Clock from ESP Internal
-APLL](esp32-ethernet-kit-rmii-clk-to-phy.png)
+APLL](esp32-ethernet-kit-rmii-clk-to-phy.png){.align-centeralign-center}
 
 To implement this option, users need to remove or add some RC components
 on the board. For details please refer to the [ESP32-Ethernet-Kit V1.2
@@ -154,14 +132,16 @@ sheet 2, location D2. Please note that if the APLL is already used for
 other purposes (e.g. I2S peripheral), then you have no choice but use an
 external RMII clock.
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102N bridge and is available on the USB connector.
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -179,44 +159,39 @@ software input.
 There are several on-board LEDs for that indicate the presence of power
 and USB activity. None of these are available for use by software.
 
-## Pin Mapping
+Pin Mapping
+-----------
 
-| ESP32-WROVER-E | IP101GRI | UART | JTAG | GPIO      | Comments   |
-| -------------- | -------- | ---- | ---- | --------- | ---------- |
-| S\_VP          |          |      |      | IO36      |            |
-| S\_VN          |          |      |      | IO39      |            |
-| IO34           |          |      |      | IO34      |            |
-| IO35           |          |      |      | IO35      |            |
-| IO32           |          |      |      | IO32      |            |
-| IO33           |          |      |      | IO33      |            |
-| IO25           | RXD\[0\] |      |      |           |            |
-| IO26           | RXD\[1\] |      |      |           |            |
-| IO27           | CRS\_DV  |      |      |           |            |
-| IO14           |          |      | TMS  | IO14      |            |
-| IO12           |          |      | TDI  | IO12      |            |
-| IO13           |          |      | TCK  | IO13      |            |
-| IO15           |          |      | TDO  | IO15      |            |
-| IO2            |          |      |      | IO2       |            |
-| IO0            | REF\_CLK |      |      |           | See note 1 |
-| IO4            |          |      |      | IO4       |            |
-| IO16           |          |      |      | IO16 (NC) | See note 2 |
-| IO17           |          |      |      | IO17 (NC) | See note 2 |
-| IO5            | Reset\_N |      |      |           | See note 1 |
-| IO18           | MDIO     |      |      |           |            |
-| IO19           | TXD\[0\] |      |      |           |            |
-| IO21           | TX\_EN   |      |      |           |            |
-| RXD0           |          | RXD  |      |           |            |
-| TXD0           |          | TXD  |      |           |            |
-| IO22           | TXD\[1\] |      |      |           |            |
-| IO23           | MDC      |      |      |           |            |
-
-<div class="note">
-
-<div class="title">
+  ESP32-WROVER-E   IP101GRI   UART   JTAG   GPIO        Comments
+  ---------------- ---------- ------ ------ ----------- ------------
+  S\_VP                                     IO36        
+  S\_VN                                     IO39        
+  IO34                                      IO34        
+  IO35                                      IO35        
+  IO32                                      IO32        
+  IO33                                      IO33        
+  IO25             RXD\[0\]                             
+  IO26             RXD\[1\]                             
+  IO27             CRS\_DV                              
+  IO14                               TMS    IO14        
+  IO12                               TDI    IO12        
+  IO13                               TCK    IO13        
+  IO15                               TDO    IO15        
+  IO2                                       IO2         
+  IO0              REF\_CLK                             See note 1
+  IO4                                       IO4         
+  IO16                                      IO16 (NC)   See note 2
+  IO17                                      IO17 (NC)   See note 2
+  IO5              Reset\_N                             See note 1
+  IO18             MDIO                                 
+  IO19             TXD\[0\]                             
+  IO21             TX\_EN                               
+  RXD0                        RXD                       
+  TXD0                        TXD                       
+  IO22             TXD\[1\]                             
+  IO23             MDC                                  
 
 Note
-
-</div>
 
 1\. To prevent the power-on state of the GPIO0 from being affected by
 the clock output on the PHY side, the RESET\_N signal to PHY defaults to
@@ -234,9 +209,8 @@ schematic](https://dl.espressif.com/dl/schematics/SCH_ESP32-Ethernet-Kit_A_V1.2_
 2.  The ESP32 pins GPIO16 and GPIO17 are not broken out to the
     ESP32-WROVER-E module and therefore not available for use.
 
-</div>
-
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -245,8 +219,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### autopm
 
@@ -281,10 +255,10 @@ instead of the WiFi one. It also automatically configures the IP and DNS
 addresses of the device. It currently uses the following static
 configuration:
 
->   - IP: 192.168.15.100 (0xc0a80f64)
->   - Gateway: 192.168.15.1 (0xc0a80f01)
->   - Netmask: 255.255.255.0 (0xffffff00)
->   - DNS: 8.8.8.8 (0x08080808)
+> -   IP: 192.168.15.100 (0xc0a80f64)
+> -   Gateway: 192.168.15.1 (0xc0a80f01)
+> -   Netmask: 255.255.255.0 (0xffffff00)
+> -   DNS: 8.8.8.8 (0x08080808)
 
 ### nsh
 
@@ -329,24 +303,18 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.
 
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
-
-## README.txt
+README.txt
+----------

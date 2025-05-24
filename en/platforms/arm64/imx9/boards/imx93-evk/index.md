@@ -1,7 +1,4 @@
-# imx93-evk
-
-<div class="tags">
+imx93-evk
+=========
 
 chip:imx93
-
-</div>

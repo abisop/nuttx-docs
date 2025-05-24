@@ -1,19 +1,13 @@
-# Signaling Semaphores and Priority Inheritance
-
-<div class="warning">
-
-<div class="title">
+Signaling Semaphores and Priority Inheritance
+=============================================
 
 Warning
-
-</div>
 
 Migrated from
 <https://cwiki.apache.org/confluence/display/NUTTX/Signaling+Semaphores+and+Priority+Inheritance>
 
-</div>
-
-## Locking vs Signaling Semaphores
+Locking vs Signaling Semaphores
+-------------------------------
 
 ### Locking Semaphores
 
@@ -32,14 +26,24 @@ is initialized to a value of one. The first task to take the semaphore
 has access; additional tasks that need access will then block until the
 first holder calls `sem_post()` to relinquish access:
 
-| **TASK A**                                       | **TASK B**                                 |
-| ------------------------------------------------ | ------------------------------------------ |
-| <span class="title-ref">have access</span>       |                                            |
-| <span class="title-ref">priority boost</span>    | **sem\_wait(sem);**                        |
-| <span class="title-ref">priority restored</span> | <span class="title-ref">have access</span> |
-| **sem\_post(sem);**                              |                                            |
-| **sem\_wait(sem);**                              |                                            |
-|                                                  | <span class="title-ref">blocked</span>     |
+  -----------------------------------------------
+  **TASK A**              **TASK B**
+  ----------------------- -----------------------
+  [have                   
+  access]{.title-ref}     
+
+  [priority               **sem\_wait(sem);**
+  boost]{.title-ref}      
+
+  [priority               [have
+  restored]{.title-ref}   access]{.title-ref}
+
+  **sem\_post(sem);**     
+
+  **sem\_wait(sem);**     
+
+                          [blocked]{.title-ref}
+  -----------------------------------------------
 
 The important thing to note is that `sem_wait()` and `sem_post()` both
 called on the same thread, TASK A. When `sem_wait()` succeeds, TASK A
@@ -47,8 +51,8 @@ becomes the holder of the semaphore and, while it is the holder of the
 semaphore (1) other threads, such as TASK B, cannot access the protected
 resource and (2) the priority of TASK A may be modified by the priority
 inheritance logic. TASK A remains the holder until is calls `sem_post()`
-on the <span class="title-ref">same thread</span>. At that time, (1) its
-priority may be restored and (2) TASK B has access to the resource.
+on the [same thread]{.title-ref}. At that time, (1) its priority may be
+restored and (2) TASK B has access to the resource.
 
 ### Signaling Semaphores
 
@@ -59,7 +63,8 @@ to occur. When an event of interest is detected by another task (or even
 an interrupt handler), `sem_post()` is called which increments the count
 to 1 and wakes up the receiving task.
 
-## Signaling Semaphores and Priority Inheritance details
+Signaling Semaphores and Priority Inheritance details
+-----------------------------------------------------
 
 ### Example
 
@@ -67,17 +72,23 @@ For example, in the following TASK A waits on a semaphore for events and
 TASK B (or perhaps an interrupt handler) signals task A of the
 occurrence of the events by posting to that semaphore:
 
-| **TASK A**                                       | **TASK B**          |
-| ------------------------------------------------ | ------------------- |
-| **sem\_init(sem, 0, 0);**                        |                     |
-| **sem\_wait(sem);**                              |                     |
-| <span class="title-ref">blocked</span>           |                     |
-|                                                  | **sem\_post(sem);** |
-| <span class="title-ref">Awakens as holder</span> |                     |
+  ------------------------------------------------
+  **TASK A**                 **TASK B**
+  -------------------------- ---------------------
+  **sem\_init(sem, 0, 0);**  
+
+  **sem\_wait(sem);**        
+
+  [blocked]{.title-ref}      
+
+                             **sem\_post(sem);**
+
+  [Awakens as                
+  holder]{.title-ref}        
+  ------------------------------------------------
 
 Notice that unlike the mutual exclusion case above, `sem_wait()` and
-`sem_post()` are called on <span class="title-ref">different</span>
-threads.
+`sem_post()` are called on [different]{.title-ref} threads.
 
 ### Usage in Drivers
 
@@ -101,7 +112,7 @@ of the semaphore. Since TASK A never calls `sem_post(sem)` it becomes a
 permanently a holder of the semaphore and may have its priority boosted
 at any time when any other task tries to acquire the semaphore.
 
-### Who's to Blame
+### Who\'s to Blame
 
 In the POSIX case, priority inheritance is specified only in the pthread
 mutex layer. In NuttX, on the other hand, pthread mutexes are simply
@@ -113,7 +124,8 @@ one holder but for the case of counting semaphores, there may be many
 holders and if the holder is not the thread that calls `sem_post()`,
 then it is not possible to know which thread/holder should be released.
 
-## Selecting the Semaphore Protocol
+Selecting the Semaphore Protocol
+--------------------------------
 
 ### `sem_setprotocol()`
 
@@ -123,7 +135,7 @@ effect of this function call is to disable priority inheritance for that
 specific semaphore. There should then be no priority inheritance
 operations on this semaphore that is used for signalling.
 
-``` C
+``` {.C}
 sem_t sem
 // ...
 sem_init(&sem, 0, 0);
@@ -131,24 +143,21 @@ sem_setprotocol(&sem, SEM_PRIO_NONE);
 ```
 
 Here is the rule: If you have priority inheritance enabled and you use
-semaphores for signaling events, then you
-<span class="title-ref">must</span> call
+semaphores for signaling events, then you [must]{.title-ref} call
 `sem_setprotocol(SEM_PRIO_NONE)` immediately after initializing the
 semaphore.
 
 ### Why Another Non-Standard OS Interface?
 
-The non-standard `sem_setprotocol()` is the
-<span class="title-ref">moral</span>
-<span class="title-ref">equivalent</span> of the POSIX
-`pthread_mutexattr_setprotocol()` and its naming reflects that
-relationship. In most implementations, priority inheritance is
-implemented only in the pthread mutex layer. In NuttX, on the other
-hand, pthread mutexes are simply built on top of binary locking
-semaphores. Hence, in NuttX, priority inheritance is implemented in the
-semaphore layer. This architecture then requires an interface like
-`sem_setprotocol()` in order to manage the protocol of the underlying
-semaphore.
+The non-standard `sem_setprotocol()` is the [moral]{.title-ref}
+[equivalent]{.title-ref} of the POSIX `pthread_mutexattr_setprotocol()`
+and its naming reflects that relationship. In most implementations,
+priority inheritance is implemented only in the pthread mutex layer. In
+NuttX, on the other hand, pthread mutexes are simply built on top of
+binary locking semaphores. Hence, in NuttX, priority inheritance is
+implemented in the semaphore layer. This architecture then requires an
+interface like `sem_setprotocol()` in order to manage the protocol of
+the underlying semaphore.
 
 ### `pthread_mutexattr_setprotocol()`
 
@@ -157,7 +166,7 @@ above recommendation also applies when pthread mutexes are used for
 inter-thread signaling. That is, a mutex that is used for signaling
 should be initialize like this (simplified, no error checking here):
 
-``` c
+``` {.c}
 pthread_mutexattr_t attr;
 pthread_mutex_t mutex;
 // ...
@@ -166,15 +175,16 @@ pthread_mutexattr_settype(&attr, PTHREAD_PRIO_NONE);
 pthread_mutex_init(&mutex, &attr);
 ```
 
-## Is this Always a Problem?
+Is this Always a Problem?
+-------------------------
 
 Ideally `sem_setprotocol(SEM_PRIO_NONE)` should be called for all
 signaling semaphores. But, no, often the use of a signaling semaphore
 with priority inversion is not a problem. It is not a problem if the
 signaling semaphore is always taken on the same thread. For example:
 
-  - If the driver is used by only a single task, or
-  - If the semaphore is only taken on the worker thread.
+-   If the driver is used by only a single task, or
+-   If the semaphore is only taken on the worker thread.
 
 But this can be a serious problem if multiple tasks ever wait on the
 signaling semaphore. Drivers like the serial driver, for example, have

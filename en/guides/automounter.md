@@ -1,6 +1,8 @@
-# Auto-Mounter
+Auto-Mounter
+============
 
-## General Description
+General Description
+-------------------
 
 NuttX implements an auto-mounter than can make working with SD cards or
 other removable media easier. With the auto-mounter, the file system
@@ -22,12 +24,13 @@ For applications that write to the removable media, the automatic
 unmount is still beneficial (as opposed to leaving a broken mount in
 place) although should not be relied upon for a proper solution.
 
-## Board-Specific Support
+Board-Specific Support
+----------------------
 
 Like many components of NuttX, the auto-mounter has a
 upper-half/lower-half architecture:
 
-  - **Upper half** The upper half is the file `fs/fs_automount.c`. This
+-   **Upper half** The upper half is the file `fs/fs_automount.c`. This
     upper half performs the basic automount activities. It responds to
     media insertion and removal events by mounting and unmounting the
     file system on the media. This includes logic to handle unmount
@@ -35,15 +38,16 @@ upper-half/lower-half architecture:
     open files on the media. In this case, the auto-mounter will
     periodically retry the unmount until all of the applications close
     there references to files on the non-existent media.
-  - **Lower Half** The lower half is defined by a standard interface.
+-   **Lower Half** The lower half is defined by a standard interface.
     That interface definition is in the header file
-    `include/nuttx/fs/automount.h`. The lower half interface provides:
-    (1) mount information including file system type, block driver path,
-    and mount point path, (2) mount and unmount retry delays, and (3)
-    and callbacks to attach to and management the media insertion /
-    removal interrupts.
+    `include/nuttx/fs/automount.h`. The lower half interface
+    provides: (1) mount information including file system type, block
+    driver path, and mount point path, (2) mount and unmount retry
+    delays, and (3) and callbacks to attach to and management the media
+    insertion / removal interrupts.
 
-## Example Implementation
+Example Implementation
+----------------------
 
 There is an example implementation of this lower half interface at
 `boards/arm/sama5/sama5d4-ek/src/sam_automount.c`. The

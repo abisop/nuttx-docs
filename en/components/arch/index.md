@@ -1,25 +1,26 @@
-# Architecture-Specific Code
+Architecture-Specific Code
+==========================
 
 The NuttX configuration consists of:
 
-  - Processor architecture specific files. These are the files contained
+-   Processor architecture specific files. These are the files contained
     in the `arch/<arch-name>/` directory discussed in this file.
 
-  - Chip/SoC specific files. Each processor architecture is embedded in
+-   Chip/SoC specific files. Each processor architecture is embedded in
     chip or System-on-a-Chip (SoC) architecture. The full chip
     architecture includes the processor architecture plus chip-specific
     interrupt logic, general purpose I/O (GPIO) logic, and specialized,
     internal peripherals (such as UARTs, USB, etc.).
-    
+
     These chip-specific files are contained within chip-specific
     sub-directories in the `arch/<arch-name>/` directory and are
     selected via the CONFIG\_ARCH\_name selection
 
-  - Board specific files. In order to be usable, the chip must be
+-   Board specific files. In order to be usable, the chip must be
     contained in a board environment. The board configuration defines
     additional properties of the board including such things as
     peripheral LEDs, external peripherals (such as network, USB, etc.).
-    
+
     These board-specific configuration files can be found in the
     `boards/<arch>/<chip>/<board>` sub-directories.
 
@@ -29,7 +30,8 @@ include/nuttx/arch.h identifies all of the APIs that must be provided by
 this architecture specific logic. (It also includes
 `arch/<arch-name>/arch.h` as described below).
 
-## Directory Structure in `arch/`
+Directory Structure in `arch/`
+------------------------------
 
 The `arch/` directory contains architecture-specific logic. The complete
 board port is defined by the architecture-specific code in this
@@ -53,7 +55,8 @@ under `arch/` with the following characteristics:
         |-- Makefile
         `-- (architecture-specific source files)
 
-## Summary of Files
+Summary of Files
+----------------
 
 `include/<chip-name>/`
 
@@ -69,13 +72,13 @@ under `arch/` with the following characteristics:
 > This provides architecture/toolchain-specific definitions for standard
 > types. This file should typedef: `_int8_t`, `_uint8_t`, `_int16_t`,
 > `_uint16_t`, `_int32_t`, `_uint32_t`
-> 
+>
 > and if the architecture supports 64-bit integers: `_int24_t`,
 > `_uint24_t`, `_int64_t`, `_uint64_t`
-> 
+>
 > NOTE that these type names have a leading underscore character. This
 > file will be included (indirectly) by `include/stdint.h` and
-> typedef'ed to the final name without the underscore character. This
+> typedef\'ed to the final name without the underscore character. This
 > roundabout way of doings things allows the stdint.h to be removed from
 > the `include/` directory in the event that the user prefers to use the
 > definitions provided by their toolchain header files.
@@ -84,7 +87,7 @@ under `arch/` with the following characteristics:
 
 > Must be defined to the size required to hold the interrupt
 > enable/disable state.
-> 
+>
 > This file will be included by `include/sys/types.h` and be made
 > available to all files.
 
@@ -106,18 +109,18 @@ under `arch/` with the following characteristics:
 
 > Used to restore interrupt enables to the same state as before
 > `up_irq_save` was called.
-> 
+>
 > NOTE: These interfaces are not available to application code but can
 > only be used within the operating system code. And, in general, these
 > functions should **never** be called directly, not unless you know
 > absolutely well what you are doing. Rather you should typically use
 > the wrapper functions `enter_critical_section()` and
 > `leave_critical_section()` as prototyped in `include/nuttx/irq.h`.
-> 
+>
 > This file must also define NR\_IRQS, the total number of IRQs
 > supported by the board.
 
-  - `include/syscall.h`: This file needs to define some architecture
+-   `include/syscall.h`: This file needs to define some architecture
     specific functions (usually inline if the compiler supports
     inlining) to support software interrupts or *syscall*s that can be
     used all from user-mode applications into kernel-mode NuttX
@@ -125,10 +128,9 @@ under `arch/` with the following characteristics:
     errors. However, it need only contain valid function declarations if
     the architecture supports the `CONFIG_BUILD_PROTECTED` or
     `CONFIG_BUILD_KERNEL`configurations.
-    
-    See
-    \[<span class="title-ref">/component\](</span>/component.md)s/syscall\`
-    for details.
+
+    See \[[/component\](]{.title-ref}/component.md)s/syscall\` for
+    details.
 
 `src/<chip-name>/`
 
@@ -142,7 +144,8 @@ under `arch/` with the following characteristics:
 > the final link with libup.a and other system archives to generate the
 > final executable.
 
-## Supported Architectures
+Supported Architectures
+-----------------------
 
-The list of supported architectures can be found in `Supported Platforms
-<platforms>`.
+The list of supported architectures can be found in
+`Supported Platforms <platforms>`{.interpreted-text role="ref"}.

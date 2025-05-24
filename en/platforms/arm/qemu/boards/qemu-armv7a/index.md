@@ -1,15 +1,17 @@
-# qemu-armv7a
+qemu-armv7a
+===========
 
 This board configuration will use QEMU to emulate generic ARM v7-A
 series hardware platform and provides support for these devices:
 
-  - GICv2 interrupt controllers
-  - ARM Generic Timer
-  - PL011 UART controller
-  - PCI ECAM
-  - VirtIO Device
+-   GICv2 interrupt controllers
+-   ARM Generic Timer
+-   PL011 UART controller
+-   PCI ECAM
+-   VirtIO Device
 
-## Getting Started
+Getting Started
+---------------
 
 ### NSH (Single Core)
 
@@ -38,7 +40,7 @@ This is a configuration of testing the BUILD\_KERNEL configuration:
      make import V=1
      cd ../nuttx
      qemu-system-arm -semihosting -M virt -m 1024 -nographic -kernel ./nuttx
-    
+
     NuttShell (NSH) NuttX-12.3.0-RC0
     nsh> uname -a
     NuttX 12.3.0-RC0 28dee592a3-dirty Oct 12 2023 03:03:07 arm qemu-armv7a
@@ -61,7 +63,7 @@ Inter-VM shared memory support support can be found in
 `drivers/pci/pci_ivshmem.c`.
 
 This implementation is for `ivshmem-v1` which is compatible with QEMU
-and ACRN hypervisor but won't work with Jailhouse hypervisor which uses
+and ACRN hypervisor but won\'t work with Jailhouse hypervisor which uses
 `ivshmem-v2`.
 
 Please refer to the official [Qemu ivshmem
@@ -78,45 +80,45 @@ Steps for Using NuttX as IVSHMEM host and guest
 
 1.  Build images
 
-> 1.  Build rpserver\_ivshmem:
->     
+> a.  Build rpserver\_ivshmem:
+>
 >          cmake -B server -DBOARD_CONFIG=qemu-armv7a:rpserver_ivshmem -GNinja
 >          cmake --build server
-> 
-> 2.  Build rpproxy\_ivshmem:
->     
+>
+> b.  Build rpproxy\_ivshmem:
+>
 >          cmake -B proxy -DBOARD_CONFIG=qemu-armv7a:rpproxy_ivshmem -GNinja
 >          cmake --build proxy
 
 2.  Bringup firmware via Qemu:
 
 > The Inter-VM Shared Memory device basic syntax is:
-> 
+>
 >     -device ivshmem-plain,id=shmem0,memdev=shmmem-shmem0,addr=0xb \
 >     -object memory-backend-file,id=shmmem-shmem0,mem-path=/dev/shm/ivshmem0,size=4194304,share=yes
-> 
-> 1.  Start rpserver\_ivshmem:
->     
+>
+> a.  Start rpserver\_ivshmem:
+>
 >          qemu-system-arm -cpu cortex-a7 -nographic -machine virt,highmem=off \
 >           -object memory-backend-file,id=shmmem-shmem0,mem-path=/dev/shm/ivshmem0,size=4194304,share=yes \
 >           -device ivshmem-plain,id=shmem0,memdev=shmmem-shmem0,addr=0xb \
 >           -kernel server/nuttx -nographic
-> 
-> 2.  Start rpproxy\_ivshmem:
->     
+>
+> b.  Start rpproxy\_ivshmem:
+>
 >          qemu-system-arm -cpu cortex-a7 -nographic -machine virt,highmem=off \
 >           -object memory-backend-file,discard-data=on,id=shmmem-shmem0,mem-path=/dev/shm/ivshmem0,size=4194304,share=yes \
 >           -device ivshmem-plain,id=shmem0,memdev=shmmem-shmem0,addr=0xb \
 >           -kernel proxy/nuttx -nographic
-> 
-> 3.  Check the RPMSG Syslog in rpserver shell:
-> 
+>
+> c.  Check the RPMSG Syslog in rpserver shell:
+>
 > > In the current configuration, the proxy syslog will be sent to the
 > > server by default. You can check whether there is proxy startup log
 > > in the server shell.
-> > 
+> >
 > > RpServer bring up:
-> > 
+> >
 > >      qemu-system-arm -cpu cortex-a7 -nographic -machine virt,highmem=off \
 > >       -object memory-backend-file,id=shmmem-shmem0,mem-path=/dev/shm/ivshmem0,size=4194304,share=yes \
 > >       -device ivshmem-plain,id=shmem0,memdev=shmmem-shmem0,addr=0xb \
@@ -124,19 +126,19 @@ Steps for Using NuttX as IVSHMEM host and guest
 > >     [    0.000000] [ 0] [  INFO] [server] pci_register_rptun_ivshmem_driver: Register ivshmem driver, id=0, cpuname=proxy, master=0
 > >     ...
 > >     [    0.306127] [ 3] [  INFO] [server] rptun_ivshmem_probe: Start the wdog
-> > 
+> >
 > > After rpproxy bring up, check the log from rpserver:
-> > 
+> >
 > >     NuttShell (NSH) NuttX-10.4.0
 > >     server>
 > >     [    0.000000] [ 0] [  INFO] [proxy] pci_register_rptun_ivshmem_driver: Register ivshmem driver, id=0, cpuname=server, master=1
 > >     ...
 > >     [    0.314039] [ 3] [  INFO] [proxy] ivshmem_probe: shmem addr=0x10400000 size=4194304 reg=0x10008000
-> 
-> 4.  IPC test via RPMSG socket:
-> 
+>
+> d.  IPC test via RPMSG socket:
+>
 > > Start rpmsg socket server:
-> > 
+> >
 > >     server> rpsock_server stream block test
 > >     server: create socket SOCK_STREAM nonblock 0
 > >     server: bind cpu , name test ...
@@ -144,9 +146,9 @@ Steps for Using NuttX as IVSHMEM host and guest
 > >     server: try accept ...
 > >     server: Connection accepted -- 4
 > >     server: try accept ...
-> > 
+> >
 > > Switch to proxy shell and start rpmsg socket client, test start:
-> > 
+> >
 > >     proxy> rpsock_client stream block test server
 > >     client: create socket SOCK_STREAM nonblock 0
 > >     client: Connecting to server,test...
@@ -156,23 +158,24 @@ Steps for Using NuttX as IVSHMEM host and guest
 > >     ...
 > >     client recv done, total 4096000, endflags, send total 4096000
 > >     client: Terminating
-> > 
+> >
 > > Check the log on rpserver shell:
-> > 
+> >
 > >     server recv data normal exit
 > >     server Complete ret 0, errno 0
 
-## Debugging with QEMU
+Debugging with QEMU
+-------------------
 
 The nuttx ELF image can be debugged with QEMU.
 
 1.  To debug the nuttx (ELF) with symbols, make sure the following
     change have applied to defconfig:
-    
+
         +CONFIG_DEBUG_SYMBOLS=y
 
 2.  Run QEMU (Single Core) at shell terminal 1:
-    
+
          qemu-system-arm -cpu cortex-a7 -nographic \
         -machine virt,virtualization=off,gic-version=2 \
         -net none -chardev stdio,id=con,mux=on -serial chardev:con \
@@ -180,7 +183,7 @@ The nuttx ELF image can be debugged with QEMU.
 
 3.  Run gdb with TUI, connect to QEMU, load nuttx and continue (at shell
     terminal 2):
-    
+
          arm-none-eabi-gdb -tui --eval-command='target remote localhost:1234' nuttx
         (gdb) c
         Continuing.
@@ -189,7 +192,8 @@ The nuttx ELF image can be debugged with QEMU.
         nx_start () at armv7-a/arm_head.S:209
         (gdb)
 
-## PCI support
+PCI support
+-----------
 
 To enable PCI support, set the following options:
 

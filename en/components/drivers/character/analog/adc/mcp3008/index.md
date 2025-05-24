@@ -1,4 +1,5 @@
-# MCP3008
+MCP3008
+=======
 
 Contributed by Matteo Golin
 
@@ -12,27 +13,28 @@ measures the voltage difference between pairs of channels.
 When operating in differential mode, the channel numbers below
 correspond to the listed differential pairs:
 
-|                |            |
-| -------------- | ---------- |
-| Channel number | Sources    |
-| 0              | CH0+, CH1- |
-| 1              | CH0-, CH1+ |
-| 2              | CH2+, CH3- |
-| 3              | CH2-, CH3+ |
-| 4              | CH4+, CH5- |
-| 5              | CH4-, CH5+ |
-| 6              | CH6+, CH7- |
-| 7              | CH6-, CH7+ |
+  ---------------- ------------
+  Channel number   Sources
+  0                CH0+, CH1-
+  1                CH0-, CH1+
+  2                CH2+, CH3-
+  3                CH2-, CH3+
+  4                CH4+, CH5-
+  5                CH4-, CH5+
+  6                CH6+, CH7-
+  7                CH6-, CH7+
+  ---------------- ------------
 
-Differential pair channel numbers
+  : Differential pair channel numbers
 
-## Driver Interface
+Driver Interface
+----------------
 
 To register the MCP3008 device driver as a standard NuttX analog device
 on your board, you can use something similar to the below code for the
 RP2040.
 
-``` c
+``` {.c}
 #include <nuttx/analog/mcp3008.h>
 #include <nuttx/analog/adc.h>
 
@@ -58,38 +60,35 @@ if (ret < 0)
 ```
 
 Once registered, this driver can be interacted with using the ADC
-example (`adc-example`). Be sure to enable the software trigger, since
-the MCP3008 driver does not support hardware triggers (interrupts). You
-can also change the number of samples per group up to 8 for all 8
-channels of the ADC.
+example (`adc-example`{.interpreted-text role="ref"}). Be sure to enable
+the software trigger, since the MCP3008 driver does not support hardware
+triggers (interrupts). You can also change the number of samples per
+group up to 8 for all 8 channels of the ADC.
 
-You may need to increase the
-<span class="title-ref">CONFIG\_ADC\_FIFOSIZE</span> value to something
-larger than 8 in order to be able to store all the ADC measurements
-after a measurement trigger (i.e 9).
+You may need to increase the [CONFIG\_ADC\_FIFOSIZE]{.title-ref} value
+to something larger than 8 in order to be able to store all the ADC
+measurements after a measurement trigger (i.e 9).
 
 You can configure the driver in differential mode by default using the
-<span class="title-ref">CONFIG\_ADC\_MCP3008\_DIFFERENTIAL</span>
-configuration option.
+[CONFIG\_ADC\_MCP3008\_DIFFERENTIAL]{.title-ref} configuration option.
 
 You can also configure the speed of SPI communications to the MCP3008
-using the
-<span class="title-ref">CONFIG\_ADC\_MCP3008\_SPI\_FREQUENCY</span>
+using the [CONFIG\_ADC\_MCP3008\_SPI\_FREQUENCY]{.title-ref}
 configuration option. This speed should be selected based on the supply
 voltage used to power the MCP3008:
 
-| Supply Voltage | Frequency |
-| -------------- | --------- |
-| VDD \>= 4V     | 3.6MHz    |
-| VDD \>= 3.3V   | 2.34MHz   |
-| VDD = 2.7V     | 1.35MHz   |
+  Supply Voltage   Frequency
+  ---------------- -----------
+  VDD \>= 4V       3.6MHz
+  VDD \>= 3.3V     2.34MHz
+  VDD = 2.7V       1.35MHz
 
-SPI frequencies for supply voltage
+  : SPI frequencies for supply voltage
 
 If you have a measurement from the MCP3008, you can convert it into a
 voltage like so:
 
-``` c
+``` {.c}
 #define VREF (3.3) /* Whatever voltage is used on the VREF pin */
 
 struct adc_msg_s msg;
@@ -99,9 +98,9 @@ struct adc_msg_s msg;
 double voltage = ((double)msg.am_data * VREF) / (1023.0);
 ```
 
-There is also an additional <span class="title-ref">ioctl()</span>
-command supported for the MCP3008 that permits you to switch from
-differential to single ended mode at runtime:
+There is also an additional [ioctl()]{.title-ref} command supported for
+the MCP3008 that permits you to switch from differential to single ended
+mode at runtime:
 
 This command changes the mode of the MCP3008 driver. The argument passed
 should be 0 to disable differential mode (and thus use single-ended

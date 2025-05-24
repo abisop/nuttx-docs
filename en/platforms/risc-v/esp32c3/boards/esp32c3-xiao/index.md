@@ -1,4 +1,5 @@
-# Seeed Studio XIAO ESP32C3
+Seeed Studio XIAO ESP32C3
+=========================
 
 The [Seeed Studio XIAO
 ESP32C3](https://wiki.seeedstudio.com/xiao_esp32c3_getting_started/) is
@@ -6,62 +7,66 @@ a general purpose board supplied by Seeed Studio and it is compatible
 with the Espressif ESP32C3 ecosystem, sharing the same MCU as
 ESP32-C3-DevKitC.
 
-![](xiao-esp32c3.jpg)
+![](xiao-esp32c3.jpg){.align-center}
 
-## Features
+Features
+--------
 
-  - 32­bit RISC­-V single ­core processor that operates at up to 160 MHz
-  - 400KB of SRAM, and 4MB of on-board flash memory
-  - USB Type-C interface
-  - Wireless: Complete 2.4GHz Wi-Fi subsystem;
-  - BLE: Bluetooth 5.0, Bluetooth mesh
-  - 1x UART, 1x I2C, 1x SPI,11x GPIO(PWM), 4x ADC
-  - 1 RESET button, 1 BOOT button
+-   32­bit RISC­-V single ­core processor that operates at up to 160 MHz
+-   400KB of SRAM, and 4MB of on-board flash memory
+-   USB Type-C interface
+-   Wireless: Complete 2.4GHz Wi-Fi subsystem;
+-   BLE: Bluetooth 5.0, Bluetooth mesh
+-   1x UART, 1x I2C, 1x SPI,11x GPIO(PWM), 4x ADC
+-   1 RESET button, 1 BOOT button
 
-## NSH Console
+NSH Console
+-----------
 
 The NuttShell (NSH) console is available over USB using the CDC/ACM
 serial interface. To access the console, connect via a terminal emulator
 at 115200 baud, 8 data bits, no parity, and 1 stop bit (115200-8N1).
 
-## Buttons
+Buttons
+-------
 
-The RESET and BOOT buttons can be used to enter "Bootloader" mode by
+The RESET and BOOT buttons can be used to enter \"Bootloader\" mode by
 press and hold the BOOT key while powering up and then press the RESET
 key once.
 
-## Pin Mapping
+Pin Mapping
+-----------
 
 Pads numbered anticlockwise from USB connector.
 
-| Pad   | Signal     | Notes                                  |
-| ----- | ---------- | -------------------------------------- |
-| 0     | GPIO02     | D0/A0                                  |
-| 1     | GPIO03     | D1/A1                                  |
-| 2     | GPIO04     | D2/A2                                  |
-| 3     | GPIO05     | D3/A3                                  |
-| 4     | GPIO06     | D4/SDA                                 |
-| 5     | GPIO07     | D5/SCL                                 |
-| 6     | GPIO21     | D6/Default TX for UART0 serial console |
-| 7     | GPIO20     | D7/Default RX for UART0 serial console |
-| 8     | GPIO08     | D8/SCK                                 |
-| 9     | GPIO09     | D9/MISO                                |
-| 10    | GPIO10     | D10/MOSI                               |
-| 11 12 | 3V3 Ground | Power output to peripherals            |
-| 13    | VIN        | \+5V Supply to board                   |
+  Pad     Signal       Notes
+  ------- ------------ ----------------------------------------
+  0       GPIO02       D0/A0
+  1       GPIO03       D1/A1
+  2       GPIO04       D2/A2
+  3       GPIO05       D3/A3
+  4       GPIO06       D4/SDA
+  5       GPIO07       D5/SCL
+  6       GPIO21       D6/Default TX for UART0 serial console
+  7       GPIO20       D7/Default RX for UART0 serial console
+  8       GPIO08       D8/SCK
+  9       GPIO09       D9/MISO
+  10      GPIO10       D10/MOSI
+  11 12   3V3 Ground   Power output to peripherals
+  13      VIN          +5V Supply to board
 
-## Power Supply
+Power Supply
+------------
 
 The working voltage of the MCU is 3.3V. Voltage input connected to
-general I/O pins may cause chip damage if it’s higher than 3.3V.
+general I/O pins may cause chip damage if it's higher than 3.3V.
 
-## Installation
+Installation
+------------
 
 1.  Configure and build NuttX:
 
-<!-- end list -->
-
-``` console
+``` {.console}
  git clone https://github.com/apache/nuttx.git nuttx
  git clone https://github.com/apache/nuttx-apps.git apps
  cd nuttx
@@ -70,17 +75,18 @@ general I/O pins may cause chip damage if it’s higher than 3.3V.
  make V=1
 ```
 
-2\. Connect the Seeed Studio XIAO ESP32C3, and enter "Bootloader" mode,
-then, flash the `nuttx.hex` file using `esptool`:
+2\. Connect the Seeed Studio XIAO ESP32C3, and enter \"Bootloader\"
+mode, then, flash the `nuttx.hex` file using `esptool`:
 (<https://docs.espressif.com/projects/esptool/en/latest/esp32/>)
 
 Example command:
 
-``` bash
+``` {.bash}
 make flash ESPTOOL_PORT=/dev/ttyACM0 ESPTOOL_BINDIR=./
 ```
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -92,7 +98,7 @@ exposed via pins D6/TX and D7/RX, at 115200 bps).
 Basic NuttShell configuration using CDC/ACM serial (console enabled in
 USB Port, at 115200 bps).
 
-``` console
+``` {.console}
 NuttShell (NSH) NuttX-12.8.0
 nsh> uname -a
 NuttX 12.8.0 2c845426da-dirty Apr  6 2025 22:53:57 xtensa esp32c3-xiao
@@ -104,12 +110,12 @@ This configuration enabled NuttShell via USB and enabled gpio example.
 
 Testing gpios:
 
-| PIN/GPIO | Mode   | Device     |
-| -------- | ------ | ---------- |
-| D0/GPIO2 | Output | /dev/gpio0 |
-| D1/GPIO3 | Input  | /dev/gpio1 |
+  PIN/GPIO   Mode     Device
+  ---------- -------- ------------
+  D0/GPIO2   Output   /dev/gpio0
+  D1/GPIO3   Input    /dev/gpio1
 
-``` console
+``` {.console}
 nsh> gpio -o 1 /dev/gpio0
 Driver: /dev/gpio0
   Output pin:    Value=1
@@ -141,7 +147,7 @@ In this case a connection to AP with SSID `myssid` is done, using
 `mypasswd` as password. IP address is obtained via DHCP using `renew`
 command. You can check the result by running `ifconfig` afterwards.
 
-``` console
+``` {.console}
 NuttShell (NSH) NuttX-12.8.0
 nsh> uname -a
 NuttX  12.9.0 6b4bc72626-dirty Apr 26 2025 17:40:37 risc-v esp32c3-xiao
@@ -195,7 +201,7 @@ nsh>
 This configuration is used to enable the Bluetooth Low Energy (BLE) of
 ESP32-C3 chip.
 
-``` console
+``` {.console}
 NuttShell (NSH) NuttX-12.8.0
 nsh> bt bnep0 scan start
 nsh> bt bnep0 scan stop

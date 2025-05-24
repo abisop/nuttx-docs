@@ -1,33 +1,27 @@
-# NuttX FLAT Binary Format (NXFLAT)
-
-<div class="warning">
-
-<div class="title">
+NuttX FLAT Binary Format (NXFLAT)
+=================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=139630111>
 
-</div>
+Overview
+--------
 
-## Overview
-
-NuttX supports a configurable \[<span class="title-ref">binary loader
-\<../binfmt\></span> .\](<span class="title-ref">binary loader
-\<../binfmt\></span> ..md) This binary loader supports loading and
-executing binary objects from the file system. The NuttX binary loader
-is capable of supporting multiple binary formats. One of of those binary
-formats is NXFLAT, the top of this Wiki page.
+NuttX supports a configurable \[[binary loader
+\<../binfmt\>]{.title-ref} .\]([binary loader \<../binfmt\>]{.title-ref}
+..md) This binary loader supports loading and executing binary objects
+from the file system. The NuttX binary loader is capable of supporting
+multiple binary formats. One of of those binary formats is NXFLAT, the
+top of this Wiki page.
 
 NXFLAT is a customized and simplified version of binary format
 implemented a few years ago called XFLAT. With the NXFLAT binary format
 you will be able to do the following:
 
-  - Place separately linked programs in a file system, and
-  - Execute those programs by dynamically linking them to the base NuttX
+-   Place separately linked programs in a file system, and
+-   Execute those programs by dynamically linking them to the base NuttX
     code.
 
 This allows you to extend the NuttX base code after it has been written
@@ -42,33 +36,33 @@ support execution NXFLAT binaries from an SRAM copy as well.
 
 This NuttX feature includes:
 
-  - A dynamic loader that is built into the NuttX core (See SVN).
-  - Minor changes to RTOS to support position independent code, and
-  - A linker to bind ELF binaries to produce the NXFLAT binary format
+-   A dynamic loader that is built into the NuttX core (See SVN).
+-   Minor changes to RTOS to support position independent code, and
+-   A linker to bind ELF binaries to produce the NXFLAT binary format
     (See SVN).
 
-## Toolchain Compatibility Problem
+Toolchain Compatibility Problem
+-------------------------------
 
 ### Description
 
 NXFLAT flat requires a specific kind of position independence. The ARM
 family of GCC toolchains has historically supported this method of
 position independence: All code addresses are accessed relative to the
-Program Counter (PC) and a special, <span class="title-ref">PIC
-register</span> (usually `r10`) is used to access all data. To load or
-store a data value, the contents of `r10`, the PIC base, is added to a
-constant, position-independent offset to produce the absolute address of
-the data.
+Program Counter (PC) and a special, [PIC register]{.title-ref} (usually
+`r10`) is used to access all data. To load or store a data value, the
+contents of `r10`, the PIC base, is added to a constant,
+position-independent offset to produce the absolute address of the data.
 
 ![image](nxflat/nxflat-addressing.png)
 
-The <span class="title-ref">Global Offset Table</span> (GOT) is a
-special data structure that resides in D-Space. So PIC-base relative
-addressing may also be specified as GOT-Relative addressing (or
-`GOTOFF`). The older GCC 4.3.3 GCC compiler, for example, generates
-`GOTOFF` relocations to the constant strings, like:
+The [Global Offset Table]{.title-ref} (GOT) is a special data structure
+that resides in D-Space. So PIC-base relative addressing may also be
+specified as GOT-Relative addressing (or `GOTOFF`). The older GCC 4.3.3
+GCC compiler, for example, generates `GOTOFF` relocations to the
+constant strings, like:
 
-``` asm
+``` {.asm}
 .L3:
         .word   .LC0(GOTOFF)
         .word   .LC1(GOTOFF)
@@ -80,29 +74,30 @@ addressing may also be specified as GOT-Relative addressing (or
 Where `.LC0`, `.LC1`, `.LC2`, `.LC3`, and `.LC4` are the labels
 corresponding to strings in the `.rodata.str1.1` section. One
 consequence of this is that `.rodata` must reside in D-Space since it
-will addressed relative to the GOT (see the section entitled "Read-Only
-Data in RAM" here).
+will addressed relative to the GOT (see the section entitled \"Read-Only
+Data in RAM\" here).
 
 The newer 4.6.3 GCC compiler, however, generated PC relative relocations
 to these same strings:
 
-    .L2:
-        .word   .LC0-(.LPIC0+4)
-        .word   .LC1-(.LPIC1+4)
-        .word   .LC2-(.LPIC2+4)
-        .word   .LC3-(.LPIC4+4)
-        .word   .LC4-(.LPIC5+4)
+``` {.}
+.L2:
+    .word   .LC0-(.LPIC0+4)
+    .word   .LC1-(.LPIC1+4)
+    .word   .LC2-(.LPIC2+4)
+    .word   .LC3-(.LPIC4+4)
+    .word   .LC4-(.LPIC5+4)
+```
 
-These are <span class="title-ref">PC-Relative</span> relocations. This
-means that the string data is address not by an offset relative to the
-PIC register (`r10`) but to the program count (PC). This is good and
-bad. This is good because it means that `.rodata.str1.1` must now can
-now reside in FLASH with `.text` and can be accessed using PC-relative
-addressing. That can be accomplished by simply moving the `.rodata` from
-the `.data` section to the `.text` section in the linker script. The
-NXFLAT linker script is located at
-`nuttx/binfmt/libnxflat/gnu-nxflat-?.ld`. **NOTE**: There are two linker
-scripts located at `nuttx/binfmt/libnxflat/`:
+These are [PC-Relative]{.title-ref} relocations. This means that the
+string data is address not by an offset relative to the PIC register
+(`r10`) but to the program count (PC). This is good and bad. This is
+good because it means that `.rodata.str1.1` must now can now reside in
+FLASH with `.text` and can be accessed using PC-relative addressing.
+That can be accomplished by simply moving the `.rodata` from the `.data`
+section to the `.text` section in the linker script. The NXFLAT linker
+script is located at `nuttx/binfmt/libnxflat/gnu-nxflat-?.ld`. **NOTE**:
+There are two linker scripts located at `nuttx/binfmt/libnxflat/`:
 
 1.  `binfmt/libnxflat/gnu-nxflat-gotoff.ld.` Older versions of GCC (at
     least up to GCC 4.3.3), use GOT-relative addressing to access RO
@@ -126,7 +121,7 @@ long run, this might spell the end to NXFLAT.
 
 This post was pointed out by Michael Jung:
 
-``` bash
+``` {.bash}
 MCU: STM32F4 (ARM Cortex M4)
 Build environment: arm-none-eabi-gcc 4.8.4 20140725
 
@@ -155,9 +150,7 @@ to modify the board Make.defs file like:
 
 1.  ARCHPICFLAGS = -fpic -msingle-pic-base -mpic-register=r10
 
-<!-- end list -->
-
-``` bash
+``` {.bash}
 +ARCHPICFLAGS = -fpic -msingle-pic-base -mpic-register=r10 -mno-pic-data-is-text-relative
 ```
 
@@ -169,9 +162,8 @@ information.
 
 ### References
 
-  - \[<span class="title-ref">NXFLAT
-    \<../nxflat\></span>\](<span class="title-ref">NXFLAT
-    \<../nxflat\></span>.md)
-  - [XFLATFLAT](http://xflat.sourceforge.net/)
-  - [FLAT](http://retired.beyondlogic.org/uClinux/bflt.htm)
-  - [ROMFS](http://romfs.sourceforge.net/)
+-   \[[NXFLAT \<../nxflat\>]{.title-ref}\]([NXFLAT
+    \<../nxflat\>]{.title-ref}.md)
+-   [XFLATFLAT](http://xflat.sourceforge.net/)
+-   [FLAT](http://retired.beyondlogic.org/uClinux/bflt.htm)
+-   [ROMFS](http://romfs.sourceforge.net/)

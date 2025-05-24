@@ -1,5 +1,7 @@
-# EOSS3
+EOSS3
+=====
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

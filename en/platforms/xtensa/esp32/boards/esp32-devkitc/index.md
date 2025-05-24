@@ -1,10 +1,7 @@
-# ESP32 DevKitC
-
-<div class="tags">
+ESP32 DevKitC
+=============
 
 chip:esp32, chip:esp32wroom32
-
-</div>
 
 The [ESP32
 DevKitC](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/modules-and-boards.html#esp32-devkitc-v4)
@@ -12,19 +9,21 @@ is a development board for the ESP32 SoC from Espressif, based on a
 ESP-WROOM-32 module. You can find the original V2 version and the newer
 V4 variant. They are pin compatible.
 
-|                                                   |                                                 |
-| ------------------------------------------------- | ----------------------------------------------- |
-| ![ESP32 DevKitC/Core V2](esp32-core-board-v2.jpg) | ![ESP32 DevKitC V4](esp32-devkitc-v4-front.jpg) |
+  ------------------------------------------------------------------ ----------------------------------------------------------------
+  ![ESP32 DevKitC/Core V2](esp32-core-board-v2.jpg){.align-center}   ![ESP32 DevKitC V4](esp32-devkitc-v4-front.jpg){.align-center}
+  ------------------------------------------------------------------ ----------------------------------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32 WROOM Module
->   - USB-to-UART bridge via micro USB port
->   - Power LED
->   - EN and BOOT buttons (BOOT accessible to user)
->   - SPI FLASH (size varies according to model
+> -   ESP32 WROOM Module
+> -   USB-to-UART bridge via micro USB port
+> -   Power LED
+> -   EN and BOOT buttons (BOOT accessible to user)
+> -   SPI FLASH (size varies according to model
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the USB connector USB CON8 (J1).
@@ -32,7 +31,8 @@ CP2102 converter and is available on the USB connector USB CON8 (J1).
 It will show up as /dev/ttypUSB\[n\] where \[n\] will probably be 0 (is
 it 1 on my PC because I have a another device at ttyUSB0).
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -50,10 +50,11 @@ software input.
 There are several on-board LEDs for that indicate the presence of power
 and USB activity. None of these are available for use by software.
 
-## Ethernet
+Ethernet
+--------
 
 ESP32 has a 802.11 hardware MAC, so just connects to external PHY chip.
-Due to the limited number of GPIOs in ESP32, it's recommended to use
+Due to the limited number of GPIOs in ESP32, it\'s recommended to use
 RMII to connect to an external PHY chip. Current driver also only
 supports RMII option.
 
@@ -62,28 +63,28 @@ optional.
 
 RMII GPIO pins are as following:
 
-| ESP32 GPIO | PHY Chip GPIO |
-| ---------- | ------------- |
-| IO25       | RXD\[0\]      |
-| IO26       | RXD\[1\]      |
-| IO27       | CRS\_DV       |
-| IO0        | REF\_CLK      |
-| IO19       | TXD\[0\]      |
-| IO21       | TX\_EN        |
-| IO22       | TXD\[1\]      |
+  ESP32 GPIO   PHY Chip GPIO
+  ------------ ---------------
+  IO25         RXD\[0\]
+  IO26         RXD\[1\]
+  IO27         CRS\_DV
+  IO0          REF\_CLK
+  IO19         TXD\[0\]
+  IO21         TX\_EN
+  IO22         TXD\[1\]
 
 SMI GPIO pins (default option) are as following:
 
-| ESP32 GPIO | PHY Chip GPIO |
-| ---------- | ------------- |
-| IO18       | MDIO          |
-| IO23       | MDC           |
+  ESP32 GPIO   PHY Chip GPIO
+  ------------ ---------------
+  IO18         MDIO
+  IO23         MDC
 
 Functional GPIO pins(default option) are as following:
 
-| ESP32 GPIO | PHY Chip GPIO |
-| ---------- | ------------- |
-| IO5        | Reset\_N      |
+  ESP32 GPIO   PHY Chip GPIO
+  ------------ ---------------
+  IO5          Reset\_N
 
 Espressif has an [official Ethernet development
 board](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-ethernet-kit.html).
@@ -93,80 +94,74 @@ This driver has been tested according to this board and ESP32 core board
 please refer the upper official document, specially the issue that GPIO0
 causes failing to bring the ESP32 chip up.
 
-## I2S
+I2S
+---
 
 ESP32 has two I2S peripherals accessible using either the generic I2S
 audio driver or a specific audio codec driver
 ([CS4344](https://www.cirrus.com/products/cs4344-45-48/) bindings are
 available at the moment). The generic I2S audio driver enables using
 both the receiver module (RX) and the transmitter module (TX) without
-using any specific codec. Also, it's possible to use the I2S character
+using any specific codec. Also, it\'s possible to use the I2S character
 device driver to bypass the audio subsystem and write directly to the
 I2S peripheral.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
 The I2S peripheral is able to work on two functional modes internally:
-16 and 32-bit width. ESP32's I2S driver, however, uses an internal
+16 and 32-bit width. ESP32\'s I2S driver, however, uses an internal
 buffer to enable inserting padding bytes and provide the ability to play
 8, 16, 24 or 32-bits/sample audio files. Sample rate and data width are
 automatically set by the upper half audio driver.
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-Also, it's possible to use 8, 16, 24, and 32-bit-widths writing directly
-to the I2S character device. Just make sure to set the bit-width:
+Also, it\'s possible to use 8, 16, 24, and 32-bit-widths writing
+directly to the I2S character device. Just make sure to set the
+bit-width:
 
      make menuconfig
 
-  - \-\> System Type
-    
-      - \-\> ESP32 Peripheral Selection
-        
-          - \-\> I2S
-            
-              - \-\> I2S0/1  
-                \-\> Bit Width
+-\> System Type
+
+:   
+
+    -\> ESP32 Peripheral Selection
+
+    :   
+
+        -\> I2S
+
+        :   
+
+            -\> I2S0/1
+
+            :   -\> Bit Width
 
 And make sure the data stream buffer being written to the I2S peripheral
 is aligned to the next boundary i.e. 16 bits for the 8 and 16-bit-widths
 and 32 bits for 24 and 32-bit-widths.
 
-</div>
+The following configurations use the I2S peripheral::
 
-  - The following configurations use the I2S peripheral::
-    
-      - `platforms/xtensa/esp32/boards/esp32-devkitc/index:audio`
-      - `platforms/xtensa/esp32/boards/esp32-devkitc/index:i2schar`
-      - `platforms/xtensa/esp32/boards/esp32-devkitc/index:nxlooper`
+:   -   `platforms/xtensa/esp32/boards/esp32-devkitc/index:audio`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32/boards/esp32-devkitc/index:i2schar`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32/boards/esp32-devkitc/index:nxlooper`{.interpreted-text
+        role="ref"}
 
-## Pin Mapping
-
-<div class="todo">
+Pin Mapping
+-----------
 
 To be updated
 
-</div>
+  Pin   Signal   Notes
+  ----- -------- -------
+  ?     ?        ?
 
-| Pin | Signal | Notes |
-| --- | ------ | ----- |
-| ?   | ?      | ?     |
-
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -175,8 +170,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### adc
 
@@ -208,19 +203,19 @@ connected to a Wi-Fi network.
 
 The CS4344 audio codec is connected on the following pins:
 
-| ESP32 Pin | CS4344 Pin | Description                               |
-| --------- | ---------- | ----------------------------------------- |
-| 0         | MCLK       | Master Clock                              |
-| 4         | SCLK       | Serial Clock                              |
-| 5         | LRCK       | Left Right Clock (Word Select)            |
-| 18        | SDIN       | Serial Data In on CS4344. (DOUT on ESP32) |
+  ESP32 Pin   CS4344 Pin   Description
+  ----------- ------------ -------------------------------------------
+  0           MCLK         Master Clock
+  4           SCLK         Serial Clock
+  5           LRCK         Left Right Clock (Word Select)
+  18          SDIN         Serial Data In on CS4344. (DOUT on ESP32)
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 or 24 bits/sample (sampled at 16\~48kHz). This file must be
-placed into a folder in a computer that could be accessed on the same
-Wi-Fi network the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16 or 24
+bits/sample (sampled at 16\~48kHz). This file must be placed into a
+folder in a computer that could be accessed on the same Wi-Fi network
+the ESP32 will be connecting to.
 
 Python provides a simple HTTP server. `cd` to the audio file folder on
 the PC and run:
@@ -231,7 +226,7 @@ the PC and run:
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](esp32-audio-config-file.png)
+![](esp32-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -240,7 +235,7 @@ network:
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to its
+Once connected, open NuttX\'s player and play the file according to its
 file name and the IP address of the HTTP server:
 
     nsh> nxplayer
@@ -298,7 +293,7 @@ commands:
 
 Combines the capabilities of the `ble` and `wifi` configurations. ESP32
 has only one 2.4 GHz ISM band RF module, which is shared by Bluetooth
-(BT & BLE) and Wi-Fi, so Bluetooth can't receive or transmit data while
+(BT & BLE) and Wi-Fi, so Bluetooth can\'t receive or transmit data while
 Wi-Fi is receiving or transmitting data and vice versa. Under such
 circumstances, ESP32 uses the time-division multiplexing method to
 receive and transmit packets.
@@ -317,14 +312,11 @@ using the `sensortest` application:
 
 This configuration enables brickmatch game using LCD screen (APA102) and
 gesture sensor (APDS9960). Alternatively, you can use led matrix
-(ws2812) by enabling
-<span class="title-ref">GAMES\_BRICKMATCH\_USE\_LED\_MATRIX</span>
+(ws2812) by enabling [GAMES\_BRICKMATCH\_USE\_LED\_MATRIX]{.title-ref}
 option for output device. Also for input device selection you can enable
-<span class="title-ref">GAMES\_BRICKMATCH\_USE\_DJOYSTICK</span> to use
-joystick, <span class="title-ref">GAMES\_BRICKMATCH\_USE\_GPIO</span> to
-use gpio and
-<span class="title-ref">GAMES\_BRICKMATCH\_USE\_CONSOLEKEY</span> to use
-serial console.
+[GAMES\_BRICKMATCH\_USE\_DJOYSTICK]{.title-ref} to use joystick,
+[GAMES\_BRICKMATCH\_USE\_GPIO]{.title-ref} to use gpio and
+[GAMES\_BRICKMATCH\_USE\_CONSOLEKEY]{.title-ref} to use serial console.
 
 You can run the game by using `brick` command:
 
@@ -333,7 +325,7 @@ You can run the game by using `brick` command:
 Here is the sample wiring diagram that demonstrates how to wire ws2812
 with buttons for brickmatch example:
 
-![](esp32-brickmatch-game-schematic.jpg)
+![](esp32-brickmatch-game-schematic.jpg){.align-center}
 
 ### buttons
 
@@ -373,18 +365,10 @@ maximum number of cores for this system. It also enables some
 optimization flags and disables the NuttShell to get the best possible
 score.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the NSH is disabled, the application will start as soon as the system
 is turned on.
-
-</div>
 
 ### cxx
 
@@ -415,46 +399,22 @@ setup was successful by running `cxxtest`:
 This configuration enables DAC and registers a [DAC example
 application](https://github.com/apache/nuttx-apps/tree/master/examples/dac).
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The DAC module is hard-wired to pins 25 (channel 0) and 26 (channel 1).
 The default device name is `/dev/dac0` and can be changed in the config
 menu.
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The DAC channels in
 [IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/dac.html)
 are numbered `channel 1` (pin 25) and `channel 2` (pin 26).
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Max value 255 should be close to VRef (3.3V) but it probably will not.
 You can more realistically expect to get voltage around 3.09V.
-
-</div>
 
 With this example you can use (not only) the following commands:
 
@@ -520,24 +480,24 @@ peripherals.
 
 **I2S0 pinout**
 
-| ESP32 Pin | Signal Pin | Description         |
-| --------- | ---------- | ------------------- |
-| 0         | MCLK       | Master Clock        |
-| 4         | BCLK       | Bit Clock (SCLK)    |
-| 5         | WS         | Word Select (LRCLK) |
-| 18        | DOUT       | Data Out            |
-| 19        | DIN        | Data IN             |
+  ESP32 Pin   Signal Pin   Description
+  ----------- ------------ ---------------------
+  0           MCLK         Master Clock
+  4           BCLK         Bit Clock (SCLK)
+  5           WS           Word Select (LRCLK)
+  18          DOUT         Data Out
+  19          DIN          Data IN
 
 **I2S1 pinout**
 
-| ESP32 Pin | Signal Pin | Description         |
-| --------- | ---------- | ------------------- |
-| 22        | BCLK       | Bit Clock (SCLK)    |
-| 23        | WS         | Word Select (LRCLK) |
-| 25        | DOUT       | Data Out            |
-| 26        | DIN        | Data IN             |
+  ESP32 Pin   Signal Pin   Description
+  ----------- ------------ ---------------------
+  22          BCLK         Bit Clock (SCLK)
+  23          WS           Word Select (LRCLK)
+  25          DOUT         Data Out
+  26          DIN          Data IN
 
-After successfully built and flashed, run on the boards's terminal:
+After successfully built and flashed, run on the boards\'s terminal:
 
     i2schar -p /dev/i2schar[0-1]
 
@@ -558,20 +518,12 @@ Controller is able to restrict the application access to peripherals,
 on-chip memories (Internal ROM and Internal SRAM) and off-chip memories
 (External Flash and PSRAM).
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 \* The PID Controller driver is in **EXPERIMENTAL** state, so please
 consider the Protected Mode feature for ESP32 a **Proof-of-Concept**. \*
 The PID Controller **does not** prevent the application from accessing
 CPU System Registers.
-
-</div>
 
 ### leds
 
@@ -595,11 +547,11 @@ to GPIO2) to demonstrate the use of the userleds subsystem:
 This configuration enables the use of the MAX6675 temperature sensor
 over SPI. The following pin configuration is used to connect the sensor:
 
-| Pin | Signal |
-| --- | ------ |
-| 15  | CS     |
-| 14  | SCK    |
-| 12  | MISO   |
+  Pin   Signal
+  ----- --------
+  15    CS
+  14    SCK
+  12    MISO
 
 You can check that the sensor is working by using the `max6675`
 application:
@@ -619,12 +571,12 @@ application:
 This config is used to communicate with MCP2515 CAN over SPI chip. SPI3
 is used and kept with the default IOMUX pins, i.e.:
 
-| Pin | Signal |
-| --- | ------ |
-| 5   | CS     |
-| 18  | SCK    |
-| 23  | MOSI   |
-| 19  | MISO   |
+  Pin   Signal
+  ----- --------
+  5     CS
+  18    SCK
+  23    MOSI
+  19    MISO
 
 The MCP2515 interrupt (INT) pin is connected to the pin 22 of the
 ESP32-Devkit.
@@ -725,7 +677,7 @@ should be outputted:
     nsh> mqttc_pub -h 192.168.1.11
          Success: Connected to broker!
          Success: Published to broker!
-    
+
          Disconnecting from 192.168.1.11
 
 From the host the message `test` should be outputted.
@@ -755,14 +707,14 @@ application:
 
     nsh> nxdiag --all
     Nxdiag Report:
-    
+
     NuttX RTOS info:
             Hostname:
             Release: 10.4.0
             Build: 75e13a67ba-dirty May 24 2023 14:53:27
             Arch: xtensa
             Config: esp32-devkitc:nxdiag
-    
+
     NuttX CFLAGS:
             -fno-common
             -Wall
@@ -780,36 +732,28 @@ the other.
 The I2S1 will act as a receiver (master mode), capturing data from DIN,
 which needs to be connected to an external source as follows:
 
-| ESP32 Pin | Signal Pin | Description         |
-| --------- | ---------- | ------------------- |
-| 22        | BCLK       | Bit Clock (SCLK)    |
-| 23        | WS         | Word Select (LRCLK) |
-| 26        | DIN        | Data IN             |
+  ESP32 Pin   Signal Pin   Description
+  ----------- ------------ ---------------------
+  22          BCLK         Bit Clock (SCLK)
+  23          WS           Word Select (LRCLK)
+  26          DIN          Data IN
 
 **Transmitting data on I2S0**
 
 The I2S0 will act as a transmitter (master mode), replicating the data
 captured on I2S1. The pinout for the transmitter is as follows:
 
-| ESP32 Pin | Signal Pin | Description         |
-| --------- | ---------- | ------------------- |
-| 0         | MCLK       | Master Clock        |
-| 4         | BCLK       | Bit Clock (SCLK)    |
-| 5         | WS         | Word Select (LRCLK) |
-| 18        | DOUT       | Data Out            |
-
-<div class="note">
-
-<div class="title">
+  ESP32 Pin   Signal Pin   Description
+  ----------- ------------ ---------------------
+  0           MCLK         Master Clock
+  4           BCLK         Bit Clock (SCLK)
+  5           WS           Word Select (LRCLK)
+  18          DOUT         Data Out
 
 Note
 
-</div>
-
 The audio codec CS4344 can be connected to the transmitter pins to
-reproduce the captured data if the receiver's source is an audio data.
-
-</div>
+reproduce the captured data if the receiver\'s source is an audio data.
 
 **nxlooper**
 
@@ -818,18 +762,12 @@ receiving capabilities (the I2S1 on this example) and forwards the audio
 data frame to the audio device with transmitting capabilities (the I2S0
 on this example).
 
-After successfully built and flashed, run on the boards' terminal:
+After successfully built and flashed, run on the boards\' terminal:
 
     nsh> nxlooper
     nxlooper> loopback
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `loopback` command default arguments for the channel configuration, the
 data width and the sample rate are, respectively, 2 channels, 16
@@ -837,8 +775,6 @@ bits/sample and 48KHz. These arguments can be supplied to select
 different audio formats, for instance:
 
 nxlooper\> loopback 2 8 44100
-
-</div>
 
 ### oneshot
 
@@ -896,7 +832,7 @@ to GPIO12. To test it, just execute the `pwm` application:
     pwm_main: starting output with frequency: 10000 duty: 00008000
     pwm_main: stopping output
 
-qencoder ---
+qencoder \-\--
 
 This configuration demonstrates the use of Quadrature Encoder connected
 to pins GPIO10 and GPIO11. You can start measurement of pulses using the
@@ -907,7 +843,7 @@ following command (by default, it will open `\dev\qe0` device and print
 
 ### random
 
-This configuration shows the use of the ESP32's True Random Number
+This configuration shows the use of the ESP32\'s True Random Number
 Generator with entropy sourced from Wi-Fi and Bluetooth noise. To test
 it, just run `rand` to get 32 randomly generated bytes:
 
@@ -965,7 +901,7 @@ The apps/testing/smp test is included:
 
 This configuration enables snake game using led matrix (ws2812) and gpio
 pins. Alternatively, you can use serial console for input with enabling
-<span class="title-ref">GAMES\_SNAKE\_USE\_CONSOLEKEY</span> option.
+[GAMES\_SNAKE\_USE\_CONSOLEKEY]{.title-ref} option.
 
 You can run the game by using `snake` command:
 
@@ -974,7 +910,7 @@ You can run the game by using `snake` command:
 Here is the sample wiring diagram that demonstrates how to wire ws2812
 with buttons for snake example:
 
-![](esp32-brickmatch-game-schematic.jpg)
+![](esp32-brickmatch-game-schematic.jpg){.align-center}
 
 ### sotest
 
@@ -1007,18 +943,11 @@ In this case, you are creating the access point `nuttxapp` in your board
 and to connect to it on your smartphone you will be required to type the
 password `mypasswd` using WPA2.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>`{.interpreted-text
+role="ref"} for more information.
 
 The `dhcpd_start` is necessary to let your board to associate an IP to
 your smartphone.
@@ -1044,9 +973,9 @@ Where x in the timer instance.
 This configuration enables the support for the TWAI (Two-Wire Automotive
 Interface) driver. You can test it by connecting TWAI RX and TWAI TX
 pins which are GPIO0 and GPIO2 by default to a external transceiver or
-connecting TWAI RX to TWAI TX pin by enabling the `Device Drivers -> CAN
-Driver Support -> CAN loopback mode` option and running the `can`
-example:
+connecting TWAI RX to TWAI TX pin by enabling the
+`Device Drivers -> CAN Driver Support -> CAN loopback mode` option and
+running the `can` example:
 
     nsh> can
     nmsgs: 0
@@ -1063,13 +992,13 @@ example:
 This config is an example to use wasm-micro-runtime. It can run both of
 wasm bytecode and AoT compiled modules.
 
-This example uses littlefs on ESP32's SPI flash to store wasm modules.
+This example uses littlefs on ESP32\'s SPI flash to store wasm modules.
 
 1.  Create a littlefs image which contains wasm modules.
-    
+
     <https://github.com/jrast/littlefs-python/blob/master/examples/mkfsimg.py>
     is used in the following example:
-    
+
         % python3 mkfsimg.py \
           --img-filename ..../littlefs.bin \
           --img-size 2621440 \
@@ -1081,7 +1010,7 @@ This example uses littlefs on ESP32's SPI flash to store wasm modules.
           ..../wasm_binary_directory
 
 2.  Write the NuttX image and the filesystem to ESP32:
-    
+
         % esptool.py \
           --chip esp32 \
           --port /dev/tty.SLAB_USBtoUART \
@@ -1093,7 +1022,7 @@ This example uses littlefs on ESP32's SPI flash to store wasm modules.
           0x180000 ..../littlefs.bin
 
 3.  Mount the filesystem and run a wasm module on it:
-    
+
         nsh> mount -t littlefs /dev/esp32flash /mnt
         nsh> iwasm /mnt/....
 
@@ -1107,25 +1036,18 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.
 
 ### wifi\_smp
 
@@ -1215,7 +1137,7 @@ interfaces:
     nsh> ifconfig
     wlan0   Link encap:Ethernet HWaddr bc:dd:c2:d4:a9:ec at RUNNING mtu 1504
             inet addr:192.168.0.7 DRaddr:192.168.0.1 Mask:255.255.255.0
-    
+
     wlan1   Link encap:Ethernet HWaddr bc:dd:c2:d4:a9:ed at DOWN mtu 1504
             inet addr:0.0.0.0 DRaddr:0.0.0.0 Mask:0.0.0.0
 
@@ -1238,8 +1160,8 @@ Finally we will setup an iptables rule to NAT the wlan0 interface:
     nsh> iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 
 After connectig a client (i.e. Linux computer) to the
-<span class="title-ref">nuttxap</span> Access Point you can confirm it
-is working this way:
+[nuttxap]{.title-ref} Access Point you can confirm it is working this
+way:
 
      ifconfig
     lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
@@ -1250,7 +1172,7 @@ is working this way:
             RX errors 0  dropped 0  overruns 0  frame 0
             TX packets 5666  bytes 547514 (547.5 KB)
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-    
+
     wlp0s20f3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
             inet 10.0.0.4  netmask 255.255.255.0  broadcast 10.0.0.255
             inet6 xxxx::xxxx:xxx:xxxx:xx  prefixlen 64  scopeid 0x20<link>
@@ -1259,7 +1181,7 @@ is working this way:
             RX errors 0  dropped 0  overruns 0  frame 0
             TX packets 37079  bytes 23604536 (23.6 MB)
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-    
+
      ping 10.0.0.1
     PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
     64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=3.28 ms
@@ -1267,7 +1189,7 @@ is working this way:
     64 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=2.63 ms
     64 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=18.9 ms
     64 bytes from 10.0.0.1: icmp_seq=5 ttl=64 time=4.82 ms
-    
+
      ping 8.8.8.8
     PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
     64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=63.0 ms
@@ -1278,22 +1200,28 @@ is working this way:
 
 That is it. You can use this 8.8.8.8 as DNS to resolve names.
 
-## Debugging with OpenOCD
+Debugging with OpenOCD
+----------------------
 
 ### Akizukidenshi FT232HL
 
-Akizukidenshi's FT232HL, a FT232H based JTAG adapter
+Akizukidenshi\'s FT232HL, a FT232H based JTAG adapter
 (<http://akizukidenshi.com/catalog/g/gK-06503/>) with JP3 and JP4
 closed, and connected to ESP32 as:
 
-\+------------------+-------------+ | ESP32-DevKitC V4 | FT232HL |
-+=======+==========+=============+ | J2 | J3 | J2 |
-+-------+----------+-------------+ | IO13 | | AD0 (TCK) |
-+-------+----------+-------------+ | IO12 | | AD1 (TDI) |
-+-------+----------+-------------+ | | IO15 | AD2 (TDO) |
-+-------+----------+-------------+ | IO14 | | AD3 (TMS) |
-+-------+----------+-------------+ | GND | | GND |
-+-------+----------+-------------+
++\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \|
+ESP32-DevKitC V4 \| FT232HL \| +=======+==========+=============+ \| J2
+\| J3 \| J2 \|
++\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \| IO13 \|
+\| AD0 (TCK) \|
++\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \| IO12 \|
+\| AD1 (TDI) \|
++\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \| \| IO15
+\| AD2 (TDO) \|
++\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \| IO14 \|
+\| AD3 (TMS) \|
++\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+ \| GND \|
+\| GND \| +\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\--+\-\-\-\-\-\-\-\-\-\-\-\--+
 
 can be used with ESP-IDF version of openocd with:
 

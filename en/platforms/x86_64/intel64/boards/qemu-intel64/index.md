@@ -1,17 +1,19 @@
-# qemu-intel64
+qemu-intel64
+============
 
 This page file describes the contents of the build configurations
 available for the NuttX QEMU x86\_64 port.
 
-## QEMU/KVM
+QEMU/KVM
+--------
 
 QEMU is a generic and open source machine emulator and virtual machine.
 Here are some links (which will probably be mostly outdated by the time
 your read this):
 
-  - Home Page: <http://wiki.qemu.org/Main_Page>
-  - Downloads: <http://wiki.qemu.org/Download>
-  - Documentation: <http://wiki.qemu.org/Manual>
+-   Home Page: <http://wiki.qemu.org/Main_Page>
+-   Downloads: <http://wiki.qemu.org/Download>
+-   Documentation: <http://wiki.qemu.org/Manual>
 
 KVM is the Linux kernel hypervisor. It supports creations of virtual
 machines in Linux systems. It is usually coupled with Qemu as its I/O
@@ -55,14 +57,15 @@ information about the enumeration of the PCI bus.
 If you want to boot using UEFI and TianoCore you will need to add a flag
 like this to point at OVMF `--bios /usr/share/edk2/ovmf/OVMF_CODE.fd`
 
-## Bochs
+Bochs
+-----
 
 Bochs is also a generic and open source machine emulator and
 virtualizer. It does very comprehensive emulation of x86 platform, even
 the state-of-art processors. Here are some links (which will probably be
 mostly outdated by the time your read this):
 
-  - Home Page: <http://bochs.sourceforge.net>
+-   Home Page: <http://bochs.sourceforge.net>
 
 The bochs can be build from source. Unlike qemu, it does not rely on KVM
 to support modern hardware features, therefore it can also be used under
@@ -73,68 +76,71 @@ enable them with `--enable-avx --enable-evex`.
 ### Running Bochs
 
 First edit/check the `.bochsrc` You can create one in the top-level
-NuttX directory or bochs will use the one in your HOME. Remember to
+NuttX directory or bochs will use the one in your \HOME. Remember to
 change the CPU model to one with mandatory features and enable the COM
 port.
 
-  - Find and edit (You might adjust the IPS as you machine perform):
-    
+-   Find and edit (You might adjust the IPS as you machine perform):
+
         cpu: model=broadwell_ult, count=1, ips=50000000, reset_on_triple_fault=0, ignore_bad_msrs=0, msrs="msrs.def"
         ata0-master: type=cdrom, path="<PATH TO boot.iso>", status=inserted
 
-  - Add:
-    
+-   Add:
+
         com1: enabled=1, mode=file, dev=com1.out
 
-  - In the top-level NuttX directory:
-    
+-   In the top-level NuttX directory:
+
         bochs
 
 The emulator will drop into debugger mode. Enter `c` to start the
 emulation. COM port output will be in the com1.out file.
 
-## Real machine
+Real machine
+------------
 
 This port can work on real x86-64 machine with a proper CPU. The
 mandatory CPU features are:
 
-  - TSC DEADLINE or APIC timer or HPET
-  - PCID
-  - X2APIC
-  - legacy serial port support or PCI serial card (AX99100 only
+-   TSC DEADLINE or APIC timer or HPET
+-   PCID
+-   X2APIC
+-   legacy serial port support or PCI serial card (AX99100 only
     supported now)
 
-WARNING: IF you use TSC DEADLINE, make sure that your CPU's TSC DEADLINE
-timer is not buggy\!
+WARNING: IF you use TSC DEADLINE, make sure that your CPU\'s TSC
+DEADLINE timer is not buggy!
 
-## Toolchains
+Toolchains
+----------
 
 Currently, only the Linux GCC toolchain is tested. While building on a
 modern x86\_64 PC, the default system GCC can be used.
 
-## Configurations
+Configurations
+--------------
 
 ### Common Configuration Notes
 
 1.  Each Qemu-intel64 configuration is maintained in a sub-directory and
     can be selected as follow:
-    
+
         tools/configure.sh qemu-intel64:<subdir>
-    
+
     Where `<subdir>` is one of the configuration sub-directories
     described in the following paragraph.
 
 2.  These configurations use the mconf-based configuration tool. To
     change a configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute `make menuconfig` in nuttx/ in order to start the
+    b.  Execute `make menuconfig` in nuttx/ in order to start the
         reconfiguration process.
 
 3.  By default, all configurations assume the Linux. This is easily
     reconfigured:
-    
+
         CONFIG_HOST_LINUX=y
 
 ### Configuration Sub-Directories
@@ -156,7 +162,7 @@ serial port card (AX99100).
 
 ### ostest
 
-The "standard" NuttX examples/ostest configuration with the default
+The \"standard\" NuttX examples/ostest configuration with the default
 console on legacy UART0 port (base=0x3f8)
 
 ### jumbo

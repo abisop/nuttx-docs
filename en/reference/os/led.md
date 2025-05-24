@@ -1,4 +1,5 @@
-# LED Support
+LED Support
+===========
 
 A board architecture may or may not have LEDs. If the board does have
 LEDs, then most architectures provide similar LED support that is
@@ -7,15 +8,16 @@ file. This LED support is part of architecture-specific logic and is not
 managed by the core NuttX logic. However, the support provided by each
 architecture is sufficiently similar that it can be documented here.
 
-## Header Files
+Header Files
+------------
 
 LED-related definitions are provided in two header files:
 
-  - LED definitions are provided for each board in the `board.h` that
+-   LED definitions are provided for each board in the `board.h` that
     resides in the `<board-name>/include/board.h` file (which is also
     linked to `include/arch/board/board.h` when the RTOS is configured).
     Those definitions are discussed [below](#leddefinitions).
-  - The board-specific logic provides unique instances of the LED
+-   The board-specific logic provides unique instances of the LED
     interfaces. This is because the implementation of LED support may be
     very different on different boards. Prototypes for these
     board-specific implementations are, however, provided in
@@ -24,7 +26,8 @@ LED-related definitions are provided in two header files:
     locations in particular architectures. These prototypes are
     discussed [below](#ledapis).
 
-## LED Definitions
+LED Definitions
+---------------
 
 The implementation of LED support is very specific to a board
 architecture. Some boards have several LEDS, others have only one or
@@ -37,7 +40,7 @@ hardware available on the board.
 The model used by NuttX is that the board can show 8 events defined as
 follows in `<board-name>/include/board.h`:
 
-``` c
+``` {.c}
 #define LED_STARTED       ??
 #define LED_HEAPALLOCATE  ??
 #define LED_IRQSENABLED   ??
@@ -52,30 +55,31 @@ The specific value assigned to each pre-processor variable can be
 whatever makes the implementation easiest for the board logic. The
 *meaning* associated with each definition is as follows:
 
-  - `LED_STARTED` is the value that describes the setting of the LEDs
+-   `LED_STARTED` is the value that describes the setting of the LEDs
     when the LED logic is first initialized. This LED value is set but
     never cleared.
-  - `LED_HEAPALLOCATE` indicates that the NuttX heap has been
+-   `LED_HEAPALLOCATE` indicates that the NuttX heap has been
     configured. This is an important place in the boot sequence because
     if the memory is configured wrong, it will probably crash leaving
     this LED setting. This LED value is set but never cleared.
-  - `LED_IRQSENABLED` indicates that interrupts have been enabled.
+-   `LED_IRQSENABLED` indicates that interrupts have been enabled.
     Again, during bring-up (or if there are hardware problems), it is
     very likely that the system may crash just when interrupts are
     enabled, leaving this setting on the LEDs. This LED value is set but
     never cleared.
-  - `LED_STACKCREATED` is set each time a new stack is created. If set,
+-   `LED_STACKCREATED` is set each time a new stack is created. If set,
     it means that the system attempted to start at least one new thread.
     This LED value is set but never cleared.
-  - `LED_INIRQ` is set and cleared on entry and exit from each
+-   `LED_INIRQ` is set and cleared on entry and exit from each
     interrupt. If interrupts are working okay, this LED will have a dull
     glow.
-  - `LED_SIGNAL` is set and cleared on entry and exit from a signal
+-   `LED_SIGNAL` is set and cleared on entry and exit from a signal
     handler. Signal handlers are tricky so this is especially useful
     during bring-up or a new architecture.
-  - `LED_ASSERTION` is set if an assertion occurs.
-  - `LED_PANIC` will blink at around 1Hz if the system panics and hangs.
+-   `LED_ASSERTION` is set if an assertion occurs.
+-   `LED_PANIC` will blink at around 1Hz if the system panics and hangs.
 
-## Common LED interfaces
+Common LED interfaces
+---------------------
 
 The `include/nuttx/board.h` includes the following declarations:

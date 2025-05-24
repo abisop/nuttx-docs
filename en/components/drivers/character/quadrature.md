@@ -1,36 +1,38 @@
-# Quadrature Encoder Drivers
+Quadrature Encoder Drivers
+==========================
 
 NuttX supports a low-level, two-part Quadrature Encoder driver.
 
-1.  An "upper half", generic driver that provides the common Quadrature
-    Encoder interface to application level code, and
-2.  A "lower half", platform-specific driver that implements the
+1.  An \"upper half\", generic driver that provides the common
+    Quadrature Encoder interface to application level code, and
+2.  A \"lower half\", platform-specific driver that implements the
     low-level timer controls to implement the Quadrature Encoder
     functionality.
 
 Files supporting the Quadrature Encoder can be found in the following
 locations:
 
-  - **Interface Definition**. The header file for the NuttX Quadrature
+-   **Interface Definition**. The header file for the NuttX Quadrature
     Encoder driver reside at `include/nuttx/sensors/qencoder.h`. This
     header file includes both the application level interface to the
     Quadrature Encoder driver as well as the interface between the
-    "upper half" and "lower half" drivers. The Quadrature Encoder module
-    uses a standard character driver framework.
-  - **"Upper Half" Driver**. The generic, "upper half" Quadrature
+    \"upper half\" and \"lower half\" drivers. The Quadrature Encoder
+    module uses a standard character driver framework.
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" Quadrature
     Encoder driver resides at `drivers/sensors/qencoder.c`.
-  - **"Lower Half" Drivers**. Platform-specific Quadrature Encoder
+-   **\"Lower Half\" Drivers**. Platform-specific Quadrature Encoder
     drivers reside in `arch/<architecture>/src/<hardware>` directory for
     the specific processor `<architecture>` and for the specific
     `<chip>` Quadrature Encoder peripheral devices.
 
-## Application Programming Interface
+Application Programming Interface
+---------------------------------
 
 The first thing to be done in order to use the quadrature encoder driver
 from an application is to include the correct header filer. It contains
 the Application Programming Interface to the driver. To do so, include
 
-``` c
+``` {.c}
 #include <nuttx/sensors/qencoder.h>
 ```
 
@@ -43,11 +45,11 @@ The driver is accessed only through `ioctl` interface, functions `read`
 and `write` does not have any affect. Following `ioctl` commands are
 available:
 
->   - :c`QEIOC_POSITION`
->   - :c`QEIOC_RESET`
->   - :c`QEIOC_SETPOSMAX`
->   - :c`QEIOC_SETINDEX`
->   - :c`QEIOC_GETINDEX`
+> -   :c`QEIOC_POSITION`{.interpreted-text role="macro"}
+> -   :c`QEIOC_RESET`{.interpreted-text role="macro"}
+> -   :c`QEIOC_SETPOSMAX`{.interpreted-text role="macro"}
+> -   :c`QEIOC_SETINDEX`{.interpreted-text role="macro"}
+> -   :c`QEIOC_GETINDEX`{.interpreted-text role="macro"}
 
 This call gets the current position from the encoder driver. Argument of
 the call is a pointer to `int32_t` variable.
@@ -63,7 +65,7 @@ This ioctl sets the index position of the encoder. An argument is an
 This ioctl gets the index position of the encoder. An argument is a
 pointer to `qe_index_s` structure.
 
-``` c
+``` {.c}
 struct qe_index_s
 {
    /* Qencoder actual position */
@@ -85,7 +87,7 @@ An example application can be found in `nuttx-apps` repository under
 path `examples/qencoder`. It demonstrates the basic data read from an
 encoder device.
 
-``` console
+``` {.console}
 nsh> qe
 1.  0
 2.  0
@@ -98,7 +100,8 @@ nsh> qe
 9.  3
 ```
 
-## Configuration
+Configuration
+-------------
 
 This section describes qencoder driver configuration in `Kconfig`. The
 reader should refer to target documentation for target specific

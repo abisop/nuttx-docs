@@ -1,26 +1,20 @@
-# Debugging / flashing NuttX on ARM with hardware debugger (JTAG/SWD)
-
-<div class="warning">
-
-<div class="title">
+Debugging / flashing NuttX on ARM with hardware debugger (JTAG/SWD)
+===================================================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=139629444>
 
-</div>
-
 NOTE: If you experience the issues described on this page, you can
 enable the configuration option below to resolve it.
 
-``` makefile
+``` {.makefile}
 CONFIG_STM32_DISABLE_IDLE_SLEEP_DURING_DEBUG=y
 ```
 
-## What's the problem?
+What\'s the problem?
+--------------------
 
 On some architectures (like ARM Cortex-M3) Idle thread causes the core
 to stop using WFI (Wait For Interrupt) assembly instruction. This
@@ -30,7 +24,7 @@ were disconnected from the target, as they lose connection with the now
 stopped core. For example OpenOCD shows errors like these the moment you
 start the target:
 
-``` console
+``` {.console}
 Error: jtag status contains invalid mode value - communication failure
 Polling target failed, GDB will be halted. Polling again in 100ms
 Error: jtag status contains invalid mode value - communication failure
@@ -48,29 +42,30 @@ Polling target failed, GDB will be halted. Polling again in 6300ms
 ```
 
 This makes debugging the code impossible and flashing the chip is much
-harder -you have to connect to the chip at the right moment (when it's
+harder -you have to connect to the chip at the right moment (when it\'s
 not disabled due to WFI) - the chances of doing that are inverse
 proportional to the load of your system (if your chip spends 99% of time
 in Idle mode, you have 1% chance of connecting and halting it).
 
-## Solution
+Solution
+--------
 
 Some ARM cores that support disabling of clocking after WFI instruction
 have special configuration options to make debugging possible. One
-example is STM32 family - with it's `DBGMCU->CR` register it's possible
-to keep the core clocked during power-down modes. If your chip supports
-such configuration you should put it in some early stage of
+example is STM32 family - with it\'s `DBGMCU->CR` register it\'s
+possible to keep the core clocked during power-down modes. If your chip
+supports such configuration you should put it in some early stage of
 initialization, like in `stm32_boardinitialize()` function. The
 following code demonstrates the change for STM32:
 
-``` c
+``` {.c}
 uint32_t cr = getreg32(STM32_DBGMCU_CR);
 cr |= DBGMCU_CR_STANDBY | DBGMCU_CR_STOP | DBGMCU_CR_SLEEP;
 putreg32(cr, STM32_DBGMCU_CR);
 ```
 
-If your chip doesn't provide such options there is no other way than not
-using WFI instruction in up\_idle() function.
+If your chip doesn\'t provide such options there is no other way than
+not using WFI instruction in up\_idle() function.
 
 It should be noted that such modification should be done only for
 development stage, as keeping the core clocked during power-down modes
@@ -87,9 +82,9 @@ OpenOCD to do that for you.
 If you keep the RESET button pressed and run OpenOCD command to
 connected to it, then it will connect successful. After connecting you
 need to keep the reset button pressed until you open the telnet
-connection (telnet 127.0.0.1 4444) and execute "reset halt":
+connection (telnet 127.0.0.1 4444) and execute \"reset halt\":
 
-``` console
+``` {.console}
 > reset halt
 timed out while waiting for target halted
 TARGET: stm32f1x.cpu - Not halted
@@ -106,7 +101,7 @@ This work-around was tested on viewtool-stm32f107 board and bypassed the
 above error reported by OpenOCD. The SWD programmer was a STLink-V2 and
 this was the command to connect:
 
-``` console
+``` {.console}
 openocd -f interface/stlink-v2.cfg -f target/stm32f1x_stlink.cfg
 ```
 

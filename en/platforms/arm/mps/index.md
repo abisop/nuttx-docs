@@ -1,5 +1,7 @@
-# MPS
+MPS
+===
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

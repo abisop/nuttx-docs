@@ -1,17 +1,20 @@
-# XMC4500 Relax
+XMC4500 Relax
+=============
 
 There are to variants of this board: There is a Lite version that has
 fewer features, for example, no 32.768KHz crystal.
 
 The current configurations support only the Lite version of the board.
 
-## Status
+Status
+------
 
 2017-03-21: The XMC4500 Relax boots into NSH, provides the NSH prompt,
 and the LEDs are working. But there is a problem with serial input. The
 most likely reason for this is there are no serial RX interrupts.
 
-## Serial Console
+Serial Console
+--------------
 
 Be default, UART0 (aka, USIC0, channel 0) is used as the serial console.
 The RX and TX pins is available:
@@ -27,7 +30,8 @@ required. The notion of what is TX and what is RX depends on your point
 of view. With the TTL to RS-232 converter, I connect pin 17 to the pin
 labeled TX on the converter and pin 16 to the RX pin on the converter.
 
-## LEDs
+LEDs
+----
 
 The XMC4500 Relax Lite v1 board has two LEDs:
 
@@ -43,33 +47,32 @@ defined. In that case, the usage by the board port is defined in
 include/board.h and src/sam\_autoleds.c. The LEDs are used to encode
 OS-related events as follows:
 
-> 
-> 
-> | SYMBOL            | Meaning                 | LED1 | LED2     |
-> | ----------------- | ----------------------- | ---- | -------- |
-> | LED\_STARTED      | NuttX has been started  | OFF  | OFF      |
-> | LED\_HEAPALLOCATE | Heap has been allocated | OFF  | OFF      |
-> | LED\_IRQSENABLED  | Interrupts enabled      | OFF  | OFF      |
-> | LED\_STACKCREATED | Idle stack created      | ON   | OFF      |
-> | LED\_INIRQ        | In an interrupt         | N/C  | N/C      |
-> | LED\_SIGNAL       | In a signal handler     | N/C  | N/C      |
-> | LED\_ASSERTION    | An assertion failed     | N/C  | N/C      |
-> | LED\_PANIC        | The system has crashed  | N/C  | Blinking |
-> | LED\_IDLE         | MCU is is sleep mode    | N/C  | N/C      |
-> 
+>   SYMBOL              Meaning                   LED1   LED2
+>   ------------------- ------------------------- ------ ----------
+>   LED\_STARTED        NuttX has been started    OFF    OFF
+>   LED\_HEAPALLOCATE   Heap has been allocated   OFF    OFF
+>   LED\_IRQSENABLED    Interrupts enabled        OFF    OFF
+>   LED\_STACKCREATED   Idle stack created        ON     OFF
+>   LED\_INIRQ          In an interrupt           N/C    N/C
+>   LED\_SIGNAL         In a signal handler       N/C    N/C
+>   LED\_ASSERTION      An assertion failed       N/C    N/C
+>   LED\_PANIC          The system has crashed    N/C    Blinking
+>   LED\_IDLE           MCU is is sleep mode      N/C    N/C
 
 Thus if LED1 is statically on, NuttX has successfully booted and is,
 apparently, running normally. If LED2 is flashing at approximately 2Hz,
 then a fatal error has been detected and the system has halted.
 
-## Buttons
+Buttons
+-------
 
 The XMC4500 Relax Lite v1 board has two buttons:
 
     BUTTON1 P1.14 Low input sensed when button pressed
     BUTTON2 P1.15 Low input sensed when button pressed
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -78,8 +81,9 @@ can be selected as follow:
 
     .tools/configure.sh xmc4500-relax:<subdir>
 
-See '.tools/configure.sh -h' for a list of all options. The most typical
-are -l to select the Linux host or -c to select the Windows Cygwin host.
+See \'.tools/configure.sh -h\' for a list of all options. The most
+typical are -l to select the Linux host or -c to select the Windows
+Cygwin host.
 
 Before starting the build, make sure that your PATH environment variable
 includes the correct path to your toolchain.
@@ -97,23 +101,23 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  Unless stated otherwise, all configurations generate console output
-    on UART0 (aka USIC0, channel 0) as described above under "Serial
-    Console". The relevant configuration settings are listed below:
-    
+    on UART0 (aka USIC0, channel 0) as described above under \"Serial
+    Console\". The relevant configuration settings are listed below:
+
         CONFIG_XMC4_USIC0=y
         CONFIG_XMC4_USIC0_CHAN0_ISUART=y
         CONFIG_XMC4_USIC0_CHAN1_NONE=y
-        
+
         CONFIG_UART0_SERIALDRIVER=y
         CONFIG_UART0_SERIAL_CONSOLE=y
-        
+
         CONFIG_UART0_RXBUFSIZE=256
         CONFIG_UART0_TXBUFSIZE=256
         CONFIG_UART0_BAUD=115200
@@ -122,14 +126,14 @@ NOTES:
         CONFIG_UART0_2STOP=0
 
 3.  All of these configurations are set up to build under Windows using
-    the "GNU Tools for ARM Embedded Processors" that is maintained by
+    the \"GNU Tools for ARM Embedded Processors\" that is maintained by
     ARM (unless stated otherwise in the description of the
     configuration).
-    
+
     > <https://developer.arm.com/open-source/gnu-toolchain/gnu-rm>
 
-That toolchain selection can easily be reconfigured using 'make
-menuconfig'. Here are the relevant current settings:
+That toolchain selection can easily be reconfigured using \'make
+menuconfig\'. Here are the relevant current settings:
 
 Build Setup:
 
@@ -160,7 +164,8 @@ Application Configuration:
 
     CONFIG_NSH_BUILTIN_APPS=y  : Enable starting apps from NSH command line
 
-## SPI
+SPI
+---
 
 ### Using MAX6675 Thermocouple
 

@@ -1,6 +1,8 @@
-# Device Tree
+Device Tree
+===========
 
-## Overview
+Overview
+--------
 
 Currently, NuttX supports parsing of FDT(Flattened Device Tree) using
 libfdt, a utility library for reading and manipulating the binary
@@ -12,15 +14,14 @@ Based on that, NuttX has implemented some common functions to get
 properties. Device Tree support in NuttX will reduce the configuration
 of chips/boards, it is not used in NuttX kernel framework yet.
 
-## How to use
+How to use
+----------
 
 1.  Enable Device Tree and libfdt
 
 Enable the Kconfig settings:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 > CONFIG_DEVICE_TREE=y                        /* Enable Device Tree */
 > CONFIG_LIBFDT=y                             /* Enable utility library */
 > ```

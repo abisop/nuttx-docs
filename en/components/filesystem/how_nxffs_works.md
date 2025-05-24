@@ -1,17 +1,10 @@
-# How NXFFS works
-
-<div class="warning">
-
-<div class="title">
+How NXFFS works
+===============
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/How+NXFFS+Works>
-
-</div>
 
 ![image](nxffs/nxffs_page_0.png)
 

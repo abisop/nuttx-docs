@@ -1,5 +1,7 @@
-# QEMU
+QEMU
+====
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

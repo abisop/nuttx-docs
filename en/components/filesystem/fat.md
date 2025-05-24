@@ -1,4 +1,5 @@
-# FAT
+FAT
+===
 
 File Allocation Table (FAT) is a very simple file system designed by
 Microsoft and, as the name suggests, it uses a table to track clusters
@@ -16,31 +17,26 @@ extension that allows for long file names. This page contains
 information about the FAT file system from the perspective of the
 implementation of FAT that exists in NuttX.
 
-## FAT Structure
+FAT Structure
+-------------
 
 The number beside `FAT` (eg. `16` in `FAT16`) represents the number of
 bits used for each entry in the allocation table. A FAT volume has
 multiple sections:
 
-  - **Master Boot Record**: Master Boot Record (MBR) or Boot Sector
+-   **Master Boot Record**: Master Boot Record (MBR) or Boot Sector
     contains information needed by the file system to access the volume,
-    including the volume's layout and file system structure, akin to a
+    including the volume\'s layout and file system structure, akin to a
     superblock in Linux file systems.
-  - **Allocation Table Region**: Stores the file allocation table, as
+-   **Allocation Table Region**: Stores the file allocation table, as
     well as its copy which acts as a backup. The file allocation table
     keeps a track of all the clusters in the volume, and thus has one
     entry for each cluster.
-  - **Root Directory**: It stores a directory table containing entries
+-   **Root Directory**: It stores a directory table containing entries
     describing the files and directories stored on the volume. Each
     entry contains metadata about file system objects.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Root Directory exists as a separate section if the volume is for `FAT12`
 or `FAT16`, right after the Allocation Table Region and has a fixed
@@ -49,24 +45,23 @@ region for the Root Directory, but has it incorporated into the
 following Data Region, and thus `FAT32` does not have any hard coded
 upper limit to the number of entries.
 
-</div>
-
-  - **Data Region**: This region stores the actual data of the files as
+-   **Data Region**: This region stores the actual data of the files as
     well as directory data. Data Region is divided into multiple
     clusters, which are numbered sequentially and have corresponding
     entries in the allocation table. Cluster sizes can vary depending on
     the volume size as well as on the type of the FAT file system.
 
-The first entry in the Allocation Table is for the volume's FAT ID while
-the second entry indicates that the cluster is reserved. Given that
-`FAT32` does not have a dedicated Root Directory section, in `FAT32`
-volume, the third entry points to the root directory.
+The first entry in the Allocation Table is for the volume\'s FAT ID
+while the second entry indicates that the cluster is reserved. Given
+that `FAT32` does not have a dedicated Root Directory section, in
+`FAT32` volume, the third entry points to the root directory.
 
 File names can be either
 [short](https://en.wikipedia.org/wiki/8.3_filename) (also known as 8.3
 filename or SFN), or long (LFN), till a maximum length limit.
 
-## Master Boot Record (MBR)
+Master Boot Record (MBR)
+------------------------
 
 The Boot Record may be one of two types. One is a much older type which
 does not contain partitions, and one more recent with them. One
@@ -82,14 +77,16 @@ of the drive. It allows for 4 primary partitions. It has FAT Boot
 Records (FBRs) at the start of every partition, which, for most parts,
 are identical in structure to the older MBRs.
 
-## Partition Table Entries
+Partition Table Entries
+-----------------------
 
 The partition table contains information for 4 primary partitions, each
 partition having entries in the table of 16 bytes each. These have
 various information about the partition including, but not limited to,
 type of the partition, starting sector, and partition size.
 
-## Allocation Table
+Allocation Table
+----------------
 
 The allocation table follows the boot record, and has an entry for each
 cluster available in the data region. Each entry has a size defined by
@@ -106,7 +103,8 @@ all of its bits are set (`0xFFF` for FAT12, `0xFFFF` for FAT16,
 The starting cluster (head of the file chain) is pointed to by the
 directory entry of that file.
 
-## Directory Entries
+Directory Entries
+-----------------
 
 A directory is basically a file which has a table that contains
 directory entries that contain the metadata about the files and
@@ -117,9 +115,9 @@ Root directory in FAT12/16 have a dedicated region, separate from the
 data area. In FAT32, root directory is just like a regular directory in
 the data region (ie. without any dedicated region) except for:
 
-  - Its starting cluster is denoted in the boot record.
-  - It is not pointed to by any other directory.
-  - It has no entries corresponding to `.` and `..` (all non-root
+-   Its starting cluster is denoted in the boot record.
+-   It is not pointed to by any other directory.
+-   It has no entries corresponding to `.` and `..` (all non-root
     directories have both of these entries).
 
 Directory entries are 32 bytes long, and start with an 11 bytes long
@@ -129,19 +127,20 @@ number and file size, to name a few.
 
 ### 8.3 filename
 
-The first byte of a directory's 8.3 filename (and hence first byte of
+The first byte of a directory\'s 8.3 filename (and hence first byte of
 the entire directory entry) has a special meaning. It has 3 possible
 values:
 
-  - `0xe5` : Denotes that the current directory entry is empty.
-  - `0x00` : Denotes that this entry, as well as all following entries,
+-   `0xe5` : Denotes that the current directory entry is empty.
+-   `0x00` : Denotes that this entry, as well as all following entries,
     are empty.
-  - `0x05` : Actual value is `0xe5`.
+-   `0x05` : Actual value is `0xe5`.
 
 The rest of the 7 + 3 byte of the directory entry are for the name (with
 extension).
 
-## Files
+Files
+-----
 
 The starting cluster of data in a file is pointed by the directory entry
 of the file.
@@ -154,23 +153,24 @@ location in the volume is given to a file.
 File attributes are denoted by a bit flag of the size of a single byte.
 The file flags in FAT, with their bit representation, are as follows:
 
-| Attribute Macro     | Bit representation | Hex value |
-| ------------------- | ------------------ | --------- |
-| `FATATTR_READONLY`  | `00000001`         | 0x1       |
-| `FATATTR_HIDDEN`    | `00000010`         | 0x2       |
-| `FATATTR_SYSTEM`    | `00000100`         | 0x4       |
-| `FATATTR_VOLUMEID`  | `00001000`         | 0x8       |
-| `FATATTR_DIRECTORY` | `00010000`         | 0x10      |
-| `FATATTR_ARCHIVE`   | `00100000`         | 0x20      |
+  Attribute Macro       Bit representation   Hex value
+  --------------------- -------------------- -----------
+  `FATATTR_READONLY`    `00000001`           0x1
+  `FATATTR_HIDDEN`      `00000010`           0x2
+  `FATATTR_SYSTEM`      `00000100`           0x4
+  `FATATTR_VOLUMEID`    `00001000`           0x8
+  `FATATTR_DIRECTORY`   `00010000`           0x10
+  `FATATTR_ARCHIVE`     `00100000`           0x20
 
-File Attributes
+  : File Attributes
 
 Out of these, FAT exposes a user to `FATATTR_READONLY`,
 `FATATTR_HIDDEN`, `FATATTR_SYSTEM` and `FATATTR_ARCHIVE` to the user.
 
-## Implementation
+Implementation
+--------------
 
 The Apache NuttX implementation of VFAT can be found in:
 
-  - `fs/fat` directory.
-  - `include/nuttx/fs/fat.h` header file.
+-   `fs/fat` directory.
+-   `include/nuttx/fs/fat.h` header file.

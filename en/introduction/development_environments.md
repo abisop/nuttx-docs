@@ -1,12 +1,10 @@
-<div class="todo">
-
 revise and update links
 
-</div>
+Development Environments
+========================
 
-# Development Environments
-
-## Linux + GNU `make` + GCC/binutils for Linux
+Linux + GNU `make` + GCC/binutils for Linux
+-------------------------------------------
 
 The is the most natural development environment for NuttX. Any version
 of the GCC/binutils toolchain may be used. There is a highly modified
@@ -18,7 +16,8 @@ under Linux or Cygwin. That toolchain will support ARM, m68k, m68hc11,
 m68hc12, and SuperH ports. The buildroot GIT may be accessed in the
 NuttX [buildroot GIT](https://bitbucket.org/nuttx/buildroot).
 
-## Linux + GNU `make` + SDCC for Linux
+Linux + GNU `make` + SDCC for Linux
+-----------------------------------
 
 Also very usable is the Linux environment using the
 [SDCC](http://sdcc.sourceforge.net/) compiler. The SDCC compiler
@@ -27,7 +26,8 @@ The SDCC-based logic is less well exercised and you will likely find
 some compilation issues if you use parts of NuttX with SDCC that have
 not been well-tested.
 
-## Windows with Cygwin + GNU `make` + GCC/binutils (custom built under Cygwin)
+Windows with Cygwin + GNU `make` + GCC/binutils (custom built under Cygwin)
+---------------------------------------------------------------------------
 
 This combination works well too. It works just as well as the native
 Linux environment except that compilation and build times are a little
@@ -35,28 +35,31 @@ longer. The custom NuttX
 [buildroot](https://bitbucket.org/nuttx/buildroot/downloads/) referenced
 above may be build in the Cygwin environment as well.
 
-## Windows with Cygwin + GNU `make` + SDCC (custom built under Cygwin)
+Windows with Cygwin + GNU `make` + SDCC (custom built under Cygwin)
+-------------------------------------------------------------------
 
 I have never tried this combination, but it would probably work just
 fine.
 
-## Windows with Cygwin + GNU `make` + Windows Native Toolchain
+Windows with Cygwin + GNU `make` + Windows Native Toolchain
+-----------------------------------------------------------
 
 This is a tougher environment. In this case, the Windows native
 toolchain is unaware of the Cygwin *sandbox* and, instead, operates in
 the native Windows environment. The primary difficulties with this are:
 
-  - **Paths**. Full paths for the native toolchain must follow Windows
+-   **Paths**. Full paths for the native toolchain must follow Windows
     standards. For example, the path `/home/my\ name/nuttx/include` my
-    have to be converted to something like `'C:\cygwin\home\my
-    name\nuttx\include'` to be usable by the toolchain.
-  - **Symbolic Links** NuttX depends on symbolic links to install
+    have to be converted to something like
+    `'C:\cygwin\home\my name\nuttx\include'` to be usable by the
+    toolchain.
+-   **Symbolic Links** NuttX depends on symbolic links to install
     platform-specific directories in the build system. On Linux, true
     symbolic links are used. On Cygwin, emulated symbolic links are
     used. Unfortunately, for native Windows applications that operate
     outside of the Cygwin *sandbox*, these symbolic links cannot be
     used.
-  - **Dependencies** NuttX uses the GCC compiler's `-M` option to
+-   **Dependencies** NuttX uses the GCC compiler\'s `-M` option to
     generate make dependencies. These dependencies are retained in files
     called `Make.deps` throughout the system. For compilers other than
     GCC, there is no support for making dependencies in this way.
@@ -70,7 +73,8 @@ Windows native toolchains are in use:
 3.  the ZiLOG XDS-II toolchain for Z16F, z8Encore, and eZ80Acclaim
     parts.
 
-## Windows Native (`CMD.exe`) + GNUWin32 (including GNU `make`) + MinGW Host GCC compiler + Windows Native Toolchain
+Windows Native (`CMD.exe`) + GNUWin32 (including GNU `make`) + MinGW Host GCC compiler + Windows Native Toolchain
+-----------------------------------------------------------------------------------------------------------------
 
 Build support has been added to support building natively in a Windows
 console rather than in a POSIX-like environment.
@@ -106,27 +110,29 @@ downloaded from <http://www.mingw.org/>. If you are using GNUWin32, then
 it is recommended that you not install the optional MSYS components as
 there may be conflicts.
 
-## Wine + GNU `make` + Windows Native Toolchain
+Wine + GNU `make` + Windows Native Toolchain
+--------------------------------------------
 
-I've never tried this one, but I off the following reported by an ez80
+I\'ve never tried this one, but I off the following reported by an ez80
 user using the ZiLOG ZDS-II Windows-native toolchain:
 
-> "I've installed ZDS-II 5.1.1 (IDE for ez80-based boards) on wine
+> \"I\'ve installed ZDS-II 5.1.1 (IDE for ez80-based boards) on wine
 > (windows emulator for UNIX) and to my surprise, not many changes were
-> needed to make GIT snapshot of NuttX buildable... I've tried nsh
+> needed to make GIT snapshot of NuttX buildable\... I\'ve tried nsh
 > profile and build process completed successfully. One remark is
 > necessary: NuttX makefiles for ez80 are referencing `cygpath` utility.
 > Wine provides similar thing called `winepath` which is compatible and
 > offers compatible syntax. To use that, `winepath` (which itself is a
 > shell script) has to be copied as `cygpath` somewhere in `PATH`, and
 > edited as in following patch:
-> 
-> "Better solution would be replacing all `cygpath` references in
+>
+> \"Better solution would be replacing all `cygpath` references in
 > `Makefiles` with `(CONVPATH)` (or `{CONVPATH}` in shell scripts) and
 > setting `CONVPATH` to `cygpath` or `winepath` regarding to currently
 > used environment.
 
-## Other Environments
+Other Environments
+------------------
 
 **Environment Dependencies**. The primary environmental dependency of
 NuttX are (1) GNU make, (2) bash scripting, and (3) Linux utilities

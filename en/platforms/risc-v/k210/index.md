@@ -1,5 +1,7 @@
-# Kendryte K210
+Kendryte K210
+=============
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

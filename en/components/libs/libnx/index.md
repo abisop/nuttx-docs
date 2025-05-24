@@ -1,4 +1,5 @@
-# libnx
+libnx
+=====
 
 The graphics capability consist both of components internal to the RTOS
 and of user-callable interfaces. In the NuttX kernel mode build there

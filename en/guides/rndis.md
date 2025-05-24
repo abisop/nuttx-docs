@@ -1,49 +1,46 @@
-# How to use RNDIS
+How to use RNDIS
+================
 
 This guide explains the steps needed to get USB RNDIS working, using the
 STM32F4Discovery board as example.
 
-If you don't know RNDIS, it is a way to share Ethernet-like connection
+If you don\'t know RNDIS, it is a way to share Ethernet-like connection
 over USB port without using any external device to it. Just a USB cable
 between your board (that has USB Device) and your computer.
 
 WARNING: RNDIS is going to be removed from Linux kernel because they
 understand it as an insecure protocol. That said use it aware of this
 risk and also be aware that it was tested up to Ubuntu 22.04 LTS and
-couldn't work in future versions.
+couldn\'t work in future versions.
 
-## Compiling
+Compiling
+---------
 
 1.  Configure the RNDIS
-    
+
     There is a sample configuration to use RNDIS on stm32f4discovery
-    board. If your board doesn't save a sample example then you need to
+    board. If your board doesn\'t save a sample example then you need to
     create a configuration by yourself looking this config.
-    
+
     Just use `stm32f4discovery:rndis` board profile for this purpose.
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  cd nuttx
     >  ./tools/configure.sh stm32f4discovery:rndis
     > ```
 
 2.  Compile
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  make -j
     > ```
 
-## Flashing
+Flashing
+--------
 
 1.  Flash the generated nuttx.bin to your board:
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >   sudo openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c init -c "reset halt" -c "flash write_image erase nuttx.bin 0x08000000"
     > ...
     > Open On-Chip Debugger 0.11.0
@@ -63,26 +60,21 @@ couldn't work in future versions.
     > Info : Listening on port 4444 for telnet connections
     > ```
 
-## Setup RNDIS in your computer
+Setup RNDIS in your computer
+----------------------------
 
 > These steps show how to connect your board to your Linux machine.
 
-<div class="todo">
-
 Add Mac and Windows instructions
-
-</div>
 
 1.  Reset your board
 
-2.  Plug a USB cable from the STM32F4Discovery's microUSB to your
+2.  Plug a USB cable from the STM32F4Discovery\'s microUSB to your
     computer
 
 3.  Confirm that your board was detected as a USB RNDIS device:
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  dmesg
     > ...
     > [ 1099.821480] usb 3-3: new full-speed USB device number 12 using xhci_hcd
@@ -102,23 +94,21 @@ Add Mac and Windows instructions
 
 4.  Configure your Linux distro to share network to this USB RNDIS
     device:
-    
+
     Click in the top right corner of your Ubuntu and go to:
-    
+
     NuttX Ethernet -\> Wired Settings
-    
-    Click in the 'Gear icon' and in the tab "IPv4" select: "Shared to
-    other computers"
-    
-    Click on "Apply"
-    
+
+    Click in the \'Gear icon\' and in the tab \"IPv4\" select: \"Shared
+    to other computers\"
+
+    Click on \"Apply\"
+
     Disconnect and connect the USB cable to force it to get IP.
 
 5.  Identify what IP address your board got:
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  tail -f /var/log/syslog
     > ...
     > Jan 28 10:30:24 dev dnsmasq-dhcp[35526]: DHCPDISCOVER(enxa0e0deadcafe) 00:e0:de:ad:ca:fe 
@@ -130,10 +120,8 @@ Add Mac and Windows instructions
     > ```
 
 6.  Ping this IP to confirm it is working:
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  ping 10.42.0.86
     > PING 10.42.0.86 (10.42.0.86) 56(84) bytes of data.
     > 64 bytes from 10.42.0.86: icmp_seq=1 ttl=64 time=0.809 ms
@@ -145,15 +133,13 @@ Add Mac and Windows instructions
     > ```
 
 7.  Connect to your board over telnet:
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     >  telnet 10.42.0.86
     > Trying 10.42.0.86...
     > Connected to 10.42.0.86.
     > Escape character is '^]'.
-    > 
+    >
     > NuttShell (NSH) NuttX-12.0.0
     > nsh> 
     > ```

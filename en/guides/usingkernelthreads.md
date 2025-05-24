@@ -1,19 +1,13 @@
-# Using Kernel Threads
-
-<div class="warning">
-
-<div class="title">
+Using Kernel Threads
+====================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Using+Kernel+Threads>
 
-</div>
-
-## Build Configurations
+Build Configurations
+--------------------
 
 NuttX can be built in three different configurations: (1) as a FLAT
 build where all of the code resides in a common address space, (2) as a
@@ -31,7 +25,8 @@ More information about these build configurations can be found on [the
 Memory Configuration Wiki
 page](https://cwiki.apache.org/confluence/display/NUTTX/Memory+Configurations).
 
-## Thread Types
+Thread Types
+------------
 
 NuttX supports three classes of threads: tasks, pthreads, and kernel
 threads. tasks and pthreads are both application threads and are
@@ -44,7 +39,8 @@ More information about tasks and pthreads can be found on the [NuttX
 Tasking](https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Tasking)
 Wiki page.
 
-## Kernel Threads
+Kernel Threads
+--------------
 
 Kernel threads are really like tasks except that they run inside the
 operating system and are started with `kthread_create()` which is

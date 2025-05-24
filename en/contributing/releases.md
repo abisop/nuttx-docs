@@ -1,8 +1,10 @@
-# Creating an Apache NuttX Release
+Creating an Apache NuttX Release
+================================
 
 NuttX releases are targeted for once every 3 months.
 
-## Checkout the distribution SVN repositories
+Checkout the distribution SVN repositories
+------------------------------------------
 
 Releases are managed through an SVN repository. There are two locations
 where releases can be committed dev and release. Prior to voting a
@@ -11,12 +13,13 @@ IPMC it is then moved to the release location and committed for
 distribution. The release folder also holds the GPG public keys that are
 used for signing release in a KEYS file.
 
-``` console
+``` {.console}
  svn checkout https://dist.apache.org/repos/dist/dev/nuttx nuttx-dev
  svn checkout https://dist.apache.org/repos/dist/release/nuttx nuttx-release
 ```
 
-## Adding your GPG key
+Adding your GPG key
+-------------------
 
 Inside of the `dist/release/nuttx folder` is a KEYS file where
 committers must upload their GPG public key that they use to sign
@@ -33,7 +36,7 @@ My key id is `3554D78458CEB6954B020E12E1B6E30DB05D6280`. You can list
 the keys that you have a secret key for with this command. Make sure
 your Apache email is associated with this key.
 
-``` console
+``` {.console}
  gpg2 --list-secret-keys
  /home/bashton/.gnupg/pubring.kbx
  --------------------------------
@@ -47,36 +50,38 @@ your Apache email is associated with this key.
  ssb   rsa4096 2019-11-24 [S] [expires: 2021-09-02]
 ```
 
-You can then use this command to add to the KEYS file (fill in "key id"
-with your key id):
+You can then use this command to add to the KEYS file (fill in \"key
+id\" with your key id):
 
-``` console
+``` {.console}
  (gpg --list-sigs <key id> && gpg --armor --export <key id>) >> KEYS
 ```
 
 You can verify your key is in the file with:
 
-``` console
+``` {.console}
  cat KEYS | gpg2 --import-options show-only
 ```
 
 Once you are happy with your changes you can commit your key
 
-``` console
+``` {.console}
  svn commit -m "Update <my name> GPG key"
 ```
 
-## Add your GPG key to GitHub / Apache
+Add your GPG key to GitHub / Apache
+-----------------------------------
 
-So that the release tags show up as "verified" attach your GPG key to
+So that the release tags show up as \"verified\" attach your GPG key to
 your Apache and GitHub accounts:
 
-  - GitHub:
+-   GitHub:
     <https://docs.github.com/en/github/authenticating-to-github/adding-a-new-gpg-key-to-your-github-account>
-  - Apache: <https://id.apache.org>
-      - *Add the fingerprint to OpenPGP Public Key Primary Fingerprint*
+-   Apache: <https://id.apache.org>
+    -   *Add the fingerprint to OpenPGP Public Key Primary Fingerprint*
 
-## Creating a Release Candidate
+Creating a Release Candidate
+----------------------------
 
 When the project is happy with a release branch and is ready to create a
 release candidate, the first step is to create a signed tag. This should
@@ -85,7 +90,7 @@ be done for both the nuttx and nuttx-apps repositories.
 This is an example for tagging RC0 for the 12.1.0 release. Only the OS
 repository is shown here this must also be done for the apps repository.
 
-``` console
+``` {.console}
 # Export the signing key
  export GPG_TTY=(tty)
 
@@ -128,12 +133,13 @@ You should be able to see the tag here
 <https://github.com/apache/nuttx/tags> and
 <https://github.com/apache/nuttx-apps/tags>.
 
-## Creating the Release Tarballs
+Creating the Release Tarballs
+-----------------------------
 
 Make sure that you have both repositories checked to the correct release
 candidate tag. The folder names must be `nuttx` and `apps`.
 
-``` console
+``` {.console}
 ~/nuttx/wrk/release 
  ls
 apps  nuttx
@@ -164,7 +170,7 @@ this RC is accepted these exact files will be moved from dev to the
 release folder, the tarballs are *not* recreated. Here is an example
 signing using my key id and the 12.1.0 release:
 
-``` console
+``` {.console}
 ~/nuttx/wrk/release took 2s 
  ./nuttx/tools/zipme.sh -d -s -k 3554D78458CEB6954B020E12E1B6E30DB05D6280 12.1.0
 + DEBUG=-d
@@ -298,7 +304,8 @@ apache-nuttx-12.1.0.tar.gz      apache-nuttx-12.1.0.tar.gz.sha512  apache-nuttx-
 apache-nuttx-12.1.0.tar.gz.asc  apache-nuttx-apps-12.1.0.tar.gz    apache-nuttx-apps-12.1.0.tar.gz.sha512  nuttx
 ```
 
-## Check the release artifacts
+Check the release artifacts
+---------------------------
 
 Prior to uploading the artifacts it is a good idea to make sure that
 they pass a sanity check. You can do this by running the
@@ -306,7 +313,7 @@ they pass a sanity check. You can do this by running the
 keys at <https://dist.apache.org/repos/dist/dev/nuttx/KEYS> so make
 sure.
 
-``` console
+``` {.console}
 ~/nuttx/wrk/release 
  ./nuttx/tools/checkrelease.sh --dir ./
 gpg: directory '/tmp/nuttx-checkrelease/.gnupg' created
@@ -354,13 +361,14 @@ Trying to build nuttx sim:nsh...
  OK: we were able to build sim:nsh.
 ```
 
-## Staging the release candidate
+Staging the release candidate
+-----------------------------
 
 To stage a release a new folder should be created under
 <https://dist.apache.org/repos/dist/dev/nuttx> for the release candidate
 and these release artifacts should be copied there:
 
-``` console
+``` {.console}
 apache-nuttx-<version>.tar.gz      apache-nuttx-<version>.tar.gz.sha512  apache-nuttx-apps-<version>.tar.gz.asc
 apache-nuttx-<version>.tar.gz.asc  apache-nuttx-apps-<version>.tar.gz    apache-nuttx-apps-<version>.tar.gz.sha512
 ```
@@ -368,7 +376,7 @@ apache-nuttx-<version>.tar.gz.asc  apache-nuttx-apps-<version>.tar.gz    apache-
 If you checked that svn repository out as shown earlier as nuttx-dev.
 This should be done like this:
 
-``` console
+``` {.console}
 ~/nuttx/svn/nuttx-dev 
  mkdir 12.1.0-RC0
 
@@ -384,7 +392,7 @@ This should be done like this:
 
 Then commit these files:
 
-``` console
+``` {.console}
 ~/nuttx/svn/nuttx-dev 
  svn status
 ?       12.1.0-RC0
@@ -406,11 +414,12 @@ A  (bin)  12.1.0-RC0/apache-nuttx-apps-12.1.0.tar.gz
 Verify the release exists under
 <https://dist.apache.org/repos/dist/dev/nuttx/>
 
-## Call for a Community Vote
+Call for a Community Vote
+-------------------------
 
 To do this send an email that looks something like this:
 
-``` text
+``` {.text}
 Subject: [VOTE] Apache NuttX 12.1.0 RC0 release
 To: dev@nuttx.apache.org
 
@@ -457,7 +466,7 @@ vote count and an archive link to the voting thread. The best way to
 find the link is here
 <https://lists.apache.org/list.html?dev@nuttx.apache.org>
 
-``` text
+``` {.text}
 Subject: [RESULTS][VOTE] Release Apache NuttX 12.1.0 [RC0]
 To: dev@nuttx.apache.org
 
@@ -486,12 +495,13 @@ We will proceed with the official release of 12.1.0.
 If the vote does not pass bring the feedback to the community and start
 the release process again with a new RC.
 
-## Staging the release
+Staging the release
+-------------------
 
 With the release approved you can now copy the release artifacts to the
 release repository. Note it no longer has an RC in the folder name.
 
-``` console
+``` {.console}
 ~/nuttx/svn 
  cp -r nuttx-dev/12.1.0-RC0 nuttx-release/12.1.0
 
@@ -517,12 +527,13 @@ A  (bin)  12.1.0/apache-nuttx-apps-12.1.0.tar.gz.asc
 At this point you should see the release at
 <https://dist.apache.org/repos/dist/release/nuttx/>
 
-## Create release tags
+Create release tags
+-------------------
 
 Create non RC tags the same way it was done for the RC tags on both
 repositories:
 
-``` console
+``` {.console}
 # Export the signing key
  export GPG_TTY=(tty)
 
@@ -564,7 +575,8 @@ You should be able to see the tag here
 <https://github.com/apache/nuttx/tags> and
 <https://github.com/apache/nuttx-apps/tags>
 
-## Create a PR to add the Release to the Website
+Create a PR to add the Release to the Website
+---------------------------------------------
 
 This should include the release notes and also the metadata for
 downloading the release. An example of this is here
@@ -574,13 +586,14 @@ the distribution mirrors should have synced and this can now be merged.
 10min or so after the merge you should see the release here
 <https://nuttx.apache.org/download/>
 
-## Send the release email out
+Send the release email out
+--------------------------
 
 Once the website shows the release you can now send the release
 announcement out. Here is an example of that email. Note we must wait
 48hr after the SVN commit before sending this.
 
-``` text
+``` {.text}
 Subject: [ANNOUNCE] Apache NuttX 12.1.0 released
 To: dev@nuttx.apache.org
 

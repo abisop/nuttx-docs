@@ -1,12 +1,10 @@
-<div class="todo">
-
 Create new subsections as needed.
 
-</div>
+FAQ
+===
 
-# FAQ
-
-## NSH Tricks
+NSH Tricks
+----------
 
 ### How to get an application available in the NSH?
 
@@ -31,7 +29,7 @@ Enabling Hello World Application:
 
 After compilation you should see the hello at NSH:
 
-``` shell
+``` {.shell}
 NuttShell (NSH) NuttX-12.5.1
 nsh> ?
 help usage:  help [-v] [<cmd>]
@@ -67,8 +65,8 @@ this way:
 
 ### How do I enable editing support on the command line?
 
-You need to change Command Line Editor from "Minimal readline" to
-"Command Line Editor", this way:
+You need to change Command Line Editor from \"Minimal readline\" to
+\"Command Line Editor\", this way:
 
     Application Configuration  --->
         NSH Library  --->
@@ -86,8 +84,8 @@ You need to enable these options in the menuconfig:
                 (80)      Command line history length
                 (16)      Command line history records
 
-Note: If you are using the "Command Line Editor" instead of the
-"readline" then you need to use this other option:
+Note: If you are using the \"Command Line Editor\" instead of the
+\"readline\" then you need to use this other option:
 
     Application Configuration  --->
         System Libraries and NSH Add-Ons  --->
@@ -107,10 +105,10 @@ You need to enable these options in the menuconfig:
                 (64)      Maximum built-in matches
                 (64)      Maximum external command matches
 
-Note: autocomplete is not enabled when "Command Line Editor" instead of
-the "readline".
+Note: autocomplete is not enabled when \"Command Line Editor\" instead
+of the \"readline\".
 
-### How to interrupt an NSH Application using Ctrl^C ?
+### How to interrupt an NSH Application using Ctrl\^C ?
 
 You need to enable these options in the menuconfig:
 
@@ -124,13 +122,15 @@ You need to enable these options in the menuconfig:
             [*]   Support SIGINT
             (0x03)  Serial parse SIGINT characters
 
-## Board Initialization
+Board Initialization
+--------------------
 
 ### How to start directly my application instead starting NSH?
 
 You can start you application directly instead of starting the default
-NSH terminal. Lets support your application is called "hello", then you
-will modify the ENTRYPOINT to call "hello\_main" instead of "nsh\_main":
+NSH terminal. Lets support your application is called \"hello\", then
+you will modify the ENTRYPOINT to call \"hello\_main\" instead of
+\"nsh\_main\":
 
     RTOS Features --->
         Tasks and Scheduling  --->
@@ -138,7 +138,7 @@ will modify the ENTRYPOINT to call "hello\_main" instead of "nsh\_main":
 
 ### Why after putting my application on ENTRYPOINT it stops to work?
 
-When you replace the ENTRYPOINT from "nsh\_main" to your application
+When you replace the ENTRYPOINT from \"nsh\_main\" to your application
 some initialization flow are changed, for instance the NSH\_ARCHINIT is
 not executed anymore and so some drivers initialization that are called
 from it also stops to work.
@@ -156,10 +156,10 @@ Also you need to disable the architecture-specific initialization:
         NSH Library --->
             [ ] Have architecture-specific initialization
 
-### Why isn't /dev/ttySx created when using USB Console even when UART is enabled?
+### Why isn\'t /dev/ttySx created when using USB Console even when UART is enabled?
 
-If you don't use serial console then /dev/ttyS0 will not be created,
-even if you enable the UART peripheral at "System Type".
+If you don\'t use serial console then /dev/ttyS0 will not be created,
+even if you enable the UART peripheral at \"System Type\".
 
 You can fix it enabling the Serial Upper-Half Driver:
 
@@ -167,7 +167,8 @@ You can fix it enabling the Serial Upper-Half Driver:
         Serial Driver Support --->
             [*]   Enable standard "upper-half" serial driver
 
-## Network
+Network
+-------
 
 ### How to detect Ethernet cable connection/disconnection?
 
@@ -181,9 +182,9 @@ CONFIG\_ARCH\_PHY\_INTERRUPT (and implement `arch_phy_irq()`).
 
 ### How to define the MTU and MSS for the network packets?
 
-As you probably know the "MSS = MTU - 40", so you just need to setup the
-MTU. If you search for MTU in the menuconfig you will not find it, but
-you can setup the MTU using the `CONFIG_NET_ETH_PKTSIZE` here:
+As you probably know the \"MSS = MTU - 40\", so you just need to setup
+the MTU. If you search for MTU in the menuconfig you will not find it,
+but you can setup the MTU using the `CONFIG_NET_ETH_PKTSIZE` here:
 
     Networking Support  --->
         Driver buffer configuration  --->
@@ -192,9 +193,9 @@ you can setup the MTU using the `CONFIG_NET_ETH_PKTSIZE` here:
 Then just figure it out using this formula:
 
 > MTU = NET\_ETH\_PKTSIZE - 14
-> 
+>
 > MSS = MTU - 40
 
-In this case you have MTU = 590 - 14 =\> MTU = 576\!
+In this case you have MTU = 590 - 14 =\> MTU = 576!
 
 And the MSS = 576 - 40 =\> MSS = 536.

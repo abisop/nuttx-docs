@@ -1,132 +1,134 @@
-# stm32f401rc-rs485
-
-<div class="tags">
+stm32f401rc-rs485
+=================
 
 chip:stm32, chip:stm32f4, chip:stm32f401
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the NuttX
 STM32F4-RS485 development board.
 
-![](stm32f401rc_rs485.jpg)
+![](stm32f401rc_rs485.jpg){.align-center}
 
-## Board information
+Board information
+-----------------
 
 This board was release on NuttX International Workshop 2023 and
 developed based on STM32F401RCT6 microcontroller.
 
-  - STM32F401RCT6 microcontroller features:
-    
-      - Arm 32-bit Cortex®-M4 CPU with FPU
-      - 256 Kbytes of Flash memory
-      - 64 Kbytes of SRAM
-      - Serial wire debug (SWD) & JTAG interfaces
-      - Up to 81 I/O ports with interrupt capability
-      - Up to 11 communication interfaces
-      - Up to 3 I2C interfaces
-      - Up to 3 USARTs
-      - Up to 4 SPIs
-      - SDIO interface
-      - USB 2.0 full-speed device/host/OTG controller with on-chip PHY
+STM32F401RCT6 microcontroller features:
+
+:   -   Arm 32-bit Cortex®-M4 CPU with FPU
+    -   256 Kbytes of Flash memory
+    -   64 Kbytes of SRAM
+    -   Serial wire debug (SWD) & JTAG interfaces
+    -   Up to 81 I/O ports with interrupt capability
+    -   Up to 11 communication interfaces
+    -   Up to 3 I2C interfaces
+    -   Up to 3 USARTs
+    -   Up to 4 SPIs
+    -   SDIO interface
+    -   USB 2.0 full-speed device/host/OTG controller with on-chip PHY
 
 The board features:
 
-  - Digital I2C Temperature Sensor (TMP75)
-  - 2K bits (256x8) I2C EEPROM
-  - On-board RS485 Transceiver
-  - Two Analog Input Stages with Amplifier Buffer
-  - Two Analog Output Stages with Amplifier Buffer
-  - MicroSD Connector supporting 1 or 4-bit bus
-  - Four User LEDs
-  - Four User Buttons
-  - USB for DFU (Device Firmware Update) and USB device functionality,
+-   Digital I2C Temperature Sensor (TMP75)
+-   2K bits (256x8) I2C EEPROM
+-   On-board RS485 Transceiver
+-   Two Analog Input Stages with Amplifier Buffer
+-   Two Analog Output Stages with Amplifier Buffer
+-   MicroSD Connector supporting 1 or 4-bit bus
+-   Four User LEDs
+-   Four User Buttons
+-   USB for DFU (Device Firmware Update) and USB device functionality,
     as well as powering the board
-  - Onboard voltage regulator from 5V to 3.3V
-  - SWD Pins for use as STLink (Pin header) and TC2030-IDC 6-Pin
+-   Onboard voltage regulator from 5V to 3.3V
+-   SWD Pins for use as STLink (Pin header) and TC2030-IDC 6-Pin
     Tag-Connect Plug-of-Nails™ Connector
-  - Crystal for HS 8MHz
-  - Crystal for RTC 32.768KHz
+-   Crystal for HS 8MHz
+-   Crystal for RTC 32.768KHz
 
 Board documentation:
 <https://github.com/lucaszampar/NuttX_STM32F4_RS485_DevBoard>
 
 As F4 series have a USB DFuSe-capable BootROM \[AN2606\], the board can
-be flashed via <span class="title-ref">dfu-util</span> over USB, or via
-<span class="title-ref">stm32flash</span> over UART without any
-debuggers.
+be flashed via [dfu-util]{.title-ref} over USB, or via
+[stm32flash]{.title-ref} over UART without any debuggers.
 
-## LEDs
+LEDs
+----
 
 The STM32F4-RS485 has 4 software controllable LEDs.
 
-| LED    | PINS |
-| ------ | ---- |
-| LED\_1 | PC0  |
-| LED\_2 | PC1  |
-| LED\_4 | PC2  |
-| LED\_5 | PC3  |
+  LED      PINS
+  -------- ------
+  LED\_1   PC0
+  LED\_2   PC1
+  LED\_4   PC2
+  LED\_5   PC3
 
-## User Buttons
+User Buttons
+------------
 
 The STM32F4-RS485 has 4 user switches.
 
-| SWITCH  | PINS | LABEL    |
-| ------- | ---- | -------- |
-| SWIO\_1 | PB13 | SW3      |
-| SWIO\_2 | PB14 | SW4      |
-| SWIO\_3 | PB15 | SW5      |
-| SWIO\_4 | PC6  | SW6\[1\] |
+  SWITCH    PINS   LABEL
+  --------- ------ ----------
+  SWIO\_1   PB13   SW3
+  SWIO\_2   PB14   SW4
+  SWIO\_3   PB15   SW5
+  SWIO\_4   PC6    SW6\[1\]
 
 \[1\] The switch SWIO\_4 (SW6) is disabled due a conflict with PIN PC6
 when using USART6.
 
-## UARTs
+UARTs
+-----
 
 The STM32F4-RS485 has 1 USART available for user.
 
 ### USART6
 
-| UART/USART | PINS      |
-| ---------- | --------- |
-| TX         | PC6 \[1\] |
-| RX         | PC7       |
-| CK         | PA8       |
+  UART/USART   PINS
+  ------------ -----------
+  TX           PC6 \[1\]
+  RX           PC7
+  CK           PA8
 
 \[1\] Warning you make need to reverse RX/TX on some RS-232 converters
 
-## SDCard support
+SDCard support
+--------------
 
 The STM32F4-RS485 has 1 SDCard slot connected as below:
 
-| SDIO     | PINS |
-| -------- | ---- |
-| SDIO\_D0 | PC8  |
-| SDIO\_D1 | PC9  |
-| SDIO\_D2 | PC10 |
-| SDIO\_D3 | PC11 |
-| SDIO\_DK | PC12 |
+  SDIO       PINS
+  ---------- ------
+  SDIO\_D0   PC8
+  SDIO\_D1   PC9
+  SDIO\_D2   PC10
+  SDIO\_D3   PC11
+  SDIO\_DK   PC12
 
-## EEPROM
+EEPROM
+------
 
 The STM32F4-RS485 development board has serial EEPROM HX24LC02B, with 2k
 bits (256x8) and internally organized with 32 pages of 8 bytes each. It
 is connected through I2C as below:
 
-| I2C | PINS |
-| --- | ---- |
-| SDA | PB7  |
-| SCL | PB8  |
+  I2C   PINS
+  ----- ------
+  SDA   PB7
+  SCL   PB8
 
 Users can enable EERPOM support on STM32F4-RS485 by following below
 configuration:
 
-  - Configure basic nsh:
-    
+-   Configure basic nsh:
+
         ./tools/configure.sh -l stm32f401rc-rs485:nsh
 
-  - Enable the following configs:
-    
+-   Enable the following configs:
+
         CONFIG_DEV_ZERO=y
         CONFIG_EEPROM=y
         CONFIG_FS_PROCFS=y
@@ -134,10 +136,10 @@ configuration:
         CONFIG_I2C_EE_24XX=y
         CONFIG_STM32_I2C1=y
 
-  - Build and flash the STM32F4-RS485.
+-   Build and flash the STM32F4-RS485.
 
-  - Use dd command to write and read data from EEPROM as below:
-    
+-   Use dd command to write and read data from EEPROM as below:
+
         nsh> dd if=/dev/zero of=/dev/eeprom
         nsh: dd: write failed: 1
         nsh> dd if=/dev/console of=/dev/eeprom bs=1 count=4
@@ -145,48 +147,53 @@ configuration:
         nsh> dd if=/dev/eeprom of=/dev/console bs=4 count=1
         Hellonsh>
 
-## Temperature Sensor
+Temperature Sensor
+------------------
 
 The STM32F4-RS485 development board has a temperature sensor TMP75
 (compatible with LM75) connected through I2C as below:
 
-| I2C | PINS |
-| --- | ---- |
-| SDA | PB7  |
-| SCL | PB8  |
+  I2C   PINS
+  ----- ------
+  SDA   PB7
+  SCL   PB8
 
-## RS485 Transceiver
+RS485 Transceiver
+-----------------
 
 The STM32F4-RS485 development board has a half-duplex RS-485
 transceiver, the BL3085B it is connected through USART2 as below:
 
-| USART2      | PINS    |
-| ----------- | ------- |
-| USART2\_RX  | RO      |
-| USART2\_RTS | DE, /RE |
-| USART2\_RX  | DI      |
+  USART2        PINS
+  ------------- ---------
+  USART2\_RX    RO
+  USART2\_RTS   DE, /RE
+  USART2\_RX    DI
 
-## A/D Converter
+A/D Converter
+-------------
 
 The STM32F4-RS485 development board has two Analog to Digital converters
 with Amplifier Buffer (1COS724SR) and connected as below:
 
-| PWM    | PINS |
-| ------ | ---- |
-| PWM\_1 | PB6  |
-| PWM\_2 | PA6  |
+  PWM      PINS
+  -------- ------
+  PWM\_1   PB6
+  PWM\_2   PA6
 
-## D/C Converter
+D/C Converter
+-------------
 
 The STM32F4-RS485 development board has two Digital to Analog converters
 with Amplifier Buffer (1COS724SR) and connected as below:
 
-| ADC    | PINS |
-| ------ | ---- |
-| ADC\_1 | PA0  |
-| ADC\_2 | PA4  |
+  ADC      PINS
+  -------- ------
+  ADC\_1   PA0
+  ADC\_2   PA4
 
-## Configurations
+Configurations
+--------------
 
 Each stm32f401rc-rs485 configuration is maintained in a sub-directory
 and can be selected as follow:
@@ -245,14 +252,14 @@ Run modbus application at NSH:
 
     nsh> modbus -help
     USAGE: modbus [-d|e|s|q|h]
-    
+
     Where:
       -d : Disable protocol stack
       -e : Enable the protocol stack
       -s : Show current status
       -q : Quit application
       -h : Show this information
-    
+
     nsh> modbus -e
 
 PC Configuration:
@@ -280,7 +287,7 @@ values generated by STM32F401RC-RS485 and transmitted over RS-485:
     This program comes with ABSOLUTELY NO WARRANTY.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type 'mbpoll -w' for details.
-    
+
     Protocol configuration: Modbus RTU
     Slave configuration...: address = [10]
                             start reference = 1000, count = 4
@@ -339,11 +346,11 @@ MODBUSMASTER\_SLAVEADDR:
     diagslave 3.4 - FieldTalk(tm) Modbus(R) Diagnostic Slave Simulator
     Copyright (c) 2002-2021 proconX Pty Ltd
     Visit https://www.modbusdriver.com for Modbus libraries and tools.
-    
+
     Protocol configuration: Modbus RTU, frame tolerance = 0ms
     Slave configuration: address = 10, master activity t/o = 3.00s
     Serial port configuration: /dev/ttyUSB1, 38400, 8, 1, even
-    
+
     Server started up successfully.
     Listening to network (Ctrl-C to stop)
     Slave  10: readHoldingRegisters from 2, 1 references
@@ -399,10 +406,10 @@ configuration) and enables ADC 1 on channels 0 and 4. NSH commands:
 
     nsh> adc -h
     Usage: adc [OPTIONS]
-    
+
     Arguments are "sticky".  For example, once the ADC device is
     specified, that device will be reused until it is changed.
-    
+
     "sticky" OPTIONS include:
       [-p devpath] selects the ADC device.  Default: /dev/adc0 Current: /dev/adc0
       [-n count] selects the samples to collect.  Default: 1 Current: 0
@@ -417,7 +424,7 @@ configuration) and enables ADC 1 on channels 0 and 4. NSH commands:
 
 Currently there is a bug that causes the application to always read the
 same value for channel 0 and 4. If you want to read the value from
-channel 2, you will need to enable the config "ADC1 Scan Mode".
+channel 2, you will need to enable the config \"ADC1 Scan Mode\".
 
 ### dac
 
@@ -428,10 +435,10 @@ the output voltage. NSH commands:
 
     nsh> pwm -h
     Usage: pwm [OPTIONS]
-    
+
     Arguments are "sticky".  For example, once the PWM frequency is
     specified, that frequency will be reused until it is changed.
-    
+
     "sticky" OPTIONS include:
       [-p devpath] selects the PWM device.  Default: /dev/pwm0 Current: NONE
       [-f frequency] selects the pulse frequency.  Default: 100 Hz Current: 100 Hz
@@ -449,9 +456,9 @@ configuration) and enables Timer 3 on channels 1 and 2 to handle
 Quadrature Encoder. NSH commands:
 
     nsh> qe -help
-    
+
     Usage: qe [OPTIONS]
-    
+
     OPTIONS include:
       [-p devpath] QE device path
       [-n samples] Number of samples
@@ -477,10 +484,10 @@ enables RNDIS over USB. NSH commands:
 
     nsh> mount -t procfs /proc
     nsh> ping -h
-    
+
     Usage: ping [-c <count>] [-i <interval>] [-W <timeout>] [-s <size>] <hostname>
     ping -h
-    
+
     Where:
     <hostname> is either an IPv4 address or the name of the remote host
     that is requested the ICMPv4 ECHO reply.
@@ -491,7 +498,7 @@ enables RNDIS over USB. NSH commands:
     Default 1000.
     -s <size> specifies the number of data bytes to be sent.  Default 56.
     -h shows this text and exits.
-    
+
     nsh> ping 10.42.0.1
     PING 10.42.0.1 56 bytes of data
     56 bytes from 10.42.0.1: icmp_seq=0 time=0.0 ms
@@ -511,7 +518,7 @@ enables USB Mass Storage. NSH commands:
     mcsonn_main: handle=0x20004c10
     mcsonn_main: Bind LUN=0 to /dev/mmcsd0
     mcsonn_main: Connected
-    
+
     nsh> msdis
 
 ### hcs04
@@ -538,13 +545,13 @@ the effective view is 128x56).
 
 You can wire the display to your board this way:
 
-| OLED  | PINS |
-| ----- | ---- |
-| CS    | PB7  |
-| DC    | PB8  |
-| RESET | PB6  |
-| SDA   | PA7  |
-| SCK   | PA5  |
+  OLED    PINS
+  ------- ------
+  CS      PB7
+  DC      PB8
+  RESET   PB6
+  SDA     PA7
+  SCK     PA5
 
 The board profile configures the NSH over USB and you can use the fb
 command to test:
@@ -621,11 +628,11 @@ configuration) and enables LCD driver with MAX7219 for 8x8 LED matrix:
     nxhello_main: Disconnect from the server
     nsh>
 
-| MAX7219 | PINS |
-| ------- | ---- |
-| CS      | PC4  |
-| DIN     | PA7  |
-| Clk     | PA5  |
+  MAX7219   PINS
+  --------- ------
+  CS        PC4
+  DIN       PA7
+  Clk       PA5
 
 As this LED matrix can be combined either horizontally or vertically,
 you can configure this using menuconfig:
@@ -643,17 +650,17 @@ configuration) and enables RFID driver with MFRC522:
     Trying to READ: Card is not present!
     Trying to READ: RFID CARD UID = 0x3DB3F169
 
-| MFRC522 | PINS |
-| ------- | ---- |
-| SCK     | PA5  |
-| MISO    | PA6  |
-| MOSI    | PA7  |
-| CS      | PC5  |
+  MFRC522   PINS
+  --------- ------
+  SCK       PA5
+  MISO      PA6
+  MOSI      PA7
+  CS        PC5
 
 The board used is based on MFRC522 NXP IC that supports contactless
 communication at 13.56 MHz and ISO/IEC 14443 A/MIFARE and NTAG.
 
-![](mfrc522_image.jpg)
+![](mfrc522_image.jpg){.align-center}
 
 ### bmp280
 
@@ -665,10 +672,10 @@ in slave address 0x76, connection it to VDD results in slave address
 BMP280\_I2C\_ADDR\_77. This configuration uses I2C1 and slave address
 0x77.
 
-| SENSOR | PINS |
-| ------ | ---- |
-| SDA    | PA7  |
-| SCK    | PB8  |
+  SENSOR   PINS
+  -------- ------
+  SDA      PA7
+  SCK      PB8
 
 NSH commands:
 
@@ -694,10 +701,10 @@ supports a 16x2 LCD screen based on the HD44780 controller, which is
 interfaced using an I2C adapter known as the LCD Backpack, utilizing the
 PCF8574 chip.
 
-| LCD | PINS |
-| --- | ---- |
-| SDA | PA7  |
-| SCK | PB8  |
+  LCD   PINS
+  ----- ------
+  SDA   PA7
+  SCK   PB8
 
 NSH commands:
 
@@ -724,16 +731,17 @@ driver for an addressable LED WS2812 and the SPI1. The MOSI pin from SPI
 must be connected to DIN on WS2812 module and the number of LEDs can be
 configured using CONFIG\_WS2812\_LED\_COUNT.
 
-| WS2812 | PINS |
-| ------ | ---- |
-| DIN    | PA7  |
+  WS2812   PINS
+  -------- ------
+  DIN      PA7
 
 NSH commands:
 
     NuttShell (NSH) NuttX-12.7.0-RC0
     nsh> ws2812
 
-## bmp180
+bmp180
+------
 
 The BMP180 is a digital barometric pressure sensor that provides
 pressure and temperature readings over I2C. It is commonly used in
@@ -801,18 +809,22 @@ multi-sensor handling.
     baro0: timestamp:2171630000 value1:935.92 value2:224.00
     baro0: timestamp:2172640000 value1:935.89 value2:224.00
 
-  - `value1` corresponds to pressure in hPa (hectopascals).
-  - `value2` corresponds to temperature in tenths of degrees Celsius
+-   `value1` corresponds to pressure in hPa (hectopascals).
+-   `value2` corresponds to temperature in tenths of degrees Celsius
     (e.g., 224.00 = 22.4°C).
 
 Connect the BMP180 sensor to the STM32 board using the I2C interface.
 
-| SENSOR | PIN |
-| ------ | --- |
-| SDA    | PB7 |
-| SCL    | PB8 |
+  -----------------
+  SENSOR   PIN
+  -------- --------
+  SDA      PB7
 
-## ST7735
+  SCL      PB8
+  -----------------
+
+ST7735
+------
 
 This example shows how to bring up and use a ST7735-based TFT LCD
 display in NuttX.
@@ -821,38 +833,36 @@ How to add support for the ST7735 display to a new board in NuttX:
 
 1.  **LCD Initialization:** Implement LCD
     initialization/uninitialization in
-    <span class="title-ref">stm32\_lcd\_st7735.c</span> to handle the
-    display. You can copy this from another board that supports ST7735.
+    [stm32\_lcd\_st7735.c]{.title-ref} to handle the display. You can
+    copy this from another board that supports ST7735.
 2.  **Update CMakeLists.txt and Make.defs:** Add
-    <span class="title-ref">stm32\_lcd\_st7735.c</span> if
-    <span class="title-ref">CONFIG\_LCD\_ST7735</span> is enabled.
+    [stm32\_lcd\_st7735.c]{.title-ref} if
+    [CONFIG\_LCD\_ST7735]{.title-ref} is enabled.
 3.  **SPI Initialization:** Ensure SPI is configured in
-    <span class="title-ref">stm32\_spi.c</span> for the ST7735.
+    [stm32\_spi.c]{.title-ref} for the ST7735.
 4.  **Board Setup:** Configure GPIO pins for RESET, DC, and CS.
 
 You can wire the display to your board this way:
 
-| LCD        | PIN |
-| ---------- | --- |
-| CS         | PB7 |
-| DC         | PB8 |
-| RESET      | PB6 |
-| SDA (MOSI) | PA7 |
-| SCK (SCLK) | PA5 |
+  ----------------------
+  LCD          PIN
+  ------------ ---------
+  CS           PB7
 
-<div class="note">
+  DC           PB8
 
-<div class="title">
+  RESET        PB6
+
+  SDA (MOSI)   PA7
+
+  SCK (SCLK)   PA5
+  ----------------------
 
 Note
-
-</div>
 
 The ST7735 uses the SPI interface. `SDA` corresponds to SPI `MOSI`
 (Master Out Slave In), and `SCK` corresponds to SPI `SCLK` (Serial
 Clock).
-
-</div>
 
 ### Enable the following options using `make menuconfig`:
 

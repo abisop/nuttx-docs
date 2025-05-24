@@ -1,18 +1,11 @@
-# Building uClibc++
-
-<div class="warning">
-
-<div class="title">
+Building uClibc++
+=================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=139629550>
 and is probably outdated
-
-</div>
 
 A version of [uClibc++](http://cxx.uclibc.org/) has been ported to NuttX
 and is available in the NuttX uClibc++ GIT repository at
@@ -34,14 +27,15 @@ file. Those instructions are not repeated here. This page documents
 specific issues encountered when building this NuttX version of uClibc++
 and how they are resolved.
 
-## Undefined Reference to `_impure_ptr`
+Undefined Reference to `_impure_ptr`
+------------------------------------
 
 **Problem**
 
 When building uClibc++, you may encounter an undefined reference to
 `_impure_ptr` similar to:
 
-``` none
+``` {.none}
 LD: nuttx
 .../arm-none-eabi/lib/armv7e-m\libsupc++.a(vterminate.o): In function
 `__gnu_cxx::__verbose_terminate_handler()`:
@@ -55,31 +49,31 @@ A definitive, elegant solution is not known, but the following
 workaround has proven to work:
 
 1.  Locate the directory where you can find `libsupc++`:
-    
-    ``` console
+
+    ``` {.console}
     arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -print-file-name=libsupc++.a
     ```
 
 2.  Go to that directory and save a copy of `vterminate.o` (in case you
     need it later):
-    
-    ``` console
+
+    ``` {.console}
     cd <the-directory-containing-libsupc++.a>
     arm-none-eabi-ar.exe -x libsupc++.a vterminate.o
     ```
 
 3.  Remove `vterminate.o` from the library. At build time, the uClibc++
     package will provide a usable replacement:
-    
-    ``` console
+
+    ``` {.console}
     arm-none-eabi-ar.exe -d libsupc++.a vterminate.o
     ```
 
 4.  At this point, NuttX should link with no problem. If you ever want
     to restore the original `vterminate.o` to `libsupc++.a`, you can do
     so by running:
-    
-    ``` console
+
+    ``` {.console}
     arm-none-eabi-ar.exe rcs libsupc++.a vterminate.o
     ```
 
@@ -87,16 +81,8 @@ After removing `vterminate.o` from the standard library, the
 uClibc++-provided `vterminate.o` becomes the active implementation and
 prevents references to `_impure_ptr` from arising during linkage.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Always exercise caution when modifying toolchain libraries. This
 workaround is known to be effective but it replaces standard library
 objects, which may have side effects in other toolchain usage scenarios.
-
-</div>

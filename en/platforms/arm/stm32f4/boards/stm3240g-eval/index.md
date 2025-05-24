@@ -1,15 +1,13 @@
-# ST STM3240G-EVAL
-
-<div class="tags">
+ST STM3240G-EVAL
+================
 
 chip:stm32, chip:stm32f4, chip:stm32f407, ethernet
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM3240G-EVAL development board.
 
-## Ethernet
+Ethernet
+--------
 
 The Ethernet driver is configured to use the MII interface:
 
@@ -21,7 +19,8 @@ Board Jumper Settings:
     JP5     2-3: Provide 25 MHz clock for MII or 50 MHz clock for RMII by MCO at PA8
     SB1     Not used with MII
 
-## LEDs
+LEDs
+----
 
 The STM3240G-EVAL board has four LEDs labeled LD1, LD2, LD3 and LD4 on
 the board.. These LEDs are not used by the board port unless
@@ -51,7 +50,8 @@ illuminated on a small proportion of the time.
 
 \[3\] LED2 may also flicker normally if signals are processed.
 
-## PWM
+PWM
+---
 
 The STM3240G-Eval has no real on-board PWM devices, but the board can be
 configured to output a pulse train using timer output pins. The
@@ -95,7 +95,8 @@ ACCESS:
     Daughterboard Extension Connector, CN3, pin 17
     Ground is available on CN3, pin1
 
-## CAN
+CAN
+---
 
 Connector 10 (CN10) is DB-9 male connector that can be used with CAN1 or
 CAN2.:
@@ -115,7 +116,8 @@ Mapping to STM32 GPIO pins:
     PB13  = ULPI_D6 & CAN2_TX
     PB5   = ULPI_D7 & CAN2_RX
 
-## FSMC SRAM
+FSMC SRAM
+---------
 
 ### On-board SRAM
 
@@ -180,7 +182,8 @@ There are 4 possible SRAM configurations:
                      CONFIG_STM32_ETXERNAL_RAM defined
                      CONFIG_STM32_CCMEXCLUDE NOT defined
 
-## I/O Expanders
+I/O Expanders
+-------------
 
 The STM3240G-EVAL has two STMPE811QTR I/O expanders on board both
 connected to the STM32 via I2C1. They share a common interrupt line:
@@ -188,51 +191,32 @@ PI2.
 
 STMPE811 U24, I2C address 0x41 (7-bit)
 
-<table>
-<thead>
-<tr class="header">
-<th>STPE11</th>
-<th>PIN</th>
-<th>BOARD SIGNAL</th>
-<th>BOARD CONNECTION</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>Y-X-Y+ X+ IN3 IN2 IN1 IN0</p>
-</blockquote></td>
-<td></td>
-<td><p>TouchScreen_Y-TouchScreen_X-TouchScreen_Y+ TouchScreen_X+ EXP_IO9 EXP_IO10 EXP_IO11 EXP_IO12</p></td>
-<td><p>LCD Connector XL LCD Connector XR LCD Connector XD LCD Connector XU</p></td>
-</tr>
-</tbody>
-</table>
++-------------------+-----+-------------------+-------------------+
+| STPE11            | PIN | BOARD SIGNAL      | BOARD CONNECTION  |
++===================+=====+===================+===================+
+| > Y-X-Y+ X+ IN3   |     | TouchScreen       | LCD Connector XL  |
+| > IN2 IN1 IN0     |     | \_Y-TouchScreen\_ | LCD Connector XR  |
+|                   |     | X-TouchScreen\_Y+ | LCD Connector XD  |
+|                   |     | TouchScreen\_X+   | LCD Connector XU  |
+|                   |     | EXP\_IO9          |                   |
+|                   |     | EXP\_IO10         |                   |
+|                   |     | EXP\_IO11         |                   |
+|                   |     | EXP\_IO12         |                   |
++-------------------+-----+-------------------+-------------------+
 
 STMPE811 U29, I2C address 0x44 (7-bit)
 
-<table>
-<thead>
-<tr class="header">
-<th>STPE11</th>
-<th>PIN</th>
-<th>BOARD SIGNAL</th>
-<th>BOARD CONNECTION</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><blockquote>
-<p>Y-X-Y+ X+ IN3 IN2 IN1 IN0</p>
-</blockquote></td>
-<td></td>
-<td><p>EXP_IO1 EXP_IO2 EXP_IO3 EXP_IO4 EXP_IO5 EXP_IO6 EXP_IO7 EXP_IO8</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
++-------------------+-----+-------------------+------------------+
+| STPE11            | PIN | BOARD SIGNAL      | BOARD CONNECTION |
++===================+=====+===================+==================+
+| > Y-X-Y+ X+ IN3   |     | EXP\_IO1 EXP\_IO2 |                  |
+| > IN2 IN1 IN0     |     | EXP\_IO3 EXP\_IO4 |                  |
+|                   |     | EXP\_IO5 EXP\_IO6 |                  |
+|                   |     | EXP\_IO7 EXP\_IO8 |                  |
++-------------------+-----+-------------------+------------------+
 
-## Configurations
+Configurations
+--------------
 
 Each STM3240G-EVAL configuration is maintained in a sub-directory and
 can be selected as follow:
@@ -249,22 +233,27 @@ about the dhcpd example.
 
 NOTES:
 
-1.    - This configuration uses the mconf-based configuration tool. To  
-        change this configurations using that tool, you should:
-        
-        1.  Build and install the kconfig-mconf tool. See
+1.  
+
+    This configuration uses the mconf-based configuration tool. To
+
+    :   change this configurations using that tool, you should:
+
+        a.  Build and install the kconfig-mconf tool. See
             nuttx/README.txt see additional README.txt files in the
             NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
-2.    - The server address is 10.0.0.1 and it serves IP addresses in the
-        range  
-        10.0.0.2 through 10.0.0.17 (all of which, of course, are
+2.  
+
+    The server address is 10.0.0.1 and it serves IP addresses in the range
+
+    :   10.0.0.2 through 10.0.0.17 (all of which, of course, are
         configurable).
 
 3.  Default build environment (also easily reconfigured):
-    
+
         CONFIG_HOST_WINDOWS=y
         CONFIG_WINDOWS_CYGWIN=y
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y
@@ -287,14 +276,14 @@ Configuration settings that you may need to change for your environment:
     CONFIG_EXAMPLES_DISCOVER_DRIPADDR       - Router IP address
 
 NOTE: This configuration uses to the kconfig-mconf configuration tool to
-control the configuration. See the section entitled "NuttX Configuration
-Tool" in the top-level README.txt file.
+control the configuration. See the section entitled \"NuttX
+Configuration Tool\" in the top-level README.txt file.
 
 ### fb
 
 A simple NSH configuration used for some basic (non-graphic) debug of
 the framebuffer character driver at drivers/video/fb.c. NOTE that the
-STM3240G-EVAL LCD driver does not support a framebuffer\! It interfaces
+STM3240G-EVAL LCD driver does not support a framebuffer! It interfaces
 with the LCD through a parallel FSMC interface. This configuration uses
 the LCD framebuffer front end at drivers/lcd/lcd\_framebuffer to convert
 the LCD interface into a compatible framebuffer interface.
@@ -322,109 +311,120 @@ STATUS: 2017-09-17: This configuration appears to be fully functional.
 This is identical to the nxwm configuration below except that NuttX is
 built as a kernel-mode, monolithic module and the user applications are
 built separately. Is is recommended to use a special make command; not
-just 'make' but make with the following two arguments:
+just \'make\' but make with the following two arguments:
 
     make pass1 pass2
 
-In the normal case (just 'make'), make will attempt to build both
-user-and kernel-mode blobs more or less interleaved. This actual works\!
+In the normal case (just \'make\'), make will attempt to build both
+user-and kernel-mode blobs more or less interleaved. This actual works!
 However, for me it is very confusing so I prefer the above make command:
 Make the user-space binaries first (pass1), then make the kernel-space
 binaries (pass2)
 
 NOTES:
 
-1.    - This configuration uses the mconf-based configuration tool. To  
-        change this configuration using that tool, you should:
-        
-        1.  Build and install the kconfig-mconf tool. See
+1.  
+
+    This configuration uses the mconf-based configuration tool. To
+
+    :   change this configuration using that tool, you should:
+
+        a.  Build and install the kconfig-mconf tool. See
             nuttx/README.txt see additional README.txt files in the
             NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
 2.  This is the default platform/toolchain in the configuration:
-    
+
     > CONFIG\_HOST\_WINDOWS=y : Windows CONFIG\_WINDOWS\_CYGWIN=y :
     > Cygwin environment on Windows CONFIG\_ARM\_TOOLCHAIN\_BUILDROOT=y
     > : NuttX EABI buildroot toolchain CONFIG\_ARCH\_SIZET\_LONG=y :
     > size\_t is long (maybe?)
-    > 
+    >
     > This is easily changed by modifying the configuration.
 
-3.    - In addition to the protected mode build, this NxWM
-        configuration  
-        differences from the nxwm configuration in that:
-        
-        1.  Networking is disabled. There are issues with some of the
+3.  
+
+    In addition to the protected mode build, this NxWM configuration
+
+    :   differences from the nxwm configuration in that:
+
+        a.  Networking is disabled. There are issues with some of the
             network-related NSH commands and with Telnet in the
             protected build (see the top-level TODO file). Without these
             NSH commands, there is no use for networking in this
             configuration.
-        
-        2.  The NxTerm windows are disabled. There are also issues with
+
+        b.  The NxTerm windows are disabled. There are also issues with
             the NxTerm build now.
-            
+
             NOTE: Those issues have been resolved. However, this
             configuration has not yet be re-verified with NxTerm
             enabled.
-        
-        3.  The initialization sequence is quite different: NX and the
+
+        c.  The initialization sequence is quite different: NX and the
             touchscreen are initialized in kernel mode by logic in this
             src/ directory before the NxWM application is started.
 
-4.    - At the end of the build, there will be several files in the
-        top-level  
-        NuttX build directory:
-        
-          - PASS1:  
-            nuttx\_user.elf - The pass1 user-space ELF file
+4.  
+
+    At the end of the build, there will be several files in the top-level
+
+    :   NuttX build directory:
+
+        PASS1:
+
+        :   nuttx\_user.elf - The pass1 user-space ELF file
             nuttx\_user.hex - The pass1 Intel HEX format file (selected
             in defconfig) User.map - Symbols in the user-space ELF file
-        
-          - PASS2:  
-            nuttx - The pass2 kernel-space ELF file nuttx.hex - The
+
+        PASS2:
+
+        :   nuttx - The pass2 kernel-space ELF file nuttx.hex - The
             pass2 Intel HEX file (selected in defconfig) System.map -
             Symbols in the kernel-space ELF file
 
-5.    - Combining .hex files. If you plan to use the STM32 ST-Link
-        Utility to  
-        load the .hex files into FLASH, then you need to combine the two
+5.  
+
+    Combining .hex files. If you plan to use the STM32 ST-Link Utility to
+
+    :   load the .hex files into FLASH, then you need to combine the two
         hex files into a single .hex file. Here is how you can do that.
-        
-        1.  The 'tail' of the nuttx.hex file should look something like
-            this (with my comments added):
-            
-            >  tail nuttx.hex \# 00, data records ... :10 9DC0 00
+
+        a.  The \'tail\' of the nuttx.hex file should look something
+            like this (with my comments added):
+
+            > \ tail nuttx.hex \# 00, data records \... :10 9DC0 00
             > 01000000000800006400020100001F0004 :10 9DD0 00
             > 3B005A0078009700B500D400F300110151 :08 9DE0 00
             > 30014E016D0100008D \# 05, Start Linear Address Record :04
             > 0000 05 0800 0419 D2 \# 01, End Of File record :00 0000 01
             > FF
-            
+
             Use an editor such as vi to remove the 05 and 01 records.
-        
-        2.  The 'head' of the nuttx\_user.hex file should look something
-            like this (again with my comments added):
-            
-            >  head nuttx\_user.hex \# 04, Extended Linear Address
+
+        b.  The \'head\' of the nuttx\_user.hex file should look
+            something like this (again with my comments added):
+
+            > \ head nuttx\_user.hex \# 04, Extended Linear Address
             > Record :02 0000 04 0801 F1 \# 00, data records :10 8000 00
             > BD89 01084C800108C8110208D01102087E :10 8010 00 0010
             > 00201C1000201C1000203C16002026 :10 8020 00 4D80
-            > 01085D80010869800108ED83010829 ...
-            
+            > 01085D80010869800108ED83010829 \...
+
             Nothing needs to be done here. The nuttx\_user.hex file
             should be fine.
-        
-        3.  Combine the edited nuttx.hex and un-edited nuttx\_user.hex
+
+        c.  Combine the edited nuttx.hex and un-edited nuttx\_user.hex
             file to produce a single combined hex file:
-            
-             cat nuttx.hex nuttx\_user.hex \>combined.hex
-        
+
+            \ cat nuttx.hex nuttx\_user.hex \>combined.hex
+
         Then use the combined.hex file with the STM32 ST-Link tool. If
         you do this a lot, you will probably want to invest a little
         time to develop a tool to automate these steps.
-        
+
         STATUS: 2014-10-11: This worked at one time, but today I am
         getting a failure inside of the GCC library. This occurred with
         the computations at the end of touchscreen calibration. The
@@ -435,7 +435,7 @@ NOTES:
 ### nettest
 
 This configuration directory may be used to verify networking
-performance using the STM32's Ethernet controller. It uses
+performance using the STM32\'s Ethernet controller. It uses
 apps/examples/nettest to exercise the TCP/IP network.:
 
     CONFIG_ARM_TOOLCHAIN_GNU_EABI=y                     : GNU EABI toolchain for Windows
@@ -449,9 +449,9 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 ### nsh
@@ -466,17 +466,23 @@ Configuration enables both the serial and telnet NSH interfaces.:
 
 NOTES:
 
-1.    - This configuration uses the mconf-based configuration tool. To  
-        change this configurations using that tool, you should:
-        
-        1.  Build and install the kconfig-mconf tool. See
+1.  
+
+    This configuration uses the mconf-based configuration tool. To
+
+    :   change this configurations using that tool, you should:
+
+        a.  Build and install the kconfig-mconf tool. See
             nuttx/README.txt see additional README.txt files in the
             NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
-2.    - This example assumes that a network is connected. During its  
-        initialization, it will try to negotiate the link speed. If you
+2.  
+
+    This example assumes that a network is connected. During its
+
+    :   initialization, it will try to negotiate the link speed. If you
         have no network connected when you reset the board, there will
         be a long delay (maybe 30 seconds?) before anything happens.
         That is the timeout before the networking finally gives up and
@@ -484,113 +490,119 @@ NOTES:
 
 3.  This example supports the ADC test (apps/examples/adc) but this must
     be manually enabled by selecting:
-    
+
         CONFIG_ADC=y             : Enable the generic ADC infrastructure
         CONFIG_STM32_ADC3=y      : Enable ADC3
         CONFIG_STM32_TIM1=y      : Enable Timer 1
         CONFIG_STM32_TIM1_ADC=y  : Indicate that timer 1 will be used to trigger an ADC
         CONFIG_STM32_TIM1_ADC3=y : Assign timer 1 to drive ADC3 sampling
         CONFIG_STM32_ADC3_SAMPLE_FREQUENCY=100 : Select a sampling frequency
-        
+
         See also apps/examples/README.txt
-        
+
         General debug for analog devices (ADC/DAC):
-        
+
         CONFIG_DEBUG_ANALOG
 
 4.  This example supports the PWM test (apps/examples/pwm) but this must
     be manually enabled by selecting eeither:
-    
+
         CONFIG_PWM=y                : Enable the generic PWM infrastructure
         CONFIG_PWM_PULSECOUNT=n     : Disable to support for TIM1/8 pulse counts
         CONFIG_STM32_TIM4=y         : Enable TIM4
         CONFIG_STM32_TIM4_PWM=y     : Use TIM4 to generate PWM output
         CONFIG_STM32_TIM4_CHANNEL=2 : Select output on TIM4, channel 2
-        
+
         If CONFIG_STM32_FSMC is disabled, output will appear on CN3, pin 32.
         Ground is available on CN3, pin1.
-        
+
         Or..
-        
+
         CONFIG_PWM=y                : Enable the generic PWM infrastructure
         CONFIG_PWM_PULSECOUNT=y     : Enable to support for TIM1/8 pulse counts
         CONFIG_STM32_TIM8=y         : Enable TIM8
         CONFIG_STM32_TIM8_PWM=y     : Use TIM8 to generate PWM output
         CONFIG_STM32_TIM8_CHANNEL=4 : Select output on TIM8, channel 4
-        
+
         If CONFIG_STM32_FSMC is disabled, output will appear on CN3, pin 17
         Ground is available on CN23 pin1.
-        
+
         See also include/board.h and apps/examples/README.txt
-        
+
         Special PWM-only debug options:
-        
+
         CONFIG_DEBUG_PWM_INFO
 
 5.  This example supports the CAN loopback test (apps/examples/can) but
     this must be manually enabled by selecting:
-    
+
         CONFIG_CAN=y             : Enable the generic CAN infrastructure
         CONFIG_CAN_EXTID=y or n  : Enable to support extended ID frames
         CONFIG_STM32_CAN1=y      : Enable CAN1
         CONFIG_CAN_LOOPBACK=y    : Enable CAN loopback mode
-        
+
         See also apps/examples/README.txt
-        
+
         Special CAN-only debug options:
-        
+
         CONFIG_DEBUG_CAN_INFO
         CONFIG_STM32_CAN_REGDEBUG
 
-6.    - This example can support an FTP client. In order to build in FTP
-        client  
-        support simply uncomment the following lines in the defconfig
+6.  
+
+    This example can support an FTP client. In order to build in FTP client
+
+    :   support simply uncomment the following lines in the defconfig
         file (before configuring) or in the .config file (after
         configuring):
-        
+
         CONFIG\_NETUTILS\_FTPC=y CONFIG\_EXAMPLES\_FTPC=y
 
-7.    - This example can support an FTP server. In order to build in FTP
-        server  
-        support simply add the following lines in the defconfig file
+7.  
+
+    This example can support an FTP server. In order to build in FTP server
+
+    :   support simply add the following lines in the defconfig file
         (before configuring) or in the .config file (after configuring):
-        
+
         CONFIG\_NETUTILS\_FTPD=y CONFIG\_EXAMPLES\_FTPD=y
 
-8.    - This example supports the watchdog timer test
-        (apps/examples/watchdog)  
-        but this must be manually enabled by selecting:
-        
+8.  
+
+    This example supports the watchdog timer test (apps/examples/watchdog)
+
+    :   but this must be manually enabled by selecting:
+
         CONFIG\_WATCHDOG=y : Enables watchdog timer driver support
         CONFIG\_STM32\_WWDG=y : Enables the WWDG timer facility, OR
         CONFIG\_STM32\_IWDG=y : Enables the IWDG timer facility (but not
         both)
-        
+
         The WWDG watchdog is driven off the (fast) 42MHz PCLK1 and, as
         result, has a maximum timeout value of 49 milliseconds. For WWDG
         watchdog, you should also add the following to the configuration
         file:
-        
+
         CONFIG\_EXAMPLES\_WATCHDOG\_PINGDELAY=20
         CONFIG\_EXAMPLES\_WATCHDOG\_TIMEOUT=49
-        
+
         The IWDG timer has a range of about 35 seconds and should not be
         an issue.
 
 9.  Adding LCD and graphics support:
-    
+
     > defconfig (nuttx/.config):
-    > 
+    >
     > CONFIG\_EXAMPLES\_nx=y : Pick one or more
     > CONFIG\_EXAMPLES\_nxhello=y : CONFIG\_EXAMPLES\_nximage :
     > CONFIG\_EXAMPLES\_nxlines :
-    > 
+    >
     > CONFIG\_STM32\_FSMC=y : FSMC support is required for the LCD
     > CONFIG\_NX=y : Enable graphics support CONFIG\_MM\_REGIONS=3 :
     > When FSMC is enabled, so is the on-board SRAM memory region
 
 10. USB OTG FS Device or Host Support
-    
+
     > CONFIG\_USBDEV : Enable USB device support, OR CONFIG\_USBHOST :
     > Enable USB host support CONFIG\_STM32\_OTGFS : Enable the STM32
     > USB OTG FS block CONFIG\_STM32\_SYSCFG : Needed
@@ -599,7 +611,7 @@ NOTES:
 11. USB OTG FS Host Support. The following changes will enable support
     for a USB host on the STM32F4Discovery, including support for a mass
     storage class driver:
-    
+
         CONFIG_USBDEV=n          : Make sure the USB device support is disabled
         CONFIG_USBHOST=y         : Enable USB host support
         CONFIG_STM32_OTGFS=y     : Enable the STM32 USB OTG FS block
@@ -609,20 +621,20 @@ NOTES:
         CONFIG_NSH_ARCHINIT=y    : Architecture specific USB initialization
                                   is needed for NSH
         CONFIG_FS_FAT=y          : Needed by the USB host mass storage class.
-    
+
     With those changes, you can use NSH with a FLASH pen driver as shown
     belong. Here NSH is started with nothing in the USB host slot:
-    
+
         NuttShell (NSH) NuttX-x.yy
         nsh> ls /dev
         /dev:
          console
          null
          ttyS0
-    
+
     After inserting the FLASH drive, the /dev/sda appears and can be
     mounted like this:
-    
+
         nsh> ls /dev
         /dev:
          console
@@ -633,9 +645,9 @@ NOTES:
         nsh> ls /mnt/stuff
         /mnt/stuff:
          -rw-rw-rw-   16236 filea.c
-        
+
         And files on the FLASH can be manipulated to standard interfaces:
-        
+
         nsh> echo "This is a test" >/mnt/stuff/atest.txt
         nsh> ls /mnt/stuff
         /mnt/stuff:
@@ -649,18 +661,18 @@ NOTES:
          -rw-rw-rw-   16236 filea.c
          -rw-rw-rw-      16 atest.txt
          -rw-rw-rw-   16236 fileb.c
-        
+
         To prevent data loss, don't forget to un-mount the FLASH drive
         before removing it:
-        
+
         nsh> umount /mnt/stuff
 
 12. By default, this configuration supports /dev/random using the
-    STM32's RNG hardware. This can be disabled as follows:
-    
+    STM32\'s RNG hardware. This can be disabled as follows:
+
         -CONFIG_STM32_RNG=y
         +CONFIG_STM32_RNG=n
-        
+
         -CONFIG_DEV_RANDOM=y
         +CONFIG_DEV_RANDOM=n
 
@@ -676,13 +688,13 @@ the following ways:
 
     -CONFIG_STM32_USART3=y      : USART3 is disabled
     +CONFIG_STM32_USART3=n
-    
+
     -CONFIG_STM32_SDIO=n        : SDIO is enabled
     +CONFIG_STM32_SDIO=y
 
 Logically, these are the only differences: This configuration has SDIO
 (and the SD card) enabled and the serial console disabled. There is ONLY
-a Telnet console\!.
+a Telnet console!.
 
 There are some special settings to make life with only a Telnet:
 
@@ -697,73 +709,88 @@ There are some special settings to make life with only a Telnet:
       command called 'dmesg' that can be used to dump the RAM log.
 
 There are a few other configuration differences as necessary to support
-this different device configuration. Just the do the 'diff' if you are
+this different device configuration. Just the do the \'diff\' if you are
 curious.
 
 NOTES:
 
-1.    - This configuration uses the mconf-based configuration tool. To  
-        change this configurations using that tool, you should:
-        
-        1.  Build and install the kconfig-mconf tool. See
+1.  
+
+    This configuration uses the mconf-based configuration tool. To
+
+    :   change this configurations using that tool, you should:
+
+        a.  Build and install the kconfig-mconf tool. See
             nuttx/README.txt see additional README.txt files in the
             NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
-2.    - See the notes for the nsh configuration. Most also apply to the
-        nsh2  
-        configuration. Like the nsh configuration, this configuration
+2.  
+
+    See the notes for the nsh configuration. Most also apply to the nsh2
+
+    :   configuration. Like the nsh configuration, this configuration
         can be modified to support a variety of additional tests.
 
-3.    - RS-232 is disabled, but Telnet is still available for use as a
-        console.  
-        Since RS-232 and SDIO use the same pins (one controlled by
+3.  
+
+    RS-232 is disabled, but Telnet is still available for use as a console.
+
+    :   Since RS-232 and SDIO use the same pins (one controlled by
         JP22), RS232 and SDIO cannot be used concurrently.
 
-4.    - This configuration requires that jumper JP22 be set to enable
-        SDIO  
-        operation. To enable MicroSD Card, which shares same I/Os with
+4.  
+
+    This configuration requires that jumper JP22 be set to enable SDIO
+
+    :   operation. To enable MicroSD Card, which shares same I/Os with
         RS-232, JP22 is not fitted.
 
-5.    - In order to use SDIO without overruns, DMA must be used. The
-        STM32 F4  
-        has 192Kb of SRAM in two banks: 112Kb of "system" SRAM located
-        at 0x2000:0000 and 64Kb of "CCM" SRAM located at 0x1000:0000. It
-        appears that you cannot perform DMA from CCM SRAM. The work
+5.  
+
+    In order to use SDIO without overruns, DMA must be used. The STM32 F4
+
+    :   has 192Kb of SRAM in two banks: 112Kb of \"system\" SRAM located
+        at 0x2000:0000 and 64Kb of \"CCM\" SRAM located at 0x1000:0000.
+        It appears that you cannot perform DMA from CCM SRAM. The work
         around that I have now is simply to omit the 64Kb of CCM SRAM
         from the heap so that all memory is allocated from System SRAM.
         This is done by setting:
-        
+
         CONFIG\_MM\_REGIONS=1
-        
+
         Then DMA works fine. The downside is, of course, is that we lose
         64Kb of precious SRAM.
 
-6.    - Another SDIO/DMA issue. This one is probably a software bug.
-        This is  
-        the bug as stated in the TODO list:
-        
-          - "If you use a large I/O buffer to access the file system,
-            then the  
-            MMCSD driver will perform multiple block SD transfers. With
+6.  
+
+    Another SDIO/DMA issue. This one is probably a software bug. This is
+
+    :   the bug as stated in the TODO list:
+
+        \"If you use a large I/O buffer to access the file system, then the
+
+        :   MMCSD driver will perform multiple block SD transfers. With
             DMA ON, this seems to result in CRC errors detected by the
             hardware during the transfer. Workaround:
-            CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1"
-        
+            CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1\"
+
         For this reason, CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1 appears in
         the defconfig file.
 
-7.    - Another DMA-related concern. I see this statement in the
-        reference  
-        manual: "The burst configuration has to be selected in order to
+7.  
+
+    Another DMA-related concern. I see this statement in the reference
+
+    :   manual: \"The burst configuration has to be selected in order to
         respect the AHB protocol, where bursts must not cross the 1 KB
         address boundary because the minimum address space that can be
         allocated to a single slave is 1 KB. This means that the 1 KB
         address boundary should not be crossed by a burst block
         transfer, otherwise an AHB error would be generated, that is not
-        reported by the DMA registers."
-        
+        reported by the DMA registers.\"
+
         There is nothing in the DMA driver to prevent this now.
 
 ### nxterm
@@ -774,38 +801,43 @@ NSH shell.
 
 NOTES:
 
-1.    - This configuration uses the mconf-based configuration tool. To  
-        change this configurations using that tool, you should:
-        
-        1.  Build and install the kconfig-mconf tool. See
+1.  
+
+    This configuration uses the mconf-based configuration tool. To
+
+    :   change this configurations using that tool, you should:
+
+        a.  Build and install the kconfig-mconf tool. See
             nuttx/README.txt see additional README.txt files in the
             NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
-2.    - Some of the differences in this configuration and the normal
-        nsh  
-        configuration include these settings in the defconfig file:
-        
+2.  
+
+    Some of the differences in this configuration and the normal nsh
+
+    :   configuration include these settings in the defconfig file:
+
         These select NX Multi-User mode:
-        
+
         > CONFG\_NX\_MULTIUSER=y CONFIG\_DISABLE\_MQUEUE=n
-        
+
         The following definition in the defconfig file to enables the
         NxTerm driver:
-        
+
         > CONFIG\_NXTERM=y
-        
+
         And this selects examples/nxterm instead of examples/nsh:
-        
+
         > CONFIG\_EXAMPLES\_NXTERM=y
-        
+
         LCD Orientation:
-        
+
         > CONFIG\_LCD\_LANDSCAPE=y : 320x240 landscape
 
 3.  Default build environment (also easily reconfigured):
-    
+
     > CONFIG\_HOST\_WINDOWS=y : Windows CONFIG\_WINDOWS\_CYGWIN=y : With
     > Cygwin CONFIG\_ARM\_TOOLCHAIN\_GNU\_EABI=y : GNU EABI toolchain
     > for Windows
@@ -826,7 +858,7 @@ The NxWM unit test can be found at:
 A simple test of the Telnet daemon(see apps/netutils/README.txt,
 apps/examples/README.txt, and apps/examples/telnetd). This is the same
 daemon that is used in the nsh configuration so if you use NSH, then you
-don't care about this. This test is good for testing the Telnet daemon
+don\'t care about this. This test is good for testing the Telnet daemon
 only because it works in a simpler environment than does the nsh
 configuration.
 
@@ -834,14 +866,14 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-        2.  Execute 'make menuconfig' in nuttx/ in order to start the
+        b.  Execute \'make menuconfig\' in nuttx/ in order to start the
             reconfiguration process.
 
 2.  Default build environment (easily reconfigured):
-    
+
         CONFIG_HOST_WINDOWS=y
         CONFIG_WINDOWS_CYGWIN=y
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y
@@ -849,6 +881,7 @@ NOTES:
 ### xmlrpc
 
 An example configuration for the Embeddable Lightweight XML-RPC Server
-at apps/examples/xmlrpc. See <http://www.drdobbs.com/web-development/\>
+at apps/examples/xmlrpc. See
+[http://www.drdobbs.com/web-development/\\](http://www.drdobbs.com/web-development/\)
 an-embeddable-lightweight-xml-rpc-server/184405364 for more info.
 Contributed by Max Holtzberg.

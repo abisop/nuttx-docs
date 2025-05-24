@@ -1,26 +1,20 @@
-# Changing the System Clock Configuration
-
-<div class="warning">
-
-<div class="title">
+Changing the System Clock Configuration
+=======================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Changing+the+System+Clock+Configuration>
 
-</div>
+Question
+--------
 
-## Question
+[Is an STM32 configuration booting with the internal 16 MHz clock, then
+switching later (on command) to an external 25 MHz xtal doable? I don\'t
+think so, but would you mind confirming that?]{.title-ref}
 
-<span class="title-ref">Is an STM32 configuration booting with the
-internal 16 MHz clock, then switching later (on command) to an external
-25 MHz xtal doable? I don't think so, but would you mind confirming
-that?</span>
-
-## Answer
+Answer
+------
 
 Of course, that is what always happens: The STM32 boots using an
 internal clock and switches to the external crystal source after
@@ -35,10 +29,10 @@ The `configs/vsn/` configuration does something like you say. It skips
 the initial clock configuration by defining
 `CONFIG_ARCH_BOARD_STM32_CUSTOM_CLOCKCONFIG=y`. Then the normal clock
 configuration logic in `arch/arm/src/stm32/stm32_rcc.c` is not executed.
-Instead, the "custom" clock initialization at
+Instead, the \"custom\" clock initialization at
 `configs/vsn/src/sysclock.c` is called:
 
-``` c
+``` {.c}
 void stm32_clockconfig(void)
 {
   /* Make sure that we are starting in the reset state */
@@ -66,7 +60,7 @@ void stm32_clockconfig(void)
 ```
 
 Doing things that way, you can have complete control over when the
-crystal clock source is used. The initial "custom" clock configuration
+crystal clock source is used. The initial \"custom\" clock configuration
 can use an internal source, then other custom clock configuration logic
 can change the clock source later.
 
@@ -93,9 +87,7 @@ options:
     `boards/arm/stm32/sama5d4-ek/include/board_sdram.h` for example.
     Notice that the frequencies are not constants, but function calls:
 
-<!-- end list -->
-
-``` c
+``` {.c}
 #define BOARD_MAINCK_FREQUENCY     BOARD_MAINOSC_FREQUENCY
 #define BOARD_PLLA_FREQUENCY       (sam_pllack_frequency(BOARD_MAINOSC_FREQUENCY))
 #define BOARD_PLLADIV2_FREQUENCY   (sam_plladiv2_frequency(BOARD_MAINOSC_FREQUENCY))
@@ -108,7 +100,7 @@ frequency of other clocks. This turns out to be more work than you would
 think, however, because there are probably C pre-processor tests that
 will now fail. Like:
 
-``` c
+``` {.c}
 #if BOARD_MCK_FREQUENCY > 16000000
 ... do something ...
 #endif
@@ -117,7 +109,7 @@ will now fail. Like:
 Such logic would have to be converted from a compile time decision to a
 run-time decision, perhaps like this:
 
-``` c
+``` {.c}
 if (BOARD_MCK_FREQUENCY > 16000000)
 {
   ... do something ...

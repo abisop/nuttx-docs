@@ -1,31 +1,34 @@
-# Linux Processes vs NuttX Tasks
+Linux Processes vs NuttX Tasks
+==============================
 
 You may be used to running programs that are stored in files on Linux or
 Windows. If you transition to using NuttX tasks on an MCU with limited
 resources, you will encounter some behavioral differences. This Wiki
 page will summarize a few of those differences.
 
-## NuttX Build Types
+NuttX Build Types
+-----------------
 
 NuttX can be built in several different ways:
 
-  - **Kernel Build** The kernel build, selected with
-    `CONFIG_BUILD_KERNEL`, uses the MCU's Memory Management Unit (MMU)
+-   **Kernel Build** The kernel build, selected with
+    `CONFIG_BUILD_KERNEL`, uses the MCU\'s Memory Management Unit (MMU)
     to implement processes very similar to Linux processes. There is no
     interesting discussion here; NuttX behaves very much like Linux.
-  - **Flat Build** Most resource-limited MCUs have no MMU and the code
+-   **Flat Build** Most resource-limited MCUs have no MMU and the code
     is built as a blob that runs in an unprotected, flat address space
     out of on-chip FLASH memory. This build mode is selected with
     `CONFIG_BUILD_FLAT` and is, by far, the most common way that people
     build NuttX. This is the interesting case to which this Wiki page is
     directed.
-  - **Protected Build** Another build option is the protected build.
-    This is essentially the same as the flat build, but uses the MCU's
+-   **Protected Build** Another build option is the protected build.
+    This is essentially the same as the flat build, but uses the MCU\'s
     Memory Protection Unit (MPU) to separate unproctect user address
     ranges from protected system address ranges. The comments of this
     Wiki page also apply in this case.
 
-## Initialization of Global Variables
+Initialization of Global Variables
+----------------------------------
 
 ### Linux Behavior
 
@@ -33,7 +36,7 @@ If you are used to writing programs for Linux, then one thing you will
 notice is that global variables are initialized only once when the
 system powers up. For example. Consider this tiny program:
 
-``` C
+``` {.C}
 bool test = true;
 
 int main(int argc, char **argv)
@@ -75,7 +78,7 @@ If you want the same behavior when the program is built into the common
 FLASH blob, then you will have modify the code so that global variables
 are explicitly reset each time the program runs like:
 
-``` C
+``` {.C}
 bool test;
 
 int main(int argc, char **argv)
@@ -105,7 +108,8 @@ This is one of the things that makes porting Linux applications into the
 FLASH blob more complex. You have to manually initialize each global
 variable in the `main()` each time your start the task.
 
-## Global Variables and Multiple Task Copies
+Global Variables and Multiple Task Copies
+-----------------------------------------
 
 It is better to avoid the use of global variables in the flat build
 context whenever possible because that usage adds another limitation: No
@@ -120,7 +124,7 @@ global variables is small, then each `main()` could simply allocate a
 copy of that structure on the stack. In the simple example above, this
 might be:
 
-``` C
+``` {.C}
 struct my_globals_s
 {
   bool test;
@@ -142,7 +146,7 @@ would then have to passed as a parameter to every internal function that
 needs access to the global variables. So you would change a internal
 function like:
 
-``` C
+``` {.C}
 static void print_value(void)
 {
   printf("test: %i\n", test);
@@ -151,7 +155,7 @@ static void print_value(void)
 
 to:
 
-``` C
+``` {.C}
 static void print_value(FAR struct my_globals_s *globals)
 {
   printf("test: %i\n", globals->test);
@@ -161,18 +165,18 @@ static void print_value(FAR struct my_globals_s *globals)
 Then pass a reference to the allocated global data structure each time
 that the function is called like:
 
-``` C
+``` {.C}
 print_value(&my_globals);
 ```
 
 If the size of the global variable structure is large, then allocating
 the instance on the stack might not be such a good idea. In that case,
 it might be better to allocate the global variable structure using
-`malloc()`. But don't forget to `free()` the allocated variable
-structure before exiting\! (See the following Memory Clean-Up
+`malloc()`. But don\'t forget to `free()` the allocated variable
+structure before exiting! (See the following Memory Clean-Up
 discussion).
 
-``` C
+``` {.C}
 struct my_globals_s
 {
   bool test;
@@ -199,7 +203,8 @@ int main(int argc, char **argv)
 }
 ```
 
-## Memory Clean-Up
+Memory Clean-Up
+---------------
 
 ### Linux Process Exit
 
@@ -209,7 +214,7 @@ entire address environment is destroyed including all of allocated
 memory. This tiny program will not leak memory if implemented as a Linux
 process:
 
-``` C
+``` {.C}
 int main(int argc, char **argv)
 {
   char *buffer = malloc(1024);
@@ -223,7 +228,7 @@ leaks because there is no automatic clean-up of allocated memory when
 the task exits. Instead, you must explicitly clean up all allocated
 memory by freeing it:
 
-``` C
+``` {.C}
 int main(int argc, char **argv)
 {
   char *buffer = malloc(1024);
@@ -243,8 +248,8 @@ the memory clean-up basically comes for free.
 
 But when you run a task in the monolithic, on-chip FLASH blob, you share
 the same heap with all other tasks. There is no magic clean-up that can
-find and free your tasks's allocations within the common heap (see "Ways
-to Free Memory on Task Exit").
+find and free your tasks\'s allocations within the common heap (see
+\"Ways to Free Memory on Task Exit\").
 
 ### NuttX Process Exit
 

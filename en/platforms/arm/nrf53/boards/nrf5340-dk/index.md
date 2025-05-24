@@ -1,43 +1,42 @@
-# Nordic nRF5340 DK
-
-<div class="tags">
+Nordic nRF5340 DK
+=================
 
 chip:nrf53, chip:nrf5340
-
-</div>
 
 The [nRF5340-DK
 (PCA10092)](https://www.nordicsemi.com/Products/Development-hardware/nrf5340-dk)
 is a development board based on the nRF5340 from Nordic.
 
-## Serial Console
+Serial Console
+--------------
 
 Serial console for the application core:
 
-| Pin   | Signal       | Notes         |
-| ----- | ------------ | ------------- |
-| P1.01 | APP UART0 TX | virtual COM 0 |
-| P1.00 | APP UART0 RX | virtual COM 0 |
+  Pin     Signal         Notes
+  ------- -------------- ---------------
+  P1.01   APP UART0 TX   virtual COM 0
+  P1.00   APP UART0 RX   virtual COM 0
 
 Serial console for the network core:
 
-| Pin   | Signal       | Notes         |
-| ----- | ------------ | ------------- |
-| P0.20 | NET UART0 TX | virtual COM 1 |
-| P0.22 | NET UART0 RX | virtual COM 1 |
+  Pin     Signal         Notes
+  ------- -------------- ---------------
+  P0.20   NET UART0 TX   virtual COM 1
+  P0.22   NET UART0 RX   virtual COM 1
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
 The PCA10092 has 4 user-controllable LEDs:
 
-| LED  | MCU   |
-| ---- | ----- |
-| LED1 | P0.28 |
-| LED2 | P0.29 |
-| LED3 | P0.30 |
-| LED4 | P0.31 |
+  LED    MCU
+  ------ -------
+  LED1   P0.28
+  LED2   P0.29
+  LED3   P0.30
+  LED4   P0.31
 
 A low output illuminates the LED.
 
@@ -53,14 +52,15 @@ for application control of the LEDs:
 
 ### Pushbuttons
 
-| BUTTON  | MCU   |
-| ------- | ----- |
-| BUTTON1 | P0.23 |
-| BUTTON2 | P0.24 |
-| BUTTON3 | P0.08 |
-| BUTTON4 | P0.09 |
+  BUTTON    MCU
+  --------- -------
+  BUTTON1   P0.23
+  BUTTON2   P0.24
+  BUTTON3   P0.08
+  BUTTON4   P0.09
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:
@@ -130,13 +130,13 @@ This configuration enables basic RPTUN support on the network core. The
 
 ### sdc\_cpunet
 
-Enables Nordic's SoftDevice controller on the network core and uses
+Enables Nordic\'s SoftDevice controller on the network core and uses
 NuttX BLE stack for the host-layer. The `btsak` application is included
 as a builtin.
 
 ### sdc\_nimble\_cpunet
 
-Enables Nordic's SoftDevice controller on the network core and uses
+Enables Nordic\'s SoftDevice controller on the network core and uses
 nimBLE for the host-layer. The `nimble` test application can be used to
 enable a simple GATT server.
 

@@ -1,4 +1,5 @@
-# lx\_cpu
+lx\_cpu
+=======
 
 This port uses the PiKRON `LX_CPU` board. See the
 <http://www.pikron.com/pages/products/cpu_boards/lx_cpu.html> for

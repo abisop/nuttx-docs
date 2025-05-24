@@ -1,25 +1,26 @@
-# Watchdog Timer Drivers
+Watchdog Timer Drivers
+======================
 
 NuttX supports a low-level, two-part watchdog timer driver.
 
-1.  An "upper half", generic driver that provides the common watchdog
+1.  An \"upper half\", generic driver that provides the common watchdog
     timer interface to application level code, and
-2.  A "lower half", platform-specific driver that implements the
+2.  A \"lower half\", platform-specific driver that implements the
     low-level timer controls to implement the watchdog timer
     functionality.
 
 Files supporting the watchdog timer driver can be found in the following
 locations:
 
-  - **Interface Definition**. The header file for the NuttX watchdog
+-   **Interface Definition**. The header file for the NuttX watchdog
     timer driver reside at `include/nuttx/timers/watchdog.h`. This
     header file includes both the application level interface to the
-    watchdog timer driver as well as the interface between the "upper
-    half" and "lower half" drivers. The watchdog timer driver uses a
+    watchdog timer driver as well as the interface between the \"upper
+    half\" and \"lower half\" drivers. The watchdog timer driver uses a
     standard character driver framework.
-  - **"Upper Half" Driver**. The generic, "upper half" watchdog timer
-    driver resides at `drivers/timers/watchdog.c`.
-  - **"Lower Half" Drivers**. Platform-specific watchdog timer drivers
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" watchdog
+    timer driver resides at `drivers/timers/watchdog.c`.
+-   **\"Lower Half\" Drivers**. Platform-specific watchdog timer drivers
     reside in `arch/<architecture>//src/<hardware>` directory for the
     specific processor `<architecture>` and for the specific `<chip>`
     watchdog timer peripheral devices.
@@ -27,40 +28,47 @@ locations:
 There are two ways to enable Watchdog Timer Support along with the
 Watchdog Example. The first is faster and simpler. Just run the
 following command to use a ready config file with watchdog timer support
-and example included. You need to check if there's a watchdog config
-file for your specific chip. You may check it at the specific board's
+and example included. You need to check if there\'s a watchdog config
+file for your specific chip. You may check it at the specific board\'s
 path: `/boards/<arch>/<chip>/<board>/config`.
 
-``` console
+``` {.console}
  ./tools/configure.sh <board>:watchdog
 ```
 
 And the second way is creating your own config file. To do so, follow
 the next instructions.
 
-## Enabling the Watchdog Support and Example in `menuconfing`
+Enabling the Watchdog Support and Example in `menuconfing`
+----------------------------------------------------------
 
 1.  Select Watchdog Timer Instances
-    
+
     To select these wdts browse in the `menuconfig` using the following
     path:
-    
-    Go into menu `System Type --> <Chip> Peripheral Selection` and press
-    `Enter`. Then select one or more watchdog timers according to
+
+    Go into menu
+    `System Type --> <Chip> Peripheral Selection`{.interpreted-text
+    role="menuselection"} and press `Enter`{.interpreted-text
+    role="kbd"}. Then select one or more watchdog timers according to
     availability of your chip.
 
 2.  Enable the Watchdog Timer Support
-    
-    Go into menu `Device Drivers --> Timer Driver Support` and press
-    
-      - \[x\] Watchdog Timer Support
+
+    Go into menu
+    `Device Drivers --> Timer Driver Support`{.interpreted-text
+    role="menuselection"} and press
+
+    -   \[x\] Watchdog Timer Support
 
 3.  Include the Watchdog Timer Example
-    
-    Go into menu `Application Configuration --> Examples` and press
-    `Enter`. Then select the Watchdog Timer example.
 
->   - \[x\] Watchdog Timer example
+    Go into menu
+    `Application Configuration --> Examples`{.interpreted-text
+    role="menuselection"} and press `Enter`{.interpreted-text
+    role="kbd"}. Then select the Watchdog Timer example.
+
+> -   \[x\] Watchdog Timer example
 
 Below the option, it is possible to manually configure some standard
 parameters that will be used by the example, but they also can be passed
@@ -73,61 +81,64 @@ dog, after this interval, the dog will starve and the chip will trigger
 an interrupt or reset.
 
 4.  Include the Debug Watchdog Feature
-    
+
     In order to get the watchdog timer status, you need to enable it.
     For production code and for your application you may disable it.
-    
-    Go into menu `Build Setup --> Debug Options` and press `Enter`. Then
-    enable:
-    
-      - \[x\] Enable Debug Features
-      - \[x\] Watchdog Timer Debug Features
 
-## Watchdog Timer Example
+    Go into menu `Build Setup --> Debug Options`{.interpreted-text
+    role="menuselection"} and press `Enter`{.interpreted-text
+    role="kbd"}. Then enable:
+
+    -   \[x\] Enable Debug Features
+    -   \[x\] Watchdog Timer Debug Features
+
+Watchdog Timer Example
+----------------------
 
 The previously selected example will basically do the following:
 
-  - Open the watchdog device
-  - Set the watchdog timeout
-  - Start the watchdog timer
-  - Ping (feed the dog) during the `pingtime` with a delay of
+-   Open the watchdog device
+-   Set the watchdog timeout
+-   Start the watchdog timer
+-   Ping (feed the dog) during the `pingtime` with a delay of
     `pingdelay` and print out the wdt status in case debug was enabled.
-  - Enter into an endless loop without pinging. It will cause the
+-   Enter into an endless loop without pinging. It will cause the
     watchdog timer to reset the chip on timeout, i.e., after timer
     expiration.
 
 The [example
 code](https://github.com/apache/nuttx-apps/blob/master/examples/watchdog/watchdog_main.c)
 may be explored, its path is at `/examples/watchdog/watchdog_main.c` in
-the apps' repository.
+the apps\' repository.
 
 In NuttX, the watchdog timer driver is a character driver and when a
 chip supports multiple watchdog timers, each one is accessible through
 its respective special file in `/dev` directory. Each watchdog timer is
 registered using a unique numeric identifier (i.e. `/dev/watchdog0`,
-`/dev/watchdog1`, ...).
+`/dev/watchdog1`, \...).
 
 Use the following command to run the example:
 
-``` console
+``` {.console}
 nsh> wdog
 ```
 
 This command will use the watchdog timer 0. To use the others, specify
 it through a parameter (where x is the timer number):
 
-``` console
+``` {.console}
 nsh> wdog -i /dev/watchdogx
 ```
 
-## Application Level Interface
+Application Level Interface
+---------------------------
 
 The first necessary thing to be done in order to use the watchdog timer
 driver in an application is to include the header file for the NuttX
 Watchdog timer driver. It contains the Application Level Interface to
 the timer driver. To do so, include:
 
-``` c
+``` {.c}
 #include <nuttx/timers/watchdog.h>
 ```
 
@@ -146,7 +157,7 @@ This command gets the status of the watchdog timer. It receives a
 writeable pointer to struct `watchdog_status_s` as parameter. The
 lower-half driver writes the current status in this struct.
 
-``` c
+``` {.c}
 struct watchdog_status_s
 {
   uint32_t  flags;          /* See WDFLAGS_* definitions above */
@@ -164,10 +175,10 @@ This command registers an user callback that will be triggered on
 timeout. It receives as argument a pointer to struct
 `watchdog_capture_s`. If the user callback is NULL, then it configures
 only to reset. Not all chips support interrupt on timeout. This command
-is optional, i.e., if it's not used, the standard behaviour is to reset
+is optional, i.e., if it\'s not used, the standard behaviour is to reset
 on timeout.
 
-``` c
+``` {.c}
 struct watchdog_capture_s
 {
   CODE xcpt_t newhandler;   /* The new watchdog capture handler */
@@ -175,7 +186,8 @@ struct watchdog_capture_s
 };
 ```
 
-## Enable Built in System Monitoring to reset the watchdog
+Enable Built in System Monitoring to reset the watchdog
+-------------------------------------------------------
 
 The auto-monitor provides an OS-internal mechanism to automatically
 start and repeatedly reset the watchdog.
@@ -185,62 +197,70 @@ To enable it, follow the next instructions:
 1.  Select a Watchdog Timer Instance
 
 > To select the wdt browse in the `menuconfig` using the following path:
-> 
-> Go into menu `System Type --> <Chip> Peripheral Selection` and press
-> `Enter`. Then select one watchdog timer.
+>
+> Go into menu
+> `System Type --> <Chip> Peripheral Selection`{.interpreted-text
+> role="menuselection"} and press `Enter`{.interpreted-text role="kbd"}.
+> Then select one watchdog timer.
 
 2.  Enable the Auto-monitor option
-    
-    Go into menu `Device Drivers --> Timer Driver Support` and press
-    
-      - \[x\] Watchdog Timer Support
-    
-    Then press `Enter` again to enter into the Watchdog Timer Support
-    menu. And finally enable the Auto-monitor option:
-    
-      - \[x\] Auto-monitor
-    
+
+    Go into menu
+    `Device Drivers --> Timer Driver Support`{.interpreted-text
+    role="menuselection"} and press
+
+    -   \[x\] Watchdog Timer Support
+
+    Then press `Enter`{.interpreted-text role="kbd"} again to enter into
+    the Watchdog Timer Support menu. And finally enable the Auto-monitor
+    option:
+
+    -   \[x\] Auto-monitor
+
     After selecting the option you may want to configure some
     parameters:
-    
-      - **Timeout**: It is the watchdog timer expiration time in
+
+    -   **Timeout**: It is the watchdog timer expiration time in
         seconds.
-    
-      - **Keep a live interval**: This is the interval in which the
-        watchdog will be fed. It is in seconds. It can't be bigger than
+
+    -   **Keep a live interval**: This is the interval in which the
+        watchdog will be fed. It is in seconds. It can\'t be bigger than
         the timeout. If this interval is equal to timeout interval, than
         this interval will automatically change to half timeout.
-    
-      - **Keep alive by**: This is a choice to determine who is going to
+
+    -   **Keep alive by**: This is a choice to determine who is going to
         feed the dog. There are 4 possible choices that are described as
         follows.
-        
+
         `Capture callback`: This choice registers a watchdog timer
         callback to reset the watchdog every time it expires, i.e., on
         timeout.
-        
+
         `Timer callback`: This choice also uses a timer callback to
-        reset the watchdog, but it will reset the watchdog every "keep a
-        live interval".
-        
+        reset the watchdog, but it will reset the watchdog every \"keep
+        a live interval\".
+
         `Worker callback`: This choice uses a Work Queue to reset the
-        watchdog every "keep a live interval". This choice depends on
+        watchdog every \"keep a live interval\". This choice depends on
         having the Low or High Priority Work Queue enabled. If only the
         High Priority Work Queue is enabled, this one will be used,
         otherwise Low Priority Work Queue is used.
-        
-        So, before enabling it, go into menu `RTOS Features --> Work
-        queue support` and press `Enter`.
-        
-          - \[x\] Low priority (kernel) worker thread
-        
+
+        So, before enabling it, go into menu
+        `RTOS Features --> Work queue support`{.interpreted-text
+        role="menuselection"} and press `Enter`{.interpreted-text
+        role="kbd"}.
+
+        -   \[x\] Low priority (kernel) worker thread
+
         `Idle callback`: This choice sets an Idle callback to feed the
         dog. It depends on the PM module, because this callback is
         triggered by the PM state change. To enable it do the following:
-        
-        Go into menu `Device Drivers` and enable:
-        
-          - \[x\] Power Management Support
-        
+
+        Go into menu `Device Drivers`{.interpreted-text
+        role="menuselection"} and enable:
+
+        -   \[x\] Power Management Support
+
         After selecting one of these choices, the chip will keep itself
         alive by one of these options.

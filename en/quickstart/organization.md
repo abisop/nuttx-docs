@@ -1,17 +1,14 @@
-<div class="todo">
-
 This is mostly untouched from the original documentation. It does not
-really belong to "quickstart". Also, this needs cleanup.
+really belong to \"quickstart\". Also, this needs cleanup.
 
-</div>
+Directory Structure
+===================
 
-# Directory Structure
-
-This is included for reference, and it's not necessary to know all the
+This is included for reference, and it\'s not necessary to know all the
 details at first.
 
 The general directory layout for NuttX is very similar to the directory
-structure of the Linux kernel -- at least at the most superficial
+structure of the Linux kernel \-- at least at the most superficial
 layers. At the top level is the main makefile and a series of
 sub-directories identified below and discussed in the following
 paragraphs:
@@ -21,13 +18,13 @@ processor architecture directories, *chip/SoC* directories, and board
 configuration directories. The complete configuration is specified by
 several settings in the NuttX configuration file.
 
-  - *Processor architecture specific files*. These are the files
+-   *Processor architecture specific files*. These are the files
     contained in the `arch/<arch-name>/` directory and are discussed in
     a paragraph [below](#arch-subdirectory-structure). As an example,
     all ARM processor architectures are provided under the `arch/arm/`
     directory which is selected with the `CONFIG_ARCH="arm"`
     configuration option.
-    
+
     Variants of the processor architecture may be provided in
     sub-directories of the Extending this example, the ARMv7-M ARM
     family is supported by logic in `arch/arm/include/armv7-m` and
@@ -35,60 +32,65 @@ several settings in the NuttX configuration file.
     `CONFIG_ARCH_CORTEXM3=y`, `CONFIG_ARCH_CORTEXM4=y`, or
     `CONFIG_ARCH_CORTEXM7=y` configuration options
 
-  - *Chip/SoC specific files*. Each processor architecture is embedded
+-   *Chip/SoC specific files*. Each processor architecture is embedded
     in a *System-on-a-Chip* (SoC) architecture. The full SoC
     architecture includes the processor architecture plus chip-specific
     interrupt logic, clocking logic, general purpose I/O (GPIO) logic,
     and specialized, internal peripherals (such as UARTs, USB, etc.).
-    
+
     These chip-specific files are contained within chip-specific
     sub-directories also under the `arch/<arch-name>/` directory and are
     selected via the `CONFIG_ARCH_CHIP` selection.
-    
+
     As an example, the STMicro STM32 SoC architecture is based on the
     ARMv7-M processor and is supported by logic in the
     `arch/arm/include/stm32` and `arch/arm/src/stm32` directories which
     are selected with the `CONFIG_ARCH_CHIP="stm32"` configuration
     setting.
 
-  - *Board specific configurations*. In order to be usable, the chip
+-   *Board specific configurations*. In order to be usable, the chip
     must be contained in a board environment. The board configuration
     defines additional properties of the board including such things as
     peripheral LEDs, external peripherals (such as networks, USB, etc.).
-    
+
     These board-specific configuration files can be found in the
     `boards/<arch-name>/<chip-name>/<board-name>/` sub-directories and
     are discussed in a paragraph
     [below](#boards-subdirectory-structure).
-    
+
     The directory `boards/arm/stm32/stm32f4disovery/`, as an example,
     holds board-specific logic for the STM32F4 Discovery board and is
     selected via the `CONFIG_ARCH_BOARD="stm32f4discovery"`
     configuration setting.
 
-## `nuttx/Documentation`
+`nuttx/Documentation`
+---------------------
 
-This directory holds the NuttX documentation. It's made with the [Sphinx
-documentation system](https://www.sphinx-doc.org). See the README.md
-file for information on how to build it.
+This directory holds the NuttX documentation. It\'s made with the
+[Sphinx documentation system](https://www.sphinx-doc.org). See the
+README.md file for information on how to build it.
 
-## `nuttx/arch`
+`nuttx/arch`
+------------
 
 This sub-directory holds the NuttX supported architectures.
 
 For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/arch/index\`.
+\[[/component\](]{.title-ref}/component.md)s/arch/index\`.
 
-## `nuttx/binfmt`
+`nuttx/binfmt`
+--------------
 
 The `binfmt/` subdirectory contains logic for loading binaries in the
 file system into memory in a form that can be used to execute them.
 
-## `nuttx/audio`
+`nuttx/audio`
+-------------
 
 The `audio/` subdirectory contains the NuttX audio sub-system.
 
-## `nuttx/boards`
+`nuttx/boards`
+--------------
 
 The `boards/` subdirectory contains custom logic and board configuration
 data for each board. These board-specific configurations plus the
@@ -101,87 +103,94 @@ The `boards/` directory contains board specific configuration files.
 Each board must provide a sub-directory \<board-name\> under
 `boards/<arch-name>/<chip-name>/`.
 
-See
-\[<span class="title-ref">/component\](</span>/component.md)s/boards\`
-for details.
+See \[[/component\](]{.title-ref}/component.md)s/boards\` for details.
 
-## `nuttx/cmake`
+`nuttx/cmake`
+-------------
 
 This sub-directory holds the NuttX CMake functions.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/cmake\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/cmake\`.
 
-## `nuttx/crypto`
+`nuttx/crypto`
+--------------
 
 This sub-directory holds the NuttX cryptographic sub-system.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/crypto\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/crypto\`.
 
-## `nuttx/drivers`
+`nuttx/drivers`
+---------------
 
 This directory holds architecture-independent device drivers.
 
 For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/drivers/index\`.
+\[[/component\](]{.title-ref}/component.md)s/drivers/index\`.
 
-## `nuttx/fs`
+`nuttx/fs`
+----------
 
 This directory contains the NuttX file system. This file system is
 described [below](#NxFileSystem).
 
-## `nuttx/graphics`
+`nuttx/graphics`
+----------------
 
 This directory contains files for graphics/video support under NuttX.
 
 For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/nxgraphics/index\`.
+\[[/component\](]{.title-ref}/component.md)s/nxgraphics/index\`.
 
-## `nuttx/include`
+`nuttx/include`
+---------------
 
 This directory holds NuttX header files. Standard header files file
 retained in can be included in the *normal* fashion:
 
-## `nuttx/libs/libc`
+`nuttx/libs/libc`
+-----------------
 
 This directory holds a collection of standard libc-like functions with
 custom interfaces into NuttX.
 
 For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/libs/index\`.
+\[[/component\](]{.title-ref}/component.md)s/libs/index\`.
 
-## `nuttx/mm`
+`nuttx/mm`
+----------
 
 This is the NuttX memory manager.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/mm/index\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/mm/index\`.
 
-## `nuttx/net`
+`nuttx/net`
+-----------
 
 This directory contains the implementation of the NuttX networking layer
 including internal socket APIs.
 
 For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/net/index\`.
+\[[/component\](]{.title-ref}/component.md)s/net/index\`.
 
-## `nuttx/openamp`
+`nuttx/openamp`
+---------------
 
 This directory contains OpenAMP support for NuttX.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/openamp\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/openamp\`.
 
-## `nuttx/pass1`
+`nuttx/pass1`
+-------------
 
 TODO
 
-## `nuttx/sched`
+`nuttx/sched`
+-------------
 
 The files forming core of the NuttX RTOS reside here.
 
-## `nuttx/syscall`
+`nuttx/syscall`
+---------------
 
 If NuttX is built as a separately compiled kernel (with
 `CONFIG_BUILD_PROTECTED=y` or `CONFIG_BUILD_KERNEL=y`), then the
@@ -189,39 +198,40 @@ contents of this directory are built. This directory holds a syscall
 interface that can be used for communication between user-mode
 applications and the kernel-mode RTOS.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/syscall\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/syscall\`.
 
-## `nuttx/tools`
+`nuttx/tools`
+-------------
 
 This directory holds a collection of tools and scripts to simplify
 configuring, building and maintaining NuttX.
 
-Refer to the
-\[<span class="title-ref">/component\](</span>/component.md)s/tools/index\`
+Refer to the \[[/component\](]{.title-ref}/component.md)s/tools/index\`
 page for more information about the individual files. Some of these
 tools are discussed below as well in the discussion of [configuring and
 building](#configandbuild) NuttX.
 
-## `nuttx/video`
+`nuttx/video`
+-------------
 
 This directory holds support for video sub-system.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/video\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/video\`.
 
-## `nuttx/wireless`
+`nuttx/wireless`
+----------------
 
 This directory holds support for hardware-independent wireless support.
 
-For details see
-\[<span class="title-ref">/component\](</span>/component.md)s/wireless\`.
+For details see \[[/component\](]{.title-ref}/component.md)s/wireless\`.
 
-## `nuttx/CMakeLists.txt`
+`nuttx/CMakeLists.txt`
+----------------------
 
 The top-level `CMakeLists.txt` file.
 
-## `nuttx/Makefile`
+`nuttx/Makefile`
+----------------
 
 The top-level `Makefile` in the `(TOPDIR)` directory contains all of
 the top-level control logic to build NuttX.

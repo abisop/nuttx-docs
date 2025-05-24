@@ -1,4 +1,5 @@
-# Task Scheduling Interfaces
+Task Scheduling Interfaces
+==========================
 
 By default, NuttX performs strict priority scheduling: Tasks of higher
 priority have exclusive access to the CPU until they become blocked. At
@@ -18,13 +19,14 @@ scheduling is enabled by the configuration option
 The OS interfaces described in the following paragraphs provide a
 POSIX-compliant interface to the NuttX scheduler:
 
->   - :c`sched_setparam`
->   - :c`sched_getparam`
->   - :c`sched_setscheduler`
->   - :c`sched_getscheduler`
->   - :c`sched_yield`
->   - :c`sched_get_priority_max`
->   - :c`sched_get_priority_min`
->   - :c`sched_rr_get_interval`
+> -   :c`sched_setparam`{.interpreted-text role="func"}
+> -   :c`sched_getparam`{.interpreted-text role="func"}
+> -   :c`sched_setscheduler`{.interpreted-text role="func"}
+> -   :c`sched_getscheduler`{.interpreted-text role="func"}
+> -   :c`sched_yield`{.interpreted-text role="func"}
+> -   :c`sched_get_priority_max`{.interpreted-text role="func"}
+> -   :c`sched_get_priority_min`{.interpreted-text role="func"}
+> -   :c`sched_rr_get_interval`{.interpreted-text role="func"}
 
-## Functions
+Functions
+---------

@@ -1,7 +1,8 @@
-# hpm6360evk
+hpm6360evk
+==========
 
 1.  Download and install toolchain:
-    
+
         curl https://github.com/hpmicro/riscv-gnu-toolchain/releases/tag/2022.05.15
 
 2.  Download and install openocd.
@@ -9,7 +10,7 @@
 > Download hpmicro sdk\_env, openocd in the path: sdk\_env/tools/openocd
 
 3.  Configure and build NuttX:
-    
+
         mkdir ./nuttxspace
         cd ./nuttxspace
         git clone https://github.com/apache/nuttx.git nuttx
@@ -34,14 +35,14 @@ Make sure HPMicro GNU riscv32 toolchain have been installed and be found
 in PATH.
 
 4.  Debug the nuttx with openocd and run:
-    
+
         picocom -b 115200 /dev/ttyACM0
 
 > When using fireDAP, command as follows. Those cfg files in the path:
 > `sdk_env/hpm_sdk/boards/openocd`:
-> 
+>
 >      openocd -f probes/cmsis_dap.cfg -f soc/hpm6750-single-core.cfg -f boards/hpm6750evk2.cfg
->     
+>
 >      riscv32-unknown-elf-gdb ./nuttx
 >     (gdb) target extended-remote [ip_addr]:3333
 >     (gdb) load

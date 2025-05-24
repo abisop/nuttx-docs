@@ -1,14 +1,15 @@
-# Analyzing Cortex-M Hardfaults
+Analyzing Cortex-M Hardfaults
+=============================
 
 > \> I have a build of PX4 (NuttX 6.29 with some patches) with new \>
 > lpc43xx chip files on 4337 chip running from FLASH (master \> vanilla
 > NuttX has no such problem). This gives me a hardfault \> below if I
 > stress NSH console (UART2) with some big output. \> \> I read some
-> threads but can't get a clue how to analyze the \> dump and where to
+> threads but can\'t get a clue how to analyze the \> dump and where to
 > look first: \> \> 1bXXX and 1aXXX addresses are FLASH. 100XXX
 > addresses are RAM
 
-``` console
+``` {.console}
 Assertion failed at file:armv7-m/up_hardfault.c line: 184 task: hpwork
 sp:     10001eb4
 IRQ stack:
@@ -32,17 +33,18 @@ xPSR: 41000000 BASEPRI: 00000000 CONTROL: 00000000
 EXC_RETURN: ffffffe9
 ```
 
-This question was asked in the old Yahoo\! Group for NuttX, before the
+This question was asked in the old Yahoo! Group for NuttX, before the
 project joined the Apache Software Foundation. The old forum no longer
 exists, but the thread has been archived at
 [Narkive](https://nuttx.yahoogroups.narkive.com/QNbG3r5l/hardfault-help-analysing-where-to-start)
 (third party external link).
 
-## Analyzing the Register Dump
+Analyzing the Register Dump
+---------------------------
 
 First, in the register dump:
 
-``` console
+``` {.console}
 R0: ffffffff 00000000 00000016 00000000 00000000 00000000 00000000 00000000
 R8: 100036d8 00000000 00000000 004c4b40 10001370 10005e50 1b02b20b 1b02d596
 xPSR: 41000000 BASEPRI: 00000000 CONTROL: 00000000
@@ -51,7 +53,7 @@ xPSR: 41000000 BASEPRI: 00000000 CONTROL: 00000000
 `R15` is the PC at the time of the crash (`1b02d596`). In order to see
 where this is, I do this:
 
-``` console
+``` {.console}
 arm-none-eabi-objdump -d nuttx | vi -
 ```
 
@@ -59,9 +61,9 @@ Of course, you can use any editor you prefer. In any case, this will
 provide a full assembly language listing of your FLASH content along
 with complete symbolic information.
 
-**TIP:** Not comfortable with ARM assembly language? Try the `objdump
---source` (or just `-S`) option. That will intermix the C and the
-assembly language code so that you can see which C statements the
+**TIP:** Not comfortable with ARM assembly language? Try the
+`objdump --source` (or just `-S`) option. That will intermix the C and
+the assembly language code so that you can see which C statements the
 assembly language is implementing.
 
 Once you have the FLASH image in the editor, it is then a simple thing
@@ -88,7 +90,8 @@ If the offending functions calls some other function then `R14` will be
 overwritten. But no problem, it will also then have pushed the return
 address on the stack where we can find it by analyzing the stack dump.
 
-## Analyzing the Stack Dump
+Analyzing the Stack Dump
+------------------------
 
 ### The Task Stack
 
@@ -118,7 +121,7 @@ Even FLASH addresses in the stack dump usually are references to
 `.rodata` in FLASH but are sometimes of interest as well. Below are
 examples of interesting addresses (in brackets):
 
-``` console
+``` {.console}
 sp:     10005e50
 User stack:
   base: 10005ed8
@@ -138,7 +141,7 @@ Note that in some cases there are two stacks listed. The interrupt stack
 will be present if (1) the interrupt stack is enabled, and (2) you are
 in an interrupt handler at the time that the failure occurred:
 
-``` console
+``` {.console}
 Assertion failed at file:armv7-m/up_hardfault.c line: 184 task: hpwork
 sp:     10001eb4
 IRQ stack:
@@ -166,19 +169,20 @@ also possible because every word on the stack is there because of an
 explicit push instruction in the code (usually a push instruction on
 Cortex-M or an stmdb instruction in other ARM architectures). This is
 painstaking work but can also be done to provide a more detailed answer
-to "what happened?"
+to \"what happened?\"
 
-## Recovering State at the Time of the Hardfault
+Recovering State at the Time of the Hardfault
+---------------------------------------------
 
 Here is another tip from Mike Smith:
 
-> "... for systems like NuttX where catching hardfaults is difficult,
+> \"\... for systems like NuttX where catching hardfaults is difficult,
 > you can recover the faulting PC, LR and SP (by examining the exception
 > stack), then write these values back into the appropriate processor
 > registers (adjust the PC as necessary for the fault).
-> 
-> "This will put you back in the application code at the point at which
+>
+> \"This will put you back in the application code at the point at which
 > the fault occurred. Some local variables will show as having invalid
 > values (because at the time of the fault they were live in registers
 > and have been overwritten by the exception handler), but the stack
-> frame, function arguments etc. should all show correctly."
+> frame, function arguments etc. should all show correctly.\"

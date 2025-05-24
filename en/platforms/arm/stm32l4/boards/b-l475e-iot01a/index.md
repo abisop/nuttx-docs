@@ -1,10 +1,7 @@
-# ST B-L475E-IOT01A
-
-<div class="tags">
+ST B-L475E-IOT01A
+=================
 
 chip:stm32, chip:stm32l4, chip:stm32l475
-
-</div>
 
 This page discusses the port of NuttX to the STMicro B-L475E-IOT01A
 Discovery kit powered by STM32L475VG Cortex-M4. This board targets IoT
@@ -12,35 +9,36 @@ nodes with a choice of connectivity options including WiFi, Bluetooth
 LE, NFC, and sub-GHZ RF at 868 or 915 MHz, as well as a long list of
 various environmental sensors.
 
-## Board Features
+Board Features
+--------------
 
 B-L475E-IOT01A Discovery kit key features and specifications:
 
-  - MCU: STM32L475 Series MCU based on ARM Cortex-M4 core with 1 MB
+-   MCU: STM32L475 Series MCU based on ARM Cortex-M4 core with 1 MB
     Flash memory, 128 KB SRAM
-  - Storage: 64 Mbit (8MB)  Quad-SPI Flash memory (Macronix)
-  - Connectivity:
-      - Bluetooth 4.1 LE module (SPBTLE-RF)
-      - Sub-GHz (868 or 915 MHz) low-power-programmable RF module
+-   Storage: 64 Mbit (8MB)  Quad-SPI Flash memory (Macronix)
+-   Connectivity:
+    -   Bluetooth 4.1 LE module (SPBTLE-RF)
+    -   Sub-GHz (868 or 915 MHz) low-power-programmable RF module
         (SPSGRF-868 or SPSGRF-915)
-      - Wi-Fi module based on Inventek ISM43362-M3G-L44 (802.11 b/g/n
+    -   Wi-Fi module based on Inventek ISM43362-M3G-L44 (802.11 b/g/n
         compliant)
-      - Dynamic NFC tag based on M24SR with its printed NFC antenna
-  - Sensors:
-      - 2x digital omni-directional microphones (MP34DT01)
-      - Capacitive digital sensor for relative humidity and temperature
+    -   Dynamic NFC tag based on M24SR with its printed NFC antenna
+-   Sensors:
+    -   2x digital omni-directional microphones (MP34DT01)
+    -   Capacitive digital sensor for relative humidity and temperature
         (HTS221)
-      - 3-axis magnetometer (LIS3MDL)
-      - 3D accelerometer and 3D gyroscope (LSM6DSL)
-      - 260-1260 hPa absolute digital output barometer (LPS22HB)
-      - Time-of-Flight and gesture-detection sensor (VL53L0X
-  - USB – 1x micro USB OTG port (Full speed)
-  - Expansion – Arduino UNO V3 headers, PMOD header
-  - Debugging – On-board ST-LINK/V2-1 debugger/programmer with USB
+    -   3-axis magnetometer (LIS3MDL)
+    -   3D accelerometer and 3D gyroscope (LSM6DSL)
+    -   260-1260 hPa absolute digital output barometer (LPS22HB)
+    -   Time-of-Flight and gesture-detection sensor (VL53L0X
+-   USB -- 1x micro USB OTG port (Full speed)
+-   Expansion -- Arduino UNO V3 headers, PMOD header
+-   Debugging -- On-board ST-LINK/V2-1 debugger/programmer with USB
     re-enumeration capability: mass storage, virtual COM port and debug
     port
-  - Misc – 2 push-buttons (user and reset)
-  - Power Supply – 5V via ST LINK USB VBUS or external sources
+-   Misc -- 2 push-buttons (user and reset)
+-   Power Supply -- 5V via ST LINK USB VBUS or external sources
 
 The board supports ARM mbed online compiler, but can also be programmed
 using IDEs such as IAR, Keil, and GCC-based IDEs. STMicro also provides
@@ -55,7 +53,7 @@ NOTES:
     processor that has a standard SPI or UART interface capability. It
     means you will only use AT command to talk with Wi-Fi® module by
     SPI. All the tcp/ip stack is built-in STM32F205 in Wi-Fi® module.
-    
+
     This cannot integrate cleanly with the NuttX network stack. A
     USERSOCK option was recently added that would permit implementation
     of the Inventek support in an applications. But that would then
@@ -70,18 +68,19 @@ NOTES:
     network is not popular in the market, star network is the mainstream
     for its simplicity and robustness.
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 The black button B1 located on top side is the reset of the
 STM32L475VGT6.
 
 The blue button B1 located top side is available to be used as a digital
 input or as alternate function Wake-up. When the button is depressed the
-logic state is "0", otherwise the logic state is "1".
+logic state is \"0\", otherwise the logic state is \"1\".
 
 Two green LEDs (LD1 and LD2), located on the top side are available for
-the user. To light a LED a high logic state "1" should be written in the
-corresponding GPIO.:
+the user. To light a LED a high logic state \"1\" should be written in
+the corresponding GPIO.:
 
     Reference Color Name    Comment
       B2      blue  Wake-up Alternate function Wake-up
@@ -115,14 +114,15 @@ by other board-specific logic.
 Of course, if CONFIG\_ARCH\_LEDS is not selected, then both LEDs are
 available for use by other logic.
 
-## Serial Console
+Serial Console
+--------------
 
 ### Arduino Serial Shield
 
 An TLL-to-RS232 Converter shield may be used with UART4:
 
     UART4:
-    
+
     -------------- ----------------  ------------------
     STM32L475VGTx   Board Signal     Arduino Connector
     -------------- ----------------  ------------------
@@ -136,7 +136,7 @@ The serial interface USART1 is directly available as a virtual COM port
 of the PC connected to the ST-LINK/V2-1 USB connector CN7. :
 
     USART1:
-    
+
     -------------- ---------------- --------------
     STM32L475VGTx  Board Signal     STM32F103CBT6
     -------------- ---------------- --------------
@@ -167,7 +167,8 @@ USART3 - Dedicated to ISM43362-M3G-L44 Serial-to-Wifi Module:
     USART3_TX PD8  INTERNAL-UART3_TX CN3 pin2 TX/D1
     -------------- ----------------  ------------------
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -175,7 +176,7 @@ Each B-L475E-IOT01A configuration is maintained in a sub-directory and
 can be selected as follow:
 
     tools/configure.sh [-l|c|n] /b-l475e-iot01a:<subdir>
-    
+
     Where:
     -l selects the Linux (l) host environment.  The [-c|u|n] options
        select one of the Windows environments.  Default:  Use host setup
@@ -204,23 +205,23 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  Unless stated otherwise, all configurations generate console output
     on USART1 (i.e., for ST-Link Virtual COM port). The relevant
     configuration settings are listed below:
-    
+
         CONFIG_STM32_USART1=y
         CONFIG_STM32_USART1_SERIALDRIVER=y
         CONFIG_STM32_USART=y
-        
+
         CONFIG_USART1_SERIALDRIVER=y
         CONFIG_USART1_SERIAL_CONSOLE=y
-        
+
         CONFIG_USART1_RXBUFSIZE=256
         CONFIG_USART1_TXBUFSIZE=256
         CONFIG_USART1_BAUD=115200
@@ -229,22 +230,22 @@ NOTES:
         CONFIG_USART1_2STOP=0
 
 3.  All of these configurations are set up to build under Windows using
-    the "GNU Tools for ARM Embedded Processors" that is maintained by
+    the \"GNU Tools for ARM Embedded Processors\" that is maintained by
     ARM (unless stated otherwise in the description of the
     configuration).
-    
+
     > <https://developer.arm.com/open-source/gnu-toolchain/gnu-rm>
-    
-    That toolchain selection can easily be reconfigured using 'make
-    menuconfig'. Here are the relevant current settings:
-    
+
+    That toolchain selection can easily be reconfigured using \'make
+    menuconfig\'. Here are the relevant current settings:
+
     Build Setup:
-    
+
         CONFIG_HOST_WINDOWS=y               : Window environment
         CONFIG_WINDOWS_CYGWIN=y             : Cywin under Windows
-    
+
     System Type -\> Toolchain:
-    
+
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y  : GNU ARM EABI toolchain
 
 ### Configuration sub-directories
@@ -256,11 +257,11 @@ configuration is focused on low level, command-line driver testing.
 
 ### spirit-6lowpan
 
-This is another version of nsh that is similar to the above 'nsh'
+This is another version of nsh that is similar to the above \'nsh\'
 configuration but is focused on testing the Spirit1 integration with the
 6LoWPAN network stack. It supports point-to-point, 6LoWPAN
 communications between two b-l47e-iot01a boards. Additional differences
-from the 'nsh" configuration are summarized below:
+from the \'nsh\" configuration are summarized below:
 
 NOTES:
 
@@ -272,129 +273,129 @@ NOTES:
 3.  Configuration instructions: NSH does not configuration or bring up
     the network. Currently that must be done manually. The
     configurations steps are:
-    
-    1)  Assign a unique 8-bit node address to the Spirit1 board in the
+
+    a)  Assign a unique 8-bit node address to the Spirit1 board in the
         WPAN:
-        
+
             nsh> ifconfig wpan0 hw 37
-        
+
         Where 37 the address is an example. It should be different for
         each radio, but in the the range 1..ed and ef..fe (ee and ff are
         the reserved for multicast and broadcast addresses,
         respectively. Zero is a valid address but not recommended).
-    
-    2)  Bring each the network up on each board in the WPAN:
-        
+
+    b)  Bring each the network up on each board in the WPAN:
+
             nsh> ifup wpan0
-        
+
         You can entry nsh\> ifconfig to see if the node address and
         derived IPv4 are set correctly (the IPv6 address will not be
         determined until the network is UP).
 
 4.  examples/udp is enabled. This will allow two Spirit1 nodes to
     exchange UDP packets. Basic instructions:
-    
+
     On the server node:
-    
+
         nsh> ifconfig
         nsh> udpserver &
-    
+
     The ifconfig command will show the IP address of the server. Then on
     the client node use this IP address to start the client:
-    
+
         nsh> udpclient <server-ip> &
-    
+
     Where \<server-ip\> is the IP address of the server that you got
     above. NOTE: There is no way to stop the UDP test once it has been
     started other than by resetting the board.
 
 5.  examples/nettest is enabled. This will allow two Spirit1 nodes to
     exchange TCP packets. Basic instructions:
-    
+
     On the server node:
-    
+
         nsh> ifconfig
         nsh> tcpserver &
-    
+
     The ifconfig command will show the IP address of the server. Then on
     the client node use this IP address to start the client:
-    
+
         nsh> tcpclient <server-ip> &
-    
+
     Where \<server-ip\> is the IP address of the server that you got
     above. NOTE: Unlike the UDP test, there the TCP test will terminate
     automatically when the packet exchange is complete.
 
 6.  The NSH Telnet daemon (server) is enabled. However, it cannot be
     started automatically. Rather, it must be started AFTER the network
-    has been brought up using the NSH 'telnetd' command. You would want
-    to start the Telent daemon only if you want the node to serve Telent
-    connections to an NSH shell on the node.:
-    
+    has been brought up using the NSH \'telnetd\' command. You would
+    want to start the Telent daemon only if you want the node to serve
+    Telent connections to an NSH shell on the node.:
+
         nsh> ifconfig
         nsh> telnetd
-    
-    Note the 'ifconfig' is executed to get the IP address of the node.
+
+    Note the \'ifconfig\' is executed to get the IP address of the node.
     This address derives from the 8-bit node address that was assigned
     when the node was configured.
 
 7.  This configuration also includes the Telnet client program. This
     will allow you to execute a NSH one a node from the command line on
     a different node. Like:
-    
+
         nsh> telnet <server-ip>
-    
+
     Where \<server-ip\> is the IP address of the server that you got for
     the ifconfig comma on the remote node. Once the telnet session has
     been started, you can end the session with:
-    
+
         nsh> exit
-    
+
     STATUS:
-    
-    >   - 2017-08-01: Testing began. The Spirit1 no configurations with
-    >     no  
-    >     errors, but there are no tests yet in place to exercise it.
-    > 
+
+    > 2017-08-01: Testing began. The Spirit1 no configurations with no
+    >
+    > :   errors, but there are no tests yet in place to exercise it.
+    >
     > 2017-08-02: The nettest, udp, telnet test programs were added.
-    > 
-    >   - 2017-08-03: Successfully exchanging packets, but there there
-    >     are  
-    >     issues with address filtering, CRC calculation, and data
-    >     integrity (like bad UDP checksums). Lot's more to be done\!
-    > 
-    >   - 2017-08-04: Fixed some of the address filtering issues: In
-    >     Basic  
-    >     packets, need to force the Spirit to send the destination
-    >     address. This fixes address filtering. But...
-    >     
+    >
+    > 2017-08-03: Successfully exchanging packets, but there there are
+    >
+    > :   issues with address filtering, CRC calculation, and data
+    >     integrity (like bad UDP checksums). Lot\'s more to be done!
+    >
+    > 2017-08-04: Fixed some of the address filtering issues: In Basic
+    >
+    > :   packets, need to force the Spirit to send the destination
+    >     address. This fixes address filtering. But\...
+    >
     >     Converted to STack vs Basic packets. We need to do this
     >     because the Basic packets do not provide the source node
     >     address. Now correctly gets the source node address and
     >     uncompresses the source IP address.
-    >     
+    >
     >     In addition, to avoid packet loss due to data overrun, I
     >     enabled the AutoAck, TX retries, the RX timeout options.
-    >     
+    >
     >     With these changes (along with other, significant bugfixes),
     >     both the UDP test is now fully functional. CRC filtering still
     >     must be disabled.
-    > 
-    >   - 2017-08-05: Add the Telnet client problem. Verified HC06 tests
-    >     with  
-    >     no debug output; verified Telnet seessions between two spirit
+    >
+    > 2017-08-05: Add the Telnet client problem. Verified HC06 tests with
+    >
+    > :   no debug output; verified Telnet seessions between two spirit
     >     nodes.
-    >     
+    >
     >     At this point everything seems functional, but somewhat
     >     reliable. Sometimes things seem to initialize in a bad state.
-    >     
-    >       - 2017-08-06: Reducing the FIFO to 94 bytes fixed the
-    >         problem with the  
-    >         2 byte CRC.
-    > 
+    >
+    >     2017-08-06: Reducing the FIFO to 94 bytes fixed the problem with the
+    >
+    >     :   2 byte CRC.
+    >
     > Test Matrix: The following configurations have been tested
     > successfully (with CRC disabled):
-    > 
+    >
     >     =========== ===== ===== ======
     >     COMPRESSION UDP   TCP   Telnet
     >     =========== ===== ===== ======
@@ -402,7 +403,7 @@ NOTES:
     >     hc1
     >     ipv6
     >     =========== ===== ===== ======
-    >     
+    >
     >     Other configuration options have not been specifically addressed
     >     (such non-compressable ports, non-MAC based IPv6 addresses, etc.)
 
@@ -418,21 +419,21 @@ configuration and most of the notes there apply here as well.
 
 2.  The star point configuration differs from the primarily in the
     spirit-6lowpan in following is also set:
-    
+
         CONFIG_NET_STAR=y
         CONFIG_NET_STARPOINT=y
-    
+
     The CONFIG\_NET\_STARPOINT selection informs the endpoint that it
     must send all frames to the hub of the star, rather than directly to
     the recipient.
-    
+
     The star hub configuration, on the other hand, differs from the
     spirit-6lowpan in these fundamental ways:
-    
+
         CONFIG_NET_STAR=y
         CONFIG_NET_STARHUB=y
         CONFIG_NET_IPFORWARD=y
-    
+
     The CONFIG\_NET\_IPFORWARD selection informs the hub that if it
     receives any packets that are not destined for the hub, it should
     forward those packets appropriately.
@@ -441,50 +442,51 @@ configuration and most of the notes there apply here as well.
     spirit-6lowpan configuration are supported on the star endpoints,
     but NOT on the star hub. Therefore, all network testing is between
     endpoints with the hub acting, well, only like a hub.
-    
+
     Each node in the configuration must be manually initialized.
     Ideally, this would be automatically initialized with software logic
     and configuration data in non-volatilbe memory. The the procedure is
     manual in this example. These are the basic initialization steps
     with E1 and E2 representing the two star endpoints and C
     representing the star hub:
-    
+
         C:  nsh> ifup wpan0           <-- Brings up the network on the hub
         C:  nsh> telnetd              <-- Starts the Telnet daemon on the hub
         C:  nsh> ifconfig             <-- To get the IP address of the hub
-        
+
         E1: nsh> ifconfig wpan0 hw 37 <-- Sets E1 endpoint node address
         E1: nsh> ifup wpan0           <-- Brings up the network on the E1 node
         E1: nsh> telnetd              <-- Starts the Telnet daemon on the E1 node
         E1: nsh> ifconfig             <-- To get the IP address of E1 endpoint
-        
+
         E2: nsh> ifconfig wpan0 hw 38 <-- Sets E2 endpoint node address
         E2: nsh> ifup wpan0           <-- Brings up the network on the E2 node
         E2: nsh> telnetd              <-- Starts the Telnet daemon on the E2 node
         E2: nsh> ifconfig             <-- To get the IP address of E2 endpoint
-    
+
     It is not necessary to set the hub node address, that will
     automatically be set to CONFIG\_SPIRIT\_HUBNODE when the hub boots.
-    CONFIG\_SPIRIT\_HUBNODE is the "well-known" address of the star hub.
-    
+    CONFIG\_SPIRIT\_HUBNODE is the \"well-known\" address of the star
+    hub.
+
     The modified usage of the TCP test is then show below:
-    
+
         E1: nsh> tcpserver &
         E2: nsh> tcpclient <server-ip> &
-    
+
     Where \<server-ip\> is the IP address of the E1 endpoint.
-    
+
     Similarly for the UDP test:
-    
+
         E1: nsh> udpserver &
         E2: nsh> udpclient <server-ip> &
-    
+
     Telenet sessions may be initiated from the any node to any other
     node:
-    
-    > XX: nsh\> telnet \<server-ip\> \<-- Runs the Telnet client on any
+
+    > XX: nsh\> telnet \<server-ip\> \<\-- Runs the Telnet client on any
     > node XX
-    
+
     Where \<server-ip\> is the IP address of either the E1 or E2
     endpoints or of the star hub.
 
@@ -495,91 +497,94 @@ configuration and most of the notes there apply here as well.
     the hub to establish remote NSH sesstions with any endpoint, and (2)
     A special version of the udpclient program to support testing of
     Spirit broadcast.
-    
-    IPv6 does not support "broadcast" in the same since as IPv4. IPv6
+
+    IPv6 does not support \"broadcast\" in the same since as IPv4. IPv6
     supports only multicast. The special multicast address, ff02::1 is
-    the "all-nodes address" and is functionally equivalent to broadcast.
-    
+    the \"all-nodes address\" and is functionally equivalent to
+    broadcast.
+
     The spirit radios do support both multicast and broadcast with the
     special addresses 0xee and 0xff, respectively. So the Spirit driver
     will map the all-nodes IPv6 to the Spirit destination address 0xff
     and the packet will be broadcast to all Spirit nodes.
-    
+
     Here are the procedures for using the test:
-    
+
         C:  nsh> ifup wpan0           <-- Brings up the network on the hub
-        
+
         E1: nsh> ifconfig wpan0 hw 37 <-- Sets E1 endpoint node address
         E1: nsh> ifup wpan0           <-- Brings up the network on the E1 node
         E1: udpserver &               <-- Start the UDP server
-        
+
         E2: nsh> ifconfig wpan0 hw 38 <-- Sets E2 endpoint node address
         E2: nsh> ifup wpan0           <-- Brings up the network on the E2 node
         E2: udpserver &               <-- Start the UDP server
-        
+
         C:  udpclient &               <-- Starts the UDP client side of the test
-    
+
     The client will broadcast the UDP packets and, as each UDP packet is
     sent, it will be received by BOTH endpoints.
-    
-    >   - STATUS:
-    >     
-    >       - 2017-08-05: Configurations added. Early testing suggests
-    >         that there is  
-    >         a problem when packets are received from multiple sources
+
+    > STATUS:
+    >
+    > :   
+    >
+    >     2017-08-05: Configurations added. Early testing suggests that there is
+    >
+    >     :   a problem when packets are received from multiple sources
     >         at high rates: New incoming packets appear to cause RX
     >         FIFO errors and the driver does not recover well.
-    >     
-    >       - 2017-08-06: The RX FIFO errors are worse when debug is
-    >         enabled. This led  
-    >         me to believe that the cause of the RX FIFO errors was due
+    >
+    >     2017-08-06: The RX FIFO errors are worse when debug is enabled. This led
+    >
+    >     :   me to believe that the cause of the RX FIFO errors was due
     >         to too many interactions by the LP and HP work queue. I
     >         restructured the tasking to reduce the amount of
     >         interlocking, but this did not eliminate the RX FIFO
     >         errors.
-    >         
+    >
     >         Hmmm.. this statement appears in the STMicro driver:
-    >         "Sometimes Spirit1 seems to NOT deliver (correctly) the
-    >         'IRQ\_RX\_DATA\_READY' event for packets which have a
+    >         \"Sometimes Spirit1 seems to NOT deliver (correctly) the
+    >         \'IRQ\_RX\_DATA\_READY\' event for packets which have a
     >         length which is close to a multiple of RX FIFO size.
     >         Furthermore, in these cases also the content delivery
     >         seems to be compromised as well as the generation of RX/TX
     >         FIFO errors. This can be avoided by reducing the maximum
     >         packet length to a value which is lower than the RX FIFO
-    >         size."
-    >         
+    >         size.\"
+    >
     >         I tried implementing the RX FIFO almost full water mark
-    >         thinking this might be a work around... it is not. Still
+    >         thinking this might be a work around\... it is not. Still
     >         RX FIFO errors. From my reading, the only known
     >         work-around is to reduce the maximum packet size so that
     >         it is smaller than 96. I tried setting the maximum packet
     >         length to 84 and that did NOT eliminate the RX FIFO error.
-    >         
-    >         At the end of the TCP test, the "nsh\> ifconfig" command
+    >
+    >         At the end of the TCP test, the \"nsh\> ifconfig\" command
     >         shows that there were two TX timeouts. Perhaps this is
     >         related? I found that the TX timeout was not being
     >         cancelled. It must be canceled on each TX completed or TX
     >         error. This DID eliminate the RX FIFO error, but now the
     >         test hangs and does not complete.
-    >         
-    >         Another Errata: "Using the STack packet format and no CRC
+    >
+    >         Another Errata: \"Using the STack packet format and no CRC
     >         field, the reading from RX FIFO to the last received byte,
-    >         is not possible. ..." Workaround: "By configuring the
+    >         is not possible. \...\" Workaround: \"By configuring the
     >         packet handler with at least one byte of CRC, the problem
     >         is solved. If the CRC is not required in the application,
     >         configure one byte of CRC in the receiver only, to read
-    >         the payload correctly from RX FIFO."
-    >         
+    >         the payload correctly from RX FIFO.\"
+    >
     >         Reducing the FIFO to 94 bytes fixed the problem with the 2
     >         byte CRC but did not resolve that occasional RX FIFO
     >         error.
-    >     
-    >       - 2017-08-07: The hang noted yesterday was due to logic that
-    >         did not  
-    >         restart the poll timer in the event that Spirit was not
+    >
+    >     2017-08-07: The hang noted yesterday was due to logic that did not
+    >
+    >     :   restart the poll timer in the event that Spirit was not
     >         ready when the time expired. Just unconditionally
     >         performing the poll fixed this.
-    >         
+    >
     >         Then I noticed several assertions. In a busy radio
     >         environment, there are many race conditions. Most
     >         typically, just when the driver is setting up to perform a
@@ -589,16 +594,16 @@ configuration and most of the notes there apply here as well.
     >         logic needed to be beefed up to handle this routinely
     >         without asserting and without leaving the Spirit in a bad
     >         state.
-    >         
+    >
     >         The TCP test beats the radio very hard and it is actually
     >         heartening that there are no failures that lead to data
     >         loss in this environment. I would say it is functional but
     >         fragile in this usage, but probably robust in a less busy
     >         environment.
-    >     
-    >       - 2017-08-08: Added broadcast packet transfers using the
-    >         hub-based  
-    >         broadcast UDP client. This appears to be a problem the
+    >
+    >     2017-08-08: Added broadcast packet transfers using the hub-based
+    >
+    >     :   broadcast UDP client. This appears to be a problem the
     >         HC06 compression and/or decompression. The decompression
     >         logic comes up with the destination address of
     >         ff02::ff00:00fe:3500 (which derives from the receiving
@@ -606,14 +611,14 @@ configuration and most of the notes there apply here as well.
     >         address of ff02::0001. It is then out of sync with the
     >         IPHC headers and is unable to uncompress the rest of the
     >         packet correctly.
-    >         
+    >
     >         Trying again with HC1 compression, I see other issues. The
     >         first frame is received correctly, but the following
     >         frames have an incorrect packet length and generate RX
     >         FIFO errors. Forcing the send size to 12 bytes of payload
     >         in apps/examples/udp (vs 96), eliminates this problem and
     >         the broadcast works well.
-    >         
+    >
     >         There is probably another issue related to broadcast TX
     >         setup: If we are sending to the multicast or broadcast
     >         address, should we not also disable ACKs, retries, and RX
@@ -621,15 +626,15 @@ configuration and most of the notes there apply here as well.
     >         minimum it could keep the driver unnecessarily busy. There
     >         is some prototype code to do just this in the driver, but
     >         does not seem to work.
-    >     
-    >       - 2017-08-26: There was only a single buffer for
-    >         reassemblying larger  
-    >         packets. This could be a problem issue for the hub
+    >
+    >     2017-08-26: There was only a single buffer for reassemblying larger
+    >
+    >     :   packets. This could be a problem issue for the hub
     >         configuration which really needs the capability
     >         concurrently reassemble multiple incoming streams. The
     >         design was extended to support multiple reassembly
     >         buffers.
-    >         
+    >
     >         Initial testing shows the same basic behavior as noted
     >         before: The UDP test works and TCP test (usually) works.
     >         There are, however, are errors in reported by the hub in
@@ -637,12 +642,12 @@ configuration and most of the notes there apply here as well.
     >         server echoes the data back to the client. These errors
     >         are presumably the result of ACKs from the receiver
     >         colliding with frames from the sender.
-    >         
+    >
     >         Needs more investigation.
-    >     
-    >       - 2017-09-08: The HC06 all nodes address decode problem
-    >         mentioned on  
-    >         2017-08-08 has been corrected. The behavior in the test
+    >
+    >     2017-09-08: The HC06 all nodes address decode problem mentioned on
+    >
+    >     :   2017-08-08 has been corrected. The behavior in the test
     >         case has not yet been reverified. I suspect that there
     >         made to some radio configuration problems that are causing
     >         the RX FIFO errors and the strange broadcast behavior. I

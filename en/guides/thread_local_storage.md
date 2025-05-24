@@ -1,4 +1,5 @@
-# Thread Local Storage
+Thread Local Storage
+====================
 
 Thread local storage (TLS) is a mechanism that allows each thread to
 have its own copy of a variable. This is useful for variables that are
@@ -13,9 +14,10 @@ that the platform support pthreads. 2. Use the `thread_local` or
 `__thread` keyword from the C standard:
 <https://gcc.gnu.org/onlinedocs/gcc/extensions-to-the-c-language-family/thread-local-storage.html>
 
-## Configuration
+Configuration
+-------------
 
-``` console
+``` {.console}
 CONFIG_SCHED_THREAD_LOCAL  /* Enable native thread local storage support */
 ```
 
@@ -32,7 +34,7 @@ use it:
 
 To confirm that your compiler supports TLS, you can try this command:
 
-``` console
+``` {.console}
 arm-none-eabi-gcc --verbose
 COLLECT_GCC=arm-none-eabi-gcc
 COLLECT_LTO_WRAPPER=/home/huang/.local/pkg/arm/bin/../libexec/gcc/arm-none-eabi/13.3.1/lto-wrapper
@@ -47,4 +49,4 @@ Then you can see `--disable-tls` in the output, which means that your
 compiler does not support TLS.
 
 In this case, you can still use the thread local relative keyword, but
-it would be implemented by libgcc's emutls.
+it would be implemented by libgcc\'s emutls.

@@ -1,17 +1,10 @@
-# NxWM Threading
-
-<div class="warning">
-
-<div class="title">
+NxWM Threading
+==============
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/NxWM+Threading>
-
-</div>
 
 ![image](nxwm_threading_model/nxwm_theading_model_page_0.png)
 

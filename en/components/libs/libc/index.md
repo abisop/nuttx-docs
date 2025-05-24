@@ -1,4 +1,5 @@
-# libc
+libc
+====
 
 This directory contains numerous, small functions typically associated
 with what you would expect to find in a standard C library. The
@@ -14,15 +15,16 @@ kernel-mode.
 But if the `CONFIG_BUILD_PROTECTED` option is selected, NuttX will be
 built into distinct user-mode and kernel-mode sections. In that case,
 most of the code in the `nuttx/` directory will run in kernel-mode with
-exceptions of (1) the user-mode "proxies" found in syscall/proxies, and
-(2) the standard C library functions found in this directory. In this
-build mode, it is critical to separate the user-mode OS interfaces in
-this way.
+exceptions of (1) the user-mode \"proxies\" found in syscall/proxies,
+and (2) the standard C library functions found in this directory. In
+this build mode, it is critical to separate the user-mode OS interfaces
+in this way.
 
 If `CONFIG_BUILD_KERNEL` is selected, then only a NuttX kernel will be
 built with no applications.
 
-## Sub-Directories
+Sub-Directories
+---------------
 
 The files in the `libs/libc/` directory are organized (mostly) according
 which file in the `include/` directory provides the prototype for
@@ -58,8 +60,8 @@ library functions. So we have:
     wchar     - wchar.h
     wctype    - wctype.h
 
-Most of these are "standard" header files; some are not: `hex2bin.h` and
-`fixemath.h` are non-standard.
+Most of these are \"standard\" header files; some are not: `hex2bin.h`
+and `fixemath.h` are non-standard.
 
 There is also a `misc/` subdirectory that contains various internal
 functions and interfaces from header files that are too few to warrant
@@ -67,12 +69,14 @@ their own sub-directory:
 
     misc      - Nonstandard "glue" logic, debug.h, crc32.h, dirent.h
 
-## Library Database
+Library Database
+----------------
 
 Information about functions available in the NuttX C library information
-is maintained in a database. That "database" is implemented as a simple
-comma-separated-value file, libc.csv. Most spreadsheets programs will
-accept this format and can be used to maintain the library database.
+is maintained in a database. That \"database\" is implemented as a
+simple comma-separated-value file, libc.csv. Most spreadsheets programs
+will accept this format and can be used to maintain the library
+database.
 
 This library database will (eventually) be used to generate symbol
 library symbol table information that can be exported to external
@@ -106,7 +110,8 @@ NOTE: The tool mksymtab can be used to generate a symbol table from this
 CSV file. See `Documentation/components/tools` for further details about
 the use of mksymtab.
 
-## symtab
+symtab
+------
 
 ### Symbol Tables and Build Modes
 
@@ -142,4 +147,5 @@ In order to reduce the code/text size, you may want to manually prune
 the auto-generated symtab.inc file to remove all interfaces that you do
 not wish to include into the base FLASH image.
 
-## Implementation Details
+Implementation Details
+----------------------

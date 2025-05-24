@@ -1,16 +1,18 @@
-# IP Packet Filter
+IP Packet Filter
+================
 
-NuttX supports IP packet filter (firewall) compatible with Linux's
+NuttX supports IP packet filter (firewall) compatible with Linux\'s
 iptables and netfilter. It is a stateless packet filter that can be used
 to filter packets based on source and destination IP addresses, source
 and destination ports, protocol, and interface.
 
-## Workflow
+Workflow
+--------
 
-Similar to Linux's iptables, NuttX's IP packet filter defines chains at
-similar points in the packet processing path. The following diagram
+Similar to Linux\'s iptables, NuttX\'s IP packet filter defines chains
+at similar points in the packet processing path. The following diagram
 shows the packet processing path and the chains that are defined in
-NuttX's IP packet filter.
+NuttX\'s IP packet filter.
 
     NIC ──> ipv[46]_input ─┬─> ipv[46]_forward ──> [FORWARD CHAIN] ──> devif_poll_out ──> NIC
                            │                                                 ^
@@ -20,30 +22,36 @@ NuttX's IP packet filter.
                                               ├─> icmp6 ─┤
                                               └─>  ...  ─┘
 
-## Configuration Options
+Configuration Options
+---------------------
 
-  - `CONFIG_NET_IPFILTER`  
-    Enable this option to enable the IP packet filter (firewall).
+`CONFIG_NET_IPFILTER`
 
-  - `CONFIG_NET_IPTABLES`  
-    Enable or disable iptables compatible interface (including
+:   Enable this option to enable the IP packet filter (firewall).
+
+`CONFIG_NET_IPTABLES`
+
+:   Enable or disable iptables compatible interface (including
     ip6tables).
 
-  - `CONFIG_SYSTEM_IPTABLES`  
-    Enable support for the 'iptables' command.
+`CONFIG_SYSTEM_IPTABLES`
 
-  - `CONFIG_SYSTEM_IP6TABLES`  
-    Enable support for the 'ip6tables' command.
+:   Enable support for the \'iptables\' command.
 
-## Usage
+`CONFIG_SYSTEM_IP6TABLES`
 
-With <span class="title-ref">iptables</span> command, we can add,
-delete, and list rules in the IP packet filter. It's similar to the
-<span class="title-ref">iptables</span> command in Linux.
+:   Enable support for the \'ip6tables\' command.
+
+Usage
+-----
+
+With [iptables]{.title-ref} command, we can add, delete, and list rules
+in the IP packet filter. It\'s similar to the [iptables]{.title-ref}
+command in Linux.
 
 The following examples show the commands we support:
 
-``` shell
+``` {.shell}
 > iptables -h
 
 USAGE: iptables -t table -[AD] chain rule-specification
@@ -76,7 +84,7 @@ Options:
 [!] --icmpv6-type      type             ICMPv6 type
 ```
 
-``` shell
+``` {.shell}
 > iptables -P FORWARD DROP
 > iptables -I INPUT -i eth0 ! -p icmp -j DROP
 > iptables -t filter -A FORWARD -p tcp -s 10.0.1.2/24 -d 10.0.3.4/24 -i eth0 -o eth1 --sport 3000:3200 --dport 123:65535 -j ACCEPT
@@ -96,7 +104,7 @@ Chain OUTPUT (policy ACCEPT)
 target        prot  idev  odev  source              destination
 ```
 
-``` shell
+``` {.shell}
 > ip6tables -P FORWARD DROP
 > ip6tables -t filter -I FORWARD -p tcp -s fc00::2/64 -d 2001:da8::2:4/64 -i eth0 -o eth1 --sport 3000:3200 --dport 123:65535 -j ACCEPT
 > ip6tables -t filter -I FORWARD -p icmpv6 -s fc00::2/64 -d 2001:da8::2:4/64 -i eth0 -o eth1 --icmpv6-type 123 -j ACCEPT

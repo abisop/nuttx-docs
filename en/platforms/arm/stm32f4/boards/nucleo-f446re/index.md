@@ -1,10 +1,7 @@
-# ST Nucleo F446RE
-
-<div class="tags">
+ST Nucleo F446RE
+================
 
 chip:stm32, chip:stm32f4, chip:stm32f446
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the ST
 NucleoF446RE boards from ST Micro. See
@@ -13,30 +10,30 @@ NucleoF446RE boards from ST Micro. See
 
 NucleoF446RE:
 
-  - Microprocessor: 32-bit ARM Cortex M4 at 180MHz STM32F446RE
-  - Memory: 512 KB Flash and 128 KB SRAM
-  - ADC: 1×12-bit, 2.4 MSPS A/D converter: up to 10 channels
-  - DMA: 16-stream DMA controllers with FIFOs and burst support
-  - Timers: Up to 11 timers: up to six 16-bit, two 32-bit timers, two
+-   Microprocessor: 32-bit ARM Cortex M4 at 180MHz STM32F446RE
+-   Memory: 512 KB Flash and 128 KB SRAM
+-   ADC: 1×12-bit, 2.4 MSPS A/D converter: up to 10 channels
+-   DMA: 16-stream DMA controllers with FIFOs and burst support
+-   Timers: Up to 11 timers: up to six 16-bit, two 32-bit timers, two
     watchdog timers, and a SysTick timer
-  - GPIO: Up to 81 I/O ports with interrupt capability
-  - I2C: Up to 3 × I2C interfaces
-  - USARTs: Up to 3 USARTs
-  - USARTs: Up to 3 USARTs
-  - SPIs: Up to 4 SPIs (2 I2S)
-  - SDIO interface
-  - USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
-  - CRC calculation unit
-  - RTC
+-   GPIO: Up to 81 I/O ports with interrupt capability
+-   I2C: Up to 3 × I2C interfaces
+-   USARTs: Up to 3 USARTs
+-   USARTs: Up to 3 USARTs
+-   SPIs: Up to 4 SPIs (2 I2S)
+-   SDIO interface
+-   USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
+-   CRC calculation unit
+-   RTC
 
 The NucleoF446RE also has additional DMA and SPI peripheral
 capabilities.
 
 Board features, however, are identical:
 
-  - Peripherals: 1 led, 1 push button
-  - Debug: Serial wire debug and JTAG interfaces
-  - Expansion I/F Ardino and Morpho Headers
+-   Peripherals: 1 led, 1 push button
+-   Debug: Serial wire debug and JTAG interfaces
+-   Expansion I/F Ardino and Morpho Headers
 
 Uses a STM32F103 to provide a ST-Link for programming, debug similar to
 the OpenOcd FTDI function - USB to JTAG front-end.
@@ -44,7 +41,8 @@ the OpenOcd FTDI function - USB to JTAG front-end.
 See <https://os.mbed.com/platforms/ST-Nucleo-F446RE/> for more
 information about this board.
 
-## mbed
+mbed
+----
 
 The Nucleo-F401RE includes boot loader from mbed:
 
@@ -61,9 +59,8 @@ Using the mbed loader:
     close then re-open and the Nucleo-F4x1RE will be running the new
     code.
 
-## Hardware
-
-> 
+Hardware
+--------
 
 ### Buttons
 
@@ -76,8 +73,8 @@ The Nucleo F446RE provides a single user LED, LD2. LD2 is the green LED
 connected to Arduino signal D13 corresponding to MCU I/O PA5 (pin 21) or
 PB13 (pin 34) depending on the STM32target.
 
-  - When the I/O is HIGH value, the LED is on.
-  - When the I/O is LOW, the LED is off.
+-   When the I/O is HIGH value, the LED is on.
+-   When the I/O is LOW, the LED is off.
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
@@ -100,7 +97,8 @@ Thus if LD2, NuttX has successfully booted and is, apparently, running
 normally. If LD2 is flashing at approximately 2Hz, then a fatal error
 has been detected and the system has halted.
 
-## Serial Consoles
+Serial Consoles
+---------------
 
 ### USART1
 
@@ -110,7 +108,7 @@ Pins and Connectors:
          PB7   CN7 pin 21
     TXD: PA10  CN9 pin 3, CN10 pin 33
          PB6   CN5 pin 3, CN10 pin 17
-    
+
     NOTE:  You may need to edit the include/board.h to select different USART1
     pin selections.
 
@@ -143,7 +141,7 @@ Pins and Connectors:
          PD6
     TXD: PA2   CN9 pin 2(See SB13, 14, 62, 63). CN10 pin 35
          PD5
-    
+
     UART2 is the default in all of these configurations.
 
 TTL to RS-232 converter connection:
@@ -155,10 +153,10 @@ TTL to RS-232 converter connection:
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
+-   SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10 as USART signals. Thus SB13 and SB14 should be OFF.
-  - SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     disconnected to PA3 and PA2 on STM32 MCU.
 
 To configure USART2 as the console:
@@ -202,10 +200,10 @@ to use during board bring-up.
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
+-   SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10.
-  - SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     connected to PA3 and PA2 on STM32 MCU to have USART communication
     between them. Thus SB61, SB62 and SB63 should be OFF.
 
@@ -219,7 +217,8 @@ COM port? 115200 8N1?
 As shipped, SB62 and SB63 are open and SB13 and SB14 closed, so the
 virtual COM port is enabled.
 
-## Shields
+Shields
+-------
 
 ### RS-232 from Cutedigi.com
 
@@ -231,7 +230,7 @@ Supports a single RS-232 connected via:
     Pin 2  PA2  USART2_TX    TXD
 
 Support for this shield is enabled by selecting USART2 and configuring
-SB13, 14, 62, and 63 as described above under "Serial Consoles"
+SB13, 14, 62, and 63 as described above under \"Serial Consoles\"
 
 ### Itead Joystick Shield
 
@@ -254,10 +253,10 @@ Itead Joystick Connection:
      A0       Joystick Y Output PA0  ADC1_0
      A1       Joystick X Output PA1  ADC1_1
     --------- ----------------- ---------------------------------
-    
+
     All buttons are pulled on the shield.  A sensed low value indicates
     when the button is pressed.
-    
+
     NOTE: Button F cannot be used with the default USART1 configuration
     because PA9 is configured for USART1_RX by default.  Use select
     different USART1 pins in the board.h file or select a different
@@ -282,7 +281,7 @@ Itead Joystick configuration settings:
 
     System Type -> STM32 Peripheral Support
       CONFIG_STM32_ADC1=y              : Enable ADC1 driver support
-    
+
     Drivers
       CONFIG_ANALOG=y                  : Should be automatically selected
       CONFIG_ADC=y                     : Should be automatically selected
@@ -299,16 +298,17 @@ the analog joystick example at apps/examples/ajoystick:
 
 STATUS: 2014-12-04:
 
-  - Without ADC DMA support, it is not possible to sample both X and Y
+-   Without ADC DMA support, it is not possible to sample both X and Y
     with a single ADC. Right now, only one axis is being converted.
-  - There is conflicts with some of the Arduino data pins and the
+-   There is conflicts with some of the Arduino data pins and the
     default USART1 configuration. I am currently running with USART1 but
     with CONFIG\_NUCLEO\_F401RE\_AJOY\_MINBUTTONS to eliminate the
     conflict.
-  - Current showstopper: I appear to be getting infinite interrupts as
+-   Current showstopper: I appear to be getting infinite interrupts as
     soon as joystick button interrupts are enabled.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh:
 
@@ -321,24 +321,24 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  By default, this configuration uses the ARM EABI toolchain for
     Linux. That can easily be reconfigured, of course.:
-    
+
         CONFIG_HOST_LINUX=y                     : Builds under Linux
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y      : GNU EABI toolchain for Linux
 
 3.  Although the default console is USART2 (which would correspond to
     the Virtual COM port) I have done all testing with the console
-    device configured for USART1 (see instruction above under "Serial
+    device configured for USART1 (see instruction above under \"Serial
     Consoles). I have been using a TTL-to-RS-232 converter connected as
     shown below:
-    
+
         Nucleo CN10 STM32F446RE
         ----------- ------------
         Pin 21 PA9  USART1_RX   *Warning you make need to reverse RX/TX on
@@ -352,7 +352,7 @@ This is basically an nsh configuration (see above) with added support
 for CAN driver. Both CAN 1 (RX: PB\_8, TX: PB\_9) and CAN 2 (RX: PB\_5,
 TX: PB\_6) are turn on.
 
-Functionality of CAN driver can be tested by calling application "can"
+Functionality of CAN driver can be tested by calling application \"can\"
 in NuttShell. This application sends 100 messages over CAN 1.
 
 ### dac
@@ -360,13 +360,13 @@ in NuttShell. This application sends 100 messages over CAN 1.
 This is an nsh configuration (see above) with added support for digital
 analog converter driver.
 
-Functionality of DAC driver can be tested by calling application "dac"
+Functionality of DAC driver can be tested by calling application \"dac\"
 in NuttShell. GPIO\_DAC1\_OUT1 pin is set on PA\_4.
 
 ### gpio
 
 This is an nsh configuration (see above) with added support for GPIO
-driver and GPIO test application "gpio". Three pins are configured for
+driver and GPIO test application \"gpio\". Three pins are configured for
 testing purposes:
 
     PA_7 - GPIO_INPUT
@@ -423,17 +423,17 @@ Pin configuration for the X-NUCLEO-IHM08M1 (TIM1 configuration):
     DEBUG2           GPIO               PC6
     DEBUG3           GPIO               PB5
     DEBUG4           GPIO               PC8
-    
+
     Current shunt resistance              = 0.01
     Current sense gain                    = -5.18 (inverted current)
     Vbus sense gain = 9.31k/(9.31k+169k)  = 0.0522
     Vbus min                              = 10V
     Vbus max                              = 48V
     Iout max                              = 15A RMS
-    
+
     IPHASE_RATIO = 1/(R_shunt*gain) = -19.3
     VBUS_RATIO   = 1/VBUS_gain      = 19.152
-    
+
     For now only 3-shunt resistors configuration is supported.
 
 ### lcd
@@ -449,10 +449,10 @@ Display connection is set to SPI 3 and pinout is following:
     SDA   D4
     CLK   D3
 
-Framebuffer application can be started from terminal by typing "fb".
+Framebuffer application can be started from terminal by typing \"fb\".
 
 ### pwm
 
 This is an nsh configuration (see above) with added capability of pulse
 width modulation. PWM output is on Timer 3 channel 1, which is pin PA\_6
-(D12) on Nucleo board. Example program can be stared by "pwm" command.
+(D12) on Nucleo board. Example program can be stared by \"pwm\" command.

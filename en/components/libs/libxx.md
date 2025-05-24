@@ -1,47 +1,49 @@
-# libxx
+libxx
+=====
 
 This directory contains three C++ library:
 
-  - A fragmentary C++ library that will allow to build only the simplest
+-   A fragmentary C++ library that will allow to build only the simplest
     of C++ applications. In the deeply embedded world, that is probably
     all that is necessary.
-    
+
     At present, only the following are supported here:
-    
-    ``` C
+
+    ``` {.C}
     void *operator new(std::size_t nbytes)
     ```
-    
-    ``` C
+
+    ``` {.C}
     void operator delete(void* ptr)
     ```
-    
-    ``` C
+
+    ``` {.C}
     void operator delete[](void *ptr)
     ```
-    
-    ``` C
+
+    ``` {.C}
     void __cxa_pure_virtual(void)
     ```
-    
-    ``` C
+
+    ``` {.C}
     int __aeabi_atexit(void* object, void (*destroyer)(void*), void *dso_handle)
     ```
-    
-    ``` C
+
+    ``` {.C}
     int __cxa_atexit(__cxa_exitfunc_t func, FAR void *arg, FAR void *dso_handle)
     ```
-    
+
     This implementation is selected when neither of the following two
     options are enabled.
 
-  - LLVM "libc++" C++ library (<http://libcxx.llvm.org/>) This
+-   LLVM \"libc++\" C++ library (<http://libcxx.llvm.org/>) This
     implementation is selected with CONFIG\_LIBCXX=y.
 
-  - uClibc++ C++ library (<http://cxx.uclibc.org/>) This implementation
+-   uClibc++ C++ library (<http://cxx.uclibc.org/>) This implementation
     is selected with CONFIG\_UCLIBCXX=y.
 
-## operator new
+operator new
+------------
 
 This operator should take a type of `size_t`. But size\_t has an unknown
 underlying type. In the nuttx `sys/types.h` header file, `size_t` is

@@ -1,6 +1,8 @@
-# On-Demand Paging
+On-Demand Paging
+================
 
-## Kernel Build Implementation
+Kernel Build Implementation
+---------------------------
 
 On-demand paging and lazy loading are techniques used to manage physical
 memory. The basic idea is to allow a program to execute even though the
@@ -26,7 +28,7 @@ mode, each process has its own address environment
 ### Logic Design Description
 
 When an application is being loaded `up_addrenv_create` is called to
-create the process's address environment. This includes mapping the
+create the process\'s address environment. This includes mapping the
 commonly used `text`, `data` and `heap` sections within the virtual
 memory space. Without on-demand paging, the physical memory is then
 allocated and mapped accordingly, before the process is started. When
@@ -43,7 +45,7 @@ same point where the page fault first occurred.
 
 #### Example: RISC-V
 
-RISC-V's `up_addrenv_create` calls `create_region` (both defined in
+RISC-V\'s `up_addrenv_create` calls `create_region` (both defined in
 `arch/risc-v/src/common/riscv_addrenv.c`). `create_region` maps a single
 region to MMU by allocating physical memory for the page tables. When
 `CONFIG_PAGING=y` is not selected, all the physical page tables are
@@ -61,11 +63,12 @@ a physical page and maps it to the virtual memory space that triggered
 the page fault exception and then resumes execution from the same point
 where the page fault first occurred.
 
-`knsh_paging` simulates a device with 4MiB physical memory with 8MiB of
-virtual heap memory allocated for each process. This is possible by
-enabling on-demand paging.
+`knsh_paging`{.interpreted-text role="ref"} simulates a device with 4MiB
+physical memory with 8MiB of virtual heap memory allocated for each
+process. This is possible by enabling on-demand paging.
 
-## Legacy Implementation
+Legacy Implementation
+---------------------
 
 This legacy implementation runs on *Flat Build* (*Kernel Build* did not
 even exist at that time).
@@ -92,27 +95,33 @@ small RAM.
 
 ### Terminology
 
->   - `g_waitingforfill`:  
->     An OS list that is used to hold the TCBs of tasks that are waiting
+> `g_waitingforfill`:
+>
+> :   An OS list that is used to hold the TCBs of tasks that are waiting
 >     for a page fill.
-> 
->   - `g_pftcb`:  
->     A variable that holds a reference to the TCB of the thread that is
+>
+> `g_pftcb`:
+>
+> :   A variable that holds a reference to the TCB of the thread that is
 >     currently be re-filled.
-> 
->   - `g_pgworker`:  
->     The *process* ID of the thread that will perform the page fills.
-> 
->   - `pg_callback()`:  
->     The callback function that is invoked from a driver when the fill
+>
+> `g_pgworker`:
+>
+> :   The *process* ID of the thread that will perform the page fills.
+>
+> `pg_callback()`:
+>
+> :   The callback function that is invoked from a driver when the fill
 >     is complete.
-> 
->   - `pg_miss()`:  
->     The function that is called from architecture-specific code to
+>
+> `pg_miss()`:
+>
+> :   The function that is called from architecture-specific code to
 >     handle a page fault.
-> 
->   - `TCB`:  
->     Task Control Block
+>
+> `TCB`:
+>
+> :   Task Control Block
 
 ### NuttX Common Logic Design Description
 
@@ -120,20 +129,20 @@ small RAM.
 
 The following declarations will be added.
 
-  - `g_waitingforfill`. A doubly linked list that will be used to
+-   `g_waitingforfill`. A doubly linked list that will be used to
     implement a prioritized list of the TCBs of tasks that are waiting
     for a page fill.
-  - `g_pgworker`. The *process* ID of the thread that will perform the
+-   `g_pgworker`. The *process* ID of the thread that will perform the
     page fills
 
 During OS initialization in `sched/init/nx_start.c`, the following steps
 will be performed:
 
-  - The `g_waitingforfill` queue will be initialized.
-  - The special, page fill worker thread, will be started. The `pid` of
+-   The `g_waitingforfill` queue will be initialized.
+-   The special, page fill worker thread, will be started. The `pid` of
     the page will worker thread will be saved in `g_pgworker`. Note that
     we need a special worker thread to perform fills; we cannot use the
-    "generic" worker thread facility because we cannot be assured that
+    \"generic\" worker thread facility because we cannot be assured that
     all actions called by that worker thread will always be resident in
     memory.
 
@@ -155,8 +164,8 @@ function will perform the following operations:
 1.  **Sanity checking**. This function will ASSERT if the currently
     executing task is the page fill worker thread. The page fill worker
     thread is how the page fault is resolved and all logic associated
-    with the page fill worker must be "[locked](#MemoryOrg)" and always
-    present in memory.
+    with the page fill worker must be \"[locked](#MemoryOrg)\" and
+    always present in memory.
 2.  **Block the currently executing task**. This function will call
     `up_switch_context()` to block the task at the head of the
     ready-to-run list. This should cause an interrupt level context
@@ -177,27 +186,27 @@ function will perform the following operations:
 When signaled from `pg_miss()`, the page fill worker thread will be
 awakenend and will initiate the fill operation.
 
-**Input Parameters.** None -- The head of the ready-to-run list is
+**Input Parameters.** None \-- The head of the ready-to-run list is
 assumed to be that task that caused the exception. The current task
 context should already be saved in the TCB of that task. No additional
 inputs are required.
 
 **Assumptions**.
 
-  - It is assumed that this function is called from the level of an
+-   It is assumed that this function is called from the level of an
     exception handler and that all interrupts are disabled.
-  - The `pg_miss()` must be "[locked](#MemoryOrg)" in memory. Calling
+-   The `pg_miss()` must be \"[locked](#MemoryOrg)\" in memory. Calling
     `pg_miss()` cannot cause a nested page fault.
-  - It is assumed that currently executing task (the one at the head of
+-   It is assumed that currently executing task (the one at the head of
     the ready-to-run list) is the one that cause the fault. This will
     always be true unless the page fault occurred in an interrupt
     handler. Interrupt handling logic must always be available and
-    "[locked](#MemoryOrg)" into memory so that page faults never come
+    \"[locked](#MemoryOrg)\" into memory so that page faults never come
     from interrupt handling.
-  - The architecture-specific page fault exception handling has already
+-   The architecture-specific page fault exception handling has already
     verified that the exception did not occur from interrupt/exception
     handling logic.
-  - As mentioned above, the task causing the page fault must not be the
+-   As mentioned above, the task causing the page fault must not be the
     page fill worker thread because that is the only way to complete the
     page fill.
 
@@ -205,11 +214,11 @@ inputs are required.
 
 The page fill worker thread will be awakened on one of three conditions:
 
-  - When signaled by `pg_miss()`, the page fill worker thread will be
+-   When signaled by `pg_miss()`, the page fill worker thread will be
     awakenend (see above),
-  - From `pg_callback()` after completing last fill (when
-    `CONFIG_PAGING_BLOCKINGFILL` is defined... see below), or
-  - A configurable timeout expires with no activity. This timeout can be
+-   From `pg_callback()` after completing last fill (when
+    `CONFIG_PAGING_BLOCKINGFILL` is defined\... see below), or
+-   A configurable timeout expires with no activity. This timeout can be
     used to detect failure conditions such things as fills that never
     complete.
 
@@ -223,37 +232,37 @@ When awakened from `pg_miss()`, no fill will be in progress and
 call `pg_startfill()`. That function will perform the following
 operations:
 
-  - Call the architecture-specific function `up_checkmapping()` to see
+-   Call the architecture-specific function `up_checkmapping()` to see
     if the page fill still needs to be performed. In certain conditions,
     the page fault may occur on several threads and be queued multiple
     times. In this corner case, the blocked task will simply be
     restarted (see the logic below for the case of normal completion of
     the fill operation).
-  - Call `up_allocpage(tcb, &vpage)`. This architecture-specific
+-   Call `up_allocpage(tcb, &vpage)`. This architecture-specific
     function will set aside page in memory and map to virtual address
     (vpage). If all available pages are in-use (the typical case), this
     function will select a page in-use, un-map it, and make it
     available.
-  - Call the architecture-specific function `up_fillpage()`. Two
-    versions of the up\_fillpage function are supported -- a blocking
+-   Call the architecture-specific function `up_fillpage()`. Two
+    versions of the up\_fillpage function are supported \-- a blocking
     and a non-blocking version based upon the configuration setting
     `CONFIG_PAGING_BLOCKINGFILL`.
-      - If `CONFIG_PAGING_BLOCKINGFILL` is defined, then up\_fillpage is
+    -   If `CONFIG_PAGING_BLOCKINGFILL` is defined, then up\_fillpage is
         blocking call. In this case, `up_fillpage()` will accept only
-        
-        (1) a reference to the TCB that requires the fill.
+
+        \(1\) a reference to the TCB that requires the fill.
         Architecture-specific context information within the TCB will be
         sufficient to perform the fill. And (2) the (virtual) address of
         the allocated page to be filled. The resulting status of the
         fill will be provided by return value from `up_fillpage()`.
-    
-      - If `CONFIG_PAGING_BLOCKINGFILL` is defined, then up\_fillpage is
+
+    -   If `CONFIG_PAGING_BLOCKINGFILL` is defined, then up\_fillpage is
         non-blocking call. In this case `up_fillpage()` will accept an
         additional argument: The page fill worker thread will provide a
         callback function, `pg_callback`. This function is non-blocking,
         it will start an asynchronous page fill. After calling the
         non-blocking `up_fillpage()`, the page fill worker thread will
-        wait to be signaled for the next event -- the fill completion
+        wait to be signaled for the next event \-- the fill completion
         event. The callback function will be called when the page fill
         is finished (or an error occurs). The resulting status of the
         fill will be providing as an argument to the callback functions.
@@ -288,17 +297,17 @@ result of the fill as an argument to the callback function. NOTE:
 In this non-blocking case, the callback `pg_callback()` will perform the
 following operations when it is notified that the fill has completed:
 
-  - Verify that `g_pftcb` is non-NULL.
-  - Find the higher priority between the task waiting for the fill to
+-   Verify that `g_pftcb` is non-NULL.
+-   Find the higher priority between the task waiting for the fill to
     complete in `g_pftcb` and the task waiting at the head of the
     `g_waitingforfill` list. That will be the priority of he highest
     priority task waiting for a fill.
-  - If this higher priority is higher than current page fill worker
-    thread, then boost worker thread's priority to that level. Thus, the
-    page fill worker thread will always run at the priority of the
+-   If this higher priority is higher than current page fill worker
+    thread, then boost worker thread\'s priority to that level. Thus,
+    the page fill worker thread will always run at the priority of the
     highest priority task that is waiting for a fill.
-  - Save the result of the fill operation.
-  - Signal the page fill worker thread.
+-   Save the result of the fill operation.
+-   Signal the page fill worker thread.
 
 #### Task Resumption
 
@@ -310,24 +319,24 @@ fill is complete when `up_fillpage()` returns.
 
 In this either, the page fill worker thread will:
 
-  - Verify consistency of state information and `g_pftcb`.
-  - Verify that the page fill completed successfully, and if so,
-  - Call `up_unblocktask(g_pftcb)` to make the task that just received
+-   Verify consistency of state information and `g_pftcb`.
+-   Verify that the page fill completed successfully, and if so,
+-   Call `up_unblocktask(g_pftcb)` to make the task that just received
     the fill ready-to-run.
-  - Check if the `g_waitingforfill` list is empty. If not:
-      - Remove the highest priority task waiting for a page fill from
+-   Check if the `g_waitingforfill` list is empty. If not:
+    -   Remove the highest priority task waiting for a page fill from
         `g_waitingforfill`,
-      - Save the task's TCB in `g_pftcb`,
-      - If the priority of the thread in `g_pftcb`, is higher in
+    -   Save the task\'s TCB in `g_pftcb`,
+    -   If the priority of the thread in `g_pftcb`, is higher in
         priority than the default priority of the page fill worker
         thread, then set the priority of the page fill worker thread to
         that priority.
-      - Call `pg_startfill()` which will start the next fill (as
+    -   Call `pg_startfill()` which will start the next fill (as
         described above).
-  - Otherwise,
-      - Set `g_pftcb` to NULL.
-      - Restore the default priority of the page fill worker thread.
-      - Wait for the next fill related event (a new page fault).
+-   Otherwise,
+    -   Set `g_pftcb` to NULL.
+    -   Restore the default priority of the page fill worker thread.
+    -   Wait for the next fill related event (a new page fault).
 
 ### Architecture-Specific Support Requirements
 
@@ -336,27 +345,25 @@ In this either, the page fill worker thread will:
 **Memory Regions**. Chip specific logic will map the virtual and
 physical address spaces into three general regions:
 
-1.  A .text region containing "[locked-in-memory](#MemoryOrg)" code that
-    is always available and will never cause a page fault. This locked
-    memory is loaded at boot time and remains resident for all time.
-    This memory regions must include:
-      - All logic for all interrupt paths. All interrupt logic must be
+1.  A .text region containing \"[locked-in-memory](#MemoryOrg)\" code
+    that is always available and will never cause a page fault. This
+    locked memory is loaded at boot time and remains resident for all
+    time. This memory regions must include:
+    -   All logic for all interrupt paths. All interrupt logic must be
         locked in memory because the design present here will not
         support page faults from interrupt handlers. This includes the
         page fault handling logic and `` `pg_miss() ``
-        \<\#PageFaults\><span class="title-ref">\_\_ that is called from
-        the page fault handler. It also includes the
-        </span>`pg_callback()`
-        \<\#FillComplete\><span class="title-ref">\_\_ function that
-        wakes up the page fill worker thread and whatever
-        architecture-specific logic that calls
-        </span><span class="title-ref">pg\_callback()</span>\`.
-      - All logic for the IDLE thread. The IDLE thread must always be
+        \<\#PageFaults\>[\_\_ that is called from the page fault
+        handler. It also includes the ]{.title-ref}`pg_callback()`
+        \<\#FillComplete\>[\_\_ function that wakes up the page fill
+        worker thread and whatever architecture-specific logic that
+        calls ]{.title-ref}[pg\_callback()]{.title-ref}\`.
+    -   All logic for the IDLE thread. The IDLE thread must always be
         ready to run and cannot be blocked for any reason.
-      - All of the page fill worker thread must be locked in memory.
+    -   All of the page fill worker thread must be locked in memory.
         This thread must execute in order to unblock any thread waiting
         for a fill. It this thread were to block, there would be no way
-        to complete the fills\!
+        to complete the fills!
 2.  A .text region containing pages that can be assigned allocated,
     mapped to various virtual addresses, and filled from some mass
     storage medium.
@@ -365,33 +372,33 @@ physical address spaces into three general regions:
 This memory organization is illustrated in the following table. Notice
 that:
 
-  - There is a one-to-one relationship between pages in the virtual
+-   There is a one-to-one relationship between pages in the virtual
     address space and between pages of .text in the non-volatile mass
     storage device.
-  - There are, however, far fewer physical pages available than virtual
+-   There are, however, far fewer physical pages available than virtual
     pages. Only a subset of physical pages will be mapped to virtual
     pages at any given time. This mapping will be performed on-demand as
     needed for program execution.
 
-| SRAM                           | Virtual Address Space         | Non-Volatile Storage |
-| ------------------------------ | ----------------------------- | -------------------- |
-| .                              | DATA                          | .                    |
-| .                              | Virtual Page *n* (*n* \> *m*) | Stored Page *n*      |
-| .                              | Virtual Page *n-1*            | Stored Page *n-1*    |
-| DATA                           | ...                           | ...                  |
-| Physical Page *m* (*m* \< *n*) | ...                           | ...                  |
-| Physical Page *m-1*            | ...                           | ...                  |
-| ...                            | ...                           | ...                  |
-| Physical Page *1*              | Virtual Page *1*              | Stored Page *1*      |
-| Locked Memory                  | Locked Memory                 | Memory Resident      |
+  SRAM                             Virtual Address Space           Non-Volatile Storage
+  -------------------------------- ------------------------------- ----------------------
+  .                                DATA                            .
+  .                                Virtual Page *n* (*n* \> *m*)   Stored Page *n*
+  .                                Virtual Page *n-1*              Stored Page *n-1*
+  DATA                             \...                            \...
+  Physical Page *m* (*m* \< *n*)   \...                            \...
+  Physical Page *m-1*              \...                            \...
+  \...                             \...                            \...
+  Physical Page *1*                Virtual Page *1*                Stored Page *1*
+  Locked Memory                    Locked Memory                   Memory Resident
 
 **Example**. As an example, suppose that the size of the SRAM is 192K
 (as in the NXP LPC3131). And suppose further that:
 
-  - The size of the locked, memory resident .text area is 32K, and
-  - The size of the DATA area is 64K.
-  - The size of one, managed page is 1K.
-  - The size of the whole .text image on the non-volatile, mass storage
+-   The size of the locked, memory resident .text area is 32K, and
+-   The size of the DATA area is 64K.
+-   The size of one, managed page is 1K.
+-   The size of the whole .text image on the non-volatile, mass storage
     device is 1024K.
 
 Then, the size of the locked, memory resident code is 32K (*m*=32
@@ -403,16 +410,16 @@ region must then be greater than or equal to (1024-32) or 992 pages
 **Building the Locked, In-Memory Image**. One way to accomplish this
 would be a two phase link:
 
-  - In the first phase, create a partially linked objected containing
+-   In the first phase, create a partially linked objected containing
     all interrupt/exception handling logic, the page fill worker thread
     plus all parts of the IDLE thread (which must always be available
     for execution).
-  - All of the `.text` and `.rodata` sections of this partial link
+-   All of the `.text` and `.rodata` sections of this partial link
     should be collected into a single section.
-  - The second link would link the partially linked object along with
+-   The second link would link the partially linked object along with
     the remaining object to produce the final binary. The linker script
-    should position the "special" section so that it lies in a reserved,
-    "non-swappable" region.
+    should position the \"special\" section so that it lies in a
+    reserved, \"non-swappable\" region.
 
 #### Architecture-Specific Functions
 
@@ -420,6 +427,7 @@ Most standard, architecture-specific functions are declared in
 `include/nuttx/arch.h`. However, for the case of this paging logic, the
 architecture specific functions are declared in `include/nuttx/page.h`.
 Standard, architecture-specific functions that should already be
-provided in the architecture port are :c`up_switch_context`. New,
-additional functions that must be implemented just for on-demand paging
-support are:
+provided in the architecture port are
+:c`up_switch_context`{.interpreted-text role="func"}. New, additional
+functions that must be implemented just for on-demand paging support
+are:

@@ -1,4 +1,5 @@
-# NXP S32K3XX
+NXP S32K3XX
+===========
 
 The [S32K3XX
 series](https://www.nxp.com/products/processors-and-microcontrollers/s32-automotive-platform/s32k-general-purpose-mcus/s32k3-microcontrollers-for-general-purpose:S32K3)
@@ -6,40 +7,42 @@ is a family of automotive-grade general-purpose microcontrollers from
 NXP Semiconductors. The chips are based around single, dual (lock-step)
 or triple Arm Cortex-M7 cores, running at clockspeeds up to 240 MHz.
 
-## Supported MCUs
+Supported MCUs
+--------------
 
 The following list includes MCUs from the S32K3XX series and indicates
 whether they are supported in NuttX:
 
-| MCU     | Support | Cores             | Frequency |
-| ------- | ------- | ----------------- | --------- |
-| S32K311 | No      | 1x Cortex-M7      | 120 MHz   |
-| S32K312 | No      | 1x Cortex-M7      | 120 MHz   |
-| S32K314 | Yes\*   | 1x Cortex-M7      | 160 MHz   |
-| S32K322 | No      | 2x Cortex-M7      | 160 MHz   |
-| S32K324 | Yes\*   | 2x Cortex-M7      | 160 MHz   |
-| S32K341 | No      | LS Cortex-M7      | 160 MHz   |
-| S32K342 | No      | LS Cortex-M7      | 160 MHz   |
-| S32K344 | Yes\*   | LS Cortex-M7      | 160 MHz   |
-| S32K328 | No      | 2x Cortex-M7      | 160 MHz   |
-| S32K338 | No      | 3x Cortex-M7      | 240 MHz   |
-| S32K348 | No      | LS Cortex-M7      | 160 MHz   |
-| S32K358 | No      | LS + 1x Cortex-M7 | 160 MHz   |
+  MCU       Support   Cores               Frequency
+  --------- --------- ------------------- -----------
+  S32K311   No        1x Cortex-M7        120 MHz
+  S32K312   No        1x Cortex-M7        120 MHz
+  S32K314   Yes\*     1x Cortex-M7        160 MHz
+  S32K322   No        2x Cortex-M7        160 MHz
+  S32K324   Yes\*     2x Cortex-M7        160 MHz
+  S32K341   No        LS Cortex-M7        160 MHz
+  S32K342   No        LS Cortex-M7        160 MHz
+  S32K344   Yes\*     LS Cortex-M7        160 MHz
+  S32K328   No        2x Cortex-M7        160 MHz
+  S32K338   No        3x Cortex-M7        240 MHz
+  S32K348   No        LS Cortex-M7        160 MHz
+  S32K358   No        LS + 1x Cortex-M7   160 MHz
 
-\* Same silicon in different configurations. Only a single core is
-currently being used (no SMP support).
+| \* Same silicon in different configurations. Only a single core is
+  currently being used (no SMP support).
 
-## Supported Modules & Peripherals
+Supported Modules & Peripherals
+-------------------------------
 
 The following list indicates modules and peripherals supported in NuttX.
 Note that this list does not include all MCU modules. Please refer to
 the S32K3XX Reference Manual for a complete overview of its features.
 
-| Peripheral                      | Support               | Comments             |
-| ------------------------------- | --------------------- | -------------------- |
-| ADC eDMA eMIOS EMAC             | No Partial No Yes     |                      |
-| FlexCAN FlexIO GPIO LPCMP       | Yes No Yes No         | SocketCAN-compatible |
-| LPI2C LPSPI LPUART QSPI RTC SAI | Yes Yes Yes Yes No No | I2C Master only      |
+  Peripheral                        Support                 Comments
+  --------------------------------- ----------------------- ----------------------
+  ADC eDMA eMIOS EMAC               No Partial No Yes       
+  FlexCAN FlexIO GPIO LPCMP         Yes No Yes No           SocketCAN-compatible
+  LPI2C LPSPI LPUART QSPI RTC SAI   Yes Yes Yes Yes No No   I2C Master only
 
 ### ADC
 
@@ -76,11 +79,12 @@ timers or programmable logic blocks. No driver available.
 
 ### GPIO
 
-Pins can be configured using :c`s32k3xx_pinconfig` function. Writing to
-pins is done by :c`s32k3xx_gpiowrite` function and reading is done by
-:c`s32k3xx_gpioread`.
+Pins can be configured using :c`s32k3xx_pinconfig`{.interpreted-text
+role="func"} function. Writing to pins is done by
+:c`s32k3xx_gpiowrite`{.interpreted-text role="func"} function and
+reading is done by :c`s32k3xx_gpioread`{.interpreted-text role="func"}.
 
-LPCMP ---
+LPCMP \-\--
 
 Analog Comparator. No driver support (yet).
 
@@ -88,13 +92,15 @@ Analog Comparator. No driver support (yet).
 
 Low-Power Inter-Integrated Circuit (I2C) module supporting an interface
 to an I2C bus as master and/or as a slave. The lower-half of this driver
-is initialize by calling :c`s32k3xx_i2cbus_initialize`.
+is initialize by calling :c`s32k3xx_i2cbus_initialize`{.interpreted-text
+role="func"}.
 
 ### LPSPI
 
 Low-Power Serial Peripheral Interface (SPI) module that supports an
 interface to an SPI bus as a master and/or a slave. The lower-half of
-this driver is initialize by calling :c`s32k3xx_lpspibus_initialize`.
+this driver is initialize by calling
+:c`s32k3xx_lpspibus_initialize`{.interpreted-text role="func"}.
 
 ### LPUART
 
@@ -115,6 +121,7 @@ Real-Time Clock module. A driver is not (yet) available.
 Synchronous Audio Interface for digital audio over I2S (Inter-IC Sound).
 No driver implemented.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,5 +1,7 @@
-# Artery AT32
+Artery AT32
+===========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,4 +1,5 @@
-# ADXL345
+ADXL345
+=======
 
 Contributed by Alan Carvalho de Assis
 

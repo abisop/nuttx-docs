@@ -1,237 +1,209 @@
-# linum-stm32h753bi
-
-<div class="tags">
+linum-stm32h753bi
+=================
 
 chip:stm32, chip:stm32h7, chip:stm32h753
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 LINUM-STM32H753BI board.
 
-![](linum-stm32h753bi-top.jpg)
+![](linum-stm32h753bi-top.jpg){.align-center}
 
-![](linum-stm32h753bi-bottom.jpg)
+![](linum-stm32h753bi-bottom.jpg){.align-center}
 
-## Board information
+Board information
+-----------------
 
 This board was release by Witte Tenology in 2023 and developed based on
 STM32H753BI microcontroller. The board has 2 expansion connectors used
 by the LCD display with touchscreen and another for access to other
 peripherals of microcontroller.
 
-  - The board features:
-    
-      - 8 to 52V power supply
-      - SWD Pins for use as STLink (Pin header) and TC2030-IDC 6-Pin
+The board features:
+
+:   -   8 to 52V power supply
+    -   SWD Pins for use as STLink (Pin header) and TC2030-IDC 6-Pin
         Tag-Connect Plug-of-Nails™ Connector
-      - Crystal for HS 25MHz
-      - Crystal for RTC 32.768KHz
-      - 1 UART serial for debug
-      - 1 Led RGB
-      - 1 Buzzer without internal oscillator
-      - 1 Mono audio up to 3W
-      - 1 Ethernet 10/100
-      - 1 MicroSD connector supporting 1 or 4-bit bus
-      - 1 USB 2.0 Host/Device
-      - 1 EEPROM memory with 512K bits
-      - 1 External SRAM memory with 8MB
-      - 1 NOR memory with 16MB
-      - 2 On-board RS232 Transceiver with RTS/CTS
-      - 2 On-board RS485 Transceiver
-      - 2 On-board CAN-FD Transceiver
+    -   Crystal for HS 25MHz
+    -   Crystal for RTC 32.768KHz
+    -   1 UART serial for debug
+    -   1 Led RGB
+    -   1 Buzzer without internal oscillator
+    -   1 Mono audio up to 3W
+    -   1 Ethernet 10/100
+    -   1 MicroSD connector supporting 1 or 4-bit bus
+    -   1 USB 2.0 Host/Device
+    -   1 EEPROM memory with 512K bits
+    -   1 External SRAM memory with 8MB
+    -   1 NOR memory with 16MB
+    -   2 On-board RS232 Transceiver with RTS/CTS
+    -   2 On-board RS485 Transceiver
+    -   2 On-board CAN-FD Transceiver
 
-  - Expansion connector 1 features:
-    
-      - 1 Display RBG 565
-      - 1 Capacitive Touchscreen sensor
+Expansion connector 1 features:
 
-  - Expansion connector 2 features.
-    
-      - 1 SPI
-      - 1 I2C
-      - 1 One Wire
-      - 2 DACs
-      - 6 PWM Channels
-      - 10 ADCs
+:   -   1 Display RBG 565
+    -   1 Capacitive Touchscreen sensor
+
+Expansion connector 2 features.
+
+:   -   1 SPI
+    -   1 I2C
+    -   1 One Wire
+    -   2 DACs
+    -   6 PWM Channels
+    -   10 ADCs
 
 Board documentation: <https://wittetech.com/>
 
-## BOARD-LEDs
+BOARD-LEDs
+----------
 
 The LINUM-STM32H753BI has 3 software controllable LEDs.
 
-> 
-> 
-> | LED RGB | PINS |
-> | ------- | ---- |
-> | LED\_R  | PG2  |
-> | LED\_G  | PG3  |
-> | LED\_B  | PB2  |
-> 
+>   LED RGB   PINS
+>   --------- ------
+>   LED\_R    PG2
+>   LED\_G    PG3
+>   LED\_B    PB2
 
-## UART/USART
+UART/USART
+----------
 
 The LINUM-STM32H753BI used the USART1 for serial debug messages.
 
 ### USART1
 
-> 
-> 
-> | USART1 | PINS |
-> | ------ | ---- |
-> | TX     | PB14 |
-> | RX     | PB15 |
-> 
+>   USART1   PINS
+>   -------- ------
+>   TX       PB14
+>   RX       PB15
 
 The LINUM-STM32H753BI board has two on-board RS-232 transceiver
 connected to USART2 and USART3.
 
-> 
-> 
-> | USART2 | PINS |
-> | ------ | ---- |
-> | TXD    | PD5  |
-> | RXD    | PD6  |
-> | CTS    | PD3  |
-> | RTS    | PD4  |
-> 
-
-> | USART3 | PINS |
-> | ------ | ---- |
-> | TXD    | PB10 |
-> | RXD    | PB11 |
-> | CTS    | PD11 |
-> | RTS    | PD12 |
-> 
+>   USART2   PINS
+>   -------- ------
+>   TXD      PD5
+>   RXD      PD6
+>   CTS      PD3
+>   RTS      PD4
+>
+>   USART3   PINS
+>   -------- ------
+>   TXD      PB10
+>   RXD      PB11
+>   CTS      PD11
+>   RTS      PD12
 
 The LINUM-STM32H753BI board has two on-board RS-485 transceiver
 connected to USART4 and USART6.
 
-> 
-> 
-> | UART4 | PINS |
-> | ----- | ---- |
-> | TXD   | PB9  |
-> | RXD   | PB8  |
-> | DE    | PA15 |
-> 
+>   UART4   PINS
+>   ------- ------
+>   TXD     PB9
+>   RXD     PB8
+>   DE      PA15
+>
+>   USART6   PINS
+>   -------- ------
+>   TXD      PC6
+>   RXD      PC7
+>   DE       PG12
 
-> | USART6 | PINS |
-> | ------ | ---- |
-> | TXD    | PC6  |
-> | RXD    | PC7  |
-> | DE     | PG12 |
-> 
-
-## SDMMC
+SDMMC
+-----
 
 The LINUM-STM32H753BI has one SDCard slot connected as below:
 
-> 
-> 
-> | SDMMC1    | PINS |
-> | --------- | ---- |
-> | SDMMC\_D0 | PC8  |
-> | SDMMC\_D1 | PC9  |
-> | SDMMC\_D2 | PC10 |
-> | SDMMC\_D3 | PC11 |
-> | SDMMC\_DK | PC12 |
-> 
+>   SDMMC1      PINS
+>   ----------- ------
+>   SDMMC\_D0   PC8
+>   SDMMC\_D1   PC9
+>   SDMMC\_D2   PC10
+>   SDMMC\_D3   PC11
+>   SDMMC\_DK   PC12
+>
+>   GPIO               PINS
+>   ------------------ ------
+>   SDCARD\_DETECTED   PG7
+>   SDCARD\_PWR\_EN    PD7
 
-> | GPIO             | PINS |
-> | ---------------- | ---- |
-> | SDCARD\_DETECTED | PG7  |
-> | SDCARD\_PWR\_EN  | PD7  |
-> 
-
-## ETHERNET
+ETHERNET
+--------
 
 The LINUM-STM32H753BI has a ethernet connection using the transceiver
 KSZ8081RNACA.
 
-> 
-> 
-> | ETH           | PINS |
-> | ------------- | ---- |
-> | ETH\_REF\_CLK | PA1  |
-> | ETH\_MDIO     | PA2  |
-> | ETH\_CRS\_DV  | PA7  |
-> | ETH\_MDC      | PC1  |
-> | ETH\_RXD0     | PC4  |
-> | ETH\_RXD1     | PC5  |
-> | ETH\_TX\_EN   | PG11 |
-> | ETH\_TXD0     | PG13 |
-> | ETH\_TXD1     | PG14 |
-> | ETH\_CLK      | PA8  |
-> | ETH\_RESET    | PI4  |
-> 
+>   ETH             PINS
+>   --------------- ------
+>   ETH\_REF\_CLK   PA1
+>   ETH\_MDIO       PA2
+>   ETH\_CRS\_DV    PA7
+>   ETH\_MDC        PC1
+>   ETH\_RXD0       PC4
+>   ETH\_RXD1       PC5
+>   ETH\_TX\_EN     PG11
+>   ETH\_TXD0       PG13
+>   ETH\_TXD1       PG14
+>   ETH\_CLK        PA8
+>   ETH\_RESET      PI4
 
-## CAN-FD
+CAN-FD
+------
 
 The LINUM-STM32H753BI board has two on-board CAN-FD transceiver
 connected to FDCAN1 and FDCAN2.
 
-> 
-> 
-> | FDCAN1 | PINS |
-> | ------ | ---- |
-> | TXD    | PH13 |
-> | RXD    | PH14 |
-> | STD    | PI2  |
-> 
+>   FDCAN1   PINS
+>   -------- ------
+>   TXD      PH13
+>   RXD      PH14
+>   STD      PI2
+>
+>   FDCAN2   PINS
+>   -------- ------
+>   TXD      PB13
+>   RXD      PB12
+>   STD      PE3
 
-> | FDCAN2 | PINS |
-> | ------ | ---- |
-> | TXD    | PB13 |
-> | RXD    | PB12 |
-> | STD    | PE3  |
-> 
-
-## USB
+USB
+---
 
 The LINUM-STM32H753BI has one usb port.
 
-> 
-> 
-> | USB       | PINS |
-> | --------- | ---- |
-> | USB\_VBUS | PA9  |
-> | USB\_N    | PA11 |
-> | USB\_P    | PA12 |
-> | USB\_EN   | PI12 |
-> | USB\_FLT  | PI13 |
-> 
+>   USB         PINS
+>   ----------- ------
+>   USB\_VBUS   PA9
+>   USB\_N      PA11
+>   USB\_P      PA12
+>   USB\_EN     PI12
+>   USB\_FLT    PI13
 
-## QUADSPI
+QUADSPI
+-------
 
 The LINUM-STM32H753BI board has one NOR memory connected to QUADSPI. The
 NOR memory used is the W25Q128JV with 16MB
 
-> 
-> 
-> | QUADSPI | PINS |
-> | ------- | ---- |
-> | IO0     | PF8  |
-> | IO1     | PF9  |
-> | IO2     | PF7  |
-> | IO3     | PF6  |
-> | CLK     | PF10 |
-> | NCS     | PG6  |
-> 
+>   QUADSPI   PINS
+>   --------- ------
+>   IO0       PF8
+>   IO1       PF9
+>   IO2       PF7
+>   IO3       PF6
+>   CLK       PF10
+>   NCS       PG6
 
-## I2C3
+I2C3
+----
 
 The LINUM-STM32H753BI connects the EEPROM memory and the touchscreen
 sensor to I2C3.
 
-> 
-> 
-> | I2C3 | PINS |
-> | ---- | ---- |
-> | SCL  | PH7  |
-> | SDA  | PH8  |
-> 
+>   I2C3   PINS
+>   ------ ------
+>   SCL    PH7
+>   SDA    PH8
 
 ### EEPROM MEMORY
 
@@ -242,147 +214,134 @@ value 0x54.
 
 The touchscreen sensor used is the FT5X06.
 
-> 
-> 
-> | GPIO      | PINS |
-> | --------- | ---- |
-> | TS\_RESET | PI7  |
-> | TS\_ISR   | PH9  |
-> 
+>   GPIO        PINS
+>   ----------- ------
+>   TS\_RESET   PI7
+>   TS\_ISR     PH9
 
-## I2C4
+I2C4
+----
 
 The I2C4 is available for general use on the expansion connector.
 
-> 
-> 
-> | I2C4 | PINS |
-> | ---- | ---- |
-> | SCL  | PH11 |
-> | SDA  | PH12 |
-> 
+>   I2C4   PINS
+>   ------ ------
+>   SCL    PH11
+>   SDA    PH12
 
-## External SDRAM
+External SDRAM
+--------------
 
 The LINUM-STM32H753BI has a external SDRAM with 16Mbits connected to FMC
 peripheral.
 
-> 
-> 
-> | FMC         | PINS |
-> | ----------- | ---- |
-> | FMC\_A0     | PJ12 |
-> | FMC\_A1     | PF1  |
-> | FMC\_A2     | PF2  |
-> | FMC\_A3     | PF3  |
-> | FMC\_A4     | PF4  |
-> | FMC\_A5     | PF5  |
-> | FMC\_A6     | PF12 |
-> | FMC\_A7     | PF13 |
-> | FMC\_A8     | PF14 |
-> | FMC\_A9     | PF15 |
-> | FMC\_A10    | PG0  |
-> | FMC\_A11    | PG1  |
-> | FMC\_BA0    | PG4  |
-> | FMC\_BA1    | PG5  |
-> | FMC\_D0     | PD14 |
-> | FMC\_D1     | PD15 |
-> | FMC\_D2     | PD0  |
-> | FMC\_D3     | PD1  |
-> | FMC\_D4     | PE7  |
-> | FMC\_D5     | PE8  |
-> | FMC\_D6     | PE9  |
-> | FMC\_D7     | PE10 |
-> | FMC\_D8     | PE11 |
-> | FMC\_D9     | PE12 |
-> | FMC\_D10    | PE13 |
-> | FMC\_D11    | PE14 |
-> | FMC\_D12    | PE15 |
-> | FMC\_D13    | PD8  |
-> | FMC\_D14    | PD9  |
-> | FMC\_D15    | PD10 |
-> | FMC\_NBL0   | PE0  |
-> | FMC\_NBL1   | PE1  |
-> | FMC\_SDCKE0 | PC3  |
-> | FMC\_SDCLK  | PG8  |
-> | FMC\_SDNCAS | PG15 |
-> | FMC\_SDNEO  | PC2  |
-> | FMC\_SDNRAS | PF11 |
-> | FMC\_SDNWE  | PC0  |
-> 
+>   FMC           PINS
+>   ------------- ------
+>   FMC\_A0       PJ12
+>   FMC\_A1       PF1
+>   FMC\_A2       PF2
+>   FMC\_A3       PF3
+>   FMC\_A4       PF4
+>   FMC\_A5       PF5
+>   FMC\_A6       PF12
+>   FMC\_A7       PF13
+>   FMC\_A8       PF14
+>   FMC\_A9       PF15
+>   FMC\_A10      PG0
+>   FMC\_A11      PG1
+>   FMC\_BA0      PG4
+>   FMC\_BA1      PG5
+>   FMC\_D0       PD14
+>   FMC\_D1       PD15
+>   FMC\_D2       PD0
+>   FMC\_D3       PD1
+>   FMC\_D4       PE7
+>   FMC\_D5       PE8
+>   FMC\_D6       PE9
+>   FMC\_D7       PE10
+>   FMC\_D8       PE11
+>   FMC\_D9       PE12
+>   FMC\_D10      PE13
+>   FMC\_D11      PE14
+>   FMC\_D12      PE15
+>   FMC\_D13      PD8
+>   FMC\_D14      PD9
+>   FMC\_D15      PD10
+>   FMC\_NBL0     PE0
+>   FMC\_NBL1     PE1
+>   FMC\_SDCKE0   PC3
+>   FMC\_SDCLK    PG8
+>   FMC\_SDNCAS   PG15
+>   FMC\_SDNEO    PC2
+>   FMC\_SDNRAS   PF11
+>   FMC\_SDNWE    PC0
 
-## LCD
+LCD
+---
 
 The LINUM-STM32H753BI use the LTDC to support one LCD with RGB
 connection.
 
-> 
-> 
-> | LTDC           | PINS |
-> | -------------- | ---- |
-> | LTDC\_B0       | PF0  |
-> | LTDC\_B1       | PJ13 |
-> | LTDC\_B2       | PJ14 |
-> | LTDC\_B3       | PJ15 |
-> | LTDC\_B4       | PK3  |
-> | LTDC\_B5       | PK4  |
-> | LTDC\_B6       | PK5  |
-> | LTDC\_B7       | PK6  |
-> | LTDC\_CLK      | PI14 |
-> | LTDC\_DE       | PK7  |
-> | LTDC\_G0       | PJ7  |
-> | LTDC\_G1       | PJ8  |
-> | LTDC\_G2       | PJ9  |
-> | LTDC\_G3       | PJ10 |
-> | LTDC\_G4       | PJ11 |
-> | LTDC\_G5       | PK0  |
-> | LTDC\_G6       | PK1  |
-> | LTDC\_G7       | PK2  |
-> | LTDC\_HSYNC    | PI10 |
-> | LTDC\_R0       | PI15 |
-> | LTDC\_R1       | PJ0  |
-> | LTDC\_R2       | PJ1  |
-> | LTDC\_R3       | PJ2  |
-> | LTDC\_R4       | PJ3  |
-> | LTDC\_R5       | PJ4  |
-> | LTDC\_R6       | PJ5  |
-> | LTDC\_R7       | PJ6  |
-> | LTDC\_VSYNC    | PI9  |
-> | PWM\_BACKLIGHT | PH6  |
-> 
+>   LTDC             PINS
+>   ---------------- ------
+>   LTDC\_B0         PF0
+>   LTDC\_B1         PJ13
+>   LTDC\_B2         PJ14
+>   LTDC\_B3         PJ15
+>   LTDC\_B4         PK3
+>   LTDC\_B5         PK4
+>   LTDC\_B6         PK5
+>   LTDC\_B7         PK6
+>   LTDC\_CLK        PI14
+>   LTDC\_DE         PK7
+>   LTDC\_G0         PJ7
+>   LTDC\_G1         PJ8
+>   LTDC\_G2         PJ9
+>   LTDC\_G3         PJ10
+>   LTDC\_G4         PJ11
+>   LTDC\_G5         PK0
+>   LTDC\_G6         PK1
+>   LTDC\_G7         PK2
+>   LTDC\_HSYNC      PI10
+>   LTDC\_R0         PI15
+>   LTDC\_R1         PJ0
+>   LTDC\_R2         PJ1
+>   LTDC\_R3         PJ2
+>   LTDC\_R4         PJ3
+>   LTDC\_R5         PJ4
+>   LTDC\_R6         PJ5
+>   LTDC\_R7         PJ6
+>   LTDC\_VSYNC      PI9
+>   PWM\_BACKLIGHT   PH6
 
-## I2S
+I2S
+---
 
 The LINUM-STM32H753BI has one I2S output.
 
-> 
-> 
-> | I2S2      | PINS |
-> | --------- | ---- |
-> | I2S2\_WS  | PI0  |
-> | I2S2\_CK  | PI1  |
-> | I2S2\_SDO | PI3  |
-> 
+>   I2S2        PINS
+>   ----------- ------
+>   I2S2\_WS    PI0
+>   I2S2\_CK    PI1
+>   I2S2\_SDO   PI3
 
-## PWM
+PWM
+---
 
 The LINUM-STM32H753BI has a buzzer without internal oscillator connected
 to PB7
 
-> 
-> 
-> | GPIO   | PINS |
-> | ------ | ---- |
-> | BUZZER | PB7  |
-> 
+>   GPIO     PINS
+>   -------- ------
+>   BUZZER   PB7
 
------
+------------------------------------------------------------------------
 
 Each linum-stm32h753bi configuration is maintained in a sub-directory
 and can be selected as follow:
 
     tools/configure.sh linum-stm32h753bi:<subdir>
-    
+
     Where <subdir> is one of the following:
 
 ### Configuration Directories
@@ -496,18 +455,18 @@ status support stop to work:
 
     # turn on led red
     printf \x00000001 > /dev/userleds
-    
+
     # turn on led green
     printf \x00000002 > /dev/userleds
-    
+
     # turn on led blue
     printf \x00000004 > /dev/userleds
-    
+
     # Run blink leds sample
     nsh> leds
     leds_main: Starting the led_daemon
     leds_main: led_daemon started
-    
+
     led_daemon (pid# 3): Running
     led_daemon: Opening /dev/userleds
     led_daemon: Supported LEDs 0x07
@@ -535,13 +494,13 @@ Sending files to target:
 
     # Mount the SDCard at /tmp
     nsh> mount -t vfat /dev/mmcsd0 /tmp
-    
+
     # Waiting for a new file.
     nsh> rz
-    
+
     # Transmitting a file to target.
     my_pc sz --zmodem nuttx_logo.txt > /dev/ttyACM0 < /dev/ttyACM0
-    
+
     # Check if the file was received
     nsh> ls -l /tmp
     /tmp:
@@ -552,17 +511,17 @@ Transmitting a file to PC:
     # Sending the file nuttx_logo.txt to PC
     nsh> sz -x 1 /tmp/nuttx_logo.txt
     **B00000000000000
-    
+
     # Using zmodem to receive a file from target
     my_pc/temp rz > /dev/ttyACM0 < /dev/ttyACM0
     Receiving: nuttx_logo.txt
     Bytes received:    1942/   1942   BPS:124544
-    
+
     Transfer complete
     my_pc/temp ls -l
     -rw-------  1 nuttx nuttx    1942 abr  6 16:07 nuttx_logo.txt
 
-If you don't have a SDCard on your board, you can mount the TMPFS at
+If you don\'t have a SDCard on your board, you can mount the TMPFS at
 /tmp and transfer files to it, but you cannot transfer big files because
 TMPFS could use the free RAM of your board:
 
@@ -627,7 +586,7 @@ network driver:
     [30265.572179] rndis_host 3-1.3:1.0: dev can't take 1558 byte packets (max 660), adjusting MTU to 602
     [30265.573517] rndis_host 3-1.3:1.0 eth0: register 'rndis_host' at usb-0000:00:14.0-1.3, RNDIS device, a0:e0:de:ad:be:ef
     [30265.584924] rndis_host 3-1.3:1.0 enxa0e0deadbeef: renamed from eth0
-    
+
      ifconfig
     enxa0e0deadbeef: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 602
     inet 10.42.0.1  netmask 255.255.255.0  broadcast 10.42.0.255
@@ -637,7 +596,7 @@ network driver:
     TX packets 99  bytes 22896 (22.8 KB)
     TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-**OBS:** In network settings of PC enable "Shared to other computers"
+**OBS:** In network settings of PC enable \"Shared to other computers\"
 
 Configure the IP of target:
 
@@ -645,10 +604,10 @@ Configure the IP of target:
     nsh> ifconfig
     lo  Link encap:Local Loopback at RUNNING mtu 1518
     inet addr:127.0.0.1 DRaddr:127.0.0.1 Mask:255.0.0.0
-    
+
     eth0    Link encap:Ethernet HWaddr 00:e0:de:ad:be:ef at UP mtu 576
     inet addr:10.42.0.2 DRaddr:10.42.0.1 Mask:255.255.255.0
-    
+
                 IPv4   TCP   UDP  ICMP
     Received     012a  0000  0126  0000
     Dropped      0004  0000  0000  0000
@@ -685,7 +644,7 @@ their shell nsh:
     Trying 10.42.0.2...
     Connected to 10.42.0.2.
     Escape character is '^]'.
-    
+
     NuttShell (NSH) NuttX-12.5.1
     nsh> uname -a
     NuttX  12.5.1 c148e8f2af-dirty Apr 28 2024 10:27:50 arm linum-stm32h753bi
@@ -697,11 +656,11 @@ Testing wget to download file from server:
 
     # PC: Creating a http server and sharing local folder.
      sudo python3 -m http.server 80 -d ./
-    
+
     # log of server
     Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
     10.42.0.2 - - [28/Apr/2024 16:14:39] "GET /nuttx_logo.txt HTTP/1.0" 200 -
-    
+
     # Using wget on target
     nsh> mount -t tmpfs /tmp
     nsh> cd /tmp
@@ -750,7 +709,7 @@ periferal:
      nsh> ifconfig
       eth0  Link encap:Ethernet HWaddr 00:e0:de:ad:be:ef at UP mtu 1486
         inet addr:192.168.1.6 DRaddr:192.168.1.1 Mask:255.255.255.0
-    
+
                   IPv4   TCP   UDP  ICMP
       Received     01b9  0025  0194  0000
       Dropped      0000  0000  0000  0000
@@ -761,7 +720,7 @@ periferal:
         Type       0000  ----  ----  0000
       Sent         0028  0025  0003  0000
         Rexmit     ----  0000  ----  ----
-    
+
       nsh> ping google.com
       PING 142.251.129.110 56 bytes of data
       56 bytes from 142.251.129.110: icmp_seq=0 time=10.0 ms
@@ -825,7 +784,7 @@ MFRC522:
     Trying to READ: Card is not present!
     Trying to READ: Card is not present!
     Trying to READ: RFID CARD UID = 0x3DB3F169
-    
+
     ======== =====
     MFRC522  PINS
     ======== =====
@@ -924,7 +883,7 @@ doubled.
 ### tone
 
 This example demonstrates how to use PWM4 and Timer17 to play music
-using the Tone library and the board's buzzer.
+using the Tone library and the board\'s buzzer.
 
 ### socketcan
 
@@ -938,7 +897,7 @@ can1 with the SocketCAN protocol.:
     ifup can1 ...OK
     nsh> cansend can0 123#DEADBEEF
     nsh> cansend can1 5A1#11.2233.44556677.88
-    
+
     # Reset the board and configure the can0 peripheral to receive messages
     nsh> ifup can0
     ifup can0...OK

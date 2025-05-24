@@ -1,5 +1,7 @@
-# Rockchip rk3399
+Rockchip rk3399
+===============
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

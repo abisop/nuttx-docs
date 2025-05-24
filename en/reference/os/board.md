@@ -1,4 +1,5 @@
-# APIs Exported by Board-Specific Logic to NuttX
+APIs Exported by Board-Specific Logic to NuttX
+==============================================
 
 Exported board-specific interfaces are prototyped in the header file
 `include/nuttx/board.h`. There are many interfaces exported from board-

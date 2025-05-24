@@ -1,4 +1,5 @@
-# NuttX libraries
+NuttX libraries
+===============
 
 This page discusses the NuttX libraries that can be found in `libs/`
 
@@ -14,9 +15,9 @@ properties:
     and for applications.
 
 3.  When used by the OS, some special care must be taken to assure that
-    the OS logic does not disrupt the user's errno value and that the OS
-    does not create inappropriate cancellation points.
-    
+    the OS logic does not disrupt the user\'s errno value and that the
+    OS does not create inappropriate cancellation points.
+
     For example, `sem_wait()` is both a cancellation point and modifies
     the errno value. So within the FLAT build and without kernel version
     for the PROTECTED and KERNEL builds, the special internal OS

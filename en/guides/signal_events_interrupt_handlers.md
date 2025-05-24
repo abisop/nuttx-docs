@@ -1,19 +1,13 @@
-# Signaling Events from Interrupt Handlers
-
-<div class="warning">
-
-<div class="title">
+Signaling Events from Interrupt Handlers
+========================================
 
 Warning
-
-</div>
 
 Migrated from
 <https://cwiki.apache.org/confluence/display/NUTTX/Signaling+Events+from+Interrupt+Handlers>
 
-</div>
-
-## Best way to wake multiple threads from interrupt?
+Best way to wake multiple threads from interrupt?
+-------------------------------------------------
 
 > I want to make a character device driver that passes the same data to
 > all tasks that are reading it. It is not so important whether the data
@@ -32,17 +26,18 @@ interrupts handlers. This behavior is unique to NuttX; POSIX says
 nothing about interrupt handlers. As a result, we will be talking about
 primarily non-portable OS interfaces.
 
-> So far I've considered the following options:
+> So far I\'ve considered the following options:
 
 And you basically have gone through the list of wait mechanisms:
 
-## Message Queues
+Message Queues
+--------------
 
 > 1\) Open a message queue when the device is opened (a new queue for
 > each task) and keep them in a list. Post to a non-blocking endpoint of
 > these queues in the ISR. Read from a blocking endpoint in the device
 > `read()`. I would need to generate names for the message queues, as
-> there doesn't seem to be anonymous message queues?
+> there doesn\'t seem to be anonymous message queues?
 
 When you start a project. It is a good idea to decide upon a common IPC
 mechanism to base your design on. POSIX message queues are one good
@@ -86,13 +81,14 @@ messages, it will fall back and use the emergency pool of 8
 pre-allocated messages. If those are also exhausted, then the message
 will not be sent and an interrupt is effectively lost.
 
-## Semaphores
+Semaphores
+----------
 
 > 2\) Allocate a semaphore per each device open and keep them in a list.
 > Post the semaphores when new data is available in a shared buffer.
 > Read the data inside `sched_lock()`.
 
-If you don't have an architecture that uses message queues, and all of
+If you don\'t have an architecture that uses message queues, and all of
 these threads are waiting only for the interrupt event and nothing else,
 then signaling semaphores would work fine too. You are basically using
 semaphores as condition variables in this case so you do have to be
@@ -102,7 +98,7 @@ NOTE: You do not need multiple semaphores. You can do this with a single
 semaphore. If the semaphore is used for this purpose then you initialize
 it to zero:
 
-``` c
+``` {.c}
 sem_init(&sem, 0, 0);
 sem_setprotocol(&sem, SEM_PRIO_NONE);
 ```
@@ -112,14 +108,14 @@ called immediately after the `sem_init()`. The effect of this function
 call is to disable priority inheritance for that specific semaphore.
 There should then be no priority inheritance operations on this
 semaphore that is used for signaling. See
-\[<span class="title-ref">/guide\](</span>/guide.md)s/signaling\_sem\_priority\_inheritance\`
+\[[/guide\](]{.title-ref}/guide.md)s/signaling\_sem\_priority\_inheritance\`
 for further information.
 
 Since the semaphore is initialized to zero, each time that a thread
 joins the group of waiting threads, the count is decremented. So a
 simple loop like this would wake up all waiting threads:
 
-``` c
+``` {.c}
 int svalue;
 int ret;
 
@@ -157,7 +153,7 @@ interrupt handlers.
 If you want to signal a single waiting thread, there are simpler things
 you an do. In the waiting task:
 
-``` c
+``` {.c}
 semt_t g_mysemaphore;
 volatile bool g_waiting;
 ...
@@ -183,7 +179,7 @@ atomically while the task is waiting for the interrupt event.
 
 Then in the interrupt handler
 
-``` c
+``` {.c}
 extern semt_t g_mysemaphore;
 extern volatile bool g_waiting;
 ...
@@ -204,12 +200,13 @@ NOTE: There is possibility of improper interactions between the
 semaphore when it is used for signaling and priority inheritance. In
 this case, you should disable priority inheritance on the signaling
 semaphore using `sem_setprotocol(SEM_PRIO_NONE)`. See
-\[<span class="title-ref">/guide\](</span>/guide.md)s/signaling\_sem\_priority\_inheritance\`
+\[[/guide\](]{.title-ref}/guide.md)s/signaling\_sem\_priority\_inheritance\`
 for further information.
 
-## Signals
+Signals
+-------
 
-> 3\) Store the thread id's in a list when `read()` is called. Wake up
+> 3\) Store the thread id\'s in a list when `read()` is called. Wake up
 > the threads using `sigqueue()`. Read the data from a shared buffer
 > inside `sched_lock()`.
 
@@ -221,7 +218,7 @@ an error with `errno=EINTR`.
 That is sometimes helpful because you can wake up a `recv()` or a
 `read()` etc., detect the event that generated the signal, and do
 something about it. It is sometimes a pain because you have to remember
-to handle the `EINTR` return value even when you don't care about it.
+to handle the `EINTR` return value even when you don\'t care about it.
 
 The POSIX signal definition includes some support that would make this
 easier for you. This support is not currently implemented in NuttX. The
@@ -229,27 +226,28 @@ easier for you. This support is not currently implemented in NuttX. The
 (<http://pubs.opengroup.org/onlinepubs/009695399/functions/kill.html>)
 supports this behavior:
 
-"If pid is 0, sig will be sent to all processes (excluding an
+\"If pid is 0, sig will be sent to all processes (excluding an
 unspecified set of system processes) whose process group ID is equal to
 the process group ID of the sender, and for which the process has
 permission to send a signal.
 
-"If pid is -1, sig will be sent to all processes (excluding an
+\"If pid is -1, sig will be sent to all processes (excluding an
 unspecified set of system processes) for which the process has
-permission to send that signal."
+permission to send that signal.\"
 
-"If pid is negative, but not -1, sig will be sent to all processes
+\"If pid is negative, but not -1, sig will be sent to all processes
 (excluding an unspecified set of system processes) whose process group
 ID is equal to the absolute value of pid, and for which the process has
-permission to send a signal."
+permission to send a signal.\"
 
 NuttX does not currently support process groups. But that might be a
 good RTOS extension. If you and others think that would be useful I
 could probably add the basics of such a feature in a day or so.
 
-## `poll()`
+`poll()`
+--------
 
-> Is there some better way that I haven't discovered?
+> Is there some better way that I haven\'t discovered?
 
 The obvious thing that you did not mention is `poll()`. See
 <http://pubs.opengroup.org/onlinepubs/009695399/functions/poll.html> .
@@ -258,7 +256,7 @@ in your driver seems to be the natural solution. See the `drivers/`
 directory for many examples, `drivers/pipes/pipe_common.c` for one. Each
 thread could simply wait on `poll()`; when the event occurs the driver
 could then wake up the set of waiters. Under the hood, this is again
-just a set of `sem_post`'s. But it is also a very standard mechanism.
+just a set of `sem_post`\'s. But it is also a very standard mechanism.
 
 In your case, the semantics of `poll()` might have to be bent just a
 little. You might have to bend the meaning of some of the event flags
@@ -266,11 +264,11 @@ since they are all focused on data I/O events.
 
 Another creative use of `poll()` for use in cases like this:
 
-> That would be something great\! PX4 project has that implemented
+> That would be something great! PX4 project has that implemented
 > somehow (in C++), so maybe - if license permits - it could be ported
 > to NuttX in no time?
-> 
+>
 > <https://pixhawk.ethz.ch/px4/dev/shared_object_communication>
 
-I don't know a lot about this, but it might be worth looking into if it
+I don\'t know a lot about this, but it might be worth looking into if it
 matches your need.

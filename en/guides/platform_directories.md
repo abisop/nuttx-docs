@@ -1,21 +1,14 @@
-# Platform Directories
-
-<div class="warning">
-
-<div class="title">
+Platform Directories
+====================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Platform+Directories>
 
-</div>
-
-Let's assume that you are not change the OS itself but want to implement
-or extend platform-specific code.In this case, there are six, maybe
-seven, places where you can provide the platform code.
+Let\'s assume that you are not change the OS itself but want to
+implement or extend platform-specific code.In this case, there are six,
+maybe seven, places where you can provide the platform code.
 
 ![image](image/directories.png)
 
@@ -29,37 +22,36 @@ not consistent with current naming.
 Each directory has slightly different properties and are discussed in
 more detail below where:
 
-  - <span class="title-ref">\<arch\></span> represents the chip
-    architecture that you are using. As examples,
-    <span class="title-ref">\<arch\></span> might represent `arm` or
+-   [\<arch\>]{.title-ref} represents the chip architecture that you are
+    using. As examples, [\<arch\>]{.title-ref} might represent `arm` or
     `mips`.
-  - <span class="title-ref">\<chip\></span> represents the specific chip
-    family that you are using. As examples,
-    <span class="title-ref">\<chip\></span> might mean `stm32` or
+-   [\<chip\>]{.title-ref} represents the specific chip family that you
+    are using. As examples, [\<chip\>]{.title-ref} might mean `stm32` or
     `efm32`
-  - <span class="title-ref">\<board\></span> represents the specific
-    board that you are using. As examples,
-    <span class="title-ref">\<board\></span> might be `stm32f4discovery`
-    or `dk-tm4c129x`
+-   [\<board\>]{.title-ref} represents the specific board that you are
+    using. As examples, [\<board\>]{.title-ref} might be
+    `stm32f4discovery` or `dk-tm4c129x`
 
-## 1\. arch/\<arch\>/src/\<chip\>
+1. arch/\<arch\>/src/\<chip\>
+-----------------------------
 
 The `arch/<arch>/src/<chip>` directory should hold all chip related
 logic. Almost all chip-specific header files should reside here too.
 That includes device-related header files. GPIO header files, for
 example, go here and no where else.
 
-## 2\. arch/\<arch\>/include/\<chip\>
+2. arch/\<arch\>/include/\<chip\>
+---------------------------------
 
 The intent of the `arch/<arch>/include/<chip>` directory is to hold
 driver-related definitions needed by application in order to access
 drivers registered by the chip-specific logic in the
 `arch/<arch>/src/<chip>` directory. This would include things like:
 
-  - The IOCTL cmds that would be used with the driver `ioctl()`
+-   The IOCTL cmds that would be used with the driver `ioctl()`
     interfaces calls,
-  - Structure definitions of parameters passed with IOCTL cmds, and
-  - Structure definitions of binary data that might be transferred via
+-   Structure definitions of parameters passed with IOCTL cmds, and
+-   Structure definitions of binary data that might be transferred via
     the driver `read()` or `write()` methods.
 
 The `arch/<arch>/include/<chip>` directory is not currently used
@@ -72,7 +64,7 @@ The difference between header files in `arch/<arch>/include/<chip>`
 directory and the header files in `arch/<arch>/src/<chip>` directory is
 that the former can be included by applications using the include path:
 
-``` c
+``` {.c}
 #include <arch/chip/someheader.h>
 ```
 
@@ -80,11 +72,10 @@ The header files in `arch/<arch>/src/<chip>` cannot be used by
 applications. Those header flies can and only be used in the
 `arch/<arch>/src/<chip>` and in the `configs/<board>` directories.
 
-The header files in this directory <span class="title-ref">MUST
-NOT</span> introduce <span class="title-ref">ad hoc</span> non-standard
-function call interfaces between the application and the OS. The OS
-interfaces are highly controlled and not subject to
-<span class="title-ref">ad hoc</span> extension.
+The header files in this directory [MUST NOT]{.title-ref} introduce [ad
+hoc]{.title-ref} non-standard function call interfaces between the
+application and the OS. The OS interfaces are highly controlled and not
+subject to [ad hoc]{.title-ref} extension.
 
 The NuttX build system enforces this and I do everything that I can to
 restrict usage of all chip specific facilities to those directories. In
@@ -92,7 +83,8 @@ reality you are free, of course, to subvert that intent in any way you
 please for your personal project; but any subversion of that intent will
 not not be committed into the upstream NuttX repository.
 
-## 3\. configs/\<board\>/include
+3. configs/\<board\>/include
+----------------------------
 
 The `configs/<board>/include` directory is the moral equivalent of the
 `arch/<arch>/include/<chip>` directory for boards: The
@@ -110,30 +102,30 @@ drivers registered by the board-specific logic in the
 `configs/<board>/include` directory can be included using this include
 path:
 
-``` c
+``` {.c}
 #include <arch/board/someheader.h>
 ```
 
-The header files in this directory <span class="title-ref">MUST
-NOT</span> introduce <span class="title-ref">ad hoc</span> non-standard
-function call interfaces between the application and the OS. The OS
-interfaces are highly controlled and not subject to
-<span class="title-ref">ad hoc</span> extension.
+The header files in this directory [MUST NOT]{.title-ref} introduce [ad
+hoc]{.title-ref} non-standard function call interfaces between the
+application and the OS. The OS interfaces are highly controlled and not
+subject to [ad hoc]{.title-ref} extension.
 
-## 4\. configs/\<board\>/src
+4. configs/\<board\>/src
+------------------------
 
-All of your board-specific initialization logic and
-<span class="title-ref">all</span> of the custom board device driver
-logic should go either in a <span class="title-ref">built-in</span>
-`configs/<board>/src` directory or in an external, custom board
-directory. These board directories are where all of your board-specific,
-hardware interfacing work should be done. As a minimum, a built-in board
-directory must contain these files/directories at a minimum:
+All of your board-specific initialization logic and [all]{.title-ref} of
+the custom board device driver logic should go either in a
+[built-in]{.title-ref} `configs/<board>/src` directory or in an
+external, custom board directory. These board directories are where all
+of your board-specific, hardware interfacing work should be done. As a
+minimum, a built-in board directory must contain these files/directories
+at a minimum:
 
-  - `Kconfig` to include the custom board configuration options into the
+-   `Kconfig` to include the custom board configuration options into the
     NuttX configuration system.
-  - `src/Makefile` contains the custom board build logic
-  - `include/board.h` provides board-specific information needed by the
+-   `src/Makefile` contains the custom board build logic
+-   `include/board.h` provides board-specific information needed by the
     system
 
 Most people will eventually want to create their own custom board
@@ -144,8 +136,8 @@ That is where you will want to implement all of your product-specific
 device driver logic. As a minimum, your custom board directory must
 contain these files/directories at a minimum:
 
-  - `src/Makefile` contains the custom board build logic
-  - `include/board.h` provides board-specific information needed by the
+-   `src/Makefile` contains the custom board build logic
+-   `include/board.h` provides board-specific information needed by the
     system
 
 NOTE: That the configuration definition file, `Kconfig`, is not
@@ -156,12 +148,13 @@ all of the header files in the whole system, including even those in the
 `arch/<arch>/src/<chip>` directory. There are no limitations whatsoever;
 All include paths are supported.
 
-## 5\. Application Directory
+5. Application Directory
+------------------------
 
 There are many ways to implement your application build. How you do that
 is not really a part of NuttX and the topic is beyond the scope of this
 Wiki page. The NuttX apps package does provide one example of an
-application directory you may choose to use – or not. That apps/
+application directory you may choose to use -- or not. That apps/
 directory is intended to provide you with some guidance. But if you
 search the messages in the forum, you can get lots of other ideas how to
 structure the application build.
@@ -170,8 +163,8 @@ The application logic can include header files from
 `arch/<arch>/include/<chip>` directory or from the
 `configs/<board>/include` directory for sole purpose of support standard
 driver interfacing. The header files in this directories must not
-introduce uncontrolled, <span class="title-ref">ad hoc</span> interfaces
-into the operating system.
+introduce uncontrolled, [ad hoc]{.title-ref} interfaces into the
+operating system.
 
 In the application directory, you cannot include header files from
 either the `arch/<arch>/src/<chip>` directory or the
@@ -193,25 +186,27 @@ them. Make sure the project meets all of your needs first; do things as
 you like. But, of course, I cannot commit anything upstream that does
 not conform to these architectural rules.
 
-## 6\. drivers/
+6. drivers/
+-----------
 
 Above I said that all of the devices drivers for the board-specific
 resources should go in your `configs/<board>/src` directory. However if
 your board is loaded with standard external parts that require device
-drivers – such as an lcd, a touchscreen, serial FLASH, accelerometers,
-etc. – then you will want to reuse or implement standard drivers for
+drivers -- such as an lcd, a touchscreen, serial FLASH, accelerometers,
+etc. -- then you will want to reuse or implement standard drivers for
 these parts that can be shared by different boards. In that case the
 `drivers/` directory is the correct place for those implementations.
 Header files associated with these common drivers would go in the
 appropriate place under `include/nuttx/`.
 
-## 7\. apps/platform/\<board\> (maybe)
+7. apps/platform/\<board\> (maybe)
+----------------------------------
 
 A final place where you can put application specific data is the
-`apps/platform/<board>` directory. This is really part of
-<span class="title-ref">5. Application Directory</span> if you are using
-the NuttX `apps/` package. But since it has a slightly different
-purpose, it is worth discussing separately.
+`apps/platform/<board>` directory. This is really part of [5.
+Application Directory]{.title-ref} if you are using the NuttX `apps/`
+package. But since it has a slightly different purpose, it is worth
+discussing separately.
 
 The `apps/platform/` directory structure is very similar to the
 `nuttx/configs/` directory with one directory per board. At context
@@ -220,22 +215,20 @@ to the board-specific directory in `apps/platform/<board>`.
 
 The `apps/platform/<board>` directory is where board-specific
 application logic could be placed. This directory is not often used. In
-the normal <span class="title-ref">flat</span> Nuttx build, there is
-really not much difference between the `nuttx/configs/<board>` board
-directory and the `apps/platform/<board>` board directory. Hence the
-former is normally sufficient.
+the normal [flat]{.title-ref} Nuttx build, there is really not much
+difference between the `nuttx/configs/<board>` board directory and the
+`apps/platform/<board>` board directory. Hence the former is normally
+sufficient.
 
 The fundamental difference between the two board directories is that the
 `nuttx/configs/<board>` board directory is inside the operating system
 while the `apps/platform/<board>` directory is outside of the operating
 system. This distinction does not mean very much in the
-<span class="title-ref">flat</span> build (`CONFIG_BUILD_FLAT`) because
-nothing enforces <span class="title-ref">inside</span>-ness or
-<span class="title-ref">outside</span>-ness in that case. But the
-distinction is very important in protected builds
-(`CONFIG_BUILD_PROTECTED`) and <span class="title-ref">kernel</span>
-builds (`CONFIG_BUILD_KERNEL`) because the code operating
-<span class="title-ref">inside</span> the OS is privileged, kernel-mode
-logic; the code <span class="title-ref">outside</span> of the OS, on the
-other hand, is unprivileged, user-mode code. The two cannot be
-intermixed.
+[flat]{.title-ref} build (`CONFIG_BUILD_FLAT`) because nothing enforces
+[inside]{.title-ref}-ness or [outside]{.title-ref}-ness in that case.
+But the distinction is very important in protected builds
+(`CONFIG_BUILD_PROTECTED`) and [kernel]{.title-ref} builds
+(`CONFIG_BUILD_KERNEL`) because the code operating [inside]{.title-ref}
+the OS is privileged, kernel-mode logic; the code [outside]{.title-ref}
+of the OS, on the other hand, is unprivileged, user-mode code. The two
+cannot be intermixed.

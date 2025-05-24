@@ -1,5 +1,7 @@
-# S698PM
+S698PM
+======
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,4 +1,5 @@
-# Counting Semaphore Interfaces
+Counting Semaphore Interfaces
+=============================
 
 **Semaphores**. Semaphores are the basis for synchronization and mutual
 exclusion in NuttX. NuttX supports POSIX semaphores.
@@ -26,7 +27,7 @@ At this point, the high-priority *Task A* cannot execute until *Task B*
 (and possibly other medium-priority tasks) completes and until *Task C*
 relinquishes the semaphore. In effect, the high-priority task, *Task A*
 behaves as though it were lower in priority than the low-priority task,
-*Task C*\! This phenomenon is called *priority inversion*.
+*Task C*! This phenomenon is called *priority inversion*.
 
 Some operating systems avoid priority inversion by *automatically*
 increasing the priority of the low-priority *Task C* (the operable
@@ -36,11 +37,11 @@ your OS configuration file. If `CONFIG_PRIORITY_INHERITANCE` is not
 defined, then it is left to the designer to provide implementations that
 will not suffer from priority inversion. The designer may, as examples:
 
->   - Implement all tasks that need the semaphore-managed resources at
+> -   Implement all tasks that need the semaphore-managed resources at
 >     the same priority level,
->   - Boost the priority of the low-priority task before the semaphore
+> -   Boost the priority of the low-priority task before the semaphore
 >     is acquired, or
->   - Use sched\_lock() in the low-priority task.
+> -   Use sched\_lock() in the low-priority task.
 
 Priority Inheritance. As mentioned, NuttX does support *priority
 inheritance* provided that `CONFIG_PRIORITY_INHERITANCE` is defined in
@@ -50,14 +51,14 @@ complex that more needs to be said. How can a feature that can be
 described by a single, simple sentence require such a complex
 implementation:
 
->   - `CONFIG_SEM_PREALLOCHOLDERS`. First of all, in NuttX priority
+> -   `CONFIG_SEM_PREALLOCHOLDERS`. First of all, in NuttX priority
 >     inheritance is implement on POSIX counting semaphores. The reason
 >     for this is that these semaphores are the most primitive waiting
 >     mechanism in NuttX; Most other waiting facilities are based on
 >     semaphores. So if priority inheritance is implemented for POSIX
 >     counting semaphores, then most NuttX waiting mechanisms will have
 >     this capability.
->     
+>
 >     Complexity arises because counting semaphores can have numerous
 >     holders of semaphore counts. Therefore, in order to implement
 >     priority inheritance across all holders, then internal data
@@ -71,12 +72,12 @@ implementation:
 >     disabled OR if you are only using semaphores as mutexes (only one
 >     holder) OR if no more than two threads participate using a
 >     counting semaphore.
->     
+>
 >     The cost associated with setting `CONFIG_SEM_PREALLOCHOLDERS` is
 >     slightly increased code size and around 6-12 bytes times the value
 >     of `CONFIG_SEM_PREALLOCHOLDERS`.
-> 
->   - **Increased Susceptibility to Bad Thread Behavior**. These various
+>
+> -   **Increased Susceptibility to Bad Thread Behavior**. These various
 >     structures tie the semaphore implementation more tightly to the
 >     behavior of the implementation. For examples, if a thread executes
 >     while holding counts on a semaphore, or if a thread exits without
@@ -115,26 +116,26 @@ When priority inheritance is enabled with `CONFIG_PRIORITY_INHERITANCE`,
 the default *protocol* for the semaphore will be to use priority
 inheritance. For signaling semaphores, priority inheritance must be
 explicitly disabled by calling `` `sem_setprotocol ``
-\<\#semsetprotocol\><span class="title-ref">\_\_ with
-</span><span class="title-ref">SEM\_PRIO\_NONE</span><span class="title-ref">.
-For the case of pthread mutexes, </span>`pthread_mutexattr_setprotocol`
-\<\#pthreadmutexattrsetprotocol\><span class="title-ref">\_\_ with
-</span><span class="title-ref">PTHREAD\_PRIO\_NONE</span>\`.
+\<\#semsetprotocol\>[\_\_ with
+]{.title-ref}[SEM\_PRIO\_NONE]{.title-ref}[. For the case of pthread
+mutexes, ]{.title-ref}`pthread_mutexattr_setprotocol`
+\<\#pthreadmutexattrsetprotocol\>[\_\_ with
+]{.title-ref}[PTHREAD\_PRIO\_NONE]{.title-ref}\`.
 
 This is discussed in much more detail on this [Wiki
 page](https://cwiki.apache.org/confluence/display/NUTTX/Signaling+Semaphores+and+Priority+Inheritance).
 
 **POSIX semaphore interfaces:**
 
-  - :c`sem_init`
-  - :c`sem_destroy`
-  - :c`sem_open`
-  - :c`sem_close`
-  - :c`sem_unlink`
-  - :c`sem_wait`
-  - :c`sem_timedwait`
-  - :c`sem_trywait`
-  - :c`sem_post`
-  - :c`sem_getvalue`
-  - :c`sem_getprotocol`
-  - :c`sem_setprotocol`
+-   :c`sem_init`{.interpreted-text role="func"}
+-   :c`sem_destroy`{.interpreted-text role="func"}
+-   :c`sem_open`{.interpreted-text role="func"}
+-   :c`sem_close`{.interpreted-text role="func"}
+-   :c`sem_unlink`{.interpreted-text role="func"}
+-   :c`sem_wait`{.interpreted-text role="func"}
+-   :c`sem_timedwait`{.interpreted-text role="func"}
+-   :c`sem_trywait`{.interpreted-text role="func"}
+-   :c`sem_post`{.interpreted-text role="func"}
+-   :c`sem_getvalue`{.interpreted-text role="func"}
+-   :c`sem_getprotocol`{.interpreted-text role="func"}
+-   :c`sem_setprotocol`{.interpreted-text role="func"}

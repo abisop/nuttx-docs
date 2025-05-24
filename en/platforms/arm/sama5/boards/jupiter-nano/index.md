@@ -1,18 +1,21 @@
-# Starcat Jupiter Nano
+Starcat Jupiter Nano
+====================
 
 This page file describes the port of NuttX to the Starcat Jupiter Nano
 development board. This board features the Atmel SAMA5D27 microprocessor
 as a SIP with 128KB on-chip LPDDR2 RAM (part number
-<span class="title-ref">ATSAMA5D27C-LD1G</span>). See
+[ATSAMA5D27C-LD1G]{.title-ref}). See
 <https://www.starcat.io/products/jupiter-nano/> for further information.
 
-## Status
+Status
+------
 
 1.  Most of this document is a partially corrected clone of the
     SAMA5D2-XULT README.txt and still contains errors and
     inconsistencies.
 
-## Loading Code into SRAM via JTAG
+Loading Code into SRAM via JTAG
+-------------------------------
 
 This description assumes that you have a JTAG debugger such as Segger
 J-Link connected to the Jupiter Nano. These instructions have only been
@@ -24,17 +27,17 @@ need a mini-JTAG adapter board and cable.
 
 1.  Start the GDB server
 2.  Start GDB
-3.  Use the 'target remote localhost:xxxx' command to attach to the GDB
-    server
-4.  Do 'mon reset' then 'mon go' to start the internal boot loader
+3.  Use the \'target remote localhost:xxxx\' command to attach to the
+    GDB server
+4.  Do \'mon reset\' then \'mon go\' to start the internal boot loader
     (maybe U-Boot).
 5.  Let the boot loader run until it completes SDRAM initialization,
-    then do 'mon halt'.
-6.  Now you have SDRAM initialized and you use 'load nuttx' to load the
-    ELF file into SDRAM.
-7.  Use 'file nuttx' to load symbols
-8.  Set the PC to the NuttX entry point 'mon pc 0x20008E20' and start
-    nuttx using 'mon go'.
+    then do \'mon halt\'.
+6.  Now you have SDRAM initialized and you use \'load nuttx\' to load
+    the ELF file into SDRAM.
+7.  Use \'file nuttx\' to load symbols
+8.  Set the PC to the NuttX entry point \'mon pc 0x20008E20\' and start
+    nuttx using \'mon go\'.
 
 ### Loading Code into SRAM from SD Card
 
@@ -46,9 +49,9 @@ a zip file of the required files from this page:
 The SD Card has to be FAT formatted, have an AT91Bootstrap binary called
 boot.bin, a U-Boot binary called u-boot.bin as well as a compiled device
 tree for the SAMA5D27C-D1G called
-<span class="title-ref">at91-sama5d27\_jupiter\_nano.dtb</span> in the
-<span class="title-ref">dtbs/</span> folder. You can build these
-yourself using the tools at
+[at91-sama5d27\_jupiter\_nano.dtb]{.title-ref} in the
+[dtbs/]{.title-ref} folder. You can build these yourself using the tools
+at
 
 <https://github.com/starcat-io/jupiter-nano-tools>
 
@@ -64,7 +67,8 @@ The layout should look like this:
 You only need uboot.env if you want to boot automatically. See the
 U-Boot documentation for instructions on how to create this file.
 
-## Running NuttX from SDRAM
+Running NuttX from SDRAM
+------------------------
 
 NuttX will be executed from SDRAM, and NuttX binary must reside on SD
 Card media.
@@ -150,14 +154,15 @@ the following:
     mci: setting clock 22000000 Hz, block size 512
     reading nuttx.bin
     108076 bytes read in 23 ms (4.5 MiB/s)
-    
+
     U-Boot> go 0x20008E20
     ## Starting application at 0x20008E20...
-    
+
     NuttShell (NSH) NuttX-11.0
     nsh>
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Buttons
 
@@ -218,7 +223,8 @@ Thus if the blue LED is statically on, NuttX has successfully booted and
 is, apparently, running normally. If LED is flashing at approximately
 2Hz, then a fatal error has been detected and the system has halted.
 
-## Serial Console
+Serial Console
+--------------
 
 The default serial console is UART1. UART1 is connected to the MCP2200
 USB-UART converter, and is available as a USB serial connection on the
@@ -255,7 +261,8 @@ interfaces.:
 By default, the standard UART on the connectors (FLEXCOM4) is enabled in
 all of these configurations unless otherwise noted.
 
-## Jupiter Nano Configuration Options
+Jupiter Nano Configuration Options
+----------------------------------
 
 CONFIG\_ARCH - Identifies the arch/ subdirectory. This should be set to:
 
@@ -371,7 +378,7 @@ drivers need to know how to configure the subsystem.:
     CONFIG_SAMA5_PIOB_IRQ    - Support PIOB interrupts
     CONFIG_SAMA5_PIOC_IRQ    - Support PIOD interrupts
     CONFIG_SAMA5_PIOD_IRQ    - Support PIOD interrupts
-    
+
     CONFIG_USART0_SERIALDRIVER - Flexcom0 is configured as a UART
     CONFIG_USART1_SERIALDRIVER - Flexcom1 is configured as a UART
     CONFIG_USART2_SERIALDRIVER - Flexcom2 is configured as a UART
@@ -380,27 +387,27 @@ drivers need to know how to configure the subsystem.:
 
 ### AT91SAMA5 specific device driver settings
 
-  - CONFIG\_SAMA5\_DBGU\_SERIAL\_CONSOLE - selects the DBGU for the
+-   CONFIG\_SAMA5\_DBGU\_SERIAL\_CONSOLE - selects the DBGU for the
     console and ttyDBGU
-  - CONFIG\_SAMA5\_DBGU\_RXBUFSIZE - Characters are buffered as
+-   CONFIG\_SAMA5\_DBGU\_RXBUFSIZE - Characters are buffered as
     received. This specific the size of the receive buffer
-  - CONFIG\_SAMA5\_DBGU\_TXBUFSIZE - Characters are buffered before
+-   CONFIG\_SAMA5\_DBGU\_TXBUFSIZE - Characters are buffered before
     being sent. This specific the size of the transmit buffer
-  - CONFIG\_SAMA5\_DBGU\_BAUD - The configure BAUD of the DBGU.
-  - CONFIG\_SAMA5\_DBGU\_PARITY - 0=no parity, 1=odd parity, 2=even
+-   CONFIG\_SAMA5\_DBGU\_BAUD - The configure BAUD of the DBGU.
+-   CONFIG\_SAMA5\_DBGU\_PARITY - 0=no parity, 1=odd parity, 2=even
     parity
-  - CONFIG\_U\[S\]ARTn\_SERIAL\_CONSOLE - selects the USARTn (n=0,1,2,3)
+-   CONFIG\_U\[S\]ARTn\_SERIAL\_CONSOLE - selects the USARTn (n=0,1,2,3)
     or UART m (m=4,5) for the console and ttys0 (default is the DBGU).
-  - CONFIG\_U\[S\]ARTn\_RXBUFSIZE - Characters are buffered as received.
+-   CONFIG\_U\[S\]ARTn\_RXBUFSIZE - Characters are buffered as received.
     This specific the size of the receive buffer
-  - CONFIG\_U\[S\]ARTn\_TXBUFSIZE - Characters are buffered before being
+-   CONFIG\_U\[S\]ARTn\_TXBUFSIZE - Characters are buffered before being
     sent. This specific the size of the transmit buffer
-  - CONFIG\_U\[S\]ARTn\_BAUD - The configure BAUD of the UART. Must be
-  - CONFIG\_U\[S\]ARTn\_BITS - The number of bits. Must be either 7 or
-    8.
-  - CONFIG\_U\[S\]ARTn\_PARITY - 0=no parity, 1=odd parity, 2=even
+-   CONFIG\_U\[S\]ARTn\_BAUD - The configure BAUD of the UART. Must be
+-   CONFIG\_U\[S\]ARTn\_BITS - The number of bits. Must be either 7
+    or 8.
+-   CONFIG\_U\[S\]ARTn\_PARITY - 0=no parity, 1=odd parity, 2=even
     parity
-  - CONFIG\_U\[S\]ARTn\_2STOP - Two stop bits
+-   CONFIG\_U\[S\]ARTn\_2STOP - Two stop bits
 
 ### AT91SAMA5 USB Host Configuration
 
@@ -431,7 +438,8 @@ Options:
 
 config SAMA5\_OHCI\_REGDEBUG
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -456,23 +464,23 @@ NOTES:
 
     1. These configurations use the mconf-based configuration tool. To
       change any of these configurations using that tool, you should:
-    
+
       a. Build and install the kconfig-mconf tool. See nuttx/README.txt
          see additional README.txt files in the NuttX tools repository.
-    
+
       b. Execute 'make menuconfig' in nuttx/ in order to start the
          reconfiguration process.
-    
+
     2. Unless stated otherwise, all configurations generate console
        output on the DBGU (J23).
-    
+
     3. All of these configurations use the Code Sourcery for Windows toolchain
        (unless stated otherwise in the description of the configuration). That
        toolchain selection can easily be reconfigured using 'make menuconfig'.
        Here are the relevant current settings:
-    
+
        Build Setup:
-    
+
       CONFIG_HOST_WINDOWS=y               : Microsoft Windows
       CONFIG_WINDOWS_CYGWIN=y             : Using Cygwin or other POSIX environment
 
@@ -492,151 +500,151 @@ Board Selection -\> CPU Frequency:
 Summary: Some of the descriptions below are long and wordy. Here is the
 concise summary of the available Jupiter Nano configurations:
 
-  - nsh:
-    
+-   nsh:
+
     > This is a basic NuttShell (NSH) configuration.
-    > 
+    >
     > There may be issues with some of these configurations. See the
     > details for status of individual configurations.
 
 #### Now for the gory details:
 
-  - netnsh:
-    
+-   netnsh:
+
     This is a network enabled configuration based on the NuttShell
     (NSH). The CDC-ECM driver is enabled, so you can plug a USB cable
     into the USB-Micro port (USB-A) and the board will appear as an
     CDC-ECM ethernet adapter.
 
-  - nsh:
-    
+-   nsh:
+
     This configuration directory provide the NuttShell (NSH). This is a
     very simple NSH configuration upon which you can build further
     functionality.
-    
+
     NOTES:
-    
+
         1. This configuration uses the UART1 (PD2 and PD3) for the serial
            console. USART1 is available at the "DBGU" RS-232 connector (J24).
            This is easily changed by reconfiguring to (1) enable a different
            serial peripheral, and (2) selecting that serial peripheral as the
            console device.
-        
+
         2. By default, this configuration is set up to build on Windows
            under either a Cygwin or MSYS environment using a recent, Windows-
            native, generic ARM EABI GCC toolchain (such as the ARM supported
            toolchain). Both the build environment and the toolchain
            selection can easily be changed by reconfiguring:
-        
+
            CONFIG_HOST_WINDOWS=y           : Windows operating system
            CONFIG_WINDOWS_CYGWIN=y         : POSIX environment under windows
            CONFIG_ARMV7A_TOOLCHAIN_EABIW=y : Generic GCC EABI toolchain for Windows
-        
+
            If you are running on Linux, make *certain* that you have
            CONFIG_HOST_LINUX=y *before* the first make or you will create a
            corrupt configuration that may not be easy to recover from. See
            the warning in the section "Information Common to All Configurations"
            for further information.
-        
+
         4. This configuration supports logging of debug output to a circular
            buffer in RAM. This feature is discussed fully in this Wiki page:
            http://nuttx.org/doku.php?id=wiki:howtos:syslog . Relevant
            configuration settings are summarized below:
-        
+
            File System:
-        
+
            Device Drivers:
            CONFIG_RAMLOG=y             : Enable the RAM-based logging feature.
            CONFIG_RAMLOG_SYSLOG=y      : This enables the RAM-based logger as the
                                          system logger.
            CONFIG_RAMLOG_NONBLOCKING=y : Needs to be non-blocking for dmesg
            CONFIG_RAMLOG_BUFSIZE=16384 : Buffer size is 16KiB
-        
+
            NOTE: This RAMLOG feature is really only of value if debug output
            is enabled. But, by default, no debug output is disabled in this
            configuration. Therefore, there is no logic that will add anything
            to the RAM buffer. This feature is configured and in place only
            to support any future debugging needs that you may have.
-        
+
            If you don't plan on using the debug features, then by all means
            disable this feature and save 16KiB of RAM!
-        
+
            NOTE: There is an issue with capturing data in the RAMLOG:  If
            the system crashes, all of the crash dump information will into
            the RAMLOG and you will be unable to access it!  You can tell that
            the system has crashed because (a) it will be unresponsive and (b)
            the RED LED will be blinking at about 2Hz.
-        
+
            That is another good reason to disable the RAMLOG!
-        
+
         5. This configuration executes out of SDRAM flash and is loaded into
            SDRAM from SD card U-Boot. Data also is positioned in SDRAM.
-        
+
            Booting with U-Boot from nuttx.bin on an SD card is the only boot
            method that has been tested. These are the commands that I used to boot NuttX
            from the SD card:
-        
+
              U-Boot> fatload mmc 0 0x20008000 nuttx.bin
              U-Boot> go 0x20008E20
-        
+
         6. This configuration supports /dev/null, /dev/zero, and /dev/random.
-        
+
              CONFIG_DEV_NULL=y    : Enables /dev/null
              CONFIG_DEV_ZERO=y    : Enabled /dev/zero
-        
+
            Support for /dev/random is implemented using the SAMA5D2's True
            Random Number Generator (TRNG). See the section above entitled
            "TRNG and /dev/random" for information about configuring /dev/random.
-        
+
             CONFIG_SAMA5_TRNG=y   : Enables the TRNG peripheral
             CONFIG_DEV_RANDOM=y   : Enables /dev/random
-        
+
         7. This configuration has support for NSH built-in applications enabled.
            No built-in applications are enabled, however.
-        
+
         8. This configuration has support for the FAT and PROCFS file
            systems built in.
-        
+
            The FAT file system includes long file name support. Please be aware
            that Microsoft claims patents against the long file name support (see
            more discussion in the top-level NOTICE file).
-        
+
              CONFIG_FS_FAT=y        : Enables the FAT file system
              CONFIG_FAT_LCNAMES=y   : Enable lower case 8.3 file names
              CONFIG_FAT_LFN=y       : Enables long file name support
              CONFIG_FAT_MAXFNAME=32 : Arbitrarily limits the size of a path
                                       segment name to 32 bytes
-        
+
            The PROCFS file system is enabled simply with:
-        
+
              CONFIG_FS_PROCFS=y     : Enable PROCFS file system
-        
+
         9. The Real Time Clock/Calendar (RTC) is enabled in this configuration.
            See the section entitled "RTC" above for detailed configuration
            settings.
-        
+
            The RTC alarm is not enabled by default since there is nothing in
            this configuration that uses it. The alarm can easily be enabled,
            however, as described in the "RTC" section.
-        
+
            The time value from the RTC will be used as the NuttX system time
            in all timestamp operations. You may use the NSH 'date' command
            to set or view the RTC as described above in the "RTC" section.
-        
+
            NOTE:  If you want the RTC to preserve time over power cycles, you
            will need to install a battery in the battery holder (J12) and close
            the jumper, JP13.
 
-  - sdmmc-net-nsh:
-    
+-   sdmmc-net-nsh:
+
     > This is a configuration based on the NuttShell (NSH). Internet
     > networking and the SDMMC peripheral is enabled. NuttX can read and
     > write to a VFAT filesystem on the SD Card.
-    > 
-    > NuttX will mount the SD Card at
-    > <span class="title-ref">/mnt/mmcsd1</span>.
+    >
+    > NuttX will mount the SD Card at [/mnt/mmcsd1]{.title-ref}.
 
-## Networking
+Networking
+----------
 
 Jupiter Nano has support for Ethernet over USB using CDC-ECM protocol.
 (All the SAMA5D27C boards do, actually.) The Jupiter Nano will appear as
@@ -644,20 +652,20 @@ an Ethernet USB Gadget on the Linux side. This is a high performance
 link and can transfer 30MB/s of data to or from a host computer.
 
 The netnsh sdmmcnsh, or sdmmc-nsh-net-resolvconf configurations will set
-up the Ethernet over USB interface to be
-<span class="title-ref">10.0.0.2</span>, and set up default routing via
-<span class="title-ref">10.0.0.1</span>. The sdmmc-nsh-net-resolvconf
-also sets up the /etc/resolv.conf file and configures NuttX to support
-it, which enables DNS resolution using Google's open DNS servers.
+up the Ethernet over USB interface to be [10.0.0.2]{.title-ref}, and set
+up default routing via [10.0.0.1]{.title-ref}. The
+sdmmc-nsh-net-resolvconf also sets up the /etc/resolv.conf file and
+configures NuttX to support it, which enables DNS resolution using
+Google\'s open DNS servers.
 
 The tools/netusb.sh script can set up a Linux computer with IP tables
 NAT rules and proper routes to allow the NuttX computer to access the
 Internet, setting the Linux side of the Ethernet over USB link to have
-the IP address of <span class="title-ref">10.0.0.1</span>.
+the IP address of [10.0.0.1]{.title-ref}.
 
 In the commands below, replace the interface identifier
-<span class="title-ref">wlp0s20f3</span> with the interface that you use
-to access the Internet:
+[wlp0s20f3]{.title-ref} with the interface that you use to access the
+Internet:
 
     ./tools/netusb.sh show
     enx020000112233: flags=4098<BROADCAST,MULTICAST>  mtu 1500
@@ -667,22 +675,22 @@ to access the Internet:
             RX errors 0  dropped 0  overruns 0  frame 0
             TX packets 119  bytes 15694 (15.6 KB)
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-    
+
      sudo ./tools/netusb.sh wlp0s20f3 enx020000112233 on
     default via 192.168.1.1 dev wlp0s20f3 proto dhcp metric 600
     169.254.0.0/16 dev br-cc496150b4da scope link metric 1000 linkdown
     172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
     172.18.0.0/16 dev br-cc496150b4da proto kernel scope link src 172.18.0.1 linkdown
     192.168.1.0/24 dev wlp0s20f3 proto kernel scope link src 192.168.1.209 metric 600
-    
+
     enx020000112233: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
             ether 02:00:00:11:22:33  txqueuelen 1000  (Ethernet)
             RX packets 4  bytes 256 (256.0 B)
             RX errors 0  dropped 0  overruns 0  frame 0
             TX packets 119  bytes 15694 (15.6 KB)
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-    
-    
+
+
     default via 192.168.1.1 dev wlp0s20f3 proto dhcp metric 600
     10.0.0.0/24 dev enx020000112233 scope link src 10.0.0.1
     10.0.0.0/24 dev enx020000112233 proto kernel scope link src 10.0.0.1 metric 100
@@ -692,10 +700,10 @@ to access the Internet:
     172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
     172.18.0.0/16 dev br-cc496150b4da proto kernel scope link src 172.18.0.1 linkdown
     192.168.1.0/24 dev wlp0s20f3 proto kernel scope link src 192.168.1.209 metric 600
-    
+
     PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
     64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.187 ms
-    
+
     --- 10.0.0.2 ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 0.187/0.187/0.187/0.000 ms

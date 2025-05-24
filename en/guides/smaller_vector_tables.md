@@ -1,17 +1,10 @@
-# Smaller Vector Tables
-
-<div class="warning">
-
-<div class="title">
+Smaller Vector Tables
+=====================
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Smaller+Vector+Tables>
-
-</div>
 
 One of the largest OS data structures is the vector table,
 `g_irqvector[]`. This is the table that holds the vector information
@@ -19,7 +12,7 @@ when `irq_attach()` is called and used to dispatch interrupts by
 `irq_dispatch()`. Recent changes have made that table even larger, for
 32-bit arm the size of that table is given by:
 
-``` c
+``` {.c}
 nbytes = number_of_interrupts * (2 * sizeof(void *))
 ```
 
@@ -47,23 +40,24 @@ the size to the number of supported interrupts.
 For example, if the actual number of interrupts used were 20, the the
 above requirement would go from 800 bytes to 160 bytes.
 
-## Software IRQ Remapping
+Software IRQ Remapping
+----------------------
 
-<span class="title-ref">\[On March 3, 2017, support for this "Software
-IRQ Remapping" as included in the NuttX repository.\]</span>
+[\[On March 3, 2017, support for this \"Software IRQ Remapping\" as
+included in the NuttX repository.\]]{.title-ref}
 
 One of the simplest way of reducing the size of `g_irqvector[]` would be
 to remap the large set of physical interrupt vectors into a much small
 set of interrupts that are actually used. For the sake of discussion,
-let's imagine two new configuration settings:
+let\'s imagine two new configuration settings:
 
-  - `CONFIG_ARCH_MINIMAL_VECTORTABLE`: Enables IRQ mapping
-  - `CONFIG_ARCH_NUSER_INTERRUPTS`: The number of IRQs after mapping.
+-   `CONFIG_ARCH_MINIMAL_VECTORTABLE`: Enables IRQ mapping
+-   `CONFIG_ARCH_NUSER_INTERRUPTS`: The number of IRQs after mapping.
 
 Then it could allocate the interrupt vector table to be size
 `CONFIG_IRQ_NMAPPED_IRQ` instead of the much bigger `NR_IRQS`:
 
-``` c
+``` {.c}
 #ifdef CONFIG_ARCH_MINIMAL_VECTORTABLE
 struct irq_info_s g_irqvector[CONFIG_ARCH_NUSER_INTERRUPTS];
 #else
@@ -78,14 +72,14 @@ The `g_irqvector[]` table is accessed in only three places:
 `irq_attach()` receives the physical vector number along with the
 information needed later to dispatch interrupts:
 
-``` c
+``` {.c}
 int irq_attach(int irq, xcpt_t isr, FAR void *arg);
 ```
 
 Logic in `irq_attach()` would map the incoming physical vector number to
 a table index like:
 
-``` c
+``` {.c}
 #ifdef CONFIG_ARCH_MINIMAL_VECTORTABLE
 int ndx = g_irqmap[irq];
 #else
@@ -99,7 +93,7 @@ array must be provided by platform-specific code.
 
 `irq_attach()` would this use this index to set the `g_irqvector[]`.
 
-``` c
+``` {.c}
 g_irqvector[ndx].handler = isr;
 g_irqvector[ndx].arg     = arg;
 ```
@@ -108,7 +102,7 @@ g_irqvector[ndx].arg     = arg;
 
 `irq_dispatch()` is called by MCU logic when an interrupt is received:
 
-``` c
+``` {.c}
 void irq_dispatch(int irq, FAR void *context);
 ```
 
@@ -117,7 +111,7 @@ Where, again irq is the physical interrupt vector number.
 `irq_dispatch()` would do essentially the same thing as `irq_attach()`.
 First it would map the irq number to a table index:
 
-``` c
+``` {.c}
 #ifdef CONFIG_ARCH_MINIMAL_VECTORTABLE
 int ndx = g_irqmap[irq];
 #else
@@ -127,10 +121,9 @@ int ndx = irq;
 
 Then dispatch the interrupt handling to the attached interrupt handler.
 NOTE that the physical vector number is passed to the handler so it is
-completely unaware of the underlying
-<span class="title-ref">shell</span> game:
+completely unaware of the underlying [shell]{.title-ref} game:
 
-``` c
+``` {.c}
 vector = g_irqvector[ndx].handler;
 arg    = g_irqvector[ndx].arg;
 
@@ -142,7 +135,7 @@ vector(irq, context, arg);
 `irq_initialize()`: simply set the `g_irqvector[]` table a known state
 on power-up. It would only have to distinguish the difference in sizes.
 
-``` c
+``` {.c}
 #ifdef CONFIG_ARCH_MINIMAL_VECTORTABLE
 #  define TAB_SIZE CONFIG_ARCH_NUSER_INTERRUPTS
 #else
@@ -156,7 +149,7 @@ for (i = 0; i < TAB_SIZE; i++)
 
 An implementation of `up_mapirq()` might be something like:
 
-``` c
+``` {.c}
 #include <nuttx/irq.h>
 
 const irq_mapped_t g_irqmap[NR_IRQS] =
@@ -176,50 +169,51 @@ table at index 24. if `g_irqmap[42] == IRQMAPPED_MAX`, then hardware
 interrupt vector 42 is not used and if it occurs will result in an
 unexpected interrupt crash.
 
-## Hardware Vector Remapping
+Hardware Vector Remapping
+-------------------------
 
-<span class="title-ref">\[This technical approach is discussed here but
-is discouraged because of technical "Complications" and "Dubious
-Performance Improvements" discussed at the end of this section.\]</span>
+[\[This technical approach is discussed here but is discouraged because
+of technical \"Complications\" and \"Dubious Performance Improvements\"
+discussed at the end of this section.\]]{.title-ref}
 
 Most ARMv7-M architectures support two mechanism for handling
 interrupts:
 
-  - The so-called <span class="title-ref">common</span> vector handler
-    logic enabled with `CONFIG_ARMV7M_CMNVECTOR=y` that can be found in
+-   The so-called [common]{.title-ref} vector handler logic enabled with
+    `CONFIG_ARMV7M_CMNVECTOR=y` that can be found in
     `arch/arm/src/armv7-m/`, and
-  - MCU-specific interrupt handling logic. For the STM32, this logic can
+-   MCU-specific interrupt handling logic. For the STM32, this logic can
     be found at `arch/arm/src/stm32/gnu/stm32_vectors.S`.
 
-The <span class="title-ref">common</span> vector logic is slightly more
-efficient, the MCU-specific logic is slightly more flexible.
+The [common]{.title-ref} vector logic is slightly more efficient, the
+MCU-specific logic is slightly more flexible.
 
-If we don't use the <span class="title-ref">common</span> vector logic
-enabled with `CONFIG_ARMV7M_CMNVECTOR=y`, but instead the more flexible
-MCU-specific implementation, then we can also use this to map the large
-set of hardware interrupt vector numbers to a smaller set of software
-interrupt numbers. This involves minimal changes to the OS and does not
-require any magic software lookup table. But is considerably more
-complex to implement.
+If we don\'t use the [common]{.title-ref} vector logic enabled with
+`CONFIG_ARMV7M_CMNVECTOR=y`, but instead the more flexible MCU-specific
+implementation, then we can also use this to map the large set of
+hardware interrupt vector numbers to a smaller set of software interrupt
+numbers. This involves minimal changes to the OS and does not require
+any magic software lookup table. But is considerably more complex to
+implement.
 
 This technical approach requires changes to three files:
 
-  - A new header file at `arch/arm/include/stm32`, say `xyz_irq.h` for
+-   A new header file at `arch/arm/include/stm32`, say `xyz_irq.h` for
     the purposes of this discussion. This new header file is like the
     other IRQ definition header files in that directory except that it
     defines only the IRQ number of the interrupts after remapping. So,
     instead of having the 100 IRQ number definitions of the original IRQ
     header file based on the physical vector numbers, this header file
     would define `only` the small set of 20 `mapped` IRQ numbers in the
-    range from 0 through 19. It would also set `NR_IRQS` to the value
-    20.
-  - A new header file at `arch/arm/src/stm32/hardware`, say
+    range from 0 through 19. It would also set `NR_IRQS` to the
+    value 20.
+-   A new header file at `arch/arm/src/stm32/hardware`, say
     `xyz_vector.h`. It would be similar to the other vector definitions
     files in that directory: It will consist of a sequence of 100
     `VECTOR` and `UNUSED` macros. It will define `VECTOR` entries for
     the 20 valid interrupts and 80 `UNUSED` entries for the unused
     interrupt vector numbers. More about this below.
-  - Modification of the `stm32_vectors.S` file. These changes are
+-   Modification of the `stm32_vectors.S` file. These changes are
     trivial and involve only the conditional inclusion of the new,
     special `xyz_vectors.h` header file.
 
@@ -227,7 +221,8 @@ This technical approach requires changes to three files:
 nor the `stm32_vectors.S` exist in the current realization. This has all
 been replaced with the common vector handling at `arch/arm/src/armv7-m`.
 
-## Vector Definitions
+Vector Definitions
+------------------
 
 In `arch/arm/src/stm32/gnu/stm32_vector.S`, notice that the
 `xyz_vector.h` file will be included twice. Before each inclusion, the
@@ -237,7 +232,7 @@ The first time that `xyz_vector.h` included, it defines the hardware
 vector table. The hardware vector table consists of `NR_IRQS` 32-bit
 addresses in an array. This is accomplished by setting:
 
-``` c
+``` {.c}
 #undef VECTOR
 #define VECTOR(l,i) .word l
 
@@ -248,7 +243,7 @@ addresses in an array. This is accomplished by setting:
 Then including `xyz_vector.h`. So consider the following definitions in
 the original file:
 
-``` c
+``` {.c}
 ...
 VECTOR(stm32_usart1, STM32_IRQ_USART1) /* Vector 16+37: USART1 global interrupt */
 VECTOR(stm32_usart2, STM32_IRQ_USART2) /* Vector 16+38: USART2 global interrupt */
@@ -260,7 +255,7 @@ Suppose that we wanted to support only USART1 and that we wanted to have
 the IRQ number for USART1 to be 12. That would be accomplished in the
 `xyz_vector.h` header file like this:
 
-``` c
+``` {.c}
 ...
 VECTOR(stm32_usart1, STM32_IRQ_USART1) /* Vector 16+37: USART1 global interrupt */
 UNUSED(0)                              /* Vector 16+38: USART2 global interrupt */
@@ -273,7 +268,7 @@ Where the value of `STM32_IRQ_USART1` was defined to be 12 in the
 included by `stm32_vectors.S` with the above definitions for `VECTOR`
 and `UNUSED`, the following would result:
 
-``` c
+``` {.c}
 ...
 .word stm32_usart1
 .word stm32_reserved
@@ -283,29 +278,28 @@ and `UNUSED`, the following would result:
 
 These are the settings for vector 53, 54, and 55, respectively. The
 entire vector table would be populated in this way. `stm32_reserved`, if
-called would result in an "unexpected ISR" crash. `stm32_usart1`, if
+called would result in an \"unexpected ISR\" crash. `stm32_usart1`, if
 called will process the USART1 interrupt normally as we will see below.
 
 ### Interrupt Handler Definitions
 
 in the vector table, all of the valid vectors are set to the address of
-a <span class="title-ref">handler</span> function. All unused vectors
-are force to vector to `stm32_reserved`. Currently, only vectors that
-are not supported by the hardware are marked `UNUSED`, but you can mark
-any vector `UNUSED` in order to eliminate it.
+a [handler]{.title-ref} function. All unused vectors are force to vector
+to `stm32_reserved`. Currently, only vectors that are not supported by
+the hardware are marked `UNUSED`, but you can mark any vector `UNUSED`
+in order to eliminate it.
 
 The second time that `xyz_vector.h` is included by `stm32_vector.S`, the
-<span class="title-ref">handler</span> functions are generated. Each of
-the valid vectors point to the matching handler function. In this case,
-you do NOT have to provide handlers for the `UNUSED` vectors, only for
-the used `VECTOR` vectors. All of the unused vectors will go to the
-common `stm32_reserved` handler. The remaining set of handlers is very
-sparse.
+[handler]{.title-ref} functions are generated. Each of the valid vectors
+point to the matching handler function. In this case, you do NOT have to
+provide handlers for the `UNUSED` vectors, only for the used `VECTOR`
+vectors. All of the unused vectors will go to the common
+`stm32_reserved` handler. The remaining set of handlers is very sparse.
 
 These are the values of `UNUSED` and `VECTOR` macros on the second time
 the `xzy_vector.h` is included by `stm32_vectors.S`:
 
-``` asm
+``` {.asm}
 .macro HANDLER, label, irqno
     .thumb_func
 label:
@@ -325,7 +319,7 @@ will provide the IRQ number 12. Remember that 12 is the expansion of the
 macro `STM32_IRQ_USART1` that is provided in the
 `arch/arm/include/stm32/xyz_irq.h` header file:
 
-``` asm
+``` {.asm}
 .thumb_func
 stm32_usart1:
 mov r0, #12
@@ -344,20 +338,18 @@ select the NVIC register and the bit(s) the modify in the NVIC register.
 
 This could be handled with another small IRQ lookup table (20 `uint8_t`
 entries in our example situation above). But then this approach is not
-so much better than the <span class="title-ref">Software Vector
-Mapping</span> described about which does not suffer from this problem.
-Certainly enabling/disabling interrupts in a much lower rate operation
-and at least does not put the lookup in the critical interrupt path.
+so much better than the [Software Vector Mapping]{.title-ref} described
+about which does not suffer from this problem. Certainly
+enabling/disabling interrupts in a much lower rate operation and at
+least does not put the lookup in the critical interrupt path.
 
 Another option suggested by David Sidrane is equally ugly:
 
-  - Don't change the `arch/arm/include/stm32` IRQ definition file.
-  - Instead, encode the IRQ number so that it has both the index and
+-   Don\'t change the `arch/arm/include/stm32` IRQ definition file.
+-   Instead, encode the IRQ number so that it has both the index and
     physical vector number:
 
-<!-- end list -->
-
-``` c
+``` {.c}
 ...
 VECTOR(stm32_usart1, STM32_IRQ_USART1 << 8 | STM32_INDEX_USART1)
 UNUSED(0)
@@ -397,12 +389,11 @@ vector table index. Possible just AND and SHIFT instructions.
 
 However, the minimal cost of the first pure software mapping approach
 was possibly as small as a single indexed byte fetch from FLASH in
-`irq_attach()`. Indexing is, of course, essentially
-<span class="title-ref">free</span> in the ARM ISA, the primary cost
-would be the FLASH memory access. So my first assessment is that the
-performance of both approaches is the essentially the same. If anything,
-the first approach is possibly the more performant if implemented
-efficiently.
+`irq_attach()`. Indexing is, of course, essentially [free]{.title-ref}
+in the ARM ISA, the primary cost would be the FLASH memory access. So my
+first assessment is that the performance of both approaches is the
+essentially the same. If anything, the first approach is possibly the
+more performant if implemented efficiently.
 
 Both options would require some minor range checking in `irq_attach()`
 as well.
@@ -426,7 +417,7 @@ support depends upon is is very limited. As soon as the common interrupt
 handler logic was added, I stopped implementing the MCU specific logic
 in all newer ARMv7-M ports. So that MCU specific interrupt handler logic
 is only present for EFM32, Kinetis, LPC17, SAM3/4, STM32, Tiva, and
-nothing else. Very limited\!
+nothing else. Very limited!
 
 These are further reasons why option 2 is no recommended and will not be
 supported explicitly.

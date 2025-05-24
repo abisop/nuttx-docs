@@ -1,21 +1,18 @@
-# maple
-
-<div class="tags">
+maple
+=====
 
 chip:stm32, chip:stm32f1, chip:stm32f103
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the maple
 board from LeafLabs (<http://leaflabs.com>).
 
-  - Microprocessor: 32-bit ARM Cortex M3 at 72MHz STM32F103RBT6
+-   Microprocessor: 32-bit ARM Cortex M3 at 72MHz STM32F103RBT6
     (STM32F103CBT6 for mini version)
-  - Memory: 120 KB Flash and 20 KB SRAM
-  - I/O Pins Out: 43 (34 for mini version)
-  - ADCs: 9 (at 12-bit resolution)
-  - Peripherals: 4 timers, 2 I2Cs, 2 SPI ports, 3 USARTs
-  - Other: Sleep, stop, and standby modes; serial wire debug and JTAG
+-   Memory: 120 KB Flash and 20 KB SRAM
+-   I/O Pins Out: 43 (34 for mini version)
+-   ADCs: 9 (at 12-bit resolution)
+-   Peripherals: 4 timers, 2 I2Cs, 2 SPI ports, 3 USARTs
+-   Other: Sleep, stop, and standby modes; serial wire debug and JTAG
     interfaces
 
 Please see below link for a list of maple devices and documentations.
@@ -24,13 +21,15 @@ Please see below link for a list of maple devices and documentations.
 
 This config supports Maple and Maple Mini.
 
-## Development Environment
+Development Environment
+-----------------------
 
 Either Linux (recommended), Mac or Cygwin on Windows can be used for the
 development environment. The source has been built only using the GNU
 toolchain (see below). Other toolchains will likely cause problems.
 
-## DFU
+DFU
+---
 
 The linker files in these projects can be configured to indicate that
 you will be loading code using STMicro built-in USB Device Firmware
@@ -60,11 +59,11 @@ While on Linux or Mac, we can use dfu-util to upload nuttx binary.
     from source.)
 
 2.  Start the DFU loader (bootloader) on the maple board. You do this by
-    resetting the board while holding the "Key" button. Windows should
+    resetting the board while holding the \"Key\" button. Windows should
     recognize that the DFU loader has been installed.
 
-3.  Flash the nuttx.bin to the board use dfu-util. Here's an example:
-    
+3.  Flash the nuttx.bin to the board use dfu-util. Here\'s an example:
+
          dfu-util -a1 -d 1eaf:0003 -D nuttx.bin -R
 
 For anything not clear, we can refer to LeafLabs official document:
@@ -78,7 +77,7 @@ The DFU SE PC-based software is available from the STMicro website,
 
 1.  Connect the maple board to your computer using a USB cable.
 2.  Start the DFU loader on the maple board. You do this by resetting
-    the board while holding the "Key" button. Windows should recognize
+    the board while holding the \"Key\" button. Windows should recognize
     that the DFU loader has been installed.
 3.  Run the DFU SE program to load nuttx.bin into FLASH.
 
@@ -88,16 +87,17 @@ downloaded from the STMicro Website. You can build it using RIDE (or
 other toolchains); you will need a JTAG emulator to burn it into FLASH
 the first time.
 
-In order to use STMicro's built-in DFU loader, you will have to get the
+In order to use STMicro\'s built-in DFU loader, you will have to get the
 NuttX binary into a special format with a .dfu extension. The DFU SE
-PC\_based software installation includes a file "DFU File Manager"
+PC\_based software installation includes a file \"DFU File Manager\"
 conversion program that a file in Intel Hex format to the special DFU
 format. When you successfully build NuttX, you will find a file called
 nutt.hex in the top-level directory. That is the file that you should
 provide to the DFU File Manager. You will end up with a file called
 nuttx.dfu that you can use with the STMicro DFU SE program.
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -122,10 +122,10 @@ NOTES:
 
 1.  These configurations use the mconf-based configuration tool. To
     change any of these configurations using that tool, you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
 
-> 2.  Execute 'make menuconfig' in nuttx/ in order to start the
+> b.  Execute \'make menuconfig\' in nuttx/ in order to start the
 >     reconfiguration process.
 
 ### Configuration Sub-directories
@@ -139,23 +139,23 @@ NOTES:
 
 1.  Currently configured for the STM32F103CB. But this is easily
     reconfigured:
-    
+
         CONFIG_ARCH_CHIP_STM32F103RB=n
         CONFIG_ARCH_CHIP_STM32F103CB=y
 
 2.  Support for the I2C tool has been disabled, but can be restored with
     following configure options:
-    
+
         System Type -> Peripherals
               CONFIG_STM32_I2C1=y
               CONFIG_STM32_I2C2=y
               CONFIG_STM32_I2CTIMEOSEC=1
               CONFIG_STM32_I2CTIMEOMS=500
               CONFIG_STM32_I2CTIMEOTICKS=500
-        
+
         Drivers
              CONFIG_I2C=y
-        
+
         Applications -> System Add-Ons
               CONFIG_SYSTEM_I2CTOOL=y
               CONFIG_I2CTOOL_MINBUS=1
@@ -177,7 +177,7 @@ reconfigured:
     CONFIG_ARCH_CHIP_STM32F103RB=n
     CONFIG_ARCH_CHIP_STM32F103CB=y
 
-2.  You won't be able to buy a Sharp Memory LCD to use with your Maple.
+2.  You won\'t be able to buy a Sharp Memory LCD to use with your Maple.
     If you want one, you will have to make one yourself.
 
 ### usbnsh
@@ -193,17 +193,17 @@ reconfigured:
 
 2.  Support for the I2C tool has been disabled, but can be restored with
     following configure options:
-    
+
         System Type -> Peripherals
               CONFIG_STM32_I2C1=y
               CONFIG_STM32_I2C2=y
               CONFIG_STM32_I2CTIMEOSEC=1
               CONFIG_STM32_I2CTIMEOMS=500
               CONFIG_STM32_I2CTIMEOTICKS=500
-        
+
         Drivers
              CONFIG_I2C=y
-        
+
         Applications -> System Add-Ons
               CONFIG_SYSTEM_I2CTOOL=y
               CONFIG_I2CTOOL_MINBUS=1

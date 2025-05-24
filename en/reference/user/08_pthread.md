@@ -1,4 +1,5 @@
-# Pthread Interfaces
+Pthread Interfaces
+==================
 
 NuttX does not support *processes* in the way that, say, Linux does.
 NuttX only supports simple threads or tasks running within the same
@@ -10,13 +11,7 @@ group. Members of a task group share certain resources such as
 environment variables, file descriptors, `FILE` streams, sockets,
 pthread keys and open message queues.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Behavior of features related to task groups depend of NuttX
 configuration settings. See also the[NuttX
@@ -25,37 +20,35 @@ and the[Tasks vs. Threads
 FAQ](https://cwiki.apache.org/confluence/display/NUTTX/Tasks+vs.+Threads+FAQ)for
 additional information on tasks and threads in NuttX.
 
-</div>
-
 The following pthread interfaces are supported in some form by NuttX:
 
 **pthread control interfaces**. Interfaces that allow you to create and
 manage pthreads.
 
->   - :c`pthread_attr_init`
->   - :c`pthread_attr_destroy`
->   - :c`pthread_attr_setschedpolicy`
->   - :c`pthread_attr_getschedpolicy`
->   - :c`pthread_attr_setschedparam`
->   - :c`pthread_attr_getschedparam`
->   - :c`pthread_attr_setinheritsched`
->   - :c`pthread_attr_getinheritsched`
->   - :c`pthread_attr_setstacksize`
->   - :c`pthread_attr_getstacksize`
->   - :c`pthread_create`
->   - :c`pthread_detach`
->   - :c`pthread_exit`
->   - :c`pthread_cancel`
->   - :c`pthread_setcancelstate`
->   - :c`pthread_setcanceltype`
->   - :c`pthread_testcancel`
->   - :c`pthread_cleanup_pop`
->   - :c`pthread_cleanup_push`
->   - :c`pthread_join`
->   - :c`pthread_yield`
->   - :c`pthread_self`
->   - :c`pthread_getschedparam`
->   - :c`pthread_setschedparam`
+> -   :c`pthread_attr_init`{.interpreted-text role="func"}
+> -   :c`pthread_attr_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_attr_setschedpolicy`{.interpreted-text role="func"}
+> -   :c`pthread_attr_getschedpolicy`{.interpreted-text role="func"}
+> -   :c`pthread_attr_setschedparam`{.interpreted-text role="func"}
+> -   :c`pthread_attr_getschedparam`{.interpreted-text role="func"}
+> -   :c`pthread_attr_setinheritsched`{.interpreted-text role="func"}
+> -   :c`pthread_attr_getinheritsched`{.interpreted-text role="func"}
+> -   :c`pthread_attr_setstacksize`{.interpreted-text role="func"}
+> -   :c`pthread_attr_getstacksize`{.interpreted-text role="func"}
+> -   :c`pthread_create`{.interpreted-text role="func"}
+> -   :c`pthread_detach`{.interpreted-text role="func"}
+> -   :c`pthread_exit`{.interpreted-text role="func"}
+> -   :c`pthread_cancel`{.interpreted-text role="func"}
+> -   :c`pthread_setcancelstate`{.interpreted-text role="func"}
+> -   :c`pthread_setcanceltype`{.interpreted-text role="func"}
+> -   :c`pthread_testcancel`{.interpreted-text role="func"}
+> -   :c`pthread_cleanup_pop`{.interpreted-text role="func"}
+> -   :c`pthread_cleanup_push`{.interpreted-text role="func"}
+> -   :c`pthread_join`{.interpreted-text role="func"}
+> -   :c`pthread_yield`{.interpreted-text role="func"}
+> -   :c`pthread_self`{.interpreted-text role="func"}
+> -   :c`pthread_getschedparam`{.interpreted-text role="func"}
+> -   :c`pthread_setschedparam`{.interpreted-text role="func"}
 
 **Thread Specific Data**. These interfaces can be used to create pthread
 *keys* and then to access thread-specific data using these keys. Each
@@ -63,76 +56,76 @@ manage pthreads.
 create in one *task group* are not accessible in other task groups. (2)
 The main task thread does not have thread-specific data.
 
->   - :c`pthread_key_create`
->   - :c`pthread_setspecific`
->   - :c`pthread_getspecific`
->   - :c`pthread_key_delete`
+> -   :c`pthread_key_create`{.interpreted-text role="func"}
+> -   :c`pthread_setspecific`{.interpreted-text role="func"}
+> -   :c`pthread_getspecific`{.interpreted-text role="func"}
+> -   :c`pthread_key_delete`{.interpreted-text role="func"}
 
 **pthread Mutexes**.
 
->   - :c`pthread_mutexattr_init`
->   - :c`pthread_mutexattr_destroy`
->   - :c`pthread_mutexattr_getpshared`
->   - :c`pthread_mutexattr_setpshared`
->   - :c`pthread_mutexattr_gettype`
->   - :c`pthread_mutexattr_settype`
->   - :c`pthread_mutexattr_getprotocol`
->   - :c`pthread_mutexattr_setprotocol`
->   - :c`pthread_mutex_init`
->   - :c`pthread_mutex_destroy`
->   - :c`pthread_mutex_lock`
->   - :c`pthread_mutex_timedlock`
->   - :c`pthread_mutex_trylock`
->   - :c`pthread_mutex_unlock`
+> -   :c`pthread_mutexattr_init`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_getpshared`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_setpshared`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_gettype`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_settype`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_getprotocol`{.interpreted-text role="func"}
+> -   :c`pthread_mutexattr_setprotocol`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_init`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_lock`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_timedlock`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_trylock`{.interpreted-text role="func"}
+> -   :c`pthread_mutex_unlock`{.interpreted-text role="func"}
 
 **Condition Variables**.
 
->   - :c`pthread_condattr_init`
->   - :c`pthread_condattr_destroy`
->   - :c`pthread_cond_init`
->   - :c`pthread_cond_destroy`
->   - :c`pthread_cond_broadcast`
->   - :c`pthread_cond_signal`
->   - :c`pthread_cond_wait`
->   - :c`pthread_cond_timedwait`
+> -   :c`pthread_condattr_init`{.interpreted-text role="func"}
+> -   :c`pthread_condattr_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_cond_init`{.interpreted-text role="func"}
+> -   :c`pthread_cond_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_cond_broadcast`{.interpreted-text role="func"}
+> -   :c`pthread_cond_signal`{.interpreted-text role="func"}
+> -   :c`pthread_cond_wait`{.interpreted-text role="func"}
+> -   :c`pthread_cond_timedwait`{.interpreted-text role="func"}
 
 **Barriers**.
 
->   - :c`pthread_barrierattr_init`
->   - :c`pthread_barrierattr_destroy`
->   - :c`pthread_barrierattr_setpshared`
->   - :c`pthread_barrierattr_getpshared`
->   - :c`pthread_barrier_init`
->   - :c`pthread_barrier_destroy`
->   - :c`pthread_barrier_wait`
+> -   :c`pthread_barrierattr_init`{.interpreted-text role="func"}
+> -   :c`pthread_barrierattr_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_barrierattr_setpshared`{.interpreted-text role="func"}
+> -   :c`pthread_barrierattr_getpshared`{.interpreted-text role="func"}
+> -   :c`pthread_barrier_init`{.interpreted-text role="func"}
+> -   :c`pthread_barrier_destroy`{.interpreted-text role="func"}
+> -   :c`pthread_barrier_wait`{.interpreted-text role="func"}
 
 **Initialization**.
 
->   - :c`pthread_once`
+> -   :c`pthread_once`{.interpreted-text role="func"}
 
 **Signals**.
 
->   - :c`pthread_kill`
->   - :c`pthread_sigmask`
+> -   :c`pthread_kill`{.interpreted-text role="func"}
+> -   :c`pthread_sigmask`{.interpreted-text role="func"}
 
 No support for the following pthread interfaces is provided by NuttX:
 
->   - `pthread_attr_getguardsize`. get and set the thread guardsize
+> -   `pthread_attr_getguardsize`. get and set the thread guardsize
 >     attribute.
->   - `pthread_attr_getscope`. get and set the contentionscope
+> -   `pthread_attr_getscope`. get and set the contentionscope
 >     attribute.
->   - `pthread_attr_setguardsize`. get and set the thread guardsize
+> -   `pthread_attr_setguardsize`. get and set the thread guardsize
 >     attribute.
->   - `pthread_attr_setscope`. get and set the contentionscope
+> -   `pthread_attr_setscope`. get and set the contentionscope
 >     attribute.
->   - `pthread_getconcurrency`. get and set the level of concurrency.
->   - `pthread_getcpuclockid`. access a thread CPU-time clock.
->   - `pthread_mutex_getprioceiling`. get and set the priority ceiling
+> -   `pthread_getconcurrency`. get and set the level of concurrency.
+> -   `pthread_getcpuclockid`. access a thread CPU-time clock.
+> -   `pthread_mutex_getprioceiling`. get and set the priority ceiling
 >     of a mutex.
->   - `pthread_mutex_setprioceiling`. get and set the priority ceiling
+> -   `pthread_mutex_setprioceiling`. get and set the priority ceiling
 >     of a mutex.
->   - `pthread_mutexattr_getprioceiling`. get and set the prioceiling
+> -   `pthread_mutexattr_getprioceiling`. get and set the prioceiling
 >     attribute of the mutex attributes object.
->   - `pthread_mutexattr_setprioceiling`. get and set the prioceiling
+> -   `pthread_mutexattr_setprioceiling`. get and set the prioceiling
 >     attribute of the mutex attributes object.
->   - `pthread_setconcurrency`. get and set the level of concurrency.
+> -   `pthread_setconcurrency`. get and set the level of concurrency.

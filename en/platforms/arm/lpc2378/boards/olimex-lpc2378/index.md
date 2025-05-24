@@ -1,1 +1,2 @@
-# olimex-lpc2378
+olimex-lpc2378
+==============

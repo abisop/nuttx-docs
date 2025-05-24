@@ -1,20 +1,23 @@
-# Groboards Giant Board
+Groboards Giant Board
+=====================
 
 This page file describes the port of NuttX to the Groboards Giant Board
 development board. This board features the Atmel SAMA5D27 microprocessor
 as a SIP with 128KB on-chip DDR2 RAM (part number
-<span class="title-ref">ATSAMA5D27C-D1G</span>). See
-<https://groboards.com/giant-board/> for further information.
+[ATSAMA5D27C-D1G]{.title-ref}). See <https://groboards.com/giant-board/>
+for further information.
 
 This was copied from the SAMA5D2-XULT README, and needs updating.
 
-## Status
+Status
+------
 
 1.  Most of this document is a partially corrected clone of the
     SAMA5D2-XULT README.txt and still contains errors and
     inconsistencies.
 
-## Loading Code into SRAM from SD Card
+Loading Code into SRAM from SD Card
+-----------------------------------
 
 There is no JTAG connector on the Giant Board. There are pads to wire up
 an SWD adapter, but this has not been tested.
@@ -43,7 +46,8 @@ The layout should look like this:
 You only need uboot.env if you want to boot automatically. See the
 U-Boot documentation for instructions on how to create this file.
 
-## Running NuttX from SDRAM
+Running NuttX from SDRAM
+------------------------
 
 NuttX will be executed from SDRAM, and NuttX binary must reside on SD
 Card media.
@@ -129,14 +133,15 @@ the following:
     mci: setting clock 22000000 Hz, block size 512
     reading nuttx.bin
     108076 bytes read in 23 ms (4.5 MiB/s)
-    
+
     U-Boot> go 0x20008040
     ## Starting application at 0x20008040 ...
-    
+
     NuttShell (NSH) NuttX-7.2
     nsh>
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Buttons
 
@@ -198,7 +203,8 @@ and is, apparently, running normally. If LED is flashing at
 approximately 2Hz, then a fatal error has been detected and the system
 has halted.
 
-## Serial Console
+Serial Console
+--------------
 
 The default serial console is UART1 (TX and RX on the pin connectors).
 There is a TTL serial connection available on pins 14 and 15 of the J1
@@ -229,7 +235,8 @@ all of these configurations unless otherwise noted.
 REVISIT: UART1 on the DBGU connect might be a better choice for the
 default serial console
 
-## Giant Board Configuration Options
+Giant Board Configuration Options
+---------------------------------
 
 CONFIG\_ARCH - Identifies the arch/ subdirectory. This should be set to:
 
@@ -345,7 +352,7 @@ drivers need to know how to configure the subsystem.:
     CONFIG_SAMA5_PIOB_IRQ    - Support PIOB interrupts
     CONFIG_SAMA5_PIOC_IRQ    - Support PIOD interrupts
     CONFIG_SAMA5_PIOD_IRQ    - Support PIOD interrupts
-    
+
     CONFIG_USART0_SERIALDRIVER - Flexcom0 is configured as a UART
     CONFIG_USART1_SERIALDRIVER - Flexcom1 is configured as a UART
     CONFIG_USART2_SERIALDRIVER - Flexcom2 is configured as a UART
@@ -354,27 +361,27 @@ drivers need to know how to configure the subsystem.:
 
 ### AT91SAMA5 specific device driver settings
 
-  - CONFIG\_SAMA5\_DBGU\_SERIAL\_CONSOLE - selects the DBGU for the
+-   CONFIG\_SAMA5\_DBGU\_SERIAL\_CONSOLE - selects the DBGU for the
     console and ttyDBGU
-  - CONFIG\_SAMA5\_DBGU\_RXBUFSIZE - Characters are buffered as
+-   CONFIG\_SAMA5\_DBGU\_RXBUFSIZE - Characters are buffered as
     received. This specific the size of the receive buffer
-  - CONFIG\_SAMA5\_DBGU\_TXBUFSIZE - Characters are buffered before
+-   CONFIG\_SAMA5\_DBGU\_TXBUFSIZE - Characters are buffered before
     being sent. This specific the size of the transmit buffer
-  - CONFIG\_SAMA5\_DBGU\_BAUD - The configure BAUD of the DBGU.
-  - CONFIG\_SAMA5\_DBGU\_PARITY - 0=no parity, 1=odd parity, 2=even
+-   CONFIG\_SAMA5\_DBGU\_BAUD - The configure BAUD of the DBGU.
+-   CONFIG\_SAMA5\_DBGU\_PARITY - 0=no parity, 1=odd parity, 2=even
     parity
-  - CONFIG\_U\[S\]ARTn\_SERIAL\_CONSOLE - selects the USARTn (n=0,1,2,3)
+-   CONFIG\_U\[S\]ARTn\_SERIAL\_CONSOLE - selects the USARTn (n=0,1,2,3)
     or UART m (m=4,5) for the console and ttys0 (default is the DBGU).
-  - CONFIG\_U\[S\]ARTn\_RXBUFSIZE - Characters are buffered as received.
+-   CONFIG\_U\[S\]ARTn\_RXBUFSIZE - Characters are buffered as received.
     This specific the size of the receive buffer
-  - CONFIG\_U\[S\]ARTn\_TXBUFSIZE - Characters are buffered before being
+-   CONFIG\_U\[S\]ARTn\_TXBUFSIZE - Characters are buffered before being
     sent. This specific the size of the transmit buffer
-  - CONFIG\_U\[S\]ARTn\_BAUD - The configure BAUD of the UART. Must be
-  - CONFIG\_U\[S\]ARTn\_BITS - The number of bits. Must be either 7 or
-    8.
-  - CONFIG\_U\[S\]ARTn\_PARITY - 0=no parity, 1=odd parity, 2=even
+-   CONFIG\_U\[S\]ARTn\_BAUD - The configure BAUD of the UART. Must be
+-   CONFIG\_U\[S\]ARTn\_BITS - The number of bits. Must be either 7
+    or 8.
+-   CONFIG\_U\[S\]ARTn\_PARITY - 0=no parity, 1=odd parity, 2=even
     parity
-  - CONFIG\_U\[S\]ARTn\_2STOP - Two stop bits
+-   CONFIG\_U\[S\]ARTn\_2STOP - Two stop bits
 
 ### AT91SAMA5 USB Host Configuration
 
@@ -405,7 +412,8 @@ Options:
 
 config SAMA5\_OHCI\_REGDEBUG
 
-## Configurations
+Configurations
+--------------
 
 ### Information Common to All Configurations
 
@@ -430,23 +438,23 @@ NOTES:
 
 > 1.  These configurations use the mconf-based configuration tool. To
 >     change any of these configurations using that tool, you should:
-> 
-> > 1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+>
+> > a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
 > >     see additional README.txt files in the NuttX tools repository.
-> > 2.  Execute 'make menuconfig' in nuttx/ in order to start the
+> > b.  Execute \'make menuconfig\' in nuttx/ in order to start the
 > >     reconfiguration process.
-> 
+>
 > 2.  Unless stated otherwise, all configurations generate console
 >     output on the DBGU (J23).
-> 
+>
 > 3.  All of these configurations use the Code Sourcery for Windows
 >     toolchain (unless stated otherwise in the description of the
 >     configuration). That toolchain selection can easily be
->     reconfigured using 'make menuconfig'. Here are the relevant
+>     reconfigured using \'make menuconfig\'. Here are the relevant
 >     current settings:
->     
+>
 >     Build Setup:
->     
+>
 >         CONFIG_HOST_WINDOWS=y               : Microsoft Windows
 >         CONFIG_WINDOWS_CYGWIN=y             : Using Cygwin or other POSIX environment
 
@@ -466,149 +474,149 @@ Board Selection -\> CPU Frequency:
 Summary: Some of the descriptions below are long and wordy. Here is the
 concise summary of the available Giant Board configurations:
 
-  - nsh:
-    
+-   nsh:
+
     > This is a basic NuttShell (NSH) configuration.
-    > 
+    >
     > There may be issues with some of these configurations. See the
     > details for status of individual configurations.
 
 #### Now for the gory details:
 
-  - netnsh:
-    
+-   netnsh:
+
     This is a network enabled configuration based on the NuttShell
     (NSH). The CDC-ECM driver is enabled, so you can plug a USB cable
     into the USB-Micro port (USB-A) and the board will appear as an
     CDC-ECM ethernet adapter.
 
-  - nsh:
-    
+-   nsh:
+
     This configuration directory provide the NuttShell (NSH). This is a
     very simple NSH configuration upon which you can build further
     functionality.
-    
+
     NOTES:
-    
+
         1. This configuration uses the UART1 (PD2 and PD3) for the serial
            console. USART1 is available at the "DBGU" RS-232 connector (J24).
            This is easily changed by reconfiguring to (1) enable a different
            serial peripheral, and (2) selecting that serial peripheral as the
            console device.
-        
+
         2. By default, this configuration is set up to build on Windows
            under either a Cygwin or MSYS environment using a recent, Windows-
            native, generic ARM EABI GCC toolchain (such as the ARM supported
            toolchain). Both the build environment and the toolchain
            selection can easily be changed by reconfiguring:
-        
+
            CONFIG_HOST_WINDOWS=y           : Windows operating system
            CONFIG_WINDOWS_CYGWIN=y         : POSIX environment under windows
            CONFIG_ARMV7A_TOOLCHAIN_EABIW=y : Generic GCC EABI toolchain for Windows
-        
+
            If you are running on Linux, make *certain* that you have
            CONFIG_HOST_LINUX=y *before* the first make or you will create a
            corrupt configuration that may not be easy to recover from. See
            the warning in the section "Information Common to All Configurations"
            for further information.
-        
+
         4. This configuration supports logging of debug output to a circular
            buffer in RAM. This feature is discussed fully in this Wiki page:
            http://nuttx.org/doku.php?id=wiki:howtos:syslog . Relevant
            configuration settings are summarized below:
-        
+
            File System:
-        
+
            Device Drivers:
            CONFIG_RAMLOG=y             : Enable the RAM-based logging feature.
            CONFIG_RAMLOG_SYSLOG=y      : This enables the RAM-based logger as the
                                          system logger.
            CONFIG_RAMLOG_NONBLOCKING=y : Needs to be non-blocking for dmesg
            CONFIG_RAMLOG_BUFSIZE=16384 : Buffer size is 16KiB
-        
+
            NOTE: This RAMLOG feature is really only of value if debug output
            is enabled. But, by default, no debug output is disabled in this
            configuration. Therefore, there is no logic that will add anything
            to the RAM buffer. This feature is configured and in place only
            to support any future debugging needs that you may have.
-        
+
            If you don't plan on using the debug features, then by all means
            disable this feature and save 16KiB of RAM!
-        
+
            NOTE: There is an issue with capturing data in the RAMLOG:  If
            the system crashes, all of the crash dump information will into
            the RAMLOG and you will be unable to access it!  You can tell that
            the system has crashed because (a) it will be unresponsive and (b)
            the RED LED will be blinking at about 2Hz.
-        
+
            That is another good reason to disable the RAMLOG!
-        
+
         5. This configuration executes out of SDRAM flash and is loaded into
            SDRAM from SD card U-Boot. Data also is positioned in SDRAM.
-        
+
            Booting with U-Boot from nuttx.bin on an SD card is the only boot
            method that has been tested. These are the commands that I used to boot NuttX
            from the SD card:
-        
+
              U-Boot> fatload mmc 0 0x20008000 nuttx.bin
              U-Boot> go 0x20008040
-        
+
         6. This configuration supports /dev/null, /dev/zero, and /dev/random.
-        
+
              CONFIG_DEV_NULL=y    : Enables /dev/null
              CONFIG_DEV_ZERO=y    : Enabled /dev/zero
-        
+
            Support for /dev/random is implemented using the SAMA5D2's True
            Random Number Generator (TRNG). See the section above entitled
            "TRNG and /dev/random" for information about configuring /dev/random.
-        
+
             CONFIG_SAMA5_TRNG=y   : Enables the TRNG peripheral
             CONFIG_DEV_RANDOM=y   : Enables /dev/random
-        
+
         7. This configuration has support for NSH built-in applications enabled.
            No built-in applications are enabled, however.
-        
+
         8. This configuration has support for the FAT and PROCFS file
            systems built in.
-        
+
            The FAT file system includes long file name support. Please be aware
            that Microsoft claims patents against the long file name support (see
            more discussion in the top-level NOTICE file).
-        
+
              CONFIG_FS_FAT=y        : Enables the FAT file system
              CONFIG_FAT_LCNAMES=y   : Enable lower case 8.3 file names
              CONFIG_FAT_LFN=y       : Enables long file name support
              CONFIG_FAT_MAXFNAME=32 : Arbitrarily limits the size of a path
                                       segment name to 32 bytes
-        
+
            The PROCFS file system is enabled simply with:
-        
+
              CONFIG_FS_PROCFS=y     : Enable PROCFS file system
-        
+
         9. The Real Time Clock/Calendar (RTC) is enabled in this configuration.
            See the section entitled "RTC" above for detailed configuration
            settings.
-        
+
            The RTC alarm is not enabled by default since there is nothing in
            this configuration that uses it. The alarm can easily be enabled,
            however, as described in the "RTC" section.
-        
+
            The time value from the RTC will be used as the NuttX system time
            in all timestamp operations. You may use the NSH 'date' command
            to set or view the RTC as described above in the "RTC" section.
-        
+
            NOTE:  If you want the RTC to preserve time over power cycles, you
            will need to install a battery in the battery holder (J12) and close
            the jumper, JP13.
 
-  - sdmmcnsh:
-    
+-   sdmmcnsh:
+
     > This is a configuration based on the NuttShell (NSH). The SDMMC
     > peripheral is enabled, and can read and write to a VFAT filesystem
     > on the SD Card.
-    > 
+    >
     > NuttX will mount the SD Card at `/mnt/mmcsd1`.
 
-  - sdmmc-net-nsh:
-    
+-   sdmmc-net-nsh:
+
     > This is a combination of the netnsh and sdmmcnsh configurations.

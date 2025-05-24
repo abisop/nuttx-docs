@@ -1,10 +1,7 @@
-# ST Nucleo F722ZE
-
-<div class="tags">
+ST Nucleo F722ZE
+================
 
 chip:stm32, chip:stm32f7, chip:stm32f722
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro Nucleo-144 board. See ST document STM32 Nucleo-144 boards
@@ -12,14 +9,15 @@ STMicro Nucleo-144 board. See ST document STM32 Nucleo-144 boards
 
 <https://www.st.com/resource/en/user_manual/dm00244518.pdf>
 
-## Board Features
+Board Features
+--------------
 
-  - Peripherals: 8 leds, 2 push button (3 LEDs, 1 button) under software
+-   Peripherals: 8 leds, 2 push button (3 LEDs, 1 button) under software
     control
-  - Debug: STLINK/V2-1 debugger/programmer Uses a STM32F103CB to provide
+-   Debug: STLINK/V2-1 debugger/programmer Uses a STM32F103CB to provide
     a ST-Link for programming, debug similar to the OpenOcd FTDI
     function - USB to JTAG front-end.
-  - Expansion I/F: ST Zio and Extended Arduino and Morpho Headers
+-   Expansion I/F: ST Zio and Extended Arduino and Morpho Headers
 
 ### Hardware
 
@@ -31,8 +29,8 @@ graphic pinouts.
 
 Keep in mind that:
 
-  - The I/O is 3.3 Volt not 5 Volt like on the Arduino products.
-  - The Nucleo-144 board family has 3 pages of Solder Bridges AKA Solder
+-   The I/O is 3.3 Volt not 5 Volt like on the Arduino products.
+-   The Nucleo-144 board family has 3 pages of Solder Bridges AKA Solder
     Blobs (SB) that can alter the factory configuration. We will note SB
     in effect but will assume the factory default settings.
 
@@ -95,12 +93,14 @@ different U\[S\]ART to use as the console. In that Case, you will need
 to edit the include/board.h to select different U\[S\]ART and / or pin
 selections.
 
-## Buttons
+Buttons
+-------
 
 B1 USER: the user button is connected to the I/O PC13 (Tamper support,
 SB173 ON and SB180 OFF)
 
-## LEDs
+LEDs
+----
 
 The Board provides a 3 user LEDs, LD1-LD3:
 
@@ -108,50 +108,47 @@ The Board provides a 3 user LEDs, LD1-LD3:
     LED2 (Blue)       PB_7  (SB139 ON)
     LED3 (Red)        PB_14 (SP118 ON)
 
-  - When the I/O is HIGH value, the LEDs are on.
-  - When the I/O is LOW, the LEDs are off.
+-   When the I/O is HIGH value, the LEDs are on.
+-   When the I/O is LOW, the LEDs are off.
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
 include/board.h and src/stm32\_autoleds.c. The LEDs are used to encode
 OS related events as follows when the LEDs are available:
 
-> 
-> 
-> | SYMBOL            | Meaning                 | RED | GREEN | BLUE               |
-> | ----------------- | ----------------------- | --- | ----- | ------------------ |
-> | LED\_STARTED      | NuttX has been started  | OFF | OFF   | OFF                |
-> | LED\_HEAPALLOCATE | Heap has been allocated | OFF | OFF   | ON                 |
-> | LED\_IRQSENABLED  | Interrupts enabled      | OFF | ON    | OFF                |
-> | LED\_STACKCREATED | Idle stack created      | OFF | ON    | ON                 |
-> | LED\_INIRQ        | In an interrupt         | NC  | NC    | ON (momentary)     |
-> | LED\_SIGNAL       | In a signal handler     | NC  | ON    | OFF (momentary)    |
-> | LED\_ASSERTION    | An assertion failed     | ON  | NC    | ON (momentary)     |
-> | LED\_PANIC        | The system has crashed  | ON  | OFF   | OFF (flashing 2Hz) |
-> | LED\_IDLE         | MCU is is sleep mode    | ON  | OFF   | OFF                |
-> 
+>   SYMBOL              Meaning                   RED   GREEN   BLUE
+>   ------------------- ------------------------- ----- ------- --------------------
+>   LED\_STARTED        NuttX has been started    OFF   OFF     OFF
+>   LED\_HEAPALLOCATE   Heap has been allocated   OFF   OFF     ON
+>   LED\_IRQSENABLED    Interrupts enabled        OFF   ON      OFF
+>   LED\_STACKCREATED   Idle stack created        OFF   ON      ON
+>   LED\_INIRQ          In an interrupt           NC    NC      ON (momentary)
+>   LED\_SIGNAL         In a signal handler       NC    ON      OFF (momentary)
+>   LED\_ASSERTION      An assertion failed       ON    NC      ON (momentary)
+>   LED\_PANIC          The system has crashed    ON    OFF     OFF (flashing 2Hz)
+>   LED\_IDLE           MCU is is sleep mode      ON    OFF     OFF
 
-  - OFF - means that the OS is still initializing. Initialization is
-    very fast  
-    so if you see this at all, it probably means that the system is
+OFF - means that the OS is still initializing. Initialization is very fast
+
+:   so if you see this at all, it probably means that the system is
     hanging up somewhere in the initialization phases.
 
 GREEN - This means that the OS completed initialization.
 
-  - BLUE - Whenever and interrupt or signal handler is entered, the BLUE
-    LED is  
-    illuminated and extinguished when the interrupt or signal handler
+BLUE - Whenever and interrupt or signal handler is entered, the BLUE LED is
+
+:   illuminated and extinguished when the interrupt or signal handler
     exits.
 
-  - VIOLET - If a recovered assertion occurs, the RED and blue LED will
-    be  
-    illuminated briefly while the assertion is handled. You will
+VIOLET - If a recovered assertion occurs, the RED and blue LED will be
+
+:   illuminated briefly while the assertion is handled. You will
     probably never see this.
 
-  - Flashing RED - In the event of a fatal crash, all other LEDs will
-    be  
-    extinguished and RED LED will FLASH at a 2Hz rate.
-    
+Flashing RED - In the event of a fatal crash, all other LEDs will be
+
+:   extinguished and RED LED will FLASH at a 2Hz rate.
+
     Thus if the GREEN LED is lit, NuttX has successfully booted and is,
     apparently, running normally. If the RED LED is flashing at
     approximately 2Hz, then a fatal error has been detected and the
@@ -159,15 +156,13 @@ GREEN - This means that the OS completed initialization.
 
 ### Serial Consoles
 
-## USART6 (CONFIG\_NUCLEO\_CONSOLE\_ARDUINO)
+USART6 (CONFIG\_NUCLEO\_CONSOLE\_ARDUINO)
+-----------------------------------------
 
-> 
-> 
-> | ARDUINO | FUNCTION   | GPIO |
-> | ------- | ---------- | ---- |
-> | DO RX   | USART6\_RX | PG9  |
-> | D1 TX   | USART6\_TX | PG14 |
-> 
+>   ARDUINO   FUNCTION     GPIO
+>   --------- ------------ ------
+>   DO RX     USART6\_RX   PG9
+>   D1 TX     USART6\_TX   PG14
 
 You must use a 3.3 TTL to RS-232 converter or a USB to 3.3V TTL
 
@@ -177,7 +172,7 @@ You must use a 3.3 TTL to RS-232 converter or a USB to 3.3V TTL
     RXD - D0-RXD   -    TXD - Pin 4 (Orange)
     GND   GND      -    GND   Pin 1  (Black)
     -------------       -------------------
-    
+
     *Note you will be reverse RX/TX
 
 Use make menuconfig to configure USART6 as the console:
@@ -192,7 +187,8 @@ Use make menuconfig to configure USART6 as the console:
     CONFIG_USART6_PARITY=0
     CONFIG_USART6_2STOP=0
 
-## USART8 (CONFIG\_NUCLEO\_CONSOLE\_MORPHO)
+USART8 (CONFIG\_NUCLEO\_CONSOLE\_MORPHO)
+----------------------------------------
 
 Pins and Connectors:
 
@@ -212,7 +208,7 @@ You must use a 3.3 TTL to RS-232 converter or a USB to 3.3V TTL:
     RXD - CN12-64   -   TXD - Pin 4 (Orange)
     GND   CN12-63   -   GND   Pin 1  (Black)
     -------------       -------------------
-    
+
     *Note you will be reverse RX/TX
 
 Use make menuconfig to configure USART8 as the console:
@@ -227,7 +223,8 @@ Use make menuconfig to configure USART8 as the console:
     CONFIG_UART8_PARITY=0
     CONFIG_UART8_2STOP=0
 
-## Virtual COM Port (CONFIG\_NUCLEO\_CONSOLE\_VIRTUAL)
+Virtual COM Port (CONFIG\_NUCLEO\_CONSOLE\_VIRTUAL)
+---------------------------------------------------
 
 Yet another option is to use USART3 and the USB virtual COM port. This
 option may be more convenient for long term development, but is painful
@@ -248,7 +245,8 @@ Default:
 As shipped, SB4 and SB7 are open and SB5 and SB6 closed, so the virtual
 COM port is enabled.
 
-## SPI
+SPI
+---
 
 Since this board is so generic, having a quick way to set the SPI
 configuration seams in order. So the board provides a quick test that
@@ -256,7 +254,8 @@ can be selected vi CONFIG\_NUCLEO\_SPI\_TEST that will initialize the
 selected buses (SPI1-SPI3) and send some text on the bus at application
 initialization time board\_app\_initialize.
 
-## SDIO
+SDIO
+----
 
 To test the SD performance one can use a SparkFun microSD Sniffer from
 <https://www.sparkfun.com/products/9419> or similar board and connect it
@@ -273,7 +272,8 @@ as follows:
 
 ### Configurations
 
-## nsh
+nsh
+---
 
 Configures the NuttShell (nsh) located at apps/examples/nsh for the
 Nucleo-144 boards. The Configuration enables the serial interfaces on
@@ -284,98 +284,101 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    
-    2.  If this is the initial configuration then execute:
-        
+
+    b.  If this is the initial configuration then execute:
+
             ./tools/configure.sh nucleo-f722ze:nsh
-        
+
         in nuttx/ in order to start configuration process. Caution:
         Doing this step more than once will overwrite .config with the
         contents of the nucleo-f722ze/nsh/defconfig file.
-    
-    3.  Execute 'make oldconfig' in nuttx/ in order to refresh the
+
+    c.  Execute \'make oldconfig\' in nuttx/ in order to refresh the
         configuration.
-    
-    4.  Execute 'make menuconfig' in nuttx/ in order to start the
+
+    d.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
-    
-    5.  Save the .config file to reuse it in the future starting at step
-        d.
+
+    e.  Save the .config file to reuse it in the future starting at
+        step d.
 
 2.  By default, this configuration uses the ARM GNU toolchain for Linux.
     That can easily be reconfigured, of course.:
-    
+
         CONFIG_HOST_LINUX=y                     : Builds under Linux
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y      : ARM GNU for Linux
 
-3.    - The serial console may be configured to use either USART3 (which
-        would  
-        correspond to the Virtual COM port) or with the console device
+3.  
+
+    The serial console may be configured to use either USART3 (which would
+
+    :   correspond to the Virtual COM port) or with the console device
         configured for USART6 to support an Arduino serial shield (see
-        instructions above under "Serial Consoles). You will need to
+        instructions above under \"Serial Consoles). You will need to
         check the defconfig file to see how the console is set up and,
         perhaps, modify the configuration accordingly.
-        
+
         To select the Virtual COM port:
-        
+
             -CONFIG_NUCLEO_CONSOLE_ARDUINO
             +CONFIG_NUCLEO_CONSOLE_VIRTUAL=y
             -CONFIG_USART6_SERIAL_CONSOLE=y
             +CONFIG_USART3_SERIAL_CONSOLE=y
-        
+
         To select the Arduino serial shield:
-        
+
             -CONFIG_NUCLEO_CONSOLE_VIRTUAL=y
             +CONFIG_NUCLEO_CONSOLE_ARDUINO
             -CONFIG_USART3_SERIAL_CONSOLE=y
             +CONFIG_USART6_SERIAL_CONSOLE=y
-        
+
         Default values for other settings associated with the select
         USART should be correct.
 
-## evalos:
+evalos:
+-------
 
 This configuration is designed to test the features of the board.
 
-  - Configures the NuttShell (nsh) located at apps/examples/nsh for the
+-   Configures the NuttShell (nsh) located at apps/examples/nsh for the
     Nucleo-144 boards. The console is available on serial interface
     USART3, which is accessible over the USB ST-Link interface.
-  - Configures nsh with advanced features such as autocompletion.
-  - Configures the on-board LEDs to work with the 'leds' example app.
-  - Configures the 'helloxx' example app.
-  - Adds character device for i2c1
-  - Tries to register mpu60x0 IMU to i2c1
+-   Configures nsh with advanced features such as autocompletion.
+-   Configures the on-board LEDs to work with the \'leds\' example app.
+-   Configures the \'helloxx\' example app.
+-   Adds character device for i2c1
+-   Tries to register mpu60x0 IMU to i2c1
 
 NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    
-    2.  If this is the initial configuration then execute:
-        
+
+    b.  If this is the initial configuration then execute:
+
             ./tools/configure.sh nucleo-f722ze:evalos
-        
+
         in nuttx/ in order to start configuration process. Caution:
         Doing this step more than once will overwrite .config with the
         contents of the nucleo-f722ze/evalos/defconfig file.
-    
-    3.  Execute 'make oldconfig' in nuttx/ in order to refresh the
+
+    c.  Execute \'make oldconfig\' in nuttx/ in order to refresh the
         configuration.
-    
-    4.  Execute 'make menuconfig' in nuttx/ in order to start the
+
+    d.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
-    
-    5.  Save the .config file to reuse it in the future starting at step
-        d.
+
+    e.  Save the .config file to reuse it in the future starting at
+        step d.
 
 2.  By default, this configuration uses the ARM GNU toolchain for Linux.
     That can easily be reconfigured, of course.:
-    
+
         CONFIG_HOST_LINUX=y                     : Builds under Linux
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y      : ARM GNU for Linux

@@ -1,6 +1,8 @@
-# STM32 CCM Allocator
+STM32 CCM Allocator
+===================
 
-## CCM Memory
+CCM Memory
+----------
 
 The STM32 F2, F3, and F4 families have a special block of SRAM available
 called CCM (Core Coupled Memory). This memory has the drawback that it
@@ -11,25 +13,27 @@ NuttX heaps are created. But this can be a problem because it will be a
 toss of the coin if non-DMA-able CCM memory or other DMA-able memory
 gets returned when `malloc()` is called. That usually does not matter
 but it certainly does make a difference if you are allocating memory
-that will be used for DMA\! In that case, getting CCM memory for your
-DMA buffer will cause a failure.
+that will be used for DMA! In that case, getting CCM memory for your DMA
+buffer will cause a failure.
 
-## CONFIG\_STM32\_CCMEXCLUDE
+CONFIG\_STM32\_CCMEXCLUDE
+-------------------------
 
 There is a configuration option called `CONFIG_STM32_CCMEXCLUDE` that
 can be used to exclude CCM memory from the heap. That solves the problem
 of getting CCM memory when you want to allocate a DMA buffer. But then
 what do you do with the CCM memory? Do you let it go unused?
 
-## CCM Allocator
+CCM Allocator
+-------------
 
 In order to make use of the CCM memory, a CCM memory allocator is
 available. This memory allocator is automatically enabled when the
 following options are set:
 
-  - `CONFIG_STM32_CCMEXCLUDE` CCM memory is excluded from the normal
+-   `CONFIG_STM32_CCMEXCLUDE` CCM memory is excluded from the normal
     heap, and
-  - `CONFIG_MM_MULTIHEAP` Support for multiple heaps is enabled.
+-   `CONFIG_MM_MULTIHEAP` Support for multiple heaps is enabled.
 
 Under those conditions, the CCM memory allocator is enabled and the
 allocator interfaces prototyped in the `arch/arm/src/stm32/stm32_ccm.h`
@@ -47,7 +51,8 @@ is no longer a part of the normal heap, all allocated I/O buffers will
 be DMA-able (unless you have included other non-DMA-able memory regions
 in the stack).
 
-## CCM Stacks
+CCM Stacks
+----------
 
 One particular problem that has been reported by Petteri Aimonen
 requires some additional work-arounds. The STM32 SPI driver supports DMA
@@ -61,8 +66,8 @@ Here is what Petteri has done:
 1.  First, he has modified `arch/arm/src/common/up_createstack.c` and
     `up_releasestack.c` so that stacks are allocated from CCM memory.
     That allocation is something like the following:
-    
-    ``` C
+
+    ``` {.C}
     void *result = ccm_zalloc(size);
     if (!result)
       {
@@ -70,10 +75,10 @@ Here is what Petteri has done:
         result = zalloc(size);
       }
     ```
-    
+
     With the matching:
-    
-    ``` C
+
+    ``` {.C}
     if (((uint32_t)p & 0xF0000000) == 0x10000000)
       {
         ccm_free(p);
@@ -87,23 +92,23 @@ Here is what Petteri has done:
 2.  Then Petteri added special DMA support enabled with
     `CONFIG_STM32_DMACAPABLE`. That option enables an option in all of
     the DMA logic called:
-    
-    ``` C
+
+    ``` {.C}
     bool stm32_dmacapable(uint32_t maddr);
     ```
-    
+
     That will return true if it is possible to do DMA from the address
     and false if not.
 
 3.  Finally, Petteri added logic to the STM32 SPI driver that use
     `stm32_dmacapable()`: If the address is not DMA capable, then the
     SPI driver will fall back to non-DMA operation.
-    
-    With Petteri's changes all of the large I/O buffers will be
+
+    With Petteri\'s changes all of the large I/O buffers will be
     allocated from DMA-able memory. All stacks will be allocated from
     non-DMA-able CCM memory (provided that there is space). Small SPI
     DMA buffers on the non-DMA-able stack will be detected by
     `stm32_dmacapable()` and in that case, the STM32 SPI driver will
     fall back and use non-DMA-transfers.
-    
+
     From all reports this works quite well.

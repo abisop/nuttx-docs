@@ -1,5 +1,7 @@
-# PHY+ PHY62
+PHY+ PHY62
+==========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

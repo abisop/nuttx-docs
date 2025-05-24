@@ -1,6 +1,8 @@
-# Task Trace Internals
+Task Trace Internals
+====================
 
-## Overview
+Overview
+--------
 
 ![image](image/task-trace-internal.png)
 
@@ -11,50 +13,51 @@ The Task Trace is constructed by the following functions.
 The kernel events are collected by `sched_note_*()` API calls embedded
 in NuttX kernel.
 
->   - For task switch events
->       - `sched_note_start()`
->       - `sched_note_stop()`
->       - `sched_note_suspend()`
->       - `sched_note_resume()`
->   - For system call events
->       - `sched_note_syscall_enter()`
->       - `sched_note_syscall_leave()`
->   - For interrupt event
->       - `sched_note_irqhandler()`
+> -   For task switch events
+>     -   `sched_note_start()`
+>     -   `sched_note_stop()`
+>     -   `sched_note_suspend()`
+>     -   `sched_note_resume()`
+> -   For system call events
+>     -   `sched_note_syscall_enter()`
+>     -   `sched_note_syscall_leave()`
+> -   For interrupt event
+>     -   `sched_note_irqhandler()`
 
 ### Filter logic (`nuttx/sched/sched_note.c`)
 
-  - The `sched_note_*()` APIs are implemented here.
-  - Filter the notes and pass them to noteram driver by
+-   The `sched_note_*()` APIs are implemented here.
+-   Filter the notes and pass them to noteram driver by
     `sched_note_add()` API.
 
 ### Noteram device driver (`nuttx/drivers/note/noteram_driver.c`)
 
-  - Accumurate incoming note records into the buffer.
-  - Read the note records from the buffer by user requests.
-  - The notes are recorded in the binary format of `struct note_*_s`.
-  - The detail function is described in
-    \[<span class="title-ref">../component\](</span>../component.md)s/drivers/character/note\`.
+-   Accumurate incoming note records into the buffer.
+-   Read the note records from the buffer by user requests.
+-   The notes are recorded in the binary format of `struct note_*_s`.
+-   The detail function is described in
+    \[[../component\](]{.title-ref}../component.md)s/drivers/character/note\`.
 
 ### Notectl device driver (`nuttx/drivers/note/notectl_driver.c`)
 
-  - `/dev/notectl` device driver.
-  - Control the filter logic in `sched_note.c` by calling note filter
+-   `/dev/notectl` device driver.
+-   Control the filter logic in `sched_note.c` by calling note filter
     APIs.
-  - The detail function is described in
-    \[<span class="title-ref">../component\](</span>../component.md)s/drivers/character/note\`.
+-   The detail function is described in
+    \[[../component\](]{.title-ref}../component.md)s/drivers/character/note\`.
 
-### "`trace`" Built-In Application (`apps/system/trace/trace.c`)
+### \"`trace`\" Built-In Application (`apps/system/trace/trace.c`)
 
-  - `trace` Built-In Application to control the trace function
+-   `trace` Built-In Application to control the trace function
     interactively.
-  - Read binary note records from `/dev/note` and convert into the
-    ftrace text format which is acceptable by ["Trace
-    Compass"](https://www.eclipse.org/tracecompass/).
-  - The command syntax is described in
-    \[<span class="title-ref">ta\](\`ta.md)sktraceuser</span>.
+-   Read binary note records from `/dev/note` and convert into the
+    ftrace text format which is acceptable by [\"Trace
+    Compass\"](https://www.eclipse.org/tracecompass/).
+-   The command syntax is described in
+    \[[ta\](\`ta.md)sktraceuser]{.title-ref}.
 
-## Getting the system call events
+Getting the system call events
+------------------------------
 
 To get the system call events, two different methods are used for FLAT
 build and PROTECTED/KERNEL build.

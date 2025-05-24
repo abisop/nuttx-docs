@@ -1,4 +1,5 @@
-# PINE64 Ox64
+PINE64 Ox64
+===========
 
 [Ox64](https://wiki.pine64.org/wiki/Ox64) is a RISC-V Single-Board
 Computer based on the Bouffalo Lab BL808 RISC-V SoC with C906 64-bit CPU
@@ -8,34 +9,40 @@ PSRAM memory, with built-in WiFi, Bluetooth and Zigbee radio interfaces.
 Ox64 comes in a breadboard-friendly form factor. It has a microSD Card
 slot, USB 2.0 Type-C port and other peripheral interfaces.
 
-## Features
+Features
+--------
 
-  -   - **System on Chip:** Bouffalo Lab BL808
-        
-          -   - **CPU:**
-                
-                  - 64-bit T-Head C906 "D0" (RV64IMAFCV)
-                  - 32-bit T-Head E907 "M0" (RV32IMAFCP)
-                  - 32-bit T-Head E902 "LP" (RV32E\[M\]C)
-        
-          - **RAM:** Embedded 64 MB PSRAM
+-   
 
-  - **Wireless:** 2.4 GHz 1T1R WiFi 802.11 b/g/n, Bluetooth 5.2, Zigbee
+    **System on Chip:** Bouffalo Lab BL808
 
-  - **Ethernet:** 10 / 100 Mbps (optional)
+    :   -   
 
-  - **Storage:** On-board 128 Mbit (16 MB) XSPI NOR Flash Memory,
+            **CPU:**
+
+            :   -   64-bit T-Head C906 \"D0\" (RV64IMAFCV)
+                -   32-bit T-Head E907 \"M0\" (RV32IMAFCP)
+                -   32-bit T-Head E902 \"LP\" (RV32E\[M\]C)
+
+        -   **RAM:** Embedded 64 MB PSRAM
+
+-   **Wireless:** 2.4 GHz 1T1R WiFi 802.11 b/g/n, Bluetooth 5.2, Zigbee
+
+-   **Ethernet:** 10 / 100 Mbps (optional)
+
+-   **Storage:** On-board 128 Mbit (16 MB) XSPI NOR Flash Memory,
     microSD (SDHC and SDXC)
 
-  - **USB:** USB 2.0 OTG
+-   **USB:** USB 2.0 OTG
 
-  - **Audio:** Microphone and Speaker (optional)
+-   **Audio:** Microphone and Speaker (optional)
 
-  - **Video Input:** Dual-lane MIPI CSI port for Camera Module (USB-C)
+-   **Video Input:** Dual-lane MIPI CSI port for Camera Module (USB-C)
 
-  - **Expansion Ports:** 26 GPIO pins (including SPI, I2C and UART)
+-   **Expansion Ports:** 26 GPIO pins (including SPI, I2C and UART)
 
-## Serial Console
+Serial Console
+--------------
 
 A **USB Serial Adapter** that supports 2 Mbps (like [CH340G Serial
 Adapter](https://lupyuen.github.io/articles/ox64#test-the-usb-serial-adapter))
@@ -43,11 +50,11 @@ is required to run NuttX on Ox64.
 
 Connect the USB Serial Adapter to Ox64 Serial Console at:
 
-| USB Serial | Ox64 Pin                    |
-| ---------- | --------------------------- |
-| TX         | Pin 31 (GPIO 17 / UART3 RX) |
-| RX         | Pin 32 (GPIO 16 / UART3 TX) |
-| GND        | Pin 33 (GND)                |
+  USB Serial   Ox64 Pin
+  ------------ -----------------------------
+  TX           Pin 31 (GPIO 17 / UART3 RX)
+  RX           Pin 32 (GPIO 16 / UART3 TX)
+  GND          Pin 33 (GND)
 
 On the USB Serial Adapter, set the **Voltage Level** to 3V3.
 
@@ -57,7 +64,8 @@ computer, start a Serial Terminal and connect to the USB Serial Port at
 
 NuttX will appear in the Serial Console when it boots on Ox64.
 
-## RISC-V Toolchain
+RISC-V Toolchain
+----------------
 
 Before building NuttX for Ox64, download the **RISC-V Toolchain
 riscv64-unknown-elf** from [SiFive RISC-V
@@ -68,20 +76,21 @@ the `PATH` Environment Variable.
 
 Check the RISC-V Toolchain:
 
-``` console
+``` {.console}
  riscv64-unknown-elf-gcc -v
 ```
 
-## Building
+Building
+--------
 
-To build NuttX for Ox64, \[<span class="title-ref">in\](\`in.md)stall
-the prerequisites \</quickstart/install\></span> and
-\[<span class="title-ref">clone the git repo\](\`clone the git
-repo.md)sitories \</quickstart/install\></span> for `nuttx` and `apps`.
+To build NuttX for Ox64, \[[in\](\`in.md)stall the prerequisites
+\</quickstart/install\>]{.title-ref} and \[[clone the git repo\](\`clone
+the git repo.md)sitories \</quickstart/install\>]{.title-ref} for
+`nuttx` and `apps`.
 
 Configure the NuttX project and build the project:
 
-``` console
+``` {.console}
  cd nuttx
  tools/configure.sh ox64:nsh
  make
@@ -91,7 +100,7 @@ Configure the NuttX project and build the project:
 This produces the NuttX Kernel `nuttx.bin`. Next, build the NuttX Apps
 Filesystem:
 
-``` console
+``` {.console}
  make export
  pushd ../apps
  tools/mkimport.sh -z -x ../nuttx/nuttx-export-*.tar.gz
@@ -104,7 +113,7 @@ This generates the Initial RAM Disk `initrd`.
 
 Package the NuttX Kernel and Initial RAM Disk into a NuttX Image:
 
-``` console
+``` {.console}
  head -c 65536 /dev/zero >/tmp/nuttx.pad
  cat nuttx.bin /tmp/nuttx.pad initrd >Image
 ```
@@ -112,7 +121,8 @@ Package the NuttX Kernel and Initial RAM Disk into a NuttX Image:
 The NuttX Image `Image` will be copied to a microSD Card in the next
 step.
 
-## Booting
+Booting
+-------
 
 To boot NuttX on Ox64, flash [OpenSBI and U-Boot
 Bootloader](https://lupyuen.github.io/articles/ox64) to Ox64.
@@ -132,11 +142,12 @@ Console.
 
 To see the available commands in NuttShell:
 
-``` console
+``` {.console}
  help
 ```
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 

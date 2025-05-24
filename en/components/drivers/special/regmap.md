@@ -1,90 +1,92 @@
-# drivers/regmap
+drivers/regmap
+==============
 
 This is the documentation page for the drivers/regmap/.
 
-## Regmap Header files
+Regmap Header files
+-------------------
 
-  - `include/nuttx/regmap/regmap.h`
-    
+-   `include/nuttx/regmap/regmap.h`
+
     The structures and APIS used in regimap are in this header file.
 
-  - `struct regmap_bus_s`
-    
+-   `struct regmap_bus_s`
+
     Each bus must implement an instance of struct regmap\_bus\_s. That
     structure defines a call table with the following methods:
-    
-    >   - Single byte reading of the register (8bits)
-    >     
-    >     ``` C
+
+    > -   Single byte reading of the register (8bits)
+    >
+    >     ``` {.C}
     >     typedef CODE int (*reg_read_t)(FAR struct regmap_bus_s *bus,
     >                                    unsigned int reg,
     >                                    FAR void *val);
     >     ```
-    > 
-    >   - Single byte writing of the register (8bits)
-    >     
-    >     ``` C
+    >
+    > -   Single byte writing of the register (8bits)
+    >
+    >     ``` {.C}
     >     typedef CODE int (*reg_write_t)(FAR struct regmap_bus_s *bus,
     >                                     unsigned int reg,
     >                                     unsigned int val);
     >     ```
-    > 
-    >   - Bulk register data reading.
-    >     
-    >     ``` C
+    >
+    > -   Bulk register data reading.
+    >
+    >     ``` {.C}
     >     typedef CODE int (*read_t)(FAR struct regmap_bus_s *bus,
     >                               FAR const void *reg_buf, unsigned int reg_size,
     >                               FAR void *val_buf, unsigned int val_size);
     >     ```
-    > 
-    >   - Bulk register data writing.
-    >     
-    >     ``` C
+    >
+    > -   Bulk register data writing.
+    >
+    >     ``` {.C}
     >     typedef CODE int (*write_t)(FAR struct regmap_bus_s *bus,
     >                                 FAR const void *data,
     >                                 unsigned int count);
     >     ```
-    > 
-    >   - Initialize the internal configuration of regmap. The first
+    >
+    > -   Initialize the internal configuration of regmap. The first
     >     parameter must be the handle of the bus, and the second
     >     parameter is the configuration parameter of the bus. Finally,
     >     these two parameters will be transparent to the corresponding
     >     bus. If you want to implement the bus interface by yourself,
     >     you need to realize the corresponding bus initialization
     >     function, refer to regimap\_i2c.c and regmap\_spi.c.
-    >     
-    >     ``` C
+    >
+    >     ``` {.C}
     >     FAR struct regmap_s *regmap_init(FAR struct regmap_bus_s *bus,
     >                                 FAR const struct regmap_config_s *config);
     >     ```
-    > 
-    >   - Regmap init i2c bus.
-    >     
-    >     ``` C
+    >
+    > -   Regmap init i2c bus.
+    >
+    >     ``` {.C}
     >     FAR struct regmap_s *regmap_init_i2c(FAR struct i2c_master_s *i2c,
     >                                          FAR struct i2c_config_s *i2c_config,
     >                                          FAR const struct regmap_config_s *config);
     >     ```
-    > 
-    >   - regmap init spi bus.
-    >     
-    >     ``` C
+    >
+    > -   regmap init spi bus.
+    >
+    >     ``` {.C}
     >     FAR struct regmap_s *regmap_init_spi(FAR struct spi_dev_s *spi, uint32_t freq,
     >                                          uint32_t devid, enum spi_mode_e mode,
     >                                          FAR const struct regmap_config_s *config);
     >     ```
-    > 
-    >   - Exit and destroy regmap
-    >     
-    >     ``` C
+    >
+    > -   Exit and destroy regmap
+    >
+    >     ``` {.C}
     >     void regmap_exit(FAR struct regmap_s *map);
     >     ```
-    > 
-    >   - Regmap write() bulk\_write() read() bulk\_read(), called after
+    >
+    > -   Regmap write() bulk\_write() read() bulk\_read(), called after
     >     initializing the regmap bus device. the first parameter is
     >     regmap\_s pointer.
-    >     
-    >     ``` C
+    >
+    >     ``` {.C}
     >     int regmap_write(FAR struct regmap_s *map, unsigned int reg,
     >                      unsigned int val);
     >     int regmap_bulk_write(FAR struct regmap_s *map, unsigned int reg,
@@ -95,11 +97,12 @@ This is the documentation page for the drivers/regmap/.
     >                          FAR void *val, unsigned int val_count);
     >     ```
 
-## Examples
+Examples
+--------
 
 BMI160 sensor as an example: - Head file
 
-``` C
+``` {.C}
 #include <nuttx/i2c/i2c_master.h>
 #include <nuttx/sensors/bmi160.h>
 #include <nuttx/regmap/regmap.h>
@@ -107,11 +110,9 @@ BMI160 sensor as an example: - Head file
 #include <stdlib.h>
 ```
 
-  - Define the regmap\_s handle in the driver's life cycle
+-   Define the regmap\_s handle in the driver\'s life cycle
 
-<!-- end list -->
-
-``` C
+``` {.C}
 struct bmi160_dev_s
 {
 #ifdef CONFIG_SENSORS_BMI160_I2C
@@ -122,11 +123,9 @@ FAR struct spi_dev_s *spi;       /* SPI interface */
 };
 ```
 
-  - Initialize regmap
+-   Initialize regmap
 
-<!-- end list -->
-
-``` C
+``` {.C}
 int bmi160_i2c_regmap_init(FAR struct bmi160_dev_s *priv,
                            FAR struct i2c_master_s *i2c)
  {
@@ -152,11 +151,9 @@ int bmi160_i2c_regmap_init(FAR struct bmi160_dev_s *priv,
  }
 ```
 
-  - Use:
+-   Use:
 
-<!-- end list -->
-
-``` C
+``` {.C}
 int ret;
 
 ret = regmap_read(priv->regmap, regaddr, &regval);

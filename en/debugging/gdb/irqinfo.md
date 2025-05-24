@@ -1,37 +1,32 @@
-# irqinfo
+irqinfo
+=======
 
 `irqinfo` is a custom GDB command that prints information about the IRQs
 in the system. The output includes the IRQ number, the number of times
 the IRQ has been triggered, the total time spent in the IRQ handler, the
-rate of the IRQ, the IRQ handler function, and the handler's argument.
+rate of the IRQ, the IRQ handler function, and the handler\'s argument.
 
 The argument is displayed as function if possible.
 
-It's similar to nsh command `irqinfo` but works in GDB. See `cmdirqinfo`
-for more information.
+It\'s similar to nsh command `irqinfo` but works in GDB. See
+`cmdirqinfo`{.interpreted-text role="ref"} for more information.
 
 The `RATE` column is not available.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
-
-</div>
 
 To show the `COUNT` column, you need to enable the
 `CONFIG_SCHED_IRQMONITOR` option in the NuttX configuration.
 
-</div>
-
-## Syntax
+Syntax
+------
 
 > `irqinfo`
 
-## Example
+Example
+-------
 
-``` bash
+``` {.bash}
 (gdb) irqinfo
 IRQ  COUNT      TIME   RATE   HANDLER                                          ARGUMENT
 0    0          0      N/A    mps_reserved                             0x0 <sensor_unregister>

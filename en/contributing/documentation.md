@@ -1,4 +1,5 @@
-# Documentation
+Documentation
+=============
 
 The Apache NuttX Documentation is built using the [Sphinx documentation
 system](https://www.sphinx-doc.org/en/master/). Documentation is written
@@ -8,7 +9,8 @@ documentation](https://docs.python.org/3/) and is also used in many
 other projects. Using Sphinx, the RST files are rendered into HTML files
 that can be read in your browser.
 
-## Building
+Building
+--------
 
 To render the Documentation locally, you should clone the NuttX main
 repository and navigate into it. Then,
@@ -18,10 +20,8 @@ repository and navigate into it. Then,
 >     *pyenv* to manage your python installation. You can read about
 >     installing that on the project
 >     [site](https://github.com/pyenv/pyenv#installation).
-> 
-> > 
-> > 
-> > ``` console
+>
+> > ``` {.console}
 > >  pip3 install pipenv
 > >  cd Documentation/
 > >  # install the dependencies into a virtual environment
@@ -29,19 +29,17 @@ repository and navigate into it. Then,
 > >  # activate the virtual environment
 > >  pipenv shell
 > > ```
-> 
+>
 > 2.  Build documentation:
-> 
-> > 
-> > 
-> > ``` console
+>
+> > ``` {.console}
 > >  make html
 > > ```
-> > 
+> >
 > > The resulting HTMLs will end up under `_build/html`. You can open
 > > your browser at the root with:
-> > 
-> > ``` console
+> >
+> > ``` {.console}
 > >  xdg-open _build/html/index.html
 > > ```
 
@@ -52,20 +50,21 @@ will perform a slower full rebuild), you can install `sphinx-autobuild`
 which will monitor file changes and rebuild only affected files. To
 install it (within the virtual environment):
 
-``` console
+``` {.console}
  pip3 install sphinx-autobuild
 ```
 
 To run:
 
-``` console
+``` {.console}
  make autobuild
 ```
 
 Which will perform an initial clean build and monitor changes from then
 on.
 
-## Contributing
+Contributing
+------------
 
 Contributions to documentation are appreciated. These can be as simple
 as fixing a typo or formatting issues to more involved changes such as
@@ -73,28 +72,30 @@ documenting parts of NuttX which are not yet covered or even writing
 guides for other users.
 
 The contribution workflow is the same as for the code, so check the
-\[<span class="title-ref">/contributing/workflow</span> to
-under\](<span class="title-ref">/contributing/workflow</span> to
-under.md)stand how your changes should be upstreamed.
+\[[/contributing/workflow]{.title-ref} to
+under\]([/contributing/workflow]{.title-ref} to under.md)stand how your
+changes should be upstreamed.
 
-## Writing ReStructure Text with Sphinx
+Writing ReStructure Text with Sphinx
+------------------------------------
 
 The following links can be used to learn about RST syntax and about
-Sphinx specific directives. Note that sometimes Sphinx's approach is
+Sphinx specific directives. Note that sometimes Sphinx\'s approach is
 used over standard RST since it is more powerful (e.g. standard linking
 vs Sphinx `:ref:` which can be used across files, `code-block` directive
 vs `::` which allows specifying highlight language, etc.):
 
->   - [Sphinx documentation
+> -   [Sphinx documentation
 >     system](https://www.sphinx-doc.org/en/master/)
->   - [ReStructured Text
+> -   [ReStructured Text
 >     documentation](https://docutils.sourceforge.io/rst.html)
->   - [Sphinx Guide to ReStructured
+> -   [Sphinx Guide to ReStructured
 >     Text](http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html)
->   - [Restructured Text cheat
+> -   [Restructured Text cheat
 >     sheet](https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html)
 
-## Documentation Conventions
+Documentation Conventions
+-------------------------
 
 While RST/Sphinx provide many ways to do things, it is best to follow a
 given convention to maintain consistency and avoid pitfalls. For this
@@ -112,7 +113,7 @@ Three levels of headings should be used in general. The style used to
 mark sections is based around `=` and `-`. Sections should look like
 this:
 
-``` RST
+``` {.RST}
 =================
 Top Level Heading
 =================
@@ -130,7 +131,7 @@ Code should be documented using the [C
 domain](https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#the-c-domain).
 This means for example that a function should be documented as:
 
-``` RST
+``` {.RST}
 .. c:function:: bool myfunction(int arg1, int arg2)
 
   Here the function should be described
@@ -145,10 +146,10 @@ To document a piece of code, use a `code-block`
 [directive](https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-code-block),
 specifying the highlight language. If the block is not of code but some
 verbatim piece of text, it is acceptable to use RST standard
-<span class="title-ref">::</span>. This is specially useful and compact
-when used in the following mode:
+[::]{.title-ref}. This is specially useful and compact when used in the
+following mode:
 
-``` RST
+``` {.RST}
 The text file should have the following content::
 
   Line1
@@ -158,35 +159,16 @@ The text file should have the following content::
 
 ### Linking
 
-To generate internal links, Sphinx's
+To generate internal links, Sphinx\'s
 [roles](https://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html#ref-role)
 should be used. So, use `:ref:` instead of standard RST syntax like
 `` `link <target>`_ `` for internal links. If the target is in a
-different file, you can refer it with: ``:ref:`link text
-</pathtorst:Section Name>``\`.
+different file, you can refer it with:
+`` :ref:`link text </pathtorst:Section Name> ``\`.
 
 Linking to a specific document can be done with
-``[`/path/to/document``<span class="title-ref"> (without
-</span><span class="title-ref">.r\](</span>/path/to/document`` `
-(without ``.r.md)st``extension). Notes and TODOS --------------- Use RST
-`admonitions
-<https://docutils.sourceforge.io/docs/ref/rst/directives.html#admonitions>`_
-to highlight things from the text, such as a note that should be
-prominently displayed. In case you need to leave a TODO note in the
-documentation to point that something needs to be improved, use
-a``todo`admonition, which is available via
-the`sphinx.ext.todo`extension. This will let the reader of the
-documentation also know that the documentation is not yet finished
-somewhere and may further motivate a contribution. Tags ---- Use
-the`tag``admonition from `sphinx-tags
-<https://sphinx-tags.readthedocs.io/en/latest/quickstart.html#usage>`_
-to tag your pages appropriately. This makes it easier for users to
-search and index the documentation. There are some tags which should
-always be included: -``chip:\*`tags are for board/chip documentation, to
-indicate which boards use which chip -`experimental`tags for
-boards/features that are experimental and should not be considered
-stable - Tags with the names of supported peripherals can be included
-for boards too, like`wifi`and`ethernet\`\`
+`` [`/path/to/document ``[ (without
+]{.title-ref}[.r\](]{.title-ref}/path/to/document`` ` (without ``.r.md)st`` extension).  Notes and TODOS ---------------  Use RST `admonitions <https://docutils.sourceforge.io/docs/ref/rst/directives.html#admonitions>`_ to highlight things from the text, such as a note that should be prominently displayed.  In case you need to leave a TODO note in the documentation to point that something needs to be improved, use a ``todo`admonition, which is available via the`sphinx.ext.todo`extension. This will let the reader of the documentation also know that the documentation is not yet finished somewhere and may further motivate a contribution.  Tags ----  Use the`tag`` admonition from `sphinx-tags <https://sphinx-tags.readthedocs.io/en/latest/quickstart.html#usage>`_ to tag your pages appropriately. This makes it easier for users to search and index the documentation. There are some tags which should always be included:  - ``chip:\*`tags are for board/chip documentation, to indicate which boards use which chip -`experimental`tags for boards/features that are experimental and should not be considered stable - Tags with the names of supported peripherals can be included for boards too, like`wifi`and`ethernet\`\`
 
 Include the tags directive at the top of the page, with comma separators
 for each tag listed.
@@ -196,13 +178,15 @@ for each tag listed.
 To indicate a keypress, menu action or GUI button selection, use the
 following:
 
-``` RST
+``` {.RST}
 Go into menu :menuselection:`File --> Save As`, click :guilabel:`&OK` or press :kbd:`Enter`.
 ```
 
 which would render as:
 
-Go into menu `File --> Save As`, click `&OK` or press `Enter`.
+Go into menu `File --> Save As`{.interpreted-text role="menuselection"},
+click `&OK`{.interpreted-text role="guilabel"} or press
+`Enter`{.interpreted-text role="kbd"}.
 
 ### Tabbed examples
 
@@ -211,7 +195,8 @@ example, different Operating Systems) use the
 [tabs](https://github.com/executablebooks/sphinx-tabs) extension (see
 link for examples).
 
-## Tips
+Tips
+----
 
 ### Spacing
 
@@ -219,7 +204,7 @@ If you are getting formatting errors, be sure to provide the appropriate
 spacing between a directive and its content. Generally, you should
 follow this format:
 
-``` RST
+``` {.RST}
 .. directive::
 
   child content

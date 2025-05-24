@@ -1,1 +1,2 @@
-# NX Cursor Support (`NXCURSOR`)
+NX Cursor Support (`NXCURSOR`)
+==============================

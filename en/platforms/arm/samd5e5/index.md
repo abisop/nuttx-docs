@@ -1,5 +1,7 @@
-# Microchip samd5e5
+Microchip samd5e5
+=================
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

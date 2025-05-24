@@ -1,67 +1,78 @@
-# makerlisp
+makerlisp
+=========
 
-This port use the MakerLisp machine based on an eZ80F091 ez80Acclaim\!
+This port use the MakerLisp machine based on an eZ80F091 ez80Acclaim!
 Microcontroller, and the Zilog ZDS-II Windows command line tools. The
 development environment is Cygwin under Windows. A Windows native
 development environment is available but has not been verified.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh\_flash
 
-  - `nsh.zdsproj`  
-    is a simple ZDS-II project that will allow you to use the ZDS-II
+`nsh.zdsproj`
+
+:   is a simple ZDS-II project that will allow you to use the ZDS-II
     debugger.
 
-  - `nsh.zfpproj`  
-    is a simple project that will allow you to use the Smart Flash
+`nsh.zfpproj`
+
+:   is a simple project that will allow you to use the Smart Flash
     Programming. NOTE: As of this writing this project does not work,
     probably due to RAM configuration in the project. Use ZDS-II instead
     as is described in the upper README.txt file
 
-  - `nsh_flash.ztgt`  
-    is the target file that accompanies the project files. This one is
+`nsh_flash.ztgt`
+
+:   is the target file that accompanies the project files. This one is
     identical to `boards/scripts/makerlisp_ram.ztgt`.
 
-  - `nsh_ram.ztgt`  
-    is the target file that accompanies the project files. This one is
+`nsh_ram.ztgt`
+
+:   is the target file that accompanies the project files. This one is
     identical to `boards/scripts/makerlisp_flash.ztgt`.
 
 ### nsh\_ram
 
-  - `nsh.zdsproj`  
-    is a simple ZDS-II project that will allow you to use the ZDS-II
+`nsh.zdsproj`
+
+:   is a simple ZDS-II project that will allow you to use the ZDS-II
     debugger.
 
-  - `nsh.zfpproj`  
-    is a simple project that will allow you to use the Smart Flash
+`nsh.zfpproj`
+
+:   is a simple project that will allow you to use the Smart Flash
     Programming. NOTE: As of this writing this project does not work,
     probably due to RAM configuration in the project. Use ZDS-II instead
     as is described in the upper README.txt file
 
-  - `nsh_flash.ztgt` is the target file that accompanies the project
-    files. This  
-    one is identical to boards/scripts/makerlisp\_ram.ztgt.
+`nsh_flash.ztgt` is the target file that accompanies the project files. This
 
-  - `nsh_ram.ztgt`  
-    is the target file that accompanies the project files. This one is
+:   one is identical to boards/scripts/makerlisp\_ram.ztgt.
+
+`nsh_ram.ztgt`
+
+:   is the target file that accompanies the project files. This one is
     identical to boards/scripts/makerlisp\_flash.ztgt.
 
 ### sdboot
 
-  - `sdboot.zdsproj` is a simple ZDS-II project that will allow you  
-    to use the ZDS-II debugger.
+`sdboot.zdsproj` is a simple ZDS-II project that will allow you
 
-  - `sdboot.zfpproj` is a simple project that will allow you to use the
-    Smart Flash  
-    Programming. NOTE: As of this writing this project does not work,
+:   to use the ZDS-II debugger.
+
+`sdboot.zfpproj` is a simple project that will allow you to use the Smart Flash
+
+:   Programming. NOTE: As of this writing this project does not work,
     probably due to RAM configuration in the project. Use ZDS-II instead
     as is described in the upper README.txt file
 
-  - `sdboot_flash.ztgt` is the target file that accompanies the project
-    files.  
-    This one is identical to `boards/scripts/makerlisp_ram.ztgt`.
+`sdboot_flash.ztgt` is the target file that accompanies the project files.
 
-  - `sdboot_ram.ztgt`  
-    is the target file that accompanies the project files. This one is
+:   This one is identical to `boards/scripts/makerlisp_ram.ztgt`.
+
+`sdboot_ram.ztgt`
+
+:   is the target file that accompanies the project files. This one is
     identical to `boards/scripts/makerlisp_flash.ztgt`.

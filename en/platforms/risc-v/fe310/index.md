@@ -1,5 +1,7 @@
-# SiFive FE310
+SiFive FE310
+============
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

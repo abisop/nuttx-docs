@@ -1,10 +1,7 @@
-# ESP32-S3-LCD-EV
-
-<div class="tags">
+ESP32-S3-LCD-EV
+===============
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 The
 [ESP32-S3-LCD-EV-Board](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/user_guide.html)
@@ -12,29 +9,32 @@ is a small-sized AI development board from Espressif featuring the
 ESP32-S3 CPU with a touchscreen LCD display, dual microphone, an 16 MB
 Octal PSRAM and an 16 MB flash.
 
-|                         |
-| ----------------------- |
-| ![](esp32s3_lcd_ev.png) |
+  ----------------------------------------
+  ![](esp32s3_lcd_ev.png){.align-center}
+  ----------------------------------------
 
-## Features
+Features
+--------
 
->   - ESP32-S3 WROOM-1 Module
->   - USB Type-C ports
->   - Power LED
->   - LCD Display
->   - MEMS Microphone
->   - 16MB Octal PSRAM
->   - 16MB SPI Flash
->   - RST and BOOT buttons (BOOT accessible to user)
+> -   ESP32-S3 WROOM-1 Module
+> -   USB Type-C ports
+> -   Power LED
+> -   LCD Display
+> -   MEMS Microphone
+> -   16MB Octal PSRAM
+> -   16MB SPI Flash
+> -   RST and BOOT buttons (BOOT accessible to user)
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the USB connector USB CON8 (J1).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -53,7 +53,8 @@ There are several on-board LEDs for that indicate the presence of power
 and USB activity. None of these are available for use by software.
 Another WS2812 LED is connected to GPIO4.
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -62,8 +63,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### audio
 
@@ -75,19 +76,19 @@ connected to a Wi-Fi network.
 
 The CS4344 audio codec is connected to the following pins:
 
-| ESP32-S3 Pin | CS4344 Pin | Description                                  |
-| ------------ | ---------- | -------------------------------------------- |
-| 5            | MCLK       | Master Clock                                 |
-| 16           | SCLK       | Serial Clock                                 |
-| 7            | LRCK       | Left Right Clock (Word Select)               |
-| 6            | SDIN       | Serial Data In on CS4344. (DOUT on ESP32-S3) |
+  ESP32-S3 Pin   CS4344 Pin   Description
+  -------------- ------------ ----------------------------------------------
+  5              MCLK         Master Clock
+  16             SCLK         Serial Clock
+  7              LRCK         Left Right Clock (Word Select)
+  6              SDIN         Serial Data In on CS4344. (DOUT on ESP32-S3)
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 or 24 bits/sample (sampled at 16\~48kHz). This file must be
-placed into a folder in a computer that could be accessed on the same
-Wi-Fi network the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16 or 24
+bits/sample (sampled at 16\~48kHz). This file must be placed into a
+folder in a computer that could be accessed on the same Wi-Fi network
+the ESP32 will be connecting to.
 
 Python provides a simple HTTP server. `cd` to the audio file folder on
 the PC and run:
@@ -98,7 +99,7 @@ the PC and run:
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](esp32s3-audio-config-file.png)
+![](esp32s3-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -107,7 +108,7 @@ network:
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to the
+Once connected, open NuttX\'s player and play the file according to the
 filename and the IP address of the HTTP server:
 
     nsh> nxplayer
@@ -137,7 +138,7 @@ NuttX LCD driver. You can find LVGL here:
     https://github.com/lvgl/lvgl
 
 This configuration uses the LVGL demonstration at
-<span class="title-ref">apps/examples/lvgldemo</span>.
+[apps/examples/lvgldemo]{.title-ref}.
 
 ### nsh
 

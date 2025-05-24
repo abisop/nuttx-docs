@@ -1,3 +1,4 @@
-# LPWAN
+LPWAN
+=====
 
 > sx126x.rst

@@ -1,4 +1,5 @@
-# Network Support
+Network Support
+===============
 
 > sixlowpan.rst socketcan.rst pkt.rst ipfilter.rst nat.rst netdev.rst
 > netdriver.rst netguardsize.rst netlink.rst slip.rst
@@ -39,7 +40,7 @@
          +- udp        - User Datagram Protocol
          +- usrsock    - User socket API for user-space networking stack
          `- utils      - Miscellaneous utility functions
-    
+
       +-------------------------------------------------------------------++------------------------+
       |                     Application layer                             || usrsock daemon         |
       +-------------------------------------------------------------------++------------------------+

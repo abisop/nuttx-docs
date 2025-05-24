@@ -1,17 +1,10 @@
-# Reading CAN Messages
-
-<div class="warning">
-
-<div class="title">
+Reading CAN Messages
+====================
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Reading+CAN+Messages>
-
-</div>
 
 Twice now, there have been complaints or issues about reading messages
 from the CAN driver. The usual concern is that the driver is somehow
@@ -30,7 +23,7 @@ making this assumption can lead to lost CAN messages under conditions in
 which the read buffer can hold more than one small message. The
 following example shows how to properly handle the CAN read operation:
 
-``` c
+``` {.c}
 #define BUFLEN 128  /* Some arbitrary size for the CAN RX buffer */
 
  FAR struct can_msg_s *msg;

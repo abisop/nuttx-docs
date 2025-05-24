@@ -1,23 +1,22 @@
-# emw3162
-
-<div class="tags">
+emw3162
+=======
 
 chip:stm32, chip:stm32f2, chip:stm32f205
-
-</div>
 
 EMW3162 board (<https://www.waveshare.com/EMW3162.htm>) features the
 STM32F205RG MCU and Broadcom BCM43362KUBG Wi-Fi chip. The STM32F205RG is
 a 120 MHz Cortex-M3 operation with 1MB Flash memory and 128KB RAM.
 
-## Configuring NuttX for the EMW3162 board
+Configuring NuttX for the EMW3162 board
+---------------------------------------
 
      cd nuttx
      make apps_distclean
      make distclean
      ./tools/configure.sh emw3162:wlan
 
-## Configuring NuttX to use your Wireless Router (aka Access Point)
+Configuring NuttX to use your Wireless Router (aka Access Point)
+----------------------------------------------------------------
 
      make menuconfig
 
@@ -39,7 +38,8 @@ Finally just compile NuttX:
 
      make
 
-## Programming Flash
+Programming Flash
+-----------------
 
 Flash memory can be programmed by stlink toolset
 (<https://github.com/stlink-org/stlink>) and ST-LINK V2 programmer (via
@@ -47,11 +47,12 @@ SWD interface) as follows:
 
      sudo st-flash write nuttx.bin 0x8000000
 
-## NSH via telnet
+NSH via telnet
+--------------
 
 After you successfully downloaded nuttx.bin, reset the board and it
 automatically connects to the corresponding wifi AP. You may login your
-router to see its IP address. Assume that it's 192.168.1.111
+router to see its IP address. Assume that it\'s 192.168.1.111
 
 Open a terminal on your computer and telnet your EMW3162 board:
 
@@ -59,11 +60,12 @@ Open a terminal on your computer and telnet your EMW3162 board:
     Trying 192.168.1.111...
     Connected to 192.168.1.111.
     Escape character is '^]'
-    
+
     NuttShell (NSH) NuttX-10.1.0-RC1
     nsh>
 
-## Serial console configuration
+Serial console configuration
+----------------------------
 
 Connect a USB/Serial 3.3V dongle to GND, TXD and RXD pins of EMW3162
 board. Then use some serial console client (minicom, picocom, teraterm,

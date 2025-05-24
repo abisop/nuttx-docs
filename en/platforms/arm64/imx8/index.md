@@ -1,5 +1,7 @@
-# NXP i.MX8
+NXP i.MX8
+=========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

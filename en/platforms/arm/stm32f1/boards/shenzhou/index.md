@@ -1,10 +1,7 @@
-# Shenzhou IV
-
-<div class="tags">
+Shenzhou IV
+===========
 
 chip:stm32, chip:stm32f1, chip:stm32f107
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 Shenzhou IV development board from www.armjishu.com featuring the
@@ -20,45 +17,47 @@ the Shenzhou board:
 Support is currently provided for the Shenzhou IV only. Features of the
 Shenzhou IV board include:
 
-  - STM32F107VCT
+-   STM32F107VCT
 
-  - 10/100M PHY (DM9161AEP)
+-   10/100M PHY (DM9161AEP)
 
-  - TFT LCD Connector
+-   TFT LCD Connector
 
-  - USB OTG
+-   USB OTG
 
-  - CAN (CAN1=2)
+-   CAN (CAN1=2)
 
-  - USART connectos (USART1-2)
+-   USART connectos (USART1-2)
 
-  - RS-485
+-   RS-485
 
-  - SD card slot
+-   SD card slot
 
-  - Audio DAC (PCM1770)
+-   Audio DAC (PCM1770)
 
-  - SPI Flash (W25X16)
+-   SPI Flash (W25X16)
 
-  - 4)  LEDs (LED1-4)
+-   (4) LEDs (LED1-4)
 
-  - 2.4G Wireless (NRF24L01 SPI module)
+-   2.4G Wireless (NRF24L01 SPI module)
 
-  - 315MHz Wireless (module)
+-   315MHz Wireless (module)
 
-  - 4)  Buttons (KEY1-4, USERKEY2, USERKEY, TEMPER, WAKEUP)
+-   (4) Buttons (KEY1-4, USERKEY2, USERKEY, TEMPER, WAKEUP)
 
-  - VBUS/external +4V select
+-   VBUS/external +4V select
 
-  - 5V/3.3V power conversion
+-   5V/3.3V power conversion
 
-  - Extension connector
+-   Extension connector
 
-  - JTAG
+-   JTAG
 
-## STM32F107VCT Pin Usage
+STM32F107VCT Pin Usage
+----------------------
 
-## LEDs
+LEDs
+----
 
 The Shenzhou board has four LEDs labeled LED1, LED2, LED3 and LED4 on
 the board. These LEDs are not used by the board port unless
@@ -77,7 +76,7 @@ encode OS-related events as follows:
     LED_ASSERTION        An assertion failed     ON      ON      N/C     OFF
     LED_PANIC            The system has crashed  N/C     N/C     N/C     ON
     LED_IDLE             STM32 is is sleep mode  (Optional, not used)
-    
+
     * If LED1, LED2, LED3 are statically on, then NuttX probably failed to boot
     and these LEDs will give you some indication of where the failure was
     ** The normal state is LED1 ON and LED1 faintly glowing.  This faint glow
@@ -87,9 +86,11 @@ encode OS-related events as follows:
     **** LED4 may not be available if RS-485 is also used. For RS-485, it will
     then indicate the RS-485 direction.
 
-## Shenzhou-specific Configuration Options
+Shenzhou-specific Configuration Options
+---------------------------------------
 
-## Configurations
+Configurations
+--------------
 
 Each Shenzhou configuration is maintained in a sub-directory and can be
 selected as follow:
@@ -118,23 +119,23 @@ NOTES:
     network is available.
 
 2.  Enabling the ADC example:
-    
+
     The only internal signal for ADC testing is the potentiometer input:
-    
+
         ADC1_IN10(PC0) Potentiometer
-    
+
     External signals are also available on CON5 CN14:
-    
+
         ADC_IN8 (PB0) CON5 CN14 Pin2
         ADC_IN9 (PB1) CON5 CN14 Pin1
-    
+
     The signal selection is hard-coded in
     boards/arm/stm32/shenzhou/src/up\_adc.c: The potentiometer input
     (only) is selected.
-    
+
     These selections will enable sampling the potentiometer input at
     100Hz using Timer 1:
-    
+
         CONFIG_ANALOG=y                        : Enable analog device support
         CONFIG_ADC=y                           : Enable generic ADC driver support
         CONFIG_ADC_DMA=n                       : ADC DMA is not supported
@@ -173,7 +174,7 @@ read functionality on by setting:
 
     -CONFIG_LCD_NOGETRUN=y
     +# CONFIG_LCD_NOGETRUN is not set
-    
+
     -CONFIG_NX_WRITEONLY=y
     +# CONFIG_NX_WRITEONLY is not set
 

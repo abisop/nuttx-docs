@@ -1,10 +1,7 @@
-# ESP32-S3-Korvo-2 V3.0
-
-<div class="tags">
+ESP32-S3-Korvo-2 V3.0
+=====================
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 The ESP32-S3-Korvo-2 is a multimedia development board based on the
 ESP32-S3 chip. It is equipped with a two-microphone array which is
@@ -16,31 +13,32 @@ the development of low-cost and low-power network-connected audio and
 video products.
 
 ![ESP32-S3-Korvo-2 V3.0 with ESP32-S3-WROOM-1
-module](esp32-s3-korvo-2-v3.0-overview.png)
+module](esp32-s3-korvo-2-v3.0-overview.png){.align-center}
 
 This board mainly consists of the following parts:
 
-  - Main board: ESP32-S3-Korvo-2
-  - LCD extension board: <span class="title-ref">ESP32-S3-Korvo-2-LCD
-    \<user-guide-esp32https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2-lcd.html\></span>
-  - Camera
+-   Main board: ESP32-S3-Korvo-2
+-   LCD extension board: [ESP32-S3-Korvo-2-LCD
+    \<user-guide-esp32https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2-lcd.html\>]{.title-ref}
+-   Camera
 
 This document is mostly dedicated to the main board. For detailed
 information on other parts, click the links above.
 
 The document consists of the following sections:
 
-  - [Getting started](#getting-started): Overview of the board and
+-   [Getting started](#getting-started): Overview of the board and
     hardware/software setup instructions to get started.
-  - [Hardware Reference](#hardware-reference): More detailed information
-    about the board's hardware.
-  - [Hardware Revision Details](#hardware-revision-details): Hardware
+-   [Hardware Reference](#hardware-reference): More detailed information
+    about the board\'s hardware.
+-   [Hardware Revision Details](#hardware-revision-details): Hardware
     revision history, known issues, and links to user guides for
     previous versions (if any) of the board.
-  - [Related Documents](#related-documents): Links to related
+-   [Related Documents](#related-documents): Links to related
     documentation.
 
-## Getting Started
+Getting Started
+---------------
 
 This section provides a brief introduction of ESP32-S3-Korvo-2 V3.0,
 instructions on how to do the initial hardware setup and how to flash
@@ -48,101 +46,114 @@ firmware onto it.
 
 ### Description of Components
 
-![ESP32-S3-Korvo-2 V3.0 (click to enlarge)](esp32-s3-korvo-2-v3.0.png)
+![ESP32-S3-Korvo-2 V3.0 (click to
+enlarge)](esp32-s3-korvo-2-v3.0.png){.align-center}
 
 The key components of the board are described in a clockwise direction.
 
-<table>
-<colgroup>
-<col style="width: 30%" />
-<col style="width: 70%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Key Component</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>ESP32-S3-WROOM-1 Module</td>
-<td>The ESP32-S3-WROOM-1 is a powerful, generic Wi-Fi + Bluetooth LE MCU module that is built around the ESP32-S3 series of SoCs. On top of a rich set of peripherals, the acceleration for neural network computing and signal processing workloads provided by the SoC make the modules an ideal choice for a wide variety of application scenarios related to AI and Artificial Intelligence of Things (AIoT), such as wake word detection, speech commands recognition, face detection and recognition, smart home, smart appliances, smart control panel, smart speaker, etc.</td>
-</tr>
-<tr class="even">
-<td>Left Microphone</td>
-<td>Onboard microphone connected to ADC.</td>
-</tr>
-<tr class="odd">
-<td>Audio ADC Chip</td>
-<td><a href="http://www.everest-semi.com/pdf/ES7210%20PB.pdf">ES7210</a> is a high-performance, low-power 4-channel audio analog-to-digital converter for microphone array applications. It is very suitable for music and speech applications. In addition, ES7210 can also be used to collect acoustic echo cancellation (AEC) echo reference signals.</td>
-</tr>
-<tr class="even">
-<td>Audio Codec Chip</td>
-<td>The audio codec chip, <a href="http://www.everest-semi.com/pdf/ES8311%20PB.pdf">ES8311</a>, is a low-power mono audio codec. It consists of 1-channel ADC, 1-channel DAC, low noise pre-amplifier, headphone driver, digital sound effects, analog mixing, and gain functions. It is interfaced with ESP32-S3-WROOM-1 module over I2S and I2C buses to provide audio processing in hardware independently from the audio application.</td>
-</tr>
-<tr class="odd">
-<td>Audio PA Chip</td>
-<td>NS4150 is an EMI, 3 W mono Class D audio power amplifier, amplifying audio signals from audio codec chips to drive speakers.</td>
-</tr>
-<tr class="even">
-<td>Right Microphone</td>
-<td>Onboard microphone connected to ADC.</td>
-</tr>
-<tr class="odd">
-<td>Speaker Output Port</td>
-<td>Output socket to connect a speaker. The 4-ohm and 3-watt speaker is recommended. The pins have a 2.00 mm/0.08” pitch.</td>
-</tr>
-<tr class="even">
-<td>USB-to-UART Bridge Chip</td>
-<td>A single chip USB-UART bridge CP2102N provides up to 3 Mbps transfer rates for software download and debugging.</td>
-</tr>
-<tr class="odd">
-<td>USB-to-UART Port</td>
-<td>Functions as the communication interface between a PC and the ESP32-S3-WROOM-1 module.</td>
-</tr>
-<tr class="even">
-<td>USB Power Port</td>
-<td>Provides power to the board. It is recommended to use at least 5V/2A power adapter to ensure a stable power supply.</td>
-</tr>
-<tr class="odd">
-<td>Battery Socket</td>
-<td>Two pins socket to connect a single cell Li-ion battery.</td>
-</tr>
-<tr class="even">
-<td>Power Switch</td>
-<td>Power on/off knob: toggling it down powers the board on; toggling it up powers the board off.</td>
-</tr>
-<tr class="odd">
-<td>Battery Charger</td>
-<td>AP5056 is a constant current and constant voltage linear charger for single cell lithium-ion batteries. Used for charging of a battery connected to the Battery Socket over the Micro USB Port.</td>
-</tr>
-<tr class="even">
-<td>Function Press Keys</td>
-<td>Six press keys labeled REC, MUTE, PLAY, SET, VOL- and VOL+. They are routed to ESP32-S3-WROOM-1 module and intended for development and testing of a UI for audio applications using a dedicated API.</td>
-</tr>
-<tr class="odd">
-<td>Boot/Reset Press Keys</td>
-<td><div class="line-block">Boot: holding down the Boot key and momentarily pressing the Reset key initiates the firmware upload mode. Then you can upload firmware through the serial port.<br />
-Reset: pressing this button alone resets the system.</div></td>
-</tr>
-<tr class="even">
-<td>MicroSD Slot</td>
-<td>The development board supports a microSD card in 1-bit mode, and can store or play audio files in the microSD card.</td>
-</tr>
-<tr class="odd">
-<td>LCD Connector</td>
-<td>A FPC connector with 0.5 mm pitch to connect to the LCD extension board.</td>
-</tr>
-<tr class="even">
-<td>System LEDs</td>
-<td>Two general-purpose LEDs (green and red) controlled by ESP32-S3-WROOM-1 module to indicate certain operation states of the audio application using dedicated API.</td>
-</tr>
-<tr class="odd">
-<td>Camera Connector</td>
-<td>An external camera module that can be connected to the development board with the connector to transmit images.</td>
-</tr>
-</tbody>
-</table>
++--------------------+-------------------------------------------------+
+| Key Component      | Description                                     |
++====================+=================================================+
+| ESP32-S3-WROOM-1   | The ESP32-S3-WROOM-1 is a powerful, generic     |
+| Module             | Wi-Fi + Bluetooth LE MCU module that is built   |
+|                    | around the ESP32-S3 series of SoCs. On top of a |
+|                    | rich set of peripherals, the acceleration for   |
+|                    | neural network computing and signal processing  |
+|                    | workloads provided by the SoC make the modules  |
+|                    | an ideal choice for a wide variety of           |
+|                    | application scenarios related to AI and         |
+|                    | Artificial Intelligence of Things (AIoT), such  |
+|                    | as wake word detection, speech commands         |
+|                    | recognition, face detection and recognition,    |
+|                    | smart home, smart appliances, smart control     |
+|                    | panel, smart speaker, etc.                      |
++--------------------+-------------------------------------------------+
+| Left Microphone    | Onboard microphone connected to ADC.            |
++--------------------+-------------------------------------------------+
+| Audio ADC Chip     | [ES7210](h                                      |
+|                    | ttp://www.everest-semi.com/pdf/ES7210%20PB.pdf) |
+|                    | is a high-performance, low-power 4-channel      |
+|                    | audio analog-to-digital converter for           |
+|                    | microphone array applications. It is very       |
+|                    | suitable for music and speech applications. In  |
+|                    | addition, ES7210 can also be used to collect    |
+|                    | acoustic echo cancellation (AEC) echo reference |
+|                    | signals.                                        |
++--------------------+-------------------------------------------------+
+| Audio Codec Chip   | The audio codec chip,                           |
+|                    | [ES8311](ht                                     |
+|                    | tp://www.everest-semi.com/pdf/ES8311%20PB.pdf), |
+|                    | is a low-power mono audio codec. It consists of |
+|                    | 1-channel ADC, 1-channel DAC, low noise         |
+|                    | pre-amplifier, headphone driver, digital sound  |
+|                    | effects, analog mixing, and gain functions. It  |
+|                    | is interfaced with ESP32-S3-WROOM-1 module over |
+|                    | I2S and I2C buses to provide audio processing   |
+|                    | in hardware independently from the audio        |
+|                    | application.                                    |
++--------------------+-------------------------------------------------+
+| Audio PA Chip      | NS4150 is an EMI, 3 W mono Class D audio power  |
+|                    | amplifier, amplifying audio signals from audio  |
+|                    | codec chips to drive speakers.                  |
++--------------------+-------------------------------------------------+
+| Right Microphone   | Onboard microphone connected to ADC.            |
++--------------------+-------------------------------------------------+
+| Speaker Output     | Output socket to connect a speaker. The 4-ohm   |
+| Port               | and 3-watt speaker is recommended. The pins     |
+|                    | have a 2.00 mm/0.08" pitch.                     |
++--------------------+-------------------------------------------------+
+| USB-to-UART Bridge | A single chip USB-UART bridge CP2102N provides  |
+| Chip               | up to 3 Mbps transfer rates for software        |
+|                    | download and debugging.                         |
++--------------------+-------------------------------------------------+
+| USB-to-UART Port   | Functions as the communication interface        |
+|                    | between a PC and the ESP32-S3-WROOM-1 module.   |
++--------------------+-------------------------------------------------+
+| USB Power Port     | Provides power to the board. It is recommended  |
+|                    | to use at least 5V/2A power adapter to ensure a |
+|                    | stable power supply.                            |
++--------------------+-------------------------------------------------+
+| Battery Socket     | Two pins socket to connect a single cell Li-ion |
+|                    | battery.                                        |
++--------------------+-------------------------------------------------+
+| Power Switch       | Power on/off knob: toggling it down powers the  |
+|                    | board on; toggling it up powers the board off.  |
++--------------------+-------------------------------------------------+
+| Battery Charger    | AP5056 is a constant current and constant       |
+|                    | voltage linear charger for single cell          |
+|                    | lithium-ion batteries. Used for charging of a   |
+|                    | battery connected to the Battery Socket over    |
+|                    | the Micro USB Port.                             |
++--------------------+-------------------------------------------------+
+| Function Press     | Six press keys labeled REC, MUTE, PLAY, SET,    |
+| Keys               | VOL- and VOL+. They are routed to               |
+|                    | ESP32-S3-WROOM-1 module and intended for        |
+|                    | development and testing of a UI for audio       |
+|                    | applications using a dedicated API.             |
++--------------------+-------------------------------------------------+
+| Boot/Reset Press   | | Boot: holding down the Boot key and           |
+| Keys               |   momentarily pressing the Reset key initiates  |
+|                    |   the firmware upload mode. Then you can upload |
+|                    |   firmware through the serial port.             |
+|                    | | Reset: pressing this button alone resets the  |
+|                    |   system.                                       |
++--------------------+-------------------------------------------------+
+| MicroSD Slot       | The development board supports a microSD card   |
+|                    | in 1-bit mode, and can store or play audio      |
+|                    | files in the microSD card.                      |
++--------------------+-------------------------------------------------+
+| LCD Connector      | A FPC connector with 0.5 mm pitch to connect to |
+|                    | the LCD extension board.                        |
++--------------------+-------------------------------------------------+
+| System LEDs        | Two general-purpose LEDs (green and red)        |
+|                    | controlled by ESP32-S3-WROOM-1 module to        |
+|                    | indicate certain operation states of the audio  |
+|                    | application using dedicated API.                |
++--------------------+-------------------------------------------------+
+| Camera Connector   | An external camera module that can be connected |
+|                    | to the development board with the connector to  |
+|                    | transmit images.                                |
++--------------------+-------------------------------------------------+
 
 ### Start Application Development
 
@@ -151,40 +162,24 @@ condition with no obvious signs of damage.
 
 #### Required Hardware
 
-  - 1 x ESP32-S3-Korvo-2 V3.0
-  - 1 x Speaker
-  - 2 x USB 2.0 cable (Standard-A to Micro-B)
-
-<div class="note">
-
-<div class="title">
+-   1 x ESP32-S3-Korvo-2 V3.0
+-   1 x Speaker
+-   2 x USB 2.0 cable (Standard-A to Micro-B)
 
 Note
-
-</div>
 
 Be sure to use an appropriate USB cable. Some cables are for charging
 only and do not provide the needed data lines nor work for programming
 the boards.
 
-</div>
-
 #### Optional Hardware
 
-  - 1 x MicroSD card
-  - 1 x Li-ion battery
-
-<div class="note">
-
-<div class="title">
+-   1 x MicroSD card
+-   1 x Li-ion battery
 
 Note
 
-</div>
-
 Be sure to use a Li-ion battery that has a built-in protection circuit.
-
-</div>
 
 #### Hardware Setup
 
@@ -201,13 +196,13 @@ Be sure to use a Li-ion battery that has a built-in protection circuit.
 The main board and its accessories can be ordered separately. The
 accessories include:
 
-  - LCD extension board: ESP32-S3-Korvo-2-LCD
-  - Camera
-  - Connectors:
-      - 20-pin FPC cable
-  - Fasteners:
-      - Copper standoffs (x8)
-      - Screws (x4)
+-   LCD extension board: ESP32-S3-Korvo-2-LCD
+-   Camera
+-   Connectors:
+    -   20-pin FPC cable
+-   Fasteners:
+    -   Copper standoffs (x8)
+    -   Screws (x4)
 
 #### Retail Orders
 
@@ -224,7 +219,8 @@ If you order in bulk, the boards come in large cardboard boxes.
 For wholesale orders, please go to
 <https://www.espressif.com/en/contact-us/sales-questions>.
 
-## Hardware Reference
+Hardware Reference
+------------------
 
 ### Block Diagram
 
@@ -232,7 +228,7 @@ The block diagram below shows the components of ESP32-S3-Korvo-2 V3.0
 and their interconnections.
 
 ![ESP32-S3-Korvo-2 V3.0 Electrical Block
-Diagram](esp32-s3-korvo-2-v3.0-electrical-block-diagram.png)
+Diagram](esp32-s3-korvo-2-v3.0-electrical-block-diagram.png){.align-center}
 
 ### Notes on Power Distribution
 
@@ -245,10 +241,10 @@ for an application upload. To further reduce noise from the USB, the
 battery may be used instead of the USB.
 
 ![ESP32-S3-Korvo-2 V3.0 - Dedicated USB Power Supply
-Socket](esp32-s3-korvo-2-v3.0-usb-ps.png)
+Socket](esp32-s3-korvo-2-v3.0-usb-ps.png){.align-center}
 
 ![ESP32-S3-Korvo-2 V3.0 - Power Supply from a
-Battery](esp32-s3-korvo-2-v3.0-battery-ps.png)
+Battery](esp32-s3-korvo-2-v3.0-battery-ps.png){.align-center}
 
 As shown in the figure below, if the USB power supply and battery power
 supply are connected at the same time with a high VBUS, an off-state
@@ -256,7 +252,7 @@ Q14, and an automatic cut-off VBAT, the USB becomes the power supply for
 the system.
 
 ![ESP32-S3-Korvo-2 V3.0 - Power Supply
-Options](esp32-s3-korvo-2-v3.0-ps-options.png)
+Options](esp32-s3-korvo-2-v3.0-ps-options.png){.align-center}
 
 #### Independent Audio and Digital Power Supply
 
@@ -266,10 +262,10 @@ from digital components and improve overall performance of the
 components.
 
 ![ESP32-S3-Korvo-2 V3.0 - Digital Power
-Supply](esp32-s3-korvo-2-v3.0-digital-ps.png)
+Supply](esp32-s3-korvo-2-v3.0-digital-ps.png){.align-center}
 
 ![ESP32-S3-Korvo-2 V3.0 - Audio Power
-Supply](esp32-s3-korvo-2-v3.0-audio-ps.png)
+Supply](esp32-s3-korvo-2-v3.0-audio-ps.png){.align-center}
 
 ### GPIO Allocation Summary
 
@@ -277,129 +273,160 @@ The table below provides allocation of GPIOs exposed on terminals of
 ESP32-S3-WROOM-1 module to control specific components or functions of
 the board.
 
-| Pin\[1\] | Pin Name | ES8311      | ES7210   | Camera | LCD           | Keys                             | MicroSD | IO Expander | Other                  |
-| -------- | -------- | ----------- | -------- | ------ | ------------- | -------------------------------- | ------- | ----------- | ---------------------- |
-| 3        | EN       |             |          |        |               | EN\_KEY                          |         |             |                        |
-| 4        | IO4      |             |          |        |               |                                  | DATA0   |             |                        |
-| 5        | IO5      |             |          |        |               | REC, MUTE, PLAY, SET, VOL-, VOL+ |         |             |                        |
-| 6        | IO6      |             |          |        |               |                                  |         |             | BAT\_MEAS\_ADC         |
-| 7        | IO7      |             |          |        |               |                                  | CMD     |             |                        |
-| 8        | IO15     |             |          |        |               |                                  | CLK     |             |                        |
-| 9        | IO16     | I2S0\_MCLK  | MCLK     |        |               |                                  |         |             |                        |
-| 10       | IO17     | I2C\_SDA    | I2C\_SDA | SIOD   | TP\_I2C\_SDA  |                                  |         | I2C\_SDA    |                        |
-| 11       | IO18     | I2C\_CLK    | I2C\_CLK | SIOC   | TP\_I2C\_CLK  |                                  |         | I2C\_CLK    |                        |
-| 12       | IO8      | I2S0\_DSDIN |          |        |               |                                  |         |             |                        |
-| 13       | IO19     |             |          |        |               |                                  |         |             | ESP\_USB\_DM (Reserve) |
-| 14       | IO20     |             |          |        |               |                                  |         |             | ESP\_USB\_DP (Reserve) |
-| 15       | IO3      |             |          | D5     |               |                                  |         |             |                        |
-| 16       | IO46     |             |          |        |               |                                  |         |             | NC                     |
-| 17       | IO9      | I2S0\_SCLK  | SCLK     |        |               |                                  |         |             |                        |
-| 18       | IO10     |             | SDOUT    |        |               |                                  |         |             |                        |
-| 19       | IO11     |             |          | PCLK   |               |                                  |         |             |                        |
-| 20       | IO12     |             |          | D6     |               |                                  |         |             |                        |
-| 21       | IO13     |             |          | D2     |               |                                  |         |             |                        |
-| 22       | IO14     |             |          | D4     |               |                                  |         |             |                        |
-| 23       | IO21     |             |          | VSYNC  |               |                                  |         |             |                        |
-| 24       | IO47     |             |          | D3     |               |                                  |         |             |                        |
-| 25       | IO48     |             |          |        |               |                                  |         |             | PA\_CTRL               |
-| 26       | IO45     | I2S0\_LRCK  | LRCK     |        |               |                                  |         |             |                        |
-| 27       | IO0      |             |          |        | LCD\_SPI\_SDA | BOOT\_KEY                        |         |             |                        |
-| 28       | IO35     |             |          |        |               |                                  |         |             | NC                     |
-| 29       | IO36     |             |          |        |               |                                  |         |             | NC                     |
-| 30       | IO37     |             |          |        |               |                                  |         |             | NC                     |
-| 31       | IO38     |             |          | HREF   |               |                                  |         |             |                        |
-| 32       | IO39     |             |          | D9     |               |                                  |         |             |                        |
-| 33       | IO40     |             |          | XCLK   |               |                                  |         |             |                        |
-| 34       | IO41     |             |          | D8     |               |                                  |         |             |                        |
-| 35       | IO42     |             |          | D7     |               |                                  |         |             |                        |
-| 36       | RXD0     |             |          |        |               |                                  |         |             | ESP0\_UART0\_RX        |
-| 37       | TXD0     |             |          |        |               |                                  |         |             | ESP0\_UART0\_TX        |
-| 38       | IO2      |             |          |        | LCD\_SPI\_DC  |                                  |         |             |                        |
-| 39       | IO1      |             |          |        | LCD\_SPI\_CLK |                                  |         |             |                        |
-| 41       | EPAD     |             |          |        |               |                                  |         |             |                        |
+  ----------------------------------------------------------------------------------------------------------------------
+  Pin[^1]   Pin     ES8311        ES7210     Camera   LCD             Keys        MicroSD   IO         Other
+            Name                                                                            Expander   
+  --------- ------- ------------- ---------- -------- --------------- ----------- --------- ---------- -----------------
+  3         EN                                                        EN\_KEY                          
 
-ESP32-S3-WROOM-1 GPIO Allocation
+  4         IO4                                                                   DATA0                
+
+  5         IO5                                                       REC, MUTE,                       
+                                                                      PLAY, SET,                       
+                                                                      VOL-, VOL+                       
+
+  6         IO6                                                                                        BAT\_MEAS\_ADC
+
+  7         IO7                                                                   CMD                  
+
+  8         IO15                                                                  CLK                  
+
+  9         IO16    I2S0\_MCLK    MCLK                                                                 
+
+  10        IO17    I2C\_SDA      I2C\_SDA   SIOD     TP\_I2C\_SDA                          I2C\_SDA   
+
+  11        IO18    I2C\_CLK      I2C\_CLK   SIOC     TP\_I2C\_CLK                          I2C\_CLK   
+
+  12        IO8     I2S0\_DSDIN                                                                        
+
+  13        IO19                                                                                       ESP\_USB\_DM
+                                                                                                       (Reserve)
+
+  14        IO20                                                                                       ESP\_USB\_DP
+                                                                                                       (Reserve)
+
+  15        IO3                              D5                                                        
+
+  16        IO46                                                                                       NC
+
+  17        IO9     I2S0\_SCLK    SCLK                                                                 
+
+  18        IO10                  SDOUT                                                                
+
+  19        IO11                             PCLK                                                      
+
+  20        IO12                             D6                                                        
+
+  21        IO13                             D2                                                        
+
+  22        IO14                             D4                                                        
+
+  23        IO21                             VSYNC                                                     
+
+  24        IO47                             D3                                                        
+
+  25        IO48                                                                                       PA\_CTRL
+
+  26        IO45    I2S0\_LRCK    LRCK                                                                 
+
+  27        IO0                                       LCD\_SPI\_SDA   BOOT\_KEY                        
+
+  28        IO35                                                                                       NC
+
+  29        IO36                                                                                       NC
+
+  30        IO37                                                                                       NC
+
+  31        IO38                             HREF                                                      
+
+  32        IO39                             D9                                                        
+
+  33        IO40                             XCLK                                                      
+
+  34        IO41                             D8                                                        
+
+  35        IO42                             D7                                                        
+
+  36        RXD0                                                                                       ESP0\_UART0\_RX
+
+  37        TXD0                                                                                       ESP0\_UART0\_TX
+
+  38        IO2                                       LCD\_SPI\_DC                                     
+
+  39        IO1                                       LCD\_SPI\_CLK                                    
+
+  41        EPAD                                                                                       
+  ----------------------------------------------------------------------------------------------------------------------
+
+  : ESP32-S3-WROOM-1 GPIO Allocation
 
 The GPIOs allocated to the IO expander are further expanded to multiple
 GPIOs.
 
-| IO Expander Pin | Pin Name | LCD       | Other         |
-| --------------- | -------- | --------- | ------------- |
-| 4               | P0       |           | PA\_CTRL      |
-| 5               | P1       | LCD\_CTRL |               |
-| 6               | P2       | LCD\_RST  |               |
-| 7               | P3       | LCD\_CS   |               |
-| 9               | P4       | TP\_INT   |               |
-| 10              | P5       |           | PERI\_PWR\_ON |
-| 11              | P6       |           | LED1          |
-| 12              | P7       |           | LED2          |
+  -----------------------------------------------------------------------
+  IO Expander Pin   Pin Name          LCD               Other
+  ----------------- ----------------- ----------------- -----------------
+  4                 P0                                  PA\_CTRL
 
-IO Expander GPIO Allocation
+  5                 P1                LCD\_CTRL         
+
+  6                 P2                LCD\_RST          
+
+  7                 P3                LCD\_CS           
+
+  9                 P4                TP\_INT           
+
+  10                P5                                  PERI\_PWR\_ON
+
+  11                P6                                  LED1
+
+  12                P7                                  LED2
+  -----------------------------------------------------------------------
+
+  : IO Expander GPIO Allocation
 
 ### Connector
 
 #### Camera Connector
 
-| No. | Camera Signal | ESP32-S3 Pin |
-| --- | ------------- | ------------ |
-| 1   | SIOD          | GPIO17       |
-| 2   | SIOC          | GPIO18       |
-| 3   | D5            | GPIO3        |
-| 4   | PCLK          | GPIO11       |
-| 5   | D6            | GPIO12       |
-| 6   | D2            | GPIO13       |
-| 7   | D4            | GPIO14       |
-| 8   | VSYNC         | GPIO21       |
-| 9   | D3            | GPIO47       |
-| 10  | HREF          | GPIO38       |
-| 11  | D9            | GPIO39       |
-| 12  | XCLK          | GPIO40       |
-| 13  | D8            | GPIO41       |
-| 14  | D7            | GPIO42       |
+  No.   Camera Signal   ESP32-S3 Pin
+  ----- --------------- --------------
+  1     SIOD            GPIO17
+  2     SIOC            GPIO18
+  3     D5              GPIO3
+  4     PCLK            GPIO11
+  5     D6              GPIO12
+  6     D2              GPIO13
+  7     D4              GPIO14
+  8     VSYNC           GPIO21
+  9     D3              GPIO47
+  10    HREF            GPIO38
+  11    D9              GPIO39
+  12    XCLK            GPIO40
+  13    D8              GPIO41
+  14    D7              GPIO42
 
 #### LCD Connector
 
-| No. | LCD Signal    | ESP32-S3 Pin |
-| --- | ------------- | ------------ |
-| 1   | TP\_I2C\_SDA  | GPIO17       |
-| 2   | TP\_I2C\_CLK  | GPIO18       |
-| 3   | LCD\_SPI\_SDA | GPIO0        |
-| 4   | LCD\_SPI\_DC  | GPIO2        |
-| 5   | LCD\_SPI\_CLK | GPIO1        |
+  No.   LCD Signal      ESP32-S3 Pin
+  ----- --------------- --------------
+  1     TP\_I2C\_SDA    GPIO17
+  2     TP\_I2C\_CLK    GPIO18
+  3     LCD\_SPI\_SDA   GPIO0
+  4     LCD\_SPI\_DC    GPIO2
+  5     LCD\_SPI\_CLK   GPIO1
 
-<table>
-<thead>
-<tr class="header">
-<th>No.</th>
-<th>LCD Signal</th>
-<th>IO Expander</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>ESP_LCD_CTRL</td>
-<td><blockquote>
-<p>P1</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>ESP_LCD_RST</td>
-<td>P2</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>ESP_LCD_CS</td>
-<td>P3</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>ESP_TP_INT</td>
-<td>P4</td>
-</tr>
-</tbody>
-</table>
++-----+----------------+-------------+
+| No. | LCD Signal     | IO Expander |
++=====+================+=============+
+| 1   | ESP\_LCD\_CTRL | > P1        |
++-----+----------------+-------------+
+| 2   | ESP\_LCD\_RST  | P2          |
++-----+----------------+-------------+
+| 3   | ESP\_LCD\_CS   | P3          |
++-----+----------------+-------------+
+| 4   | ESP\_TP\_INT   | P4          |
++-----+----------------+-------------+
 
 ### AEC Path
 
@@ -415,13 +442,13 @@ The echo reference signal is collected by ADC\_MIC3P/ADC\_MIC3N of ADC
 (ES7210) and then sent back to ESP32-S3 for AEC algorithm.
 
 ![ESP32-S3-Korvo-2 V3.0 - AEC Codec DAC Output (click to
-enlarge)](esp32-s3-korvo-2-v3.0-aec-codec-o.png)
+enlarge)](esp32-s3-korvo-2-v3.0-aec-codec-o.png){.align-center}
 
 ![ESP32-S3-Korvo-2 V3.0 - AEC PA Output (click to
-enlarge)](esp32-s3-korvo-2-v3.0-aec-pa-o.png)
+enlarge)](esp32-s3-korvo-2-v3.0-aec-pa-o.png){.align-center}
 
 ![ESP32-S3-Korvo-2 V3.0 - AEC Reference Signal Collection (click to
-enlarge)](esp32-s3-korvo-2-v3.0-aec-signal-collection.png)
+enlarge)](esp32-s3-korvo-2-v3.0-aec-signal-collection.png){.align-center}
 
 ### Hardware Setup Options
 
@@ -429,9 +456,9 @@ enlarge)](esp32-s3-korvo-2-v3.0-aec-signal-collection.png)
 
 Entering of the ESP board into upload mode may be done in two ways:
 
-  - Manually by pressing both Boot and RST keys and then releasing first
+-   Manually by pressing both Boot and RST keys and then releasing first
     RST and then Boot key.
-  - Automatically by software performing the upload. The software is
+-   Automatically by software performing the upload. The software is
     using DTR and RTS signals of the serial interface to control states
     of EN and IO0 of the ESP board. For details see [ESP32-S3-Korvo-2
     V3.0
@@ -444,74 +471,77 @@ This section describes the allocation of test points available on the
 ESP32-S3-Korvo-2 V3.0 board.
 
 The test points are bare through hole solder pads and have a standard
-2.54 mm/0.1" pitch. You may need to populate them with pin headers or
+2.54 mm/0.1\" pitch. You may need to populate them with pin headers or
 sockets for easy connection of external hardware.
 
 #### Codec Test Point/J15
 
-| No. | Codec Pin | ESP32-S3 Pin |
-| --- | --------- | ------------ |
-| 1   | MCLK      | GPIO16       |
-| 2   | SCLK      | GPIO9        |
-| 3   | LRCK      | GPIO45       |
-| 4   | DSDIN     | GPIO8        |
-| 5   | ASDOUT    | –            |
-| 6   | GND       | –            |
+  No.   Codec Pin   ESP32-S3 Pin
+  ----- ----------- --------------
+  1     MCLK        GPIO16
+  2     SCLK        GPIO9
+  3     LRCK        GPIO45
+  4     DSDIN       GPIO8
+  5     ASDOUT      --
+  6     GND         --
 
 #### ADC Test Point/J16
 
-| No. | ADC Pin | ESP32-S3 Pin |
-| --- | ------- | ------------ |
-| 1   | MCLK    | GPIO16       |
-| 2   | SCLK    | GPIO9        |
-| 3   | LRCK    | GPIO45       |
-| 4   | SDOUT   | GPIO10       |
-| 5   | INT     | –            |
-| 6   | GND     | –            |
+  No.   ADC Pin   ESP32-S3 Pin
+  ----- --------- --------------
+  1     MCLK      GPIO16
+  2     SCLK      GPIO9
+  3     LRCK      GPIO45
+  4     SDOUT     GPIO10
+  5     INT       --
+  6     GND       --
 
 #### UART Test Point/J17
 
-| No. | UART Pin |
-| --- | -------- |
-| 1   | 3.3V     |
-| 2   | TXD      |
-| 3   | RXD      |
-| 4   | IO0      |
-| 5   | EN       |
-| 6   | GND      |
+  No.   UART Pin
+  ----- ----------
+  1     3.3V
+  2     TXD
+  3     RXD
+  4     IO0
+  5     EN
+  6     GND
 
 #### I2C Test Point/J18
 
-| No. | I2C Pin | ESP32-S3 Pin |
-| --- | ------- | ------------ |
-| 1   | 3.3V    | –            |
-| 2   | CLK     | GPIO18       |
-| 3   | SDA     | GPIO17       |
-| 4   | GND     | –            |
+  No.   I2C Pin   ESP32-S3 Pin
+  ----- --------- --------------
+  1     3.3V      --
+  2     CLK       GPIO18
+  3     SDA       GPIO17
+  4     GND       --
 
-## Hardware Revision Details
+Hardware Revision Details
+-------------------------
 
 This is the first revision of this board released.
 
-## Related Documents
+Related Documents
+-----------------
 
-  - [ESP32-S3 Series
+-   [ESP32-S3 Series
     Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf)
     (PDF)
-  - [ESP32-S3-WROOM-1/1U
+-   [ESP32-S3-WROOM-1/1U
     Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf)
     (PDF)
-  - [ESP32-S3-Korvo-2 V3.0
+-   [ESP32-S3-Korvo-2 V3.0
     Schematic](https://dl.espressif.com/dl/schematics/SCH_ESP32-S3-KORVO-2_V3_0_20210918.pdf)
     (PDF)
-  - [ESP32-S3-Korvo-2 V3.0 PapplicationsCB
+-   [ESP32-S3-Korvo-2 V3.0 PapplicationsCB
     Layout](https://dl.espressif.com/dl/schematics/PCB_ESP32-S3-KORVO-2_V3.0_20210918.pdf)
     (PDF)
 
 For further design documentation for the board, please contact us at
-[sales@espressif.com](sales@espressif.com).
+[sales\@espressif.com](sales@espressif.com).
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -520,8 +550,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j(nproc)
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### audio
 
@@ -530,10 +560,10 @@ play an audio file.
 
 **Simple HTTP server**
 
-Prepare a PCM-encoded (<span class="title-ref">.wav</span>) audio file
-with 16 or 24 bits/sample (sampled at 16\~48kHz). This file must be
-placed into a folder in a computer that could be accessed on the same
-Wi-Fi network the ESP32 will be connecting to.
+Prepare a PCM-encoded ([.wav]{.title-ref}) audio file with 16 or 24
+bits/sample (sampled at 16\~48kHz). This file must be placed into a
+folder in a computer that could be accessed on the same Wi-Fi network
+the ESP32 will be connecting to.
 
 Python provides a simple HTTP server. `cd` to the audio file folder on
 the PC and run:
@@ -544,7 +574,7 @@ the PC and run:
 Look for your PC IP address and test playing the prepared audio on your
 browser:
 
-![](../esp32s3-devkit/esp32-audio-config-file.png)
+![](../esp32s3-devkit/esp32-audio-config-file.png){.align-center}
 
 After successfully built and flashed, connect the board to the Wi-Fi
 network:
@@ -553,7 +583,7 @@ network:
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-Once connected, open NuttX's player and play the file according to the
+Once connected, open NuttX\'s player and play the file according to the
 filename and the IP address of the HTTP server:
 
     nsh> nxplayer
@@ -569,12 +599,12 @@ connection by means of CP2102 converter, at 115200 bps).
 **RTP Tools** is a set of small applications that can be used for
 processing RTP data.
 
-  - `rtpplay`: play-back RTP sessions recorded by `rtpdump`
-  - `rtpsend`: generate RTP packets from the textual description,
+-   `rtpplay`: play-back RTP sessions recorded by `rtpdump`
+-   `rtpsend`: generate RTP packets from the textual description,
     generated by hand or `rtpdump`
-  - `rtpdump`: parse and print RTP packets, generating output files
+-   `rtpdump`: parse and print RTP packets, generating output files
     suitable for `rtpplay` and `rtpsend`
-  - `rtptrans`: RTP translator between unicast and multicast networks
+-   `rtptrans`: RTP translator between unicast and multicast networks
 
 This set of tools enables receiving RTP packets and writing the content
 to a FIFO. `nxplayer` then reads from the FIFO, enabling using NuttX as
@@ -598,7 +628,7 @@ GPIO definitions:
     CONFIG_ESP32S3_SDMMC_CLK=15
     CONFIG_ESP32S3_SDMMC_D0=4
 
-ESP32-S3-Korvo-2's MicroSD supports only one data port:
+ESP32-S3-Korvo-2\'s MicroSD supports only one data port:
 
     CONFIG_SDIO_WIDTH_D1_ONLY=y
 
@@ -629,7 +659,7 @@ RTP packets:
     nsh> ifconfig
     wlan0   Link encap:Ethernet HWaddr aa:bb:cc:dd:ff:ee at RUNNING mtu 1504
             inet addr:192.168.1.38 DRaddr:192.168.1.1 Mask:255.255.255.0
-    
+
                 IPv4   TCP   UDP  ICMP
     Received     00d5  0000  00d4  0000
     Dropped      0001  0000  0000  0000
@@ -641,7 +671,7 @@ RTP packets:
     Sent         0002  0000  0002  0000
     Rexmit     ----  0000  ----  ----
 
-Please, check your device's IP (`192.168.1.38` in this example): RTP
+Please, check your device\'s IP (`192.168.1.38` in this example): RTP
 packets will be sent to it.
 
 **Sending Audio through pulseaudio**
@@ -652,7 +682,7 @@ packets will be sent to it.
     pactl load-module module-rtp-send source=rtp.monitor format=s16le destination_ip=192.168.1.38 port=46998
 
 The loaded sink is used to send PC audio through RTP, using the
-`192.168.1.38:46998` (boards's IP in this example, please adjust
+`192.168.1.38:46998` (boards\'s IP in this example, please adjust
 accordingly).
 
 **Receiving the RTP packets**
@@ -671,12 +701,12 @@ Finally, run `nxplayer` to play from the FIFO:
     nsh> nxplayer
     NxPlayer version 1.05
     h for commands, q to exit
-    
+
     nxplayer> playraw temp 2 16 44100
 
 This board contains the ES8311 audio codec. Please attach your passive
 loudspeaker to the Speaker Output Port to listen to the audio content
-streamed through the Wi-Fi in CD quality\!
+streamed through the Wi-Fi in CD quality!
 
-1.  Pin - ESP32-S3-WROOM-1 module pin number, GND and power supply pins
-    are not listed.
+[^1]: Pin - ESP32-S3-WROOM-1 module pin number, GND and power supply
+    pins are not listed.

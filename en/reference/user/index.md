@@ -1,16 +1,9 @@
-# Userspace API
-
-<div class="note">
-
-<div class="title">
+Userspace API
+=============
 
 Note
 
-</div>
-
 Migration in progress
-
-</div>
 
 This manual provides general usage information for the NuttX RTOS from
 the perspective of the firmware developer.

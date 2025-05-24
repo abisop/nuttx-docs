@@ -1,3 +1,4 @@
-# OpenRISC
+OpenRISC
+========
 
 > */*

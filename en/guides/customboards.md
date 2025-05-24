@@ -1,13 +1,12 @@
-# Custom Boards How-To
+Custom Boards How-To
+====================
 
 As explained in
-\[<span class="title-ref">../quick\](</span>../quick.md)start/configuring\`,
-supported boards (also known as "in-tree" boards) are configured using a
+\[[../quick\](]{.title-ref}../quick.md)start/configuring\`, supported
+boards (also known as \"in-tree\" boards) are configured using a
 standard syntax:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd nuttx
 >  ./tools/configure.sh -l board-name:config-name
 >   Copy files
@@ -19,18 +18,18 @@ Sometimes it is not appropriate, or not wanted, to add a new or custom
 board to the NuttX boards tree itself. If so, the board can be defined
 out-of-tree in a custom directory and still be built easily.
 
-## Add a Custom Board
+Add a Custom Board
+------------------
 
 The same set of files as provided for in-tree boards is required (i.e.
 configs, Kconfig, scripts, etc.) but these can be placed in a directory
 of your choice.
 
-  - In this example, the files are assumed to exist in:  
-    `../nuttx/CustomBoards/MyCustomBoardName`
-    
-    > 
-    > 
-    > ``` console
+In this example, the files are assumed to exist in:
+
+:   `../nuttx/CustomBoards/MyCustomBoardName`
+
+    > ``` {.console}
     > pwd
     > /home/nuttx/nuttx
     >  ls -1 ../CustomBoards/MyCustomBoardName
@@ -48,37 +47,29 @@ of your choice.
 To build the custom board, the syntax is slightly different to in-tree
 boards and configs:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  ./tools/configure.sh -l ../CustomBoards/MyCustomBoardName/configs/MyCustomConfig
 > Copy files
 > Select CONFIG_HOST_LINUX=y
 > Refreshing...
 > ```
 
-## Kconfig Settings
+Kconfig Settings
+----------------
 
 Once the board is configured, to ensure subsequent builds run correctly,
 there are two Kconfig settings that need to be set. These are:
 
-`Board Selection --> Custom Board Configuration --> Custom Board Name`
+`Board Selection --> Custom Board Configuration --> Custom Board Name`{.interpreted-text
+role="menuselection"}
 
-`Board Selection --> Custom Board Configuration --> Relative custom
-board directory`
+`Board Selection --> Custom Board Configuration --> Relative custom board directory`{.interpreted-text
+role="menuselection"}
 
 They should be set to suit your board name and directory location.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 If you subsequently run a `make distclean` operation, then these
 settings will be lost. They should be added back before building, and/or
 before running `make menuconfig`.
-
-</div>

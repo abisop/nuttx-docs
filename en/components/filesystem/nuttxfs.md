@@ -1,17 +1,10 @@
-# Nuttx FS
-
-<div class="warning">
-
-<div class="title">
+Nuttx FS
+========
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/NuttX+File+System>
-
-</div>
 
 ![image](nuttxfs/nuttxfs_page_0.png)
 

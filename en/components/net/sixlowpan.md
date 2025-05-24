@@ -1,6 +1,8 @@
-# 6LoWPAN
+6LoWPAN
+=======
 
-## 6LoWPAN Addressing
+6LoWPAN Addressing
+------------------
 
 The current 6LoWPAN implementation uses only link local, MAC-based
 addressing addressing (as discussed in more detail below). Thus if you
@@ -8,10 +10,10 @@ know the node addressing, then you know the IPv6 address (and
 vice-versa).
 
 As a configuration option, the 6LoWPAN implementation will use either
-the node's 2-byte short address or 8-byte extended address as the MAC
+the node\'s 2-byte short address or 8-byte extended address as the MAC
 address that the IPv6 address is based on. This is determined by the
 configuration setting `CONFIG_NET_6LOWPAN_EXTENDEDADDR`. By default, the
-2-byte short address is used for the IEEE802.15.4 MAC device's link
+2-byte short address is used for the IEEE802.15.4 MAC device\'s link
 layer address. If this option is selected, then an 8-byte extended
 address will be used, instead.
 
@@ -30,7 +32,8 @@ reported IPv6 address until the network is brought to the UP state. The
 new IPv6 MAC-based addresses are only instantiated when the network
 transitions from the DOWN to UP state.
 
-## IPv6 Neighbor Discovery
+IPv6 Neighbor Discovery
+-----------------------
 
 IPv6 Neighbor Discovery is not supported. The current ICMPv6 and
 neighbor-related logic only works with Ethernet MAC. For 6LoWPAN, a new
@@ -52,34 +55,35 @@ indicating that the IP address derives from the node address. In this
 use case, IPv6 neighbor discover is not useful: If we want to use IPv6
 neighbor discovery, we could dispense with the all MAC based addressing.
 But if we want to retain the more compact MAC-based addressing, then we
-don't need IPv6 neighbor discovery.
+don\'t need IPv6 neighbor discovery.
 
 However, it would still be nice to have enough in place to support
 ping6. Full neighbor support would be necessary if we wanted to route
 6LoWPAN frames outside of the WPAN.
 
-## Optimal 6LoWPAN Configuration
+Optimal 6LoWPAN Configuration
+-----------------------------
 
 1.  Link local IP addresses:
-    
+
         128  112  96   80    64   48   32   16
         fe80 0000 0000 0000  xxxx xxxx xxxx xxxx
 
 2.  MAC-based IP addresses:
-    
+
         128  112  96   80    64   48   32   16
         ---- ---- ---- ----  ---- ---- ---- ----
         AAAA xxxx xxxx xxxx  xxxx 00ff fe00 MMMM 2-byte short address IEEE 48-bit MAC
         AAAA 0000 0000 0000  NNNN NNNN NNNN NNNN 8-byte extended address IEEE EUI-64
-    
+
     Where MMM is the 2-byte short address XORed 0x0200. For example, the
     MAC address of 0xabcd would be 0xa9cd. And NNNN NNNN NNNN NNNN is
     the 8-byte extended address address XOR 02000 0000 0000 0000.
-    
+
     For link-local address, AAAA is 0xfe80
 
 3.  MAC based link-local addresses:
-    
+
         128  112  96   80    64   48   32   16
         ---- ---- ---- ----  ---- ---- ---- ----
         fe80 0000 0000 0000  0000 00ff fe00 MMMM 2-byte short address IEEE 48-bit MAC
@@ -93,7 +97,8 @@ ping6. Full neighbor support would be necessary if we wanted to route
     (`CONFIG_NET_6LOWPAN_PKTSIZE`, default 1294, plus per frame
     overhead).
 
-## Fragmentation Headers
+Fragmentation Headers
+---------------------
 
 A fragment header is placed at the beginning of the outgoing packet just
 after the MAC header when the payload is too large to fit in a single
@@ -103,7 +108,7 @@ size, datagram tag and datagram offset.
 1.  Datagram size describes the total (un-fragmented) payload.
 2.  Datagram tag identifies the set of fragments and is used to match
     fragments of the same payload.
-3.  Datagram offset identifies the fragment’s offset within the
+3.  Datagram offset identifies the fragment's offset within the
     un-fragmented payload (in units of 8 bytes).
 
 The length of the fragment header length is four bytes for the first
@@ -118,7 +123,7 @@ example, this is a HC1 compressed first frame of a packet:
       00                                          ### SIXLOWPAN_HC1_HC_UDP_TTL
       10                                          ### SIXLOWPAN_HC1_HC_UDP_PORTS
       0000                                        ### SIXLOWPAN_HC1_HC_UDP_CHKSUM
-    
+
     104 byte Payload follows:
     4f4e452064617920 48656e6e792d7065 6e6e792077617320 7069636b696e6720
     757020636f726e20 696e207468652063 6f726e7961726420 7768656e2d2d7768
@@ -135,7 +140,7 @@ This is the second frame of the same transfer:
       00                                          ### SIXLOWPAN_HC1_HC_UDP_TTL
       10                                          ### SIXLOWPAN_HC1_HC_UDP_PORTS
       0000                                        ### SIXLOWPAN_HC1_HC_UDP_CHKSUM
-    
+
     104 byte Payload follows:
     476f6f646e657373 2067726163696f75 73206d6521272073 6169642048656e6e
     792d70656e6e793b 202774686520736b 79277320612d676f 696e6720746f2066
@@ -148,7 +153,8 @@ value: In this example the payload size is 0x050e or 1,294. The tag is
 which is 13 \<\< 3 = 104 bytes, the size of the payload on the first
 packet.
 
-## Star Configuration
+Star Configuration
+------------------
 
 The 6LoWPAN stack can be specially configured as member in a star
 topology; either as a endpoint on the star os the star hub. The endpoint

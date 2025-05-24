@@ -1,22 +1,24 @@
-# SIM
+SIM
+===
 
-## Overview
+Overview
+--------
 
 ### Description
 
 This README file describes the contents of the build configurations
-available for the NuttX "sim" target. The sim target is a NuttX port
+available for the NuttX \"sim\" target. The sim target is a NuttX port
 that runs as a user-space program under Linux, Cygwin, or macOS. It is a
-very "low fidelity" embedded system simulation: This environment does
-not support any kind of asynchronous events -- there are nothing like
+very \"low fidelity\" embedded system simulation: This environment does
+not support any kind of asynchronous events \-- there are nothing like
 interrupts in this context. Therefore, there can be no preempting
 events.
 
 ### Fake Interrupts
 
-In order to get timed behavior, the system timer "interrupt handler" is
-called from the sim target's IDLE loop. The IDLE runs whenever there is
-no other task running. So, for example, if a task calls sleep(), then
+In order to get timed behavior, the system timer \"interrupt handler\"
+is called from the sim target\'s IDLE loop. The IDLE runs whenever there
+is no other task running. So, for example, if a task calls sleep(), then
 that task will suspend wanting for the time to elapse. If nothing else
 is available to run, then the IDLE loop runs and the timer increments,
 eventually re-awakening the sleeping task.
@@ -29,17 +31,18 @@ real-world application that I know of.
 
 ### Timing Fidelity
 
-NOTE: The sim target's IDLE loop to delay on each call so that the
-system "timer interrupt" is called at a rate approximately correct for
+NOTE: The sim target\'s IDLE loop to delay on each call so that the
+system \"timer interrupt\" is called at a rate approximately correct for
 the system timer tick rate. This option can be enabled with
 CONFIG\_SIM\_WALLTIME\_SIGNAL which will drive the entire simulation by
 using a host timer that ticks at CONFIG\_USEC\_PER\_TICK. This option
-will no longer deliver 'tick' events from Idle task and it will generate
-them from the host signal handler. Another option is to use
+will no longer deliver \'tick\' events from Idle task and it will
+generate them from the host signal handler. Another option is to use
 CONFIG\_SIM\_WALLTIME\_SLEEP which will enable the tick events to be
 delayed from the Idle task by using a host sleep call.
 
-## Debugging
+Debugging
+---------
 
 One of the best reasons to use the simulation is that is supports great
 Linux-based debugging. Here are the steps that I following to use the
@@ -47,27 +50,28 @@ Linux ddd graphical front-end to GDB:
 
 1.  Modify the top-level configuration file. Enable debug symbols by
     defining the following:
-    
+
         cd <NuttX-Directory>
         CONFIG_DEBUG_SYMBOLS=y
 
 2.  Re-build:
-    
+
         cd <NuttX-Directory>
         make clean
         make
 
 3.  Then start the debugging:
-    
+
         ddd nuttx &
         gdb> b user_start
         gdb> r
 
 NOTE: This above steps work fine on Linux, Cygwin, and macOS. On Cygwin,
 you will need to start the Cygwin-X server before running ddd. On macOS,
-it's probably easier to use lldb instead of gdb.
+it\'s probably easier to use lldb instead of gdb.
 
-## Issues
+Issues
+------
 
 ### 64-Bit Issues
 
@@ -82,15 +86,16 @@ supported by more contemporary x86\_64 compilers).
 There are other 64-bit issues as well. For example, addresses are
 retained in 32-bit unsigned integer types in a few places. On a 64-bit
 machine, the 32-bit address storage may corrupt 64-bit addressing. NOTE:
-This is really a bug -- addresses should not be retained in uint32\_t
+This is really a bug \-- addresses should not be retained in uint32\_t
 types but rather in uintptr\_t types to avoid issues just like this.
 
 ### Compiler differences
 
 operator new:
 
-> Problem: "'operator new' takes size\_t ('...') as first parameter"
-> 
+> Problem: \"\'operator new\' takes size\_t (\'\...\') as first
+> parameter\"
+>
 > Workaround: Add -fpermissive to the compilation flags
 
 ### Stack Size Issues
@@ -111,7 +116,7 @@ system.
 As a consequence, those system libraries may allocate large data
 structures on the stack and overflow the small NuttX stacks. X11, in
 particular, requires large stacks. If you are using X11 in the
-simulation, make sure that you set aside a "lot" of stack for the X11
+simulation, make sure that you set aside a \"lot\" of stack for the X11
 library calls (maybe 8 or 16Kb). The stack size for the thread that
 begins with user start is controlled by the configuration setting
 CONFIG\_INIT\_STACKSIZE; you may need to increase this value to larger
@@ -131,7 +136,7 @@ The simulation build is a two pass build:
 
 > 1.  On the first pass, an intermediate, partially relocatable object
 >     is created called nuttx.rel. This includes all of the files that
->     are part of the NuttX "domain."
+>     are part of the NuttX \"domain.\"
 > 2.  On the second pass, the files which are in the host OS domain are
 >     built and then linked with nuttx.rel to generate the simulation
 >     program.
@@ -208,14 +213,14 @@ build:
     cd /usr/lib/
     sudo ln -s libXext.so.6.4.0 libXext.so
 
-(I also get a segmentation fault at the conclusion of the NX test --
+(I also get a segmentation fault at the conclusion of the NX test \--
 that will need to get looked into as well.)
 
 The X11 examples builds on Cygwin, but does not run. The last time I
 tried it, XOpenDisplay() aborted the program. UPDATE: This was caused by
 the small stack size and can be fixed by increasing the size of the
-NuttX stack that calls into X11. See the discussion "Stack Size Issues"
-above.
+NuttX stack that calls into X11. See the discussion \"Stack Size
+Issues\" above.
 
 Update: You may need issue this command with the latest Ubuntu before
 launch:
@@ -229,28 +234,28 @@ Below is the summary of the changes that I had to make to get the
 simulator working in that environment:
 
 > CONFIG\_HOST\_X86\_64=y, CONFIG\_SIM\_M32=n
-> 
+>
 > > Need to select X64\_64. Cygwin64 tools do not seem to support any
 > > option to build a 32-bit target.
-> 
+>
 > CONFIG\_SIM\_CYGWIN\_DECORATED=n
-> 
+>
 > > Older versions of Cygwin tools decorated C symbol names by adding an
 > > underscore to the beginning of the symbol name. Newer versions of
 > > Cygwin do not seem to do this. Deselecting
 > > CONFIG\_SIM\_CYGWIN\_DECORATED will select the symbols without the
 > > leading underscore as needed by the Cygwin64 toolchain.
-> > 
+> >
 > > How do you know if you need this option? You could look at the
 > > generated symbol tables to see if there are underscore characters at
 > > the beginning of the symbol names. Or, if you need this option, the
 > > simulation will not run: It will crash early, probably in some
 > > function due to the failure to allocate memory.
-> > 
+> >
 > > In this case, when I tried to run nutt.exe from the command line, it
 > > exited silently. Running with GDB I get the following (before
 > > hitting a breakpoint at main()):
-> > 
+> >
 > >     (gdb) r
 > >     Starting program: /cygdrive/c/Users/Gregory/Documents/projects/nuttx/master/nuttx/nuttx.exe
 > >     [New Thread 6512.0xda8]
@@ -259,11 +264,11 @@ simulator working in that environment:
 > >         736 [main] nuttx 6512 cygwin_exception::open_stackdumpfile: Dumping stack trace to nuttx.exe.stackdump
 > >     [Thread 6512.0x998 exited with code 256]
 > >     [Inferior 1 (process 6512) exited with code 0400]
-> 
+>
 > CONFIG\_SIM\_X8664\_SYSTEMV=n, CONFIG\_SIM\_X8664\_MICROSOFT=y
-> 
+>
 > > Select Microsoft x64 calling convention.
-> > 
+> >
 > > The Microsoft x64 calling convention is followed on Microsoft
 > > Windows and pre-boot UEFI (for long mode on x86-64). It uses
 > > registers RCX, RDX, R8, R9 for the first four integer or pointer
@@ -280,78 +285,79 @@ simulator working in that environment:
 > supports the emulation of multiple CPUs by creating multiple pthreads,
 > each running a copy of the simulation in the same process address
 > space.
-> 
+>
 > At present, the SMP simulation is not fully functional: It does
 > operate on the simulated CPU threads for a few context switches then
 > fails during a setjmp() operation. I suspect that this is not an issue
 > with the NuttX SMP logic but more likely some chaos in the pthread
 > controls. I have seen similar such strange behavior other times that I
-> have tried to use setjmp/longmp from a signal handler\! Like when I
+> have tried to use setjmp/longmp from a signal handler! Like when I
 > tried to implement simulated interrupts using signals.
-> 
+>
 > Apparently, if longjmp is invoked from the context of a signal
 > handler, the result is undefined:
 > <http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1318.htm>
-> 
+>
 > Update: The dead lock is due to up\_testset call pthread API for
 > synchronization inside the signal handler. After switching to atomic
 > API, the problem get resolved.
-> 
+>
 > You can enable SMP for ostest configuration by enabling:
-> 
+>
 >     +CONFIG_SPINLOCK=y
 >     +CONFIG_SMP=y
 >     +CONFIG_SMP_NCPUS=2
-> 
+>
 > And you can enable some additional debug output with:
-> 
+>
 >     -# CONFIG_DEBUG_SCHED is not set
 >     +CONFIG_DEBUG_SCHED=y
->     
+>
 >     -# CONFIG_SCHED_INSTRUMENTATION is not set
 >     -# CONFIG_SCHED_INSTRUMENTATION_SWITCH is not set
 >     +CONFIG_SCHED_INSTRUMENTATION=y
 >     +CONFIG_SCHED_INSTRUMENTATION_SWITCH=y
-> 
+>
 > The SMP configuration will run with:
-> 
+>
 >     CONFIG_SMP_NCPUS=1
-> 
+>
 > In this case there is, of course, no multi-CPU processing, but this
 > does verify the correctness of some of the basic SMP logic.
-> 
+>
 > The NSH configuration can also be forced to run SMP, but suffers from
 > the same quirky behavior. It can be made reliable if you modify
 > arch/sim/src/up\_idle.c so that the IDLE loop only runs for CPU0.
 > Otherwise, often simuart\_post() will be called from CPU1 and it will
 > try to restart NSH on CPU0 and, again, the same quirkiness occurs.
-> 
+>
 > Update: Only CPU0 call up\_idle now, other CPUs have a simple idle
 > loop:
-> 
+>
 >     /* The idle Loop */
->     
+>
 >     for (; ; )
 >       {
 >         /* Give other pthreads/CPUs a shot */
->     
+>
 >         pthread_yield();
 >       }
-> 
-> So it isn't a problem any more.
-> 
+>
+> So it isn\'t a problem any more.
+>
 > But for example, this command:
-> 
+>
 >     nsh> sleep 1 &
-> 
+>
 > will execute the sleep command on CPU1 which has worked every time
 > that I have tried it (which is not too many times).
 
-## BASIC
+BASIC
+-----
 
-> I have used the sim/nsh configuration to test Michael Haardt's BASIC
+> I have used the sim/nsh configuration to test Michael Haardt\'s BASIC
 > interpreter that you can find at apps/interpreters/bas.
-> 
+>
 > > Bas is an interpreter for the classic dialect of the programming
 > > language BASIC. It is pretty compatible to typical BASIC
 > > interpreters of the 1980s, unlike some other UNIX BASIC
@@ -362,7 +368,7 @@ simulator working in that environment:
 > > operations, automatic LIST indentation and many statements and
 > > functions found in specific classic dialects. Line numbers are not
 > > required.
-> 
+>
 > There is also a test suite for the interpreter that can be found at
 > apps/examples/bastest.
 
@@ -370,21 +376,21 @@ simulator working in that environment:
 
 > Below are the recommended configuration changes to use BAS with the
 > stm32f4discovery/nsh configuration:
-> 
+>
 > Dependencies:
-> 
+>
 >     CONFIG_LIBC_EXECFUNCS=y      : exec*() functions are required
 >     CONFIG_LIBM=y                : Some floating point library is required
 >     CONFIG_LIBC_FLOATINGPOINT=y  : Floating point printing support is required
 >     CONFIG_LIBC_TMPDIR="/tmp"    : Writeable temporary files needed for some commands
-> 
+>
 > Enable the BASIC interpreter. Other default options should be okay:
-> 
+>
 >     CONFIG_INTERPRETERS_BAS=y    : Enables the interpreter
 >     CONFIG_INTERPRETER_BAS_VT100=y
-> 
+>
 > The BASIC test suite can be included:
-> 
+>
 >     CONFIG_FS_ROMFS=y           : ROMFS support is needed
 >     CONFIG_EXAMPLES_BASTEST=y   : Enables the BASIC test setup
 >     CONFIG_EXAMPLES_BASTEST_DEVMINOR=6
@@ -394,24 +400,24 @@ simulator working in that environment:
 
 > This setup will initialize the BASIC test (optional): This will mount
 > a ROMFS file system at /mnt/romfs that contains the BASIC test files:
-> 
+>
 >     nsh> bastest
 >     Registering romdisk at /dev/ram6
 >     Mounting ROMFS filesystem at target=/mnt/romfs with source=/dev/ram6
 >     nsh>
-> 
+>
 > The interactive interpreter is started like:
-> 
+>
 >     nsh> bas
 >     bas 2.4
 >     Copyright 1999-2014 Michael Haardt.
 >     This is free software with ABSOLUTELY NO WARRANTY.
 >     >
->     
+>
 >     Ctrl-D exits the interpreter.
->     
+>
 >     The test programs can be ran like this:
->     
+>
 >     nsh> bastest
 >     Registering romdisk at /dev/ram0
 >     Mounting ROMFS filesystem at target=/mnt/romfs with source=/dev/ram0
@@ -421,11 +427,11 @@ simulator working in that environment:
 >      0.0002
 >      0.0000020
 >      0.0000002
->     
+>
 >     nsh>
-> 
+>
 > Or you can load a test into memory and execute it interactively:
-> 
+>
 >     nsh> bas
 >     bas 2.4
 >     Copyright 1999-2014 Michael Haardt.
@@ -439,37 +445,38 @@ simulator working in that environment:
 >      0.0000002
 >     >
 
-## Common Configuration Information
+Common Configuration Information
+--------------------------------
 
 > 1.  Each configuration is maintained in a sub-directory and can be
 >     selected as follow:
->     
+>
 >         tools/configure.sh sim:<subdir>
->     
+>
 >     Where \<subdir\> is one of the following sub-directories.
-> 
+>
 > 2.  All configurations uses the mconf-based configuration tool. To
 >     change this configuration using that tool, you should:
->     
->     1.  Build and install the kconfig mconf tool. See nuttx/README.txt
+>
+>     a.  Build and install the kconfig mconf tool. See nuttx/README.txt
 >         and see additional README.txt files in the NuttX tools
 >         repository.
->     2.  Execute 'make menuconfig' in nuttx/ in order to start the
+>     b.  Execute \'make menuconfig\' in nuttx/ in order to start the
 >         reconfiguration process.
-> 
+>
 > 3.  Before building, make sure that the configuration is correct for
 >     your host platform:
->     
->     1.  Linux, 32-bit CPU:
->         
+>
+>     a.  Linux, 32-bit CPU:
+>
 >             CONFIG_HOST_LINUX=y
 >             CONFIG_HOST_WINDOWS=n
 >             CONFIG_HOST_X86=y
 >             CONFIG_HOST_X86_64=n
 >             CONFIG_HOST_ARM64=n
->     
->     2.  Linux, 64-bit CPU, 32-bit build:
->         
+>
+>     b.  Linux, 64-bit CPU, 32-bit build:
+>
 >             CONFIG_HOST_LINUX=y
 >             CONFIG_HOST_WINDOWS=n
 >             CONFIG_HOST_X86=n
@@ -478,9 +485,9 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_MICROSOFT=n
 >             CONFIG_SIM_X8664_SYSTEMV=y
 >             CONFIG_SIM_M32=y
->     
->     3.  Linux, 64-bit CPU, 64-bit build:
->         
+>
+>     c.  Linux, 64-bit CPU, 64-bit build:
+>
 >             CONFIG_HOST_LINUX=y
 >             CONFIG_HOST_WINDOWS=n
 >             CONFIG_HOST_X86=n
@@ -489,22 +496,22 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_MICROSOFT=n
 >             CONFIG_SIM_X8664_SYSTEMV=y
 >             CONFIG_SIM_M32=n
->     
->     4.  Cygwin, 32-bit:
->         
+>
+>     d.  Cygwin, 32-bit:
+>
 >             CONFIG_HOST_LINUX=n
 >             CONFIG_HOST_WINDOWS=y
 >             CONFIG_WINDOWS_CYGWIN=y
 >             CONFIG_HOST_X86=y
 >             CONFIG_HOST_X86_64=n
 >             CONFIG_HOST_ARM64=n
->     
->     5.  Cygwin64, 64-bit, 32-bit build
->         
->         I don't believe this configuration is supported by Cygwin64
->     
->     6.  Cygwin64, 64-bit, 64-bit build:
->         
+>
+>     e.  Cygwin64, 64-bit, 32-bit build
+>
+>         I don\'t believe this configuration is supported by Cygwin64
+>
+>     f.  Cygwin64, 64-bit, 64-bit build:
+>
 >             CONFIG_HOST_LINUX=n
 >             CONFIG_HOST_WINDOWS=y
 >             CONFIG_WINDOWS_CYGWIN=y
@@ -514,9 +521,9 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_MICROSOFT=y
 >             CONFIG_SIM_X8664_SYSTEMV=n
 >             CONFIG_SIM_M32=n
->     
->     7.  macOS, 64-bit, 64-bit build:
->         
+>
+>     g.  macOS, 64-bit, 64-bit build:
+>
 >             CONFIG_HOST_LINUX=n
 >             CONFIG_HOST_MACOS=y
 >             CONFIG_HOST_WINDOWS=n
@@ -526,9 +533,9 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_MICROSOFT=n
 >             CONFIG_SIM_X8664_SYSTEMV=y
 >             CONFIG_SIM_M32=n
->     
->     8.  macOS M1, 64-bit, 64-bit build:
->         
+>
+>     h.  macOS M1, 64-bit, 64-bit build:
+>
 >             CONFIG_HOST_LINUX=n
 >             CONFIG_HOST_MACOS=y
 >             CONFIG_HOST_WINDOWS=n
@@ -538,9 +545,9 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_MICROSOFT=n
 >             CONFIG_SIM_X8664_SYSTEMV=y
 >             CONFIG_SIM_M32=n
->     
->     9.  Linux ARM64, 64-bit, 64-bit build:
->         
+>
+>     i.  Linux ARM64, 64-bit, 64-bit build:
+>
 >             CONFIG_HOST_LINUX=y
 >             CONFIG_HOST_MACOS=n
 >             CONFIG_HOST_WINDOWS=n
@@ -551,7 +558,8 @@ simulator working in that environment:
 >             CONFIG_SIM_X8664_SYSTEMV=y
 >             CONFIG_SIM_M32=n
 
-## Configurations
+Configurations
+--------------
 
 ### adb
 
@@ -572,10 +580,10 @@ You can use the normal adb command from host:
 
 This configuration enables testing audio applications on NuttX by
 implementing an audio-like driver that uses ALSA to forward the audio to
-the host system. It also enables the
-<span class="title-ref">hostfs</span> to enable direct access to the
-host system's files mounted on the simulator. The ALSA audio driver
-allows uncompressed PCM files - as well as MP3 files - to be played.
+the host system. It also enables the [hostfs]{.title-ref} to enable
+direct access to the host system\'s files mounted on the simulator. The
+ALSA audio driver allows uncompressed PCM files - as well as MP3 files -
+to be played.
 
 To check the audio devices:
 
@@ -588,14 +596,14 @@ To check the audio devices:
     pcm1c
     pcm1p
 
-  - <span class="title-ref">pcm0c</span> represents the device to
-    capture uncompressed PCM audio;
-  - <span class="title-ref">pcm0p</span> represents the device to
-    playback uncompressed PCM files;
-  - <span class="title-ref">pcm1c</span> represents the device to
-    capture MP3-encoded audio;
-  - <span class="title-ref">pcm1p</span> represents the device to
-    playback MP3-encoded files;
+-   [pcm0c]{.title-ref} represents the device to capture uncompressed
+    PCM audio;
+-   [pcm0p]{.title-ref} represents the device to playback uncompressed
+    PCM files;
+-   [pcm1c]{.title-ref} represents the device to capture MP3-encoded
+    audio;
+-   [pcm1p]{.title-ref} represents the device to playback MP3-encoded
+    files;
 
 #### Mounting Files from Host System
 
@@ -612,39 +620,38 @@ sim:
 
 #### Playing uncompressed-PCM files
 
-To play uncompressed-PCM files, we can use
-<span class="title-ref">nxplayer</span>'s
-<span class="title-ref">playraw</span> command. We need 1) select the
-appropriate audio device to playback this file and 1) know in advance
-the file's parameters (channels, bits/sample and sampling rate):
+To play uncompressed-PCM files, we can use [nxplayer]{.title-ref}\'s
+[playraw]{.title-ref} command. We need 1) select the appropriate audio
+device to playback this file and 1) know in advance the file\'s
+parameters (channels, bits/sample and sampling rate):
 
     nsh> nxplayer
     NxPlayer version 1.05
     h for commands, q to exit
-    
+
     nxplayer> device /dev/audio/pcm0p
     nxplayer> playraw /host/mother.wav 2 16 44100
 
-In this example, the file <span class="title-ref">mother.wav</span> is a
-stereo (2-channel), 16 bits/sample and 44,1KHz PCM-encoded file.
+In this example, the file [mother.wav]{.title-ref} is a stereo
+(2-channel), 16 bits/sample and 44,1KHz PCM-encoded file.
 
 #### Playing MP3-encoded files
 
-To play MP3 files, we can use <span class="title-ref">nxplayer</span>'s
-<span class="title-ref">play</span> command directly. We only need to
-select the appropriate audio device to playback this file:
+To play MP3 files, we can use [nxplayer]{.title-ref}\'s
+[play]{.title-ref} command directly. We only need to select the
+appropriate audio device to playback this file:
 
     nsh> nxplayer
     NxPlayer version 1.05
     h for commands, q to exit
-    
+
     nxplayer> device /dev/audio/pcm1p
     nxplayer> play /host/mother.mp3
 
 ### bluetooth
 
 Supports some very limited, primitive, low-level debug of the Bluetooth
-stack using the Bluetooth "Swiss Army Knife" at
+stack using the Bluetooth \"Swiss Army Knife\" at
 apps/wireless/bluetooth/btsak and the NULL Bluetooth device at
 drivers/wireless/bluetooth/bt\_null.c
 
@@ -676,19 +683,19 @@ NOTES
 >     uClibc++ C++ library. This is located outside of the NuttX source
 >     tree in the NuttX uClibc++ GIT repository. See the README.txt file
 >     there for instructions on how to install uClibc++
-> 
+>
 > 2.  At present (2012/11/02), exceptions are disabled in this example
 >     (CONFIG\_CXX\_EXCEPTION=n). It is probably not necessary to
 >     disable exceptions.
-> 
+>
 > 3.  Unfortunately, this example will not run now.
->     
+>
 >     The reason that the example will not run on the simulator has to
 >     do with when static constructors are enabled: In the simulator it
 >     will attempt to execute the static constructors before main()
->     starts. BUT... NuttX is not initialized and this results in a
+>     starts. BUT\... NuttX is not initialized and this results in a
 >     crash.
->     
+>
 >     To really use this example, I will have to think of some way to
 >     postpone running C++ static initializers until NuttX has been
 >     initialized.
@@ -717,14 +724,14 @@ the .config file:
 
     -CONFIG_EXAMPLES_IPFORWARD_TCP=y
     +CONFIG_EXAMPLES_IPFORWARD_ICMPv6=y
-    
+
     +CONFIG_NET_ICMPv6=y
     +CONFIG_NET_ICMPv6_SOCKET=y
     +CONFIG_NET_ETHERNET=y
     +CONFIG_NET_IPFORWARD_BROADCAST=y
 
 Additional required settings will also be selected when you manually
-select the above via 'make menuconfig'.
+select the above via \'make menuconfig\'.
 
 ### loadable
 
@@ -738,7 +745,7 @@ This is the key part of the configuration:
     +CONFIG_INIT_FILEPATH="/system/bin/nsh"
 
 The shell is loaded from the elf, but you can also run any of the ELFs
-that are in /system/bin as they are on the "PATH"
+that are in /system/bin as they are on the \"PATH\"
 
 ### minibasic
 
@@ -780,33 +787,33 @@ NOTES:
 
 > 1.  The NuttX network is not, however, functional on the Linux TAP
 >     device yet.
->     
+>
 >     UPDATE: The TAP device does apparently work according to a NuttX
 >     user (provided that it is not used with NSH: NSH waits on
 >     readline() for console input. When it calls readline(), the whole
 >     system blocks waiting from input from the host OS). My failure to
 >     get the TAP device working appears to have been a cockpit error.
-> 
+>
 > 2.  As of NuttX-5.18, when built on Windows, this test does not try to
 >     use the TAP device (which is not available on Cygwin anyway), but
 >     inside will try to use the Cygwin WPCAP library. Only the most
 >     preliminary testing has been performed with the Cygwin WPCAP
 >     library, however.
->     
+>
 >     NOTE that the IP address is hard-coded in
 >     arch/sim/src/up\_wpcap.c. You will either need to edit your
->     configuration files to use 10.0.0.1 on the "target"
+>     configuration files to use 10.0.0.1 on the \"target\"
 >     ([CONFIG\_EXAMPLES\_NETTEST]()\*) or edit up\_wpcap.c to select
 >     the IP address that you want to use.
 
 ### nimble
 
 This is similar to bthcisock configuration, which uses the exposes the
-real BLE stack to NuttX, but disables NuttX's own BLE stack and uses
+real BLE stack to NuttX, but disables NuttX\'s own BLE stack and uses
 nimBLE stack instead (built in userspace).
 
 This configuration can be tested by running nimBLE example application
-"nimble" as follows:
+\"nimble\" as follows:
 
      sudo setcap 'cap_net_raw,cap_net_admin=eip' nuttx
      ./nuttx
@@ -828,7 +835,7 @@ This configuration can be tested by running nimBLE example application
     host task
     advertise
 
-At this point you should be able to detect a "nimble" BLE device when
+At this point you should be able to detect a \"nimble\" BLE device when
 scanning for BLE devices. You can use nRFConnect Android application
 from Nordic to connect and inspect exposed GATT services.
 
@@ -839,16 +846,16 @@ Configures to use the NuttShell at apps/examples/nsh.
 NOTES:
 
 > 1.  This version has one builtin function: This configuration:
->     
+>
 >         apps/examples/hello.
-> 
+>
 > 2.  This configuration has BINFS enabled so that the builtin
 >     applications can be made visible in the file system. Because of
 >     that, the builtin applications do not work as other examples.
->     
+>
 >     The binfs filesystem will be mounted at /bin when the system
 >     starts up:
->     
+>
 >         nsh> ls /bin
 >         /bin:
 >           hello
@@ -857,11 +864,11 @@ NOTES:
 >         nsh> hello
 >         Hello, World!!
 >         nsh>
->     
->     Notice that the executable 'hello' is found using the value in the
->     PATH variable (which was preset to "/bin"). If the PATH variable
->     were not set then you would have to use /bin/hello on the command
->     line.
+>
+>     Notice that the executable \'hello\' is found using the value in
+>     the PATH variable (which was preset to \"/bin\"). If the PATH
+>     variable were not set then you would have to use /bin/hello on the
+>     command line.
 
 ### nsh2
 
@@ -873,13 +880,13 @@ functions.
 NOTES:
 
 > 1.  X11 Configuration
->     
+>
 >     This configuration uses an X11-based framebuffer driver. Of
 >     course, this configuration can only be used in environments that
->     support X11\! (And it may not even be usable in all of those
->     environments without some "tweaking" See discussion below under
+>     support X11! (And it may not even be usable in all of those
+>     environments without some \"tweaking\" See discussion below under
 >     the nx11 configuration).
->     
+>
 >     For examples, it expects to be able to include X11/Xlib.h. That
 >     currently fails on my Linux box.
 
@@ -890,104 +897,104 @@ Configures to use apps/examples/nx.
 NOTES:
 
 > 1.  Special Framebuffer Configuration
->     
+>
 >     Special simulated framebuffer configuration options:
->     
+>
 >         CONFIG_SIM_FBHEIGHT - Height of the framebuffer in pixels
 >         CONFIG_SIM_FBWIDTH  - Width of the framebuffer in pixels.
 >         CONFIG_SIM_FBBPP    - Pixel depth in bits
-> 
-> 2.  No Display\!
->     
+>
+> 2.  No Display!
+>
 >     This version has NO DISPLAY and is only useful for debugging NX
 >     internals in environments where X11 is not supported. There is an
 >     additional configuration that may be added to include an X11-based
 >     simulated framebuffer driver:
->     
+>
 >         CONFIG_SIM_X11FB    - Use X11 window for framebuffer
->     
->     See the "nx11" configuration below for more information.
+>
+>     See the \"nx11\" configuration below for more information.
 
 ### nx11
 
 Configures to use apps/examples/nx. This configuration is similar to the
 nx configuration except that it adds support for an X11-based
 framebuffer driver. Of course, this configuration can only be used in
-environments that support X11\! (And it may not even be usable in all of
-those environments without some "tweaking").
+environments that support X11! (And it may not even be usable in all of
+those environments without some \"tweaking\").
 
 > 1.  Special Framebuffer Configuration
->     
+>
 >     This configuration uses the same special simulated framebuffer
 >     configuration options as the nx configuration:
->     
+>
 >         CONFIG_SIM_X11FB    - Use X11 window for framebuffer
 >         CONFIG_SIM_FBHEIGHT - Height of the framebuffer in pixels
 >         CONFIG_SIM_FBWIDTH  - Width of the framebuffer in pixels.
 >         CONFIG_SIM_FBBPP    - Pixel depth in bits
-> 
+>
 > 2.  X11 Configuration
->     
+>
 >     But now, since CONFIG\_SIM\_X11FB is also selected the following
 >     definitions are needed:
->     
+>
 >         CONFIG_SIM_FBBPP (must match the resolution of the display).
 >         CONFIG_FB_CMAP=y
->     
+>
 >     My system has 24-bit color, but packed into 32-bit words so the
 >     correct setting of CONFIG\_SIM\_FBBPP is 32.
->     
+>
 >     For whatever value of CONFIG\_SIM\_FBBPP is selected, the
 >     corresponding [CONFIG\_NX\_DISABLE]()\*BPP setting must not be
 >     disabled.
-> 
+>
 > 3.  Touchscreen Support
->     
+>
 >     A X11 mouse-based touchscreen simulation can also be enabled by
 >     setting:
->     
+>
 >         CONFIG_INPUT=y
 >         CONFIG_SIM_TOUCHSCREEN=y
->     
+>
 >     NOTES:
->     
->     1.  If you do not have the call to sim\_tcinitialize(0), the build
->         will mysteriously fail claiming that it can't find
+>
+>     a.  If you do not have the call to sim\_tcinitialize(0), the build
+>         will mysteriously fail claiming that it can\'t find
 >         up\_tcenter() and up\_tcleave(). That is a consequence of the
 >         crazy way that the simulation is built and can only be
 >         eliminated by calling up\_simtouchscreen(0) from your
 >         application.
->     2.  You must first call up\_fbinitialize(0) before calling
+>     b.  You must first call up\_fbinitialize(0) before calling
 >         up\_simtouchscreen() or you will get a crash.
->     3.  Call sim\_tcunininitializee() when you are finished with the
+>     c.  Call sim\_tcunininitializee() when you are finished with the
 >         simulated touchscreen.
->     4.  Enable CONFIG\_DEBUG\_INPUT=y for touchscreen debug output.
-> 
+>     d.  Enable CONFIG\_DEBUG\_INPUT=y for touchscreen debug output.
+>
 > 4.  X11 Build Issues
->     
+>
 >     To get the system to compile under various X11 installations you
 >     may have to modify a few things. For example, in order to find
 >     libXext, I had to make the following change under Ubuntu 9.09:
->     
+>
 >         cd /usr/lib/
 >         sudo ln -s libXext.so.6.4.0 libXext.so
-> 
+>
 > 5.  apps/examples/nxterm
->     
+>
 >     This configuration is also set up to use the apps/examples/nxterm
 >     test instead of apps/examples/nx. To enable this configuration,
 >     First, select Multi-User mode as described above. Then, add the
 >     following definitions to the defconfig file:
->     
+>
 >         -CONFIG_NXTERM=n
 >         +CONFIG_NXTERM=y
->         
+>
 >         -CONFIG_EXAMPLES_NX=y
 >         +CONFIG_EXAMPLES_NX=n
->         
+>
 >         -CONFIG_EXAMPLES_NXTERM=n
 >         +CONFIG_EXAMPLES_NXTERM=y
->     
+>
 >     See apps/examples/README.txt for further details.
 
 ### nxffs
@@ -1018,24 +1025,24 @@ NOTES
 >     readline(), the whole system blocks waiting from input from the
 >     host OS. So, in order to get this example to run, you must comment
 >     out the readline() call in apps/nshlib/nsh\_consolemain.c like:
->     
+>
 >         Index: nsh_consolemain.c
 >         ===================================================================
 >         --- nsh_consolemain.c   (revision 4681)
 >         +++ nsh_consolemain.c   (working copy)
 >         @@ -117,7 +117,8 @@
 >            /* Execute the startup script */
->         
+>
 >          #ifdef CONFIG_ETC_ROMFS
 >         -  nsh_script(&pstate->cn_vtbl, "init", NSH_INITPATH);
 >         +// REMOVE ME
 >         +//  nsh_script(&pstate->cn_vtbl, "init", NSH_INITPATH);
 >          #endif
->         
+>
 >            /* Then enter the command line parsing loop */
 >         @@ -130,7 +131,8 @@
 >                fflush(pstate->cn_outstream);
->         
+>
 >                /* Get the next line of input */
 >         -
 >         +sleep(2); // REMOVE ME
@@ -1049,27 +1056,25 @@ NOTES
 >                  }
 >         +#endif // REMOVE ME
 >              }
->         
+>
 >            /* Clean up */
->     
+>
 >     UPDATE: I recently implemented a good UART simulation to drive the
 >     serial console. So I do not believe that problem exists and I
 >     think that the above workaround should no longer be necessary.
 >     However, I will leave the above text in place until I get the
 >     opportunity to verify that the new UART simulation fixes the
 >     problem.
-> 
-> <!-- end list -->
-> 
->   - 2019-05-04: Something has changed. Today this configuration failed
->     to  
->     build because is requires CONFIG\_NX\_XYINPUT=y in the
+>
+> 2019-05-04: Something has changed. Today this configuration failed to
+>
+> :   build because is requires CONFIG\_NX\_XYINPUT=y in the
 >     configuration. That indicates mouse or touchscreen support.
 >     Apparently, the current NxWM will not build without this support.
 
 ### ostest
 
-The "standard" NuttX apps/examples/ostest configuration.
+The \"standard\" NuttX apps/examples/ostest configuration.
 
 ### pf\_ieee802154
 
@@ -1084,7 +1089,7 @@ Basic usage example:
 
 ### pktradio
 
-This configuration is identical to the 'sixlowpan configuration
+This configuration is identical to the \'sixlowpan configuration
 described below EXCEPT that it uses the generic packet radio loopback
 network device.
 
@@ -1092,33 +1097,35 @@ network device.
 
 > This is an example implementation for OpenAMP based on the share
 > memory.
-> 
->   - rpproxy: Remote slave(client) proxy process.  
->     rpproxy created a proxy between client and server to allow the
+>
+> rpproxy: Remote slave(client) proxy process.
+>
+> :   rpproxy created a proxy between client and server to allow the
 >     client to access the hardware resources on different process.
-> 
->   - rpserver: Remote master(host) server process.
->     
->       - rpserver contains all the real hardware configuration, such
->         as:
->         
->         1.  Universal Asynchronous Receiver/Transmitter (UART).
+>
+> rpserver: Remote master(host) server process.
+>
+> :   
+>
+>     rpserver contains all the real hardware configuration, such as:
+>
+>     :   1.  Universal Asynchronous Receiver/Transmitter (UART).
 >         2.  Specific File System.
 >         3.  Network protocol stack and real network card device.
->         4.  ...
+>         4.  \...
 
 Rpmsg driver used in this example include:
 
 1.  Rpmsg Syslog
-    
+
     > Source:
-    > 
+    >
     >     include/nuttx/syslog/syslog_rpmsg.h
     >     drivers/syslog/syslog_rpmsg_server.c
     >     drivers/syslog/syslog_rpmsg.c
-    > 
+    >
     > Describe:
-    > 
+    >
     >     1>Redirect log to master core
     >       Linux kernel, NuttX, Freertos ...
     >     2>Work as early as possible
@@ -1128,14 +1135,14 @@ Rpmsg driver used in this example include:
     >       Full system crash(panic, watchdog ...)
 
 2.  Rpmsg TTY(UART)
-    
+
     > Source:
-    > 
+    >
     >     include/nuttx/serial/uart_rpmsg.h
     >     drivers/serial/uart_rpmsg.c
-    > 
+    >
     > Describe:
-    > 
+    >
     >     1>Like pseudo terminal but between two CPU
     >     2>No different from real tty(open/read/write/close)
     >     3>Full duplex communication
@@ -1145,16 +1152,16 @@ Rpmsg driver used in this example include:
     >       3)Make integrated modem like external(ATCMD)
 
 3.  RpmsgFS
-    
+
     > Source:
-    > 
+    >
     >     fs/rpmsgfs/rpmsgfs.h
     >     fs/rpmsgfs/rpmsgfs.c
     >     fs/rpmsgfs/rpmsgfs_client.c
     >     fs/rpmsgfs/rpmsgfs_server.c
-    > 
+    >
     > Describe:
-    > 
+    >
     >     1.Like NFS but between two CPU
     >     2.Fully access remote(Linux/NuttX) File system
     >       1)Save the tuning parameter during manufacture
@@ -1163,18 +1170,18 @@ Rpmsg driver used in this example include:
     >       4)Dynamic loading module from remote
 
 4.  Rpmsg Net
-    
+
     > Source:
-    > 
+    >
     >     include/nuttx/net/rpmsg.h
     >     include/nuttx/net/rpmsgdrv.h
     >     drivers/net/rpmsgdrv.c
     >     drivers/usrsock/usrsock_rpmsg.h
     >     drivers/usrsock/usrsock_rpmsg.c
     >     drivers/usrsock/usrsock_rpmsg_server.c
-    > 
+    >
     > Describe:
-    > 
+    >
     >     1)Rpmsg UsrSock client
     >     2)Rpmsg UsrSock server
     >     3)Rpmsg Net driver
@@ -1183,47 +1190,47 @@ Rpmsg driver used in this example include:
 To use this example:
 
 1.  Build images
-    
+
     > 1.  Build rpserver and backup the image:
-    >     
+    >
     >         ./tools/configure.sh sim:rpserver
     >         make
     >         cp nuttx ~/rpserver
-    > 
+    >
     > 2.  Distclean the build environment:
-    >     
+    >
     >         make distclean
-    > 
+    >
     > 3.  Build rpproxy:
-    >     
+    >
     >         ./tools/configure.sh sim:rpproxy
     >         make
     >         cp nuttx ~/rpproxy
 
 2.  Test the Rpmsg driver
-    
+
     > 1.  Rpmsg Syslog:
-    > 
+    >
     > > Start rpserver:
-    > > 
+    > >
     > >      sudo ~/rpserver
     > >     [    0.000000] server: SIM: Initializing
-    > >     
+    > >
     > >     NuttShell (NSH)
     > >     server>
-    > >     
+    > >
     > >     Start rpproxy:
-    > >     
+    > >
     > >      sudo ~/rpproxy
-    > >     
+    > >
     > >     Check the syslog from rpproxy in rpserver terminal:
-    > >     
+    > >
     > >     server> [    0.000000] proxy: SIM: Initializing
-    > 
+    >
     > 2.  Rpmsg TTY(UART):
-    > 
+    >
     > > Use cu switch the current CONSOLE to the proxy:
-    > > 
+    > >
     > >     server> ps
     > >       PID GROUP PRI POLICY   TYPE    NPX STATE    EVENT     SIGMASK   STACK COMMAND
     > >         0     0   0 FIFO     Kthread N-- Ready              00000000 000000 Idle Task
@@ -1236,13 +1243,13 @@ To use this example:
     > >         0     0   0 FIFO     Kthread N-- Ready              00000000 000000 Idle Task
     > >         1     1 224 FIFO     Kthread --- Waiting  Signal    00000000 002032 hpwork
     > >         3     3 100 FIFO     Task    --- Running            00000000 004080 init
-    > > 
+    > >
     > > To switch back the console, type `"~."` in the cu session.
 
 3.  RpmsgFS:
-    
+
     Mount the remote file system via RPMSGFS, cu to proxy first:
-    
+
         server> cu
         proxy> mount -t rpmsgfs -o cpu=server,fs=/proc proc_server
         proxy> ls
@@ -1252,27 +1259,27 @@ To use this example:
           proc/
           proc_server/
           tmp/
-    
+
     Check the uptime:
-    
+
         proxy> cat proc/uptime
           833.21
         proxy> cat proc_server/uptime
           821.72
 
 4.  Rpmsg UsrSock:
-    
-    "rptun proxy" kernel thread is running:
-    
+
+    \"rptun proxy\" kernel thread is running:
+
         server> ps
           PID GROUP PRI POLICY   TYPE    NPX STATE    EVENT     SIGMASK   STACK COMMAND
             0     0   0 FIFO     Kthread N-- Ready              00000000 000000 Idle Task
             1     1 224 FIFO     Kthread --- Waiting  Signal    00000000 002032 hpwork
             2     1 100 FIFO     Task    --- Running            00000000 004080 init
             3     3 224 FIFO     Kthread --- Waiting  Signal    00000002 002000 rptun proxy 0x56634fa0
-        
+
         send ICMP ping to network server via rpmsg usrsock:
-        
+
         server> cu
         proxy> ping 127.0.0.1
         PING 127.0.0.1 56 bytes of data
@@ -1302,48 +1309,42 @@ of this configuration is to verify that the 6LoWPAN stack correctly
 encodes IEEE802.15.4 packets on output to the loopback device and
 correctly decodes the returned packet.
 
-See also the 'pktradio' configuration.
+See also the \'pktradio\' configuration.
 
 ### rtptools
 
 **RTP Tools** is a set of small applications that can be used for
 processing RTP data.
 
-  - `rtpplay`: playback RTP sessions recorded by `rtpdump`
-  - `rtpsend`: generate RTP packets from the textual description,
+-   `rtpplay`: playback RTP sessions recorded by `rtpdump`
+-   `rtpsend`: generate RTP packets from the textual description,
     generated by hand or `rtpdump`
-  - `rtpdump`: parse and print RTP packets, generating output files
+-   `rtpdump`: parse and print RTP packets, generating output files
     suitable for `rtpplay` and `rtpsend`
-  - `rtptrans`: RTP translator between unicast and multicast networks
+-   `rtptrans`: RTP translator between unicast and multicast networks
 
-This configuration is based on the `sim:tcpblaster
-<simulator_accessing_the_network>` and builds the `rtpdump`. This
-application is able to receive RTP packets and print the contents. As a
-real-world application, one could write the received content to a FIFO
-and play it with `nxplayer`.
+This configuration is based on the
+`sim:tcpblaster <simulator_accessing_the_network>`{.interpreted-text
+role="ref"} and builds the `rtpdump`. This application is able to
+receive RTP packets and print the contents. As a real-world application,
+one could write the received content to a FIFO and play it with
+`nxplayer`.
 
-To build it, follow the instructions for `Accessing the Network
-<simulator_accessing_the_network>`.
-
-<div class="tip">
-
-<div class="title">
+To build it, follow the instructions for
+`Accessing the Network <simulator_accessing_the_network>`{.interpreted-text
+role="ref"}.
 
 Tip
-
-</div>
 
 One can use `pulseaudio` to send RTP packets through the network:
 
 pactl load-module module-null-sink sink\_name=rtp format=s16le
-channels=2 rate=44100 sink\_properties="device.description='RTP'" pactl
-load-module module-rtp-send source=rtp.monitor format=s16le
+channels=2 rate=44100 sink\_properties=\"device.description=\'RTP\'\"
+pactl load-module module-rtp-send source=rtp.monitor format=s16le
 destination\_ip=10.0.1.2 port=46998
 
-The loaded sink `RTP` is used to send PC's audio to the `10.0.1.2:46998`
-address (SIM's IP).
-
-</div>
+The loaded sink `RTP` is used to send PC\'s audio to the
+`10.0.1.2:46998` address (SIM\'s IP).
 
 After being able to access the network through the simulator, run:
 
@@ -1352,8 +1353,9 @@ After being able to access the network through the simulator, run:
     nsh> 42949704.930000 1277462397 15308
     42949704.930000 1277462714 15309
 
-For a real-world application, check `RTP Tools on ESP32-LyraT board
-<esp32-lyrat_rtptools>`.
+For a real-world application, check
+`RTP Tools on ESP32-LyraT board <esp32-lyrat_rtptools>`{.interpreted-text
+role="ref"}.
 
 ### spiffs
 
@@ -1400,7 +1402,7 @@ Basic usage example:
 
 ### tcploop
 
-This configuration performs a TCP "performance" test using
+This configuration performs a TCP \"performance\" test using
 apps/examples/tcpblaster and the IPv6 local loopback device. Performance
 is in quotes because, while that is the intent of the tcpblaster
 example, this is not an appropriate configuration for TCP performance
@@ -1421,8 +1423,8 @@ will print the touchscreen output as it is received from the simulated
 touchscreen driver.
 
 Since this example uses the simulated frame buffer driver, most of the
-configuration settings discussed for the "nx11" configuration also apply
-here. See that discussion above.
+configuration settings discussed for the \"nx11\" configuration also
+apply here. See that discussion above.
 
 See apps/examples/README.txt for further information about build
 requirements and configuration settings.
@@ -1454,7 +1456,7 @@ To use the test:
 ### unionfs
 
 This is a version of NSH dedicated to performing the simple test of the
-Union File System at apps/examples/unionfs. The command 'unionfs' will
+Union File System at apps/examples/unionfs. The command \'unionfs\' will
 mount the Union File System at /mnt/unionfs. You can than compare what
 you see at /mnt/unionfs with the content of the ROMFS file systems at
 apps/examples/unionfs/atestdir and btestdir.
@@ -1472,8 +1474,8 @@ Here is some sample output from the test:
      offset/
 
 When unionfs was created, file system was joined with an offset called
-"offset". Therefore, all of the file system 2 root contents will appear
-to reside under a directory called offset/ (although there is no
+\"offset\". Therefore, all of the file system 2 root contents will
+appear to reside under a directory called offset/ (although there is no
 directory called offset/ on file system 2). File system 1 on the other
 hand does have an actual directory called offset/. If we list the
 contents of the offset/ directory in the unified file system, we see the
@@ -1482,7 +1484,7 @@ system 2 root directory:
 
     nsh> cat /mnt/unionfs/afile.txt
     This is a file in the root directory on file system 1
-    
+
     nsh> ls /mnt/unionfs/offset
     /mnt/unionfs/offset:
      afile.txt
@@ -1492,7 +1494,7 @@ system 2 root directory:
      bdir/
     nsh> cat /mnt/unionfs/offset/afile.txt
     This is a file in the offset/ directory on file system 1
-    
+
     nsh> cat /mnt/unionfs/offset/bfile.txt
     This is another file in the root directory on file system 2
 
@@ -1512,7 +1514,7 @@ The unified directory listing is showing files from both file systems in
 their respective offset adir/ subdirectories. The file adirfile.txt
 exists in both file system 1 and file system 2 but the version in file
 system 2 is occluded by the version in file system 1. The only way that
-you can know which you are looking at is by cat'ing the file:
+you can know which you are looking at is by cat\'ing the file:
 
     nsh> cat /mnt/unionfs/offset/adir/adirfile.txt
     This is a file in directory offset/adir on file system 1
@@ -1532,9 +1534,9 @@ at apps/examples/unionfs/atestdir and btestdir.
 > This is another NSH configuration that includes the built-in
 > application of apps/examples/userfs to support test of the UserFS on
 > the simulation platform.
-> 
+>
 > To use the test:
-> 
+>
 >     nsh> userfs                 # Mounts the UserFS test file system at
 >                                 # /mnt/ufstest
 >     nsh> mount                  # Testing is then performed by exercising the
@@ -1550,12 +1552,12 @@ at apps/examples/unionfs/atestdir and btestdir.
 > are provided by the test at apps/examples/ustream. This configuration
 > enables local, Unix domain sockets and supports the test of the stream
 > sockets.
-> 
+>
 > To use the test:
-> 
+>
 >     nsh> server &
 >     nsh> client
-> 
+>
 > Note that the binfs file system is mounted at /bin when the system
 > starts up.
 
@@ -1575,23 +1577,19 @@ at apps/examples/unionfs/atestdir and btestdir.
 This is a configuration for WebAssembly sample.
 
 1.  Compile Toolchain
-    
+
     1.  Download WASI sdk and export the WASI\_SDK\_PATH path
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     > wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-19/wasi-sdk-19.0-linux.tar.gz
     > tar xf wasi-sdk-19.0-linux.tar.gz
     > # Put wasi-sdk-19.0 to your host WASI_SDK_PATH environment variable, like:
     > export WASI_SDK_PATH=`pwd`/wasi-sdk-19.0
     > ```
-    
-    2.  Download Wamr "wamrc" AOT compiler and export to the PATH
-    
-    > 
-    > 
-    > ``` console
+
+    2.  Download Wamr \"wamrc\" AOT compiler and export to the PATH
+
+    > ``` {.console}
     > mkdir wamrc
     > wget https://github.com/bytecodealliance/wasm-micro-runtime/releases/download/WAMR-1.1.2/wamrc-1.1.2-x86_64-ubuntu-20.04.tar.gz
     > tar xf wamrc-1.1.2-x86_64-ubuntu-20.04.tar.gz
@@ -1599,12 +1597,10 @@ This is a configuration for WebAssembly sample.
     > ```
 
 2.  Configuring and running
-    
+
     1.  Configuring sim/wamr and compile
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     > ./tools/configure.sh  sim/wamr
     > make
     > ...
@@ -1612,22 +1608,18 @@ This is a configuration for WebAssembly sample.
     > Wamrc Generate AoT: /home/archer/code/nuttx/n5/apps/wasm/coremark.aot
     > LD:  nuttx
     > ```
-    
+
     2.  Copy the generated wasm file(Interpreter/AoT)
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     > cp ../apps/wasm/hello.aot .
     > cp ../apps/wasm/hello.wasm .
     > cp ../apps/wasm/coremark.wasm .
     > ```
-    
+
     3.  Run iwasm
-    
-    > 
-    > 
-    > ``` console
+
+    > ``` {.console}
     > ./nuttx
     > NuttShell (NSH) NuttX-10.4.0
     > nsh> iwasm /data/hello.wasm
@@ -1661,60 +1653,60 @@ This is a configuration with sim usbdev support.
 
 > Get Raw Gadget: Get Raw Gadget code at
 > <https://github.com/xairy/raw-gadget>.
-> 
+>
 > Make Raw Gadget: Run make in the raw\_gadget and dummy\_hcd directory.
 > If raw\_gadget build fail, you need to check which register interface
 > meets your kernel version, usb\_gadget\_probe\_driver or
 > usb\_gadget\_register\_driver.
-> 
+>
 > Install Raw Gadget: Run ./insmod.sh in the raw\_gadget and dummy\_hcd
 > directory.
 
 2.  Configuration
 
 > sim:usbdev contains two different sets of composite devices:
-> 
+>
 >     conn0: adb & rndis
 >     conn1: cdcacm & cdcecm
 >     conn2: cdcncm
 >     conn3: cdcmbim
-> 
+>
 > You can use the sim:usbdev configuration:
-> 
+>
 >     ./tools/configure.sh sim:usbdev
 
 3.  How to run
 
 > Run nuttx with root mode, then you can use it as the following:
-> 
+>
 >     1> Run ADB:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 0
 >      adbd &
-> 
+>
 > Host PC enter the ADB command:
-> 
+>
 >      adb kill-server
 >      adb devices
 >     List of devices attached
 >     * daemon not running; starting now at tcp:5037
 >     * daemon started successfully
 >     0101        device
-> 
+>
 > If ADB connection fails, make sure the udev rule is added correctly.
 > Edit /etc/udev/rules.d/51-android.rules file and add the following to
-> it: SUBSYSTEM=="usb", ATTR{idVendor}=="1630", ATTR{idProduct}=="0042",
-> MODE="0666", GROUP="plugdev"
-> 
+> it: SUBSYSTEM==\"usb\", ATTR{idVendor}==\"1630\",
+> ATTR{idProduct}==\"0042\", MODE=\"0666\", GROUP=\"plugdev\"
+>
 > Then you can use commands such as adb shell, adb push, adb pull as
 > normal.
-> 
+>
 > > 2\> Run RNDIS:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 0
 >      ifconfig
 >     eth0    Link encap:Ethernet HWaddr 00:00:00:00:00:00 at UP
@@ -1722,9 +1714,9 @@ This is a configuration with sim usbdev support.
 >      dhcpd_start eth0
 >     eth0    Link encap:Ethernet HWaddr 00:00:00:00:00:00 at UP
 >           inet addr:10.0.0.1 DRaddr:10.0.0.1 Mask:255.255.255.0
-> 
+>
 > Host PC, you can see the network device named usb0:
-> 
+>
 >      ifconfig
 >     usb0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 602
 >             inet 10.0.0.4  netmask 255.255.255.0  broadcast 10.0.0.255
@@ -1733,34 +1725,34 @@ This is a configuration with sim usbdev support.
 >             RX errors 0  dropped 0  overruns 0  frame 0
 >             TX packets 43  bytes 8544 (8.5 KB)
 >             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-> 
+>
 > Then you can test the network connection using the ping command or
 > telnet.
-> 
+>
 > > 3\> Run CDCACM:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 1
-> 
+>
 > If the connection is successful, you can see /dev/ttyACM devices on
 > both NuttX and host PC.
-> 
+>
 > Then you can use echo and cat command to test:
-> 
+>
 > NuttX:
-> 
+>
 >     nsh> echo hello > /dev/ttyACM0
-> 
+>
 > Host PC:
-> 
+>
 >      cat /dev/ttyACM0
 >     hello
->     
+>
 >     4> Run CDCECM:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 1
 >      ifconfig
 >     eth0    Link encap:Ethernet HWaddr 00:e0:de:ad:be:ef at UP
@@ -1769,9 +1761,9 @@ This is a configuration with sim usbdev support.
 >      ifconfig
 >     eth0    Link encap:Ethernet HWaddr 00:e0:de:ad:be:ef at UP
 >             inet addr:10.0.0.1 DRaddr:10.0.0.1 Mask:255.255.255.0
-> 
+>
 > Host PC, you can see the network device named enx020000112233:
-> 
+>
 >      ifconfig
 >     enx020000112233: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 576
 >             inet 10.0.0.4  netmask 255.255.255.0  broadcast 10.0.0.255
@@ -1780,14 +1772,14 @@ This is a configuration with sim usbdev support.
 >             RX errors 0  dropped 0  overruns 0  frame 0
 >             TX packets 58  bytes 9143 (9.1 KB)
 >             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-> 
+>
 > Then you can test the network connection using the ping command or
 > telnet.
-> 
+>
 > > 5\> Run CDCNCM:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 2
 >      ifconfig
 >     eth0    Link encap:Ethernet HWaddr 42:67:c6:69:73:51 at UP
@@ -1800,9 +1792,9 @@ This is a configuration with sim usbdev support.
 >             inet addr:10.0.1.2 DRaddr:10.0.1.1 Mask:255.255.255.0
 >     eth1    Link encap:Ethernet HWaddr 00:e0:de:ad:be:ef at UP
 >             inet addr:10.0.0.1 DRaddr:10.0.0.1 Mask:255.255.255.0
-> 
+>
 > Host PC, you can see the network device named enx020000112233:
-> 
+>
 >      ifconfig
 >     enx020000112233: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 576
 >             inet 10.0.0.2  netmask 255.255.255.0  broadcast 10.0.0.255
@@ -1811,14 +1803,14 @@ This is a configuration with sim usbdev support.
 >             RX errors 0  dropped 0  overruns 0  frame 0
 >             TX packets 58  bytes 9143 (9.1 KB)
 >             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-> 
+>
 > Then you can test the network connection using the ping command or
 > telnet.
-> 
+>
 > > 6\> Run CDCMBIM:
-> 
+>
 > NuttX enter command:
-> 
+>
 >      conn 3
 >      ifconfig
 >     eth0    Link encap:Ethernet HWaddr 42:67:c6:69:73:51 at RUNNING mtu 1500
@@ -1831,13 +1823,13 @@ This is a configuration with sim usbdev support.
 >             inet addr:10.0.1.2 DRaddr:10.0.1.1 Mask:255.255.255.0
 >     wwan0   Link encap:UNSPEC at RUNNING mtu 1200
 >             inet addr:10.0.0.1 DRaddr:10.0.0.1 Mask:255.255.255.0
->     
+>
 >      echo -n "hello from nuttx" > /dev/cdc-wdm2
 >      cat /dev/cdc-wdm2
 >     hello from linux
-> 
+>
 > Host PC, you can see the network device named wwx020000112233:
-> 
+>
 >      sudo ifconfig wwx020000112233
 >      sudo ifconfig wwx020000112233 10.0.0.2 netmask 255.255.255.0
 >      ifconfig
@@ -1848,11 +1840,11 @@ This is a configuration with sim usbdev support.
 >             RX errors 0  dropped 0  overruns 0  frame 0
 >             TX packets 58  bytes 9143 (9.1 KB)
 >             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
->     
+>
 >      sudo cat /dev/cdc-wdm1
 >     hello from nuttx
 >      sudo bash -c "echo -n hello from linux > /dev/cdc-wdm1"
-> 
+>
 > Then you can test the network connection using the ping command or
 > telnet.
 
@@ -1861,25 +1853,25 @@ This is a configuration with sim usbdev support.
 This is a configuration with sim usbhost support.
 
 1.  Libusb1.0 setup:
-    
+
          sudo apt-get -y install libusb-1.0-0-dev
          sudo apt-get -y install libusb-1.0-0-dev:i386
 
 2.  Configuration
-    
+
     sim:usbhost support cdcacm.
-    
+
     You can use the sim:usbdev configuration:
-    
+
          ./tools/configure.sh sim:usbhost
-    
+
     Configure the device you want to connect:
-    
+
         CONFIG_SIM_USB_PID=0x0042
         CONFIG_SIM_USB_VID=0x1630
 
 3.  How to run
-    
+
     Run sim usbhost with root mode, run sim usbdev or plug-in cdcacm usb
     device. Then you can use /dev/ttyACM to transfer data.
 
@@ -1890,10 +1882,10 @@ This is a configuration with login password protection for nuttx shell.
 NOTES:
 
 > This config has password protection enabled. Here is the login info:
-> 
+>
 >     USERNAME:  admin
 >     PASSWORD:  Administrator
-> 
+>
 > The encrypted password is retained in /etc/passwd. I am sure that you
 > will find this annoying. You can disable the password protection by
 > de-selecting CONFIG\_NSH\_CONSOLE\_LOGIN=y.
@@ -1913,29 +1905,29 @@ Below is an example of receiving CAN frames from host to NuttX.
 Requirement: `cansequence` tool from `linux-can/can-utils`
 
 1.  Create virtual CAN on host:
-    
+
         ip link add dev can0 type vcan
         ifconfig can0 up
 
 2.  Run NuttX:
-    
+
         ./nuttx
 
 3.  Bring up can0 on NuttX:
-    
+
         nsh> ifup can0
         ifup can0...OK
 
 4.  read CAN messages from SocketCAN on NuttX:
-    
+
         nsh> candump can0
 
 5.  send CAN messages from host to NuttX:
-    
+
          cansequence can0
 
 6.  frames from host should be received on NuttX:
-    
+
         nsh> candump can0
         can0  002   [1]  00
         can0  002   [1]  01
@@ -1957,4 +1949,5 @@ Requirement: `cansequence` tool from `linux-can/can-utils`
         can0  002   [1]  11
         can0  002   [1]  12
 
-## README.txt
+README.txt
+----------

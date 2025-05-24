@@ -1,7 +1,4 @@
-# qemu-armv8a
-
-<div class="tags">
+qemu-armv8a
+===========
 
 chip:virt
-
-</div>

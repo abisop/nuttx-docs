@@ -1,5 +1,7 @@
-# NXP RV32M1
+NXP RV32M1
+==========
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

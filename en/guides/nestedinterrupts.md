@@ -1,6 +1,8 @@
-# Nested Interrupts
+Nested Interrupts
+=================
 
-## Are Nested Interrupts Needed?
+Are Nested Interrupts Needed?
+-----------------------------
 
 Most NuttX architectures do not support nested interrupts: Interrupts
 are disabled when the interrupt is entered and restored when the
@@ -18,7 +20,8 @@ nested interrupts is not inherently an issue with NuttX and need not be
 the case; it should be a simple matter to modify the interrupt handling
 so that interrupts are nested.
 
-## Layered Interrupt Handling Architecture
+Layered Interrupt Handling Architecture
+---------------------------------------
 
 Interrupt handling occurs in several files. In most implementations,
 there are several layers of interrupt handling logic:
@@ -34,7 +37,8 @@ there are several layers of interrupt handling logic:
     dispatching logic `irq_dispatch()` that can be found at
     `sched/irq_dispatch.c`.
 
-## How to Implement Nested Interrupts in the Layered Interrupt Handling Architecture
+How to Implement Nested Interrupts in the Layered Interrupt Handling Architecture
+---------------------------------------------------------------------------------
 
 The logic in these first two levels that would have to change to support
 nested interrupt handling. Here is one technical approach to do that:
@@ -45,7 +49,7 @@ nested interrupt handling. Here is one technical approach to do that:
     exit (making sure that interrupts are disabled in each case because
     incrementing and decrementing are not usually atomic operations).
 2.  At the lowest level, there is usually some assembly language logic
-    that will switch from the user's stack to a special interrupt level
+    that will switch from the user\'s stack to a special interrupt level
     stack. This behavior is controlled `CONFIG_ARCH_INTERRUPTSTACK`. The
     logic here would have to change in the following way: If
     `g_nestlevel` is zero then behave as normal, switching from the user
@@ -84,7 +88,7 @@ SMP logic.
 A generic `up_doirq()` might look like the following. It can be very
 simple because interrupts are disabled:
 
-``` c
+``` {.c}
 uint32_t *up_doirq(int irq, uint32_t *regs)
 {
   /* Current regs non-zero indicates that we are processing an interrupt;
@@ -120,7 +124,7 @@ What has to change to support nested interrupts is:
 So the modified version of `up_doirq()` would be as follows. Here we
 assume that interrupts are enabled.
 
-``` c
+``` {.c}
 uint32_t *up_doirq(int irq, uint32_t *regs)
 {
   irqstate_t flags;
@@ -173,7 +177,8 @@ were to defer all context switching to a *PendSV* handler, then the
 interrupts could vector to the `do_irq()` logic and then all interrupts
 would be naturally nestable.
 
-## SVCall vs PendSV
+SVCall vs PendSV
+----------------
 
 An issue that may be related to nested interrupt handling is the use of
 the `SVCall` exceptions in NuttX. The `SVCall` exception is used as a
@@ -185,19 +190,19 @@ when NuttX is built as a kernel.
 mode processing; only from thread mode logic. The `SVCall` exception is
 used as follows to perform the system call:
 
-  - All interrupts are disabled: There are a few steps the must be
+-   All interrupts are disabled: There are a few steps the must be
     performed in a critical section. Those setups and the `SVCall` must
     work as a single, uninterrupted atomic action.
-  - A special register setup is put in place: Parameters are passed to
+-   A special register setup is put in place: Parameters are passed to
     the `SVCall` in registers just as with a normal function call.
-  - The Cortex SVC instruction is executed. This causes the `SVCall`
+-   The Cortex SVC instruction is executed. This causes the `SVCall`
     exception which is dispatched to the `SVCall` exception handler.
     This exception must occur while the input register setup is in
     place; it cannot be deferred and perform at some later time. The
     `SVCall` exception handler decodes the registers and performs the
     requested operation. If no context switch occurs, the `SVCall` will
     return to the caller immediately.
-  - Upon return interrupts will be re-enabled.
+-   Upon return interrupts will be re-enabled.
 
 So what does this have to do with nested interrupt handling? Since
 interrupts are disabled throughout the `SVCall` sequence, nothing
@@ -219,7 +224,8 @@ architecture that would use the PendSV exception instead of the `SVCall`
 interrupt is not clear in my mind. But I will keep this note here for
 future reference if this were to become as issue.
 
-## What Could Go Wrong?
+What Could Go Wrong?
+--------------------
 
 Whenever you deal with logic at software hardware interface, lots of
 things can go wrong. But, aside from that general risk, the only

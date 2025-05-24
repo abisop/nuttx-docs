@@ -1,6 +1,7 @@
-# ADC Drivers
+ADC Drivers
+===========
 
-  - `include/nuttx/analog/adc.h`. All structures and APIs needed to work
+-   `include/nuttx/analog/adc.h`. All structures and APIs needed to work
     with ADC drivers are provided in this header file. This header file
     includes:
     1.  Structures and interface descriptions needed to develop a
@@ -8,16 +9,17 @@
     2.  To register the ADC driver with a common ADC character driver.
     3.  Interfaces needed for interfacing user programs with the common
         ADC character driver.
-  - `drivers/analog/adc.c`. The implementation of the common ADC
+-   `drivers/analog/adc.c`. The implementation of the common ADC
     character driver.
 
-## Application Programming Interface
+Application Programming Interface
+---------------------------------
 
 The first necessary thing to be done in order to use the ADC driver from
 an application is to include the correct header filer. It contains the
 Application Programming Interface to the ADC driver. To do so, include:
 
-``` c
+``` {.c}
 #include <nuttx/analog/adc.h>
 ```
 
@@ -33,7 +35,7 @@ measurements and `read()` operation gets data from this queue. Structure
 parameter of `read()` call. This structure represents one ADC
 measurement.
 
-``` c
+``` {.c}
 begin_packed_struct struct adc_msg_s
 {
   /* The 8-bit ADC Channel */
@@ -47,12 +49,12 @@ User may perform polling operation on the driver with `poll()` call. The
 controller also may be configured/controlled at run time with numerous
 `ioctl()` calls. Following commands are supported:
 
->   - :c`ANIOC_TRIGGER`
->   - :c`ANIOC_WDOG_UPPER`
->   - :c`ANIOC_WDOG_LOWER`
->   - :c`ANIOC_GET_NCHANNELS`
->   - :c`ANIOC_RESET_FIFO`
->   - :c`ANIOC_SAMPLES_ON_READ`
+> -   :c`ANIOC_TRIGGER`{.interpreted-text role="macro"}
+> -   :c`ANIOC_WDOG_UPPER`{.interpreted-text role="macro"}
+> -   :c`ANIOC_WDOG_LOWER`{.interpreted-text role="macro"}
+> -   :c`ANIOC_GET_NCHANNELS`{.interpreted-text role="macro"}
+> -   :c`ANIOC_RESET_FIFO`{.interpreted-text role="macro"}
+> -   :c`ANIOC_SAMPLES_ON_READ`{.interpreted-text role="macro"}
 
 The `ANIOC_TRIGGER` command triggers one conversion. This call is used
 when software trigger conversion is configured. The opposite to software
@@ -82,7 +84,8 @@ An example application can be found in `nuttx-apps` repository under
 path `examples/adc`. It is an example application that reads the data
 from the defined number of channels.
 
-## Configuration
+Configuration
+-------------
 
 This section describes ADC driver configuration in `Kconfig`. The reader
 should refer to target documentation for target specific configuration.
@@ -98,7 +101,8 @@ retained in buffer is (`CONFIG_ADC_FIFOSIZE - 1`).
 Configuration option `CONFIG_ADC_NPOLLWAITERS` defines number of threads
 that can be waiting on poll.
 
-## External Devices
+External Devices
+----------------
 
 NuttX also provides support for various external ADC devices. These
 usually communicates with MCU with I2C or SPI peripherals.

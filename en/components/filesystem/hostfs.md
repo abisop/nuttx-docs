@@ -1,7 +1,8 @@
-# Host File System
+Host File System
+================
 
 The Host file system provides a mechanism to mount directories from the
-host OS during simulation mode. The host directory to be "mounted" is
+host OS during simulation mode. The host directory to be \"mounted\" is
 specified during the mount command using the `-o` command line switch,
 such as:
 

@@ -1,26 +1,32 @@
-# Intel64
+Intel64
+=======
 
-## Architecture-Specific Directories
+Architecture-Specific Directories
+---------------------------------
 
 Architecture-specific directories hold common source files shared for by
 implementations of specific x86\_64 architectures.
 
-  - `intel64`  
-    This directory holds logic appropriate for any instantiation of the
+`intel64`
+
+:   This directory holds logic appropriate for any instantiation of the
     64-bit intel64 architecture.
 
-## Chip-Specific directories
+Chip-Specific directories
+-------------------------
 
 The same x86 architecture may be realized in different chip
 implementations. For SoC chips, in particular, on-chip devices and
 differing interrupt structures may require special, chip-specific
 definitions in these chip-specific directories.
 
-  - `qemu`  
-    This is the implementation of NuttX on the QEMU x86\_64. It's empty
+`qemu`
+
+:   This is the implementation of NuttX on the QEMU x86\_64. It\'s empty
     for now.
 
-## Features
+Features
+--------
 
 ### Hardware acceleration
 
@@ -63,7 +69,7 @@ It is very possible that the framebuffer is mapped in a memory region
 above 4GB, so you may also need to set `CONFIG_MM_PGALLOC=y`.
 
 To enable framebuffer support in QEMU, omit the `-nographic` argument
-and use `-cdrom boot.iso` (multiboot2 framebuffer doesn't work with
+and use `-cdrom boot.iso` (multiboot2 framebuffer doesn\'t work with
 `-kernel` option).
 
 Also, your GRUB configuration (`grub.cfg`) should insert the appropriate
@@ -73,21 +79,14 @@ video module, in many cases `insmod all_video` should be enough.
 
 Kernel build is supported.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
 
-</div>
-
-IMPORTANT: the current implementation doesn't include any protection
+IMPORTANT: the current implementation doesn\'t include any protection
 against speculative execution vulnerabilities (Spectre, Meltdown and
-others) \!
+others) !
 
-</div>
-
-## Creating a bootable disk
+Creating a bootable disk
+------------------------
 
 This build supports multiboot2, which means that usual multiboot2
 bootloaders, e.g. grub can be used. To create a bootable disk with
@@ -132,6 +131,7 @@ You can find this in most Linux distributions:
         │   └── grub.cfg
         └── nuttx.elf
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

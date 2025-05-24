@@ -1,10 +1,7 @@
-# STM32L476-mdk
-
-<div class="tags">
+STM32L476-mdk
+=============
 
 chip:stm32, chip:stm32l4, chip:stm32l476
-
-</div>
 
 This page discusses issues unique to NuttX configurations for
 STM32L476ME part in the Motorola MDK. This is referred to as the MuC in
@@ -12,25 +9,26 @@ Motorola technical documentation.
 
 STM32L476ME:
 
-  - Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L476ME
-  - Memory: 1024 KB Flash and 96+32 KB SRAM
-  - ADC: 3x12-bit, 2.4 MSPS A/D converter: up to 24 channels
-  - DMA: 16-stream DMA controllers with FIFOs and burst support
-  - Timers:Up to 11 timers: up to eight 16-bit, two 32-bit timers, two
+-   Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L476ME
+-   Memory: 1024 KB Flash and 96+32 KB SRAM
+-   ADC: 3x12-bit, 2.4 MSPS A/D converter: up to 24 channels
+-   DMA: 16-stream DMA controllers with FIFOs and burst support
+-   Timers:Up to 11 timers: up to eight 16-bit, two 32-bit timers, two
     watchdog timers, and a SysTick timer
-  - GPIO: Up to 51 I/O ports with interrupt capability
-  - I2C: Up to 3 x I2C interfaces
-  - USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
-  - SPIs: Up to 3 SPIs
-  - SAIs: Up to 2 dual-channel audio interfaces
-  - CAN interface
-  - SDIO interface (not connected)
-  - QSPI interface (not connected)
-  - USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
-  - CRC calculation unit
-  - RTC
+-   GPIO: Up to 51 I/O ports with interrupt capability
+-   I2C: Up to 3 x I2C interfaces
+-   USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
+-   SPIs: Up to 3 SPIs
+-   SAIs: Up to 2 dual-channel audio interfaces
+-   CAN interface
+-   SDIO interface (not connected)
+-   QSPI interface (not connected)
+-   USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
+-   CRC calculation unit
+-   RTC
 
-## Acronyms
+Acronyms
+--------
 
 MDK is, of course, the Motorola Development Kit. MuC is the acronym that
 is used to refer to the STM32L476ME on the MDK board. MHB is the acronym
@@ -38,10 +36,11 @@ given to Toshiba Interface Bridge, part number T6WV7XBG. See
 <https://toshiba.semicon-storage.com/us/product/assp/interface-bridge.html>
 NuttX runs the MuC.
 
-## Flashing
+Flashing
+--------
 
 The MDK has a built-in FTDI to support flashing from openocd. There are
-a few extensions to openocd that haven't been integrated upstream yet.
+a few extensions to openocd that haven\'t been integrated upstream yet.
 To flash (or debug) the MDK, you will need the code from:
 
      git clone https://github.com/MotorolaMobilityLLC/openocd
@@ -81,7 +80,8 @@ NOTE: There is a special version of GDB 7.11 available with some
 additional, MDK-specific features. It is available in a
 MotorolaMobilityLLC github.com repository.
 
-## Serial Console
+Serial Console
+--------------
 
 The serial console is configured on USART3 using MUC\_UART3\_TX (PC10)
 and MUC\_UART\_RX (PC11). This connects to the FT4232 part which

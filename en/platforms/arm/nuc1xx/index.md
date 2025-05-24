@@ -1,13 +1,15 @@
-# nuvoTon NUC120
+nuvoTon NUC120
+==============
 
 This is a port of NuttX to the nuvoTon NuTiny-SDK-NUC120 that features
 the NUC120LE3AN MCU.
 
 **STATUS**. Initial support for the NUC120 was released in NuttX-6.26.
-This initial support is very minimal: There is a NuttShell (`NSH <nsh>`)
-configuration that might be the basis for an application development. As
-of this writing, more device drivers are needed to make this a more
-complete port. Refer to the NuttX board
+This initial support is very minimal: There is a NuttShell
+(`NSH <nsh>`{.interpreted-text role="ref"}) configuration that might be
+the basis for an application development. As of this writing, more
+device drivers are needed to make this a more complete port. Refer to
+the NuttX board
 [README](https://github.com/apache/nuttx/blob/master/Documentation/platforms/arm/nuc1xx/boards/nutiny-nuc120/README.txt)
 file for further information.
 
@@ -36,6 +38,7 @@ native toolchain, or 4) Native Windows. A DIY toolchain for Linux or
 Cygwin is provided by the NuttX
 [buildroot](https://bitbucket.org/nuttx/buildroot/downloads/) package.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

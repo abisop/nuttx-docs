@@ -1,4 +1,5 @@
-# Frame Buffer Drivers
+Frame Buffer Drivers
+====================
 
 A framebuffer is a memory-mapped buffer that represents all the pixels
 necessary to drive a video display.
@@ -14,7 +15,8 @@ scenarios:
         image data;
 2.  Applications that expect the framebuffer to exist;
 
-## Binding
+Binding
+-------
 
 LCD and frame buffer drivers usually are not directly accessed by user
 code, but are usually bound to another, higher-level device driver. In
@@ -33,7 +35,7 @@ framebuffer.
 
 1.  `include/nuttx/video/fb.h` provides all structures and APIs needed
     to work with frame buffer drivers:
-    
+
     1.  `drivers/video/fb.c` is the higher-level device driver. An
         instance of `struct fb_vtable_s` will be provided to it;
     2.  `fb_register` registers the framebuffer character device at
@@ -46,9 +48,9 @@ framebuffer.
             intermediary interface between the Frame Buffer Driver and
             the LCD screen drivers;
 
-2.  Let's consider we are using the LCD framebuffer
+2.  Let\'s consider we are using the LCD framebuffer
     (`CONFIG_LCD_FRAMEBUFFER = y`):
-    
+
     1.  This interface implements the `up_fbinitialize` which:
         1.  Provides the instance of `struct fb_vtable_s` (a member of
             `struct lcdfb_dev_s`);
@@ -60,16 +62,16 @@ framebuffer.
 3.  Finally, the LCD screen drivers are usually available at
     `drivers/lcd/` and implement the callbacks defined at
     `include/nuttx/lcd/lcd.h`:
-    
+
     > 1.  `include/nuttx/lcd/lcd.h` provides structures and APIs needed
     >     to work with LCD screens, whereas using the framebuffer
-    >     adapter or the
-    >     \[<span class="title-ref">lcd</span>;\](<span class="title-ref">lcd</span>;.md)
+    >     adapter or the \[[lcd]{.title-ref};\]([lcd]{.title-ref};.md)
 
-## VSYNC
+VSYNC
+-----
 
 Vertical synchronization (VSync) synchronizes the frame rate of an
-application's graphics with the refresh rate of the display, helping to
+application\'s graphics with the refresh rate of the display, helping to
 establish stability. If not synchronized, it may cause screen tearing,
 which is the effect of the image appearing to have horizontal jagged
 edges or ghosting across the entire screen.
@@ -85,9 +87,11 @@ problem, `FBIOSET_VSYNCOFFSET` can be used to set the VSYNC offset time
 (in microseconds) and reduce the delay from input device to screen using
 the VSYNC offset.
 
-## Examples
+Examples
+--------
 
-Examples apply to specific cases of the `genericlcdfb`:
+Examples apply to specific cases of the `genericlcdfb`{.interpreted-text
+role="ref"}:
 
 ### TTGO T-Display ESP32 board
 
@@ -95,12 +99,10 @@ This board contains an ST7789 TFT Display (135x240). By selecting the
 `ttgo_t_display_esp32:lvgl_fb` config, the `lvgldemo` example will be
 built with the framebuffer interface.
 
-  - `boards/xtensa/esp32/ttgo_t_display_esp32/src/esp32_bringup.c`
+-   `boards/xtensa/esp32/ttgo_t_display_esp32/src/esp32_bringup.c`
     registers the framebuffer driver:
 
-<!-- end list -->
-
-``` c
+``` {.c}
 #ifdef CONFIG_VIDEO_FB
   ret = fb_register(0, 0);
   if (ret < 0)
@@ -110,76 +112,68 @@ built with the framebuffer interface.
 #endif
 ```
 
-  - `up_fbinitialize` from the frame buffer adapter will then be called
+-   `up_fbinitialize` from the frame buffer adapter will then be called
     as `CONFIG_LCD_FRAMEBUFFER = y`:
-    
-    >   - `board_lcd_initialize` and `board_lcd_getdev` are defined at
+
+    > -   `board_lcd_initialize` and `board_lcd_getdev` are defined at
     >     `boards/xtensa/esp32/common/src/esp32_st7789.c`:
-    >     
-    >     >   - `board_lcd_initialize` initializes the LCD hardware on
+    >
+    >     > -   `board_lcd_initialize` initializes the LCD hardware on
     >     >     the board by defining the SPI interface which is
     >     >     connected to the display controller;
-    >     >   - `board_lcd_getdev` calls the `st7789_lcdinitialize` and
+    >     > -   `board_lcd_getdev` calls the `st7789_lcdinitialize` and
     >     >     returns a reference to the LCD object for the specified
     >     >     LCD;
-    >     >   - `st7789_lcdinitialize` is part of the LCD screen driver
+    >     > -   `st7789_lcdinitialize` is part of the LCD screen driver
     >     >     at `drivers/lcd/st7789.c`;
 
-  - The LVGL demo application (`lvgldemo`) makes use of the `ioctl`
+-   The LVGL demo application (`lvgldemo`) makes use of the `ioctl`
     system call to trigger a `FBIO_UPDATE` request to the higher-level
     device driver to refresh the LCD screen with framebuffer data:
 
-<!-- end list -->
-
-``` c
+``` {.c}
 ioctl(state.fd, FBIO_UPDATE, (unsigned long)((uintptr_t)&fb_area));
 ```
 
 ### NuttX Simulator
 
-\[<span class="title-ref">NuttX Simulator \</platform\](\`NuttX
-Simulator \</platform.md)s/sim/sim/index\></span> provides a X11-based
+\[[NuttX Simulator \</platform\](\`NuttX Simulator
+\</platform.md)s/sim/sim/index\>]{.title-ref} provides a X11-based
 framebuffer driver to simulate the framebuffer usage into a
 X11-compatible host.
 
 By selecting the `sim:lvgl_fb` config, the `lvgldemo` example will be
 built with the framebuffer driver.
 
-  - `boards/sim/sim/sim/src/sim_bringup.c` registers the framebuffer
-    driver the same way `ttgotdisplayesp32_fb`;
+-   `boards/sim/sim/sim/src/sim_bringup.c` registers the framebuffer
+    driver the same way `ttgotdisplayesp32_fb`{.interpreted-text
+    role="ref"};
 
-  - `arch/sim/src/sim/up_framebuffer.c` and
+-   `arch/sim/src/sim/up_framebuffer.c` and
     `arch/sim/src/sim/up_x11framebuffer.c` will be built as
     `CONFIG_SIM_FRAMEBUFFER = y` and `CONFIG_SIM_X11FB = y` are set,
     respectively;
-    
-    >   - `up_framebuffer.c` provides `up_fbinitialize` and,
-    >   - calls `up_x11initialize` from `up_x11framebuffer.c` that
-    >     initializes a X11-based window as a framebuffer. This is the
-    >     underlying "driver".
 
-  - The LVGL demo application (`lvgldemo`) makes use of the `ioctl`
+    > -   `up_framebuffer.c` provides `up_fbinitialize` and,
+    > -   calls `up_x11initialize` from `up_x11framebuffer.c` that
+    >     initializes a X11-based window as a framebuffer. This is the
+    >     underlying \"driver\".
+
+-   The LVGL demo application (`lvgldemo`) makes use of the `ioctl`
     system call to trigger a `FBIO_UPDATE` request to the higher-level
     device driver in order to refresh the LCD screen with framebuffer
     data as usual;
 
-<div class="warning">
-
-<div class="title">
-
 Warning
 
-</div>
-
-One must consider that framebuffer requires that the entire display's
-pixels to be represented. Considering a 320x480 @RGB565 LCD screen, that
-would be 300KiB, which it'd be too much for a memory-constrained device.
+One must consider that framebuffer requires that the entire display\'s
+pixels to be represented. Considering a 320x480 \@RGB565 LCD screen,
+that would be 300KiB, which it\'d be too much for a memory-constrained
+device.
 
 However, when memory is not a constraint, framebuffer may offer
 applications a faster way to update display contents once writing to the
 RAM-mapped buffer is faster than doing multiple SPI transfers.
 
 For memory-constrained devices, consider using
-\[<span class="title-ref">lcd</span>.\](<span class="title-ref">lcd</span>..md)
-
-</div>
+\[[lcd]{.title-ref}.\]([lcd]{.title-ref}..md)

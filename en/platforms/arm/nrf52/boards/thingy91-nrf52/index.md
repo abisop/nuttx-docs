@@ -1,22 +1,21 @@
-# Nordic Thingy:91 (nRF52840)
-
-<div class="tags">
+Nordic Thingy:91 (nRF52840)
+===========================
 
 chip:nrf52, chip:nrf52840
-
-</div>
 
 The [Thingy:91
 (PCA0035)](https://www.nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91)
 is a development board based on the nRF9160 and nRF52840 from Nordic.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-| Peripheral | Support | NOTES |
-| ---------- | ------- | ----- |
-| USB NFC    | Yes No  |       |
+  Peripheral   Support   NOTES
+  ------------ --------- -------
+  USB NFC      Yes No    
 
-## Serial Console
+Serial Console
+--------------
 
 The serial console is available via CDC/ACM enable on the USB port
 connected to nRF52840.

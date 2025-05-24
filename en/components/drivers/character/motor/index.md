@@ -1,3 +1,4 @@
-# Motor Drivers
+Motor Drivers
+=============
 
 > foc.rst

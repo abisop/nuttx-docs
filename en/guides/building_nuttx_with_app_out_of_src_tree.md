@@ -1,23 +1,18 @@
-# Building NuttX with Applications Outside the Source Tree
-
-<div class="warning">
-
-<div class="title">
+Building NuttX with Applications Outside the Source Tree
+========================================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Building+NuttX+with+Applications+Outside+of+the+Source+Tree>
 
-</div>
+Q: Has anyone come up with a tidy way to build NuttX with board-specific pieces outside the source tree?
+--------------------------------------------------------------------------------------------------------
 
-## Q: Has anyone come up with a tidy way to build NuttX with board-specific pieces outside the source tree?
+A: Here are four approaches:
+----------------------------
 
-## A: Here are four approaches:
-
-### 1\. Make export
+### 1. Make export
 
 There is a make target called `make export`. It will build NuttX, then
 bundle all of the header files, libraries, startup objects, and other
@@ -25,12 +20,11 @@ build components into a `.zip` file. You can move that `.zip` file into
 any build environment you want. You can even build NuttX under a DOS CMD
 window.
 
-This `make target` is documented in the top-level
-\[<span class="title-ref">Legacy README \</introduction/re\](\`Legacy
-README \</introduction/re.md)sources\></span>. Search for `Build
-Targets`
+This `make target` is documented in the top-level \[[Legacy README
+\</introduction/re\](\`Legacy README
+\</introduction/re.md)sources\>]{.title-ref}. Search for `Build Targets`
 
-### 1\. Replace the apps/ Directory
+### 1. Replace the apps/ Directory
 
 You can replace the entire `apps/` directory. It is not a critical part
 of the OS. The `apps/` is simply provided for you to help with your
@@ -39,9 +33,8 @@ application development. It should not dictate anything that you do.
 To use a different `apps` directory, simply execute `make menuconfig` in
 the top-level `nuttx/` directory and redefine `CONFIG_APPS_DIR` in your
 `.config` file so that it points to a different, custom application
-directory. Note that `CONFIG_APPS_DIR` is a
-<span class="title-ref">relative</span> path from the top-level `nuttx/`
-directory.
+directory. Note that `CONFIG_APPS_DIR` is a [relative]{.title-ref} path
+from the top-level `nuttx/` directory.
 
 You can copy any pieces that you like from the old `apps/` directory to
 your custom `apps` directory as necessary. This is documented in the
@@ -51,7 +44,7 @@ and in the
 [apps/README.md](https://github.com/apache/nuttx-apps/blob/master/README.md)
 file.
 
-### 1\. Extend the apps/ Directory
+### 1. Extend the apps/ Directory
 
 If you like the random collection of stuff in the `apps/` directory but
 just want to expand the existing components with your own, external
@@ -72,9 +65,7 @@ under the `apps/` directory should contain:
 2.  A tiny `Make.defs` make file fragment that simply adds the build
     directories to the variable `CONFIGURED_APPS` like:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 CONFIGURED_APPS += my_directory1 my_directory2
 ```
 
@@ -103,18 +94,10 @@ will be automatically included in the NuttX configuration system as
 well. `apps/Makefile` uses a tool at `apps/tools/mkkconfig.sh` that
 dynamically builds the `apps/Kconfig` file at pre-configuration time.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The native Windows build will use a corresponding tool called
 `apps/tools/mkconfig.bat`.
-
-</div>
 
 #### Install script
 
@@ -126,9 +109,7 @@ directory:
 2.  Add a symbolic link to `MyApplication` at `apps/external`
 3.  Configure NuttX:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 tools/configure.sh MyBoard:MyConfiguration
 ```
 
@@ -138,7 +119,7 @@ Use of the name `apps/external` is suggested because that name is
 included in the `.gitignore` file and will save you some nuisance when
 working with GIT.
 
-### 4\. Contain the apps/ Directory
+### 4. Contain the apps/ Directory
 
 A simple, minimally invasive approach would be to contain the `apps/`
 GIT clone within your custom application directory. In this case,
@@ -157,7 +138,7 @@ That `Kconfig` would need to include the `apps/Kconfig`. The `Makefile`
 would similarly need to invoke the `apps/Makefile` for all of the
 relevant build targets. For example, the `clean` target:
 
-``` shell
+``` {.shell}
 (MAKE) -c apps clean TOPDIR=(TOPDIR)
 ```
 
@@ -168,8 +149,8 @@ The contained directory will create and install a static library called
 must also appear in the `nuttx/staging` directory. Here are two ways
 that you might do that:
 
-1.  **Merge with \`\`libapps(LIBEXT)\`\`.** The custom application
-    directory's `Makefile` could create and install the final
+1.  **Merge with \`\`libapps(\LIBEXT)\`\`.** The custom application
+    directory\'s `Makefile` could create and install the final
     `libapps(LIBEXT)` in the `nuttx/staging` directory.
     `<custom-dir>/apps/libapps(LIBEXT)` could merge its custom object
     files with `<custom-dir>/libapps(LIBEXT)` and then re-install the
@@ -210,11 +191,10 @@ built out-of-tree.
 
 Suppose you have opted to extend the `apps/` directory with your custom
 external application directories and would also like to support
-configuration variables in your external application. No problem\!
-Thanks to Sebastien Lorquet, any external application that you install
-into the `apps/` (whether via a symbolic link or via a directory copy)
-<span class="title-ref">will</span> be included in the NuttX
-configuration system.
+configuration variables in your external application. No problem! Thanks
+to Sebastien Lorquet, any external application that you install into the
+`apps/` (whether via a symbolic link or via a directory copy)
+[will]{.title-ref} be included in the NuttX configuration system.
 
 The top-level `Kconfig` file in the `apps/` directory is automatically
 generated based on the contents of each `apps/` sub-directory. If your

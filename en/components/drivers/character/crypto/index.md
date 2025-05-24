@@ -1,3 +1,4 @@
-# Crypto Drivers
+Crypto Drivers
+==============
 
 > se05x.rst

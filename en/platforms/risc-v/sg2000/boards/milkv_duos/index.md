@@ -1,59 +1,66 @@
-# Milk-V Duo S
+Milk-V Duo S
+============
 
 [Milk-V Duo S](https://milkv.io/duo-s) is a RISC-V Single-Board Computer
 based on the SOPHGO SG2000 RISC-V SoC with T-Head C906 64-bit Main
 Processor, 512 MB of SIP DRAM memory and 100 Mbps Ethernet.
 
-## Features
+Features
+--------
 
-  -   - **System on Chip:** SOPHGO SG2000
-        
-          -   - **CPU:**
-                
-                  - 64-bit T-Head C906 1.0 GHz (Main Processor)
-                  - 64-bit T-Head C906 700 MHz (Co-Processor)
-                  - 64-bit Arm Cortex-A53 1.0 GHz (Alternate Main
+-   
+
+    **System on Chip:** SOPHGO SG2000
+
+    :   -   
+
+            **CPU:**
+
+            :   -   64-bit T-Head C906 1.0 GHz (Main Processor)
+                -   64-bit T-Head C906 700 MHz (Co-Processor)
+                -   64-bit Arm Cortex-A53 1.0 GHz (Alternate Main
                     Processor)
 
-  - **MCU:** 8051 with 6 KB SRAM
+-   **MCU:** 8051 with 6 KB SRAM
 
-  - **Memory:** SIP DRAM 512 MB
+-   **Memory:** SIP DRAM 512 MB
 
-  - **TPU:** 0.5 TOPS INT8
+-   **TPU:** 0.5 TOPS INT8
 
-  - **Storage:** 1 x microSD Connector, 1 x eMMC Pad
+-   **Storage:** 1 x microSD Connector, 1 x eMMC Pad
 
-  - **USB:** 1 x Type-C for Power and Data or 1 x USB 2.0 A Port Host
+-   **USB:** 1 x Type-C for Power and Data or 1 x USB 2.0 A Port Host
 
-  - **MIPI CSI:** 1 x 16P FPC Connector (MIPI CSI 2-Lane), 1 x 15P FPC
+-   **MIPI CSI:** 1 x 16P FPC Connector (MIPI CSI 2-Lane), 1 x 15P FPC
     Connector (MIPI CSI 2-Lane)
 
-  - **Sensor Support:** 5M @ 30 FPS
+-   **Sensor Support:** 5M @ 30 FPS
 
-  - **MIPI DSI:** Via GPIO Header (MIPI DSI 4-Lane)
+-   **MIPI DSI:** Via GPIO Header (MIPI DSI 4-Lane)
 
-  - **Ethernet:** 100 Mbps Ethernet Port (RJ45)
+-   **Ethernet:** 100 Mbps Ethernet Port (RJ45)
 
-  - **Wireless:** Optional Wi-Fi 6 / Bluetooth 5
+-   **Wireless:** Optional Wi-Fi 6 / Bluetooth 5
 
-  - **Audio:** Via GPIO Pin
+-   **Audio:** Via GPIO Pin
 
-  - **GPIO:** Up to 39 x GPIO Pin (via 2 x 26-Pin GPIO Header)
+-   **GPIO:** Up to 39 x GPIO Pin (via 2 x 26-Pin GPIO Header)
 
-  - **Others:** 1 x Boot Switch, 1 x Recovery Key, 1 x Reset Key
+-   **Others:** 1 x Boot Switch, 1 x Recovery Key, 1 x Reset Key
 
-## Serial Console
+Serial Console
+--------------
 
 A **USB Serial Adapter** is required to run NuttX on Milk-V Duo S,
 **CP2102** is recommended. CH340 might not work correctly with Duo S.
 
 Connect the USB Serial Adapter to Duo S Serial Console at:
 
-| USB Serial | Milk-V Duo S Pin              |
-| ---------- | ----------------------------- |
-| GND        | Pin 6 (GND)                   |
-| RX         | Pin 8 (XGPIOA 16 / UART0 TX)  |
-| TX         | Pin 10 (XGPIOA 17 / UART0 RX) |
+  USB Serial   Milk-V Duo S Pin
+  ------------ -------------------------------
+  GND          Pin 6 (GND)
+  RX           Pin 8 (XGPIOA 16 / UART0 TX)
+  TX           Pin 10 (XGPIOA 17 / UART0 RX)
 
 On the USB Serial Adapter, set the **Voltage Level** to 3V3.
 
@@ -61,13 +68,14 @@ Connect Duo S to our computer with the USB Serial Adapter. On our
 computer, start a Serial Terminal and connect to the USB Serial Port at
 **115.2 kbps**:
 
-``` console
+``` {.console}
  screen /dev/ttyUSB0 115200
 ```
 
 NuttX will appear in the Serial Console when it boots on Duo S.
 
-## RISC-V Toolchain
+RISC-V Toolchain
+----------------
 
 Before building NuttX for Milk-V Duo S, download the toolchain for
 [xPack GNU RISC-V Embedded GCC
@@ -78,21 +86,21 @@ Add the downloaded toolchain `xpack-riscv-none-elf-gcc-.../bin` to the
 
 Check the RISC-V Toolchain:
 
-``` console
+``` {.console}
  riscv-none-elf-gcc -v
 ```
 
-## Building
+Building
+--------
 
-To build NuttX for Milk-V Duo S,
-\[<span class="title-ref">in\](\`in.md)stall the prerequisites
-\</quickstart/install\></span> and \[<span class="title-ref">clone the
-git repo\](\`clone the git repo.md)sitories
-\</quickstart/install\></span> for `nuttx` and `apps`.
+To build NuttX for Milk-V Duo S, \[[in\](\`in.md)stall the prerequisites
+\</quickstart/install\>]{.title-ref} and \[[clone the git repo\](\`clone
+the git repo.md)sitories \</quickstart/install\>]{.title-ref} for
+`nuttx` and `apps`.
 
 Configure the NuttX project and build the project:
 
-``` console
+``` {.console}
  cd nuttx
  tools/configure.sh milkv_duos:nsh
  make
@@ -101,7 +109,7 @@ Configure the NuttX project and build the project:
 This produces the NuttX Kernel `nuttx.bin`. Next, build the NuttX Apps
 Filesystem:
 
-``` console
+``` {.console}
  make export
  pushd ../apps
  tools/mkimport.sh -z -x ../nuttx/nuttx-export-*.tar.gz
@@ -114,7 +122,7 @@ This generates the Initial RAM Disk `initrd`.
 
 Package the NuttX Kernel and Initial RAM Disk into a NuttX Image:
 
-``` console
+``` {.console}
  head -c 65536 /dev/zero >/tmp/nuttx.pad
  cat nuttx.bin /tmp/nuttx.pad initrd >Image-sg2000
 ```
@@ -122,7 +130,8 @@ Package the NuttX Kernel and Initial RAM Disk into a NuttX Image:
 The NuttX Image `Image-sg2000` will be copied to the TFTP Server in the
 next step.
 
-## Booting
+Booting
+-------
 
 NuttX requires a microSD Card with U-Boot Bootloader. Prepare a [Linux
 microSD
@@ -137,7 +146,7 @@ Server](https://lupyuen.github.io/articles/sg2000#boot-nuttx-over-tftp).
 Copy the file `Image-sg2000` from the previous section to the TFTP
 Server, together with the Device Tree:
 
-``` console
+``` {.console}
  wget https://github.com/lupyuen2/wip-nuttx/releases/download/sg2000-1/cv181x_milkv_duos_sd.dtb
  scp Image-sg2000 \
    tftpserver:/tftpfolder/Image-sg2000
@@ -148,7 +157,7 @@ Server, together with the Device Tree:
 Check that Duo S is connected to our computer via a USB Serial Adapter
 at 115.2 kbps:
 
-``` console
+``` {.console}
  screen /dev/ttyUSB0 115200
 ```
 
@@ -159,7 +168,7 @@ When Duo S boots, press Enter to see the U-Boot Prompt. Run these
 commands to [boot NuttX over
 TFTP](https://lupyuen.github.io/articles/sg2000#boot-nuttx-over-tftp):
 
-``` console
+``` {.console}
 # Change to your TFTP Server
  setenv tftp_server 192.168.x.x
  saveenv
@@ -175,11 +184,12 @@ automatically](https://lupyuen.github.io/articles/sg2000#boot-nuttx-over-tftp).
 NuttX boots on Duo S and NuttShell (nsh) appears in the Serial Console.
 To see the available commands in NuttShell:
 
-``` console
+``` {.console}
  help
 ```
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -188,10 +198,11 @@ focused on low level, command-line driver testing. Built-in applications
 are supported, but none are enabled. Serial Console is enabled on UART0
 at 115.2 kbps.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
 NuttX for Milk-V Duo S supports these peripherals:
 
-| Peripheral | Support | NOTES |
-| ---------- | ------- | ----- |
-| UART       | Yes     |       |
+  Peripheral   Support   NOTES
+  ------------ --------- -------
+  UART         Yes       

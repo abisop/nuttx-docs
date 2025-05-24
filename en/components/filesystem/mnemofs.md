@@ -1,10 +1,12 @@
-# MNEMOFS
+MNEMOFS
+=======
 
 Mnemofs is a NAND Flash File System built for NuttX.
 
-## Usage
+Usage
+-----
 
-If there's a NAND flash available at a location, for example,
+If there\'s a NAND flash available at a location, for example,
 `/dev/nand`, you can mount it with `mnemofs` to a location like `/mydir`
 using:
 
@@ -12,7 +14,7 @@ using:
 
 The above command will only work if the device was already formatted
 using mnemofs. For a brand new device, or if you want to switch from an
-existing file system, this won't work, and would need a format:
+existing file system, this won\'t work, and would need a format:
 
     mount -t mnemofs -o forceformat /dev/nand /mydir
 
@@ -22,29 +24,30 @@ Unsure of whether you need to do a format? This will help:
 
 This will format the device only if it can not detect mnemofs being
 already formatted onto it. Do note this includes cases where mnemofs is
-formatted to the device, but it's been mutilated to the point of being
+formatted to the device, but it\'s been mutilated to the point of being
 unrecognizable.
 
-After this, use it like a regular file system. That's the job of a file
-system after all...to hide the storage device's peculiarities behind an
-abstraction. A file system is considered good if you don't have to think
-about its existence during regular usage.
+After this, use it like a regular file system. That\'s the job of a file
+system after all\...to hide the storage device\'s peculiarities behind
+an abstraction. A file system is considered good if you don\'t have to
+think about its existence during regular usage.
 
-## NAND Flashes
+NAND Flashes
+------------
 
 Programmatically, the NAND flash has some problems. The whole device can
 be condensed into three layers: blocks, pages and cells.
 
 Cells represent the smallest unit of storage in NAND flashes, but are
 often ignored, as direct access is not allowed. If a cell stores one
-bit, it's a Single Level Cell. There are MLC, TLC, etc. for more bits
+bit, it\'s a Single Level Cell. There are MLC, TLC, etc. for more bits
 per cell. Often, the more bits per cell, the lesser is the wear
 resilience. Thus, higher bits per cell are easier to wear out and become
 unreliable.
 
-Pages are the smallest readable or writable unit of the NAND flash. It's
-made up of several cells, and can be expected to have a size of the
-similar order of 512 B.
+Pages are the smallest readable or writable unit of the NAND flash.
+It\'s made up of several cells, and can be expected to have a size of
+the similar order of 512 B.
 
 Blocks are the smallest erasable unit of NAND flash. They are made up of
 several pages. If a page is already written, it needs to be erased
@@ -64,7 +67,8 @@ testing, and can mark them as bad blocks right from manufacture.
 A good file system will aim to level out the wear between blocks as much
 as it can.
 
-## Design
+Design
+------
 
 There are various layers and components in mnemofs, and they interact
 with various layers on abstraction over each other.
@@ -77,7 +81,7 @@ applied, and the new data is written to a new location.
 
 This works with the NAND flash device driver directly. It can write an
 entire page, read an entire page, erase an entire block, check if a
-block is bad (from it's bad block marker), or set a block as bad. It's
+block is bad (from it\'s bad block marker), or set a block as bad. It\'s
 the simplest layer.
 
 ### Block Allocator
@@ -108,7 +112,7 @@ contain only the data of the file, while CTZ lists of directories
 contain directory entries (direntries) for each FS Object (file or
 directory) grouped into it.
 
-This layer abstracts away the complex division of flash space that's
+This layer abstracts away the complex division of flash space that\'s
 present in CTZ skip lists, and allows users of this layer to not worry
 about the complexities of a CTZ skip list, and in fact, to feel that the
 data is like a contiguous space.
@@ -139,7 +143,7 @@ Thus, when the user requires an updated location of a CTZ list, they
 will first find the old location by traversing the FS tree in the flash,
 and then will traverse the journal to find the latest location.
 
-So, the FS tree on the flash acts like a "base" state with updates
+So, the FS tree on the flash acts like a \"base\" state with updates
 stored in the journal. Each log in journal is followed by a checksum to
 verify if all of it was written properly. This helps in making it power
 loss resilient.
@@ -186,8 +190,8 @@ Each node also contains a kernel list of deltas. Each delta contains
 information about an update or deletion from the user (which is what all
 of the VFS write operations can be condensed to).
 
-There's a pre-configured limit for both deltas per node and nodes in the
-LRU.
+There\'s a pre-configured limit for both deltas per node and nodes in
+the LRU.
 
 If the delta list in a node is full, and another is to be added, all the
 existing deltas in the list are clubbed together and written to the
@@ -207,15 +211,15 @@ in reducing the wear of the flash.
 ### Journal Flush
 
 The latest master node revision is the most useful out of the revisions.
-As in CoW it's prudent to update the FS tree from bottom up, the root is
-the last one to get updated in the case of a journal flush.
+As in CoW it\'s prudent to update the FS tree from bottom up, the root
+is the last one to get updated in the case of a journal flush.
 
 The logs are just location updates. So, when a journal flush occurs, it
 will update the locations of all the children in the parent. This
 updates the parent, and then this update goes through the same procedure
 as any other update.
 
-This is why it's best to start the flush operation when the journal is
+This is why it\'s best to start the flush operation when the journal is
 filled up over a certain limit, instead of waiting it to be full. Why?
 Any log of a parent makes any log of its children written **before** it
 useless, as the updated location of the parent can be read to get the
@@ -225,7 +229,7 @@ So, it will be best to move up the FS tree from bottom during update and
 update the root last, since the root is the parent of every FS object.
 
 Once the root is updated, all other journal logs become useless, and can
-be erased. The root's log is not written in the first `n` blocks of the
+be erased. The root\'s log is not written in the first `n` blocks of the
 journal, but written as a new master node entry in the master blocks.
 
 Once the new root is written, the first `n` blocks can be erased, and

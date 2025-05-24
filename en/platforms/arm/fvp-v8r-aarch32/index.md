@@ -1,5 +1,7 @@
-# FVP ARMv8-R Virt Chip
+FVP ARMv8-R Virt Chip
+=====================
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,20 +1,18 @@
-# LCKFB SZPI ESP32-S3
-
-<div class="tags">
+LCKFB SZPI ESP32-S3
+===================
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 The [LCKFB SZPI ESP32-S3](https://wiki.lckfb.com/zh-hans/szpi-esp32s3/)
 is a development board for the ESP32-S3 SoC from Jialichuang, based on a
 ESP32-S3-WROOM-1 module.
 
-|                                   |
-| --------------------------------- |
-| ![](lckfb-szpi-esp32s3-white.png) |
+  --------------------------------------------------
+  ![](lckfb-szpi-esp32s3-white.png){.align-center}
+  --------------------------------------------------
 
-## Features
+Features
+--------
 
 The development board almost includes all the achievable functions of
 the ESP32-S3, maximizing the performance of the ESP32-S3. It features a
@@ -28,14 +26,16 @@ modules and actuators. The development board is compact in size
 easy opening and installation by hand without the need for tools such as
 a screwdriver.
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the USB connector USB CON8 (J1).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons
+Buttons
+-------
 
 ### Board Buttons
 
@@ -48,23 +48,27 @@ pin to determine whether the chip boots normally or into the serial
 bootloader. After reset, however, the BOOT button can be used for
 software input.
 
-## I2S
+I2S
+---
 
 ESP32-S3 has two I2S peripherals accessible using either the generic I2S
 audio driver or a specific audio codec driver
 ([CS4344](https://www.cirrus.com/products/cs4344-45-48/) bindings are
 available at the moment). The generic I2S audio driver enables the use
 of both the receiver module (RX) and the transmitter module (TX) without
-using any specific codec. Also, it's possible to use the I2S character
+using any specific codec. Also, it\'s possible to use the I2S character
 device driver to bypass the audio subsystem and write directly to the
 I2S peripheral.
 
-  - The following configurations use the I2S peripheral::
-    
-      - `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:audio`
-      - `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:nxlooper`
+The following configurations use the I2S peripheral::
 
-## Configurations
+:   -   `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:audio`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32s3/boards/esp32s3-devkit/index:nxlooper`{.interpreted-text
+        role="ref"}
+
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -73,8 +77,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### nsh
 
@@ -105,7 +109,7 @@ Finally check dmesg and content at host side:
     [1768234.468022] usb 1-9.3.3: Manufacturer: NuttX
     [1768234.468023] usb 1-9.3.3: SerialNumber: 0
     [1768234.478806] cdc_acm 1-9.3.3:1.0: ttyACM5: USB ACM device
-    
+
      sudo minicom -D /dev/ttyACM5 -b 115200
 
 ### adb
@@ -156,7 +160,7 @@ Then check the partition:
 
 The basic Fastboot configuration is based on
 lckfb-szpi-esp32s3:usb\_device. More details about usage of fastboot,
-please refer to [fastbootd — NuttX latest
+please refer to [fastbootd --- NuttX latest
 documentation](https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html).
 
 You can run the configuration and compilation procedure:
@@ -167,51 +171,51 @@ You can run the configuration and compilation procedure:
 To test it, just run the following (**Default is host side**):
 
 1.  Install fastboot tool:
-    
+
         sudo apt install fastboot
 
 2.  List devices running fastboot:
-    
+
         fastboot devices
 
 > Example:
-> 
+>
 >      fastboot devices
 >     1234    fastboot
 
 3.  Display given variable:
-    
+
         fastboot getvar <NAME>
 
 > Example:
-> 
+>
 >     # Display the "kernel" variable::
 >      fastboot -s 1234 getvar kernel
 >     Kernel: NuttX
 >     Finished. Total time: 0.000s
 
 4.  Flash given partition:
-    
+
         fastboot flash PARTITION FILENAME
 
 > Example (Flash test.img to partition ram10):
-> 
+>
 >     # 1. Generate a test image
 >      dd if=/dev/random of=test.img bs=1 count=128
->     
+>
 >     # 2. Create a RAM disk (Device side)
 >     nsh> mkrd -m 10 -s 512 640
 >     nsh> ls -l /dev/ram10
 >      brw-rw-rw-      327680 /dev/ram10
->     
+>
 >     # 3. Flash test.img to partition ram10
 >      fastboot flash ram10 ./test.img
 >     Sending 'ram10' (0 KB)                             OKAY [  0.001s]
 >     Writing 'ram10'                                    OKAY [  0.001s]
 >     Finished. Total time: 0.003s
->     
+>
 >     # 4. Hexdump the test.img and partition ram10, and compare
->     
+>
 >     ## Host side
 >      hexdump test.img
 >     0000000 b1e8 b297 4ac5 9dfa d170 244e 4f83 0f93
@@ -223,7 +227,7 @@ To test it, just run the following (**Default is host side**):
 >     0000060 d010 2770 9192 2532 ccf5 591f 39ea 2431
 >     0000070 2e3f feb0 87ef 9bdf 7dd4 2e79 64de edf6
 >     0000080
->     
+>
 >     ## Device side
 >     nsh> hexdump /dev/ram10 count=128
 >     /dev/ram10 at 00000000:
@@ -249,12 +253,12 @@ You can run the configuration and compilation procedure:
 Then test gpio2(pin9(P2) of PCA9557):
 
     # With hardware check, the pin levels meet the expected requirements.
-    
+
     # Output low
     nsh> echo 0 > /dev/gpio2
     nsh> cat /dev/gpio2
     0
-    
+
     # Output high
     nsh> echo 1 > /dev/gpio2
     nsh> cat /dev/gpio2
@@ -275,12 +279,12 @@ Then test LEDC(PWM) with pin42(backlight of LCD):
     nsh> pwm -d 100
     pwm_main: starting output with frequency: 100 duty: 0000ffff
     pwm_main: stopping output
-    
+
     # Backlight 10%
     nsh> pwm -d 90
     pwm_main: starting output with frequency: 100 duty: 0000e666
     pwm_main: stopping output
-    
+
     # Backlight 100%
     nsh> pwm -d 0
     pwm_main: starting output with frequency: 100 duty: 00000000
@@ -296,13 +300,13 @@ You can run the configuration and compilation procedure:
      ./tools/configure.sh lckfb-szpi-esp32s3:psram
      make flash -j(nproc) ESPTOOL_PORT=/dev/ttyUSB0
 
-Then comparing memory size with the basic "nsh" config:
+Then comparing memory size with the basic \"nsh\" config:
 
     # lckfb-szpi-esp32s3:nsh
     nsh> free
        total       used       free    maxused    maxfree  nused  nfree name
          332948     161500     171448     178280     171448     39      1 Umem
-    
+
     # lckfb-szpi-esp32s3:psram
     nsh> free
           total       used       free    maxused    maxfree  nused  nfree name
@@ -312,11 +316,11 @@ Then comparing memory size with the basic "nsh" config:
 
 Basic NuttShell configuration console and GPIO enabled.
 
-| Num  | Type      | Func / Location                                               |
-| ---- | --------- | ------------------------------------------------------------- |
-| IO39 | Output    | LCD SPI D/C                                                   |
-| IO10 | Input     | GP1.25-5P expansion interface 1 (left side, near the speaker) |
-| IO11 | Interrupt | GP1.25-5P expansion interface 1 (left side, near the speaker) |
+  Num    Type        Func / Location
+  ------ ----------- ---------------------------------------------------------------
+  IO39   Output      LCD SPI D/C
+  IO10   Input       GP1.25-5P expansion interface 1 (left side, near the speaker)
+  IO11   Interrupt   GP1.25-5P expansion interface 1 (left side, near the speaker)
 
 You can run the configuration and compilation procedure:
 
@@ -326,12 +330,12 @@ You can run the configuration and compilation procedure:
 Then test gpio39(IO39):
 
     # With hardware check, the pin levels meet the expected requirements.
-    
+
     # Output high
     nsh> echo 1 > /dev/gpio39
     nsh> cat /dev/gpio39
     1
-    
+
     # Output low
     nsh> echo 0 > /dev/gpio39
     nsh> cat /dev/gpio39
@@ -341,7 +345,7 @@ Then test gpio39(IO39):
 
 Basic NuttShell configuration console and LCD enabled.
 
-![](lckfb-szpi-esp32s3-lcd.jpg)
+![](lckfb-szpi-esp32s3-lcd.jpg){.align-center}
 
 You can run the configuration and compilation procedure:
 
@@ -377,7 +381,7 @@ Then run the fb command:
 Basic NuttShell configuration console and LVGL(Light and Versatile
 Graphics Library) enabled.
 
-![](lckfb-szpi-esp32s3-lvgl.jpg)
+![](lckfb-szpi-esp32s3-lvgl.jpg){.align-center}
 
 You can run the configuration and compilation procedure:
 

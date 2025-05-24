@@ -1,16 +1,19 @@
-# `/tools` Host Tools
+`/tools` Host Tools
+===================
 
 This page discusses the contents of the NuttX tools/ directory.
 
 The tools/ directory contains miscellaneous scripts and host C programs
 that are necessary parts of the NuttX build system.
 
-## cmpconfig.c
+cmpconfig.c
+-----------
 
 This C file can be used to build a utility for comparing two NuttX
 configuration files.
 
-## Config.mk
+Config.mk
+---------
 
 Config.mk contains common definitions used by many configuration files.
 This file (along with \<nuttx\>/.config) must be included at the top of
@@ -22,7 +25,8 @@ each configuration-specific Make.defs file like:
 Subsequent logic within the configuration-specific Make.defs file may
 then override these default definitions as necessary.
 
-## checkpatch.sh
+checkpatch.sh
+-------------
 
 `checkpatch.sh` is a bash script that make use of nxstyle and codespell
 tools to format patches and files conform to NuttX coding standard. For
@@ -32,7 +36,7 @@ Help message:
 
      tools/checkpatch.sh -h
     USAGE: ./tools/checkpatch.sh [options] [list|-]
-    
+
     Options:
     -h
     -c spell check with codespell(install with: pip install codespell)
@@ -45,13 +49,14 @@ Help message:
     Where a <commit list> is any syntax supported by git for specifying git revision, see GITREVISIONS(7)
     Where a <patch file names> is a space separated list of patch file names or wildcard. or *.patch
 
-## configure.sh configure.bat configure.c, cfgparser.c, and cfgparser.h
+configure.sh configure.bat configure.c, cfgparser.c, and cfgparser.h
+--------------------------------------------------------------------
 
 configure.sh is a bash script that is used to configure NuttX for a
 given target board in a environment that supports POSIX paths (Linux,
 Cygwin, macOS, or similar). See
-\[<span class="title-ref">/component\](</span>/component.md)s/boards\`
-or Documentation/NuttXPortingGuide.html for a description of how to
+\[[/component\](]{.title-ref}/component.md)s/boards\` or
+Documentation/NuttXPortingGuide.html for a description of how to
 configure NuttX with this script.
 
 configure.c, cfgparser.c, and cfgparser.h can be used to build a
@@ -74,13 +79,15 @@ environment, two assumptions are made:
 2)  That path to the bin/ directory containing mingw-gcc.exe must be
     included in the PATH variable.
 
-## convert-comments.c
+convert-comments.c
+------------------
 
 Convert C++-style comments to C89 C-style comments. Usage:
 
     convert-comments <source-file> <out-file>
 
-## detab.c
+detab.c
+-------
 
 Convert tabs to spaces in a file. Usage:
 
@@ -89,12 +96,14 @@ Convert tabs to spaces in a file. Usage:
 Default \<source-file\> tab size is 8 spaces; -4 selects 4 space tab
 size.
 
-## discover.py
+discover.py
+-----------
 
 Example script for discovering devices in the local network. It is the
 counter part to apps/netutils/discover
 
-## gencromfs.c
+gencromfs.c
+-----------
 
 This is a C program that is used to generate CROMFS file system images.
 Usage is simple:
@@ -103,13 +112,14 @@ Usage is simple:
 
 Where:
 
-  - \<dir-path\> is the path to the directory will be at the root of the
+-   \<dir-path\> is the path to the directory will be at the root of the
     new CROMFS file system image.
-  - \<out-file\> the name of the generated, output C file. This file
+-   \<out-file\> the name of the generated, output C file. This file
     must be compiled in order to generate the binary CROMFS file system
     image.
 
-## initialconfig.c
+initialconfig.c
+---------------
 
 This is a C file that can be used to create an initial configuration.
 This permits creating a new configuration from scratch, without relying
@@ -117,7 +127,8 @@ on any existing board configuration in place. This utility will create a
 barebones .config file sufficient only for instantiating the symbolic
 links necessary to do a real configuration.
 
-## kconfig2html.c
+kconfig2html.c
+--------------
 
 This is a C file that can be used to build a utility for converting the
 NuttX configuration in the Kconfig files to an HTML document. This
@@ -148,7 +159,8 @@ or more quickly with:
 
     make .dirlinks
 
-## Libraries.mk, FlatLibs.mk, ProtectedLibs.mk, and KernelLib.mk
+Libraries.mk, FlatLibs.mk, ProtectedLibs.mk, and KernelLib.mk
+-------------------------------------------------------------
 
 Libraries.mk has the build rules for all NuttX libraries.
 
@@ -156,14 +168,16 @@ FlatLibs.mk, ProtectedLibs.mk, and KernelLib.mk: These control the
 selection of libraries to be built, depending on the selected build
 mode.
 
-## lowhex.c
+lowhex.c
+--------
 
 Convert hexadecimal representation in a file from upper- to lower-case.
 Usage:
 
     lowhex <source-file> <out-file>
 
-## Makefile.\[unix|win\]
+Makefile.\[unix\|win\]
+----------------------
 
 Unix.mk is the Makefile used when building NuttX in Unix-like systems.
 It is selected from the top-level Makefile.
@@ -171,22 +185,24 @@ It is selected from the top-level Makefile.
 Win.mk is the Makefile used when building natively under Windows. It is
 selected from the top-level Makefile.
 
-## mkconfig.c, cfgdefine.c, and cfgdefine.h
+mkconfig.c, cfgdefine.c, and cfgdefine.h
+----------------------------------------
 
 These are C files that are used to build mkconfig program. The mkconfig
 program is used during the initial NuttX build.
 
 When you configure NuttX, you will copy a configuration file called
 .config in the top level NuttX directory (See
-\[<span class="title-ref">/component\](</span>/component.md)s/boards\`
-or Documentation/NuttXPortingGuide.html). The first time you make NuttX,
+\[[/component\](]{.title-ref}/component.md)s/boards\` or
+Documentation/NuttXPortingGuide.html). The first time you make NuttX,
 the top-level makefile will build the mkconfig executable from
 mkconfig.c (using Makefile.host). The top-level Makefile will then
 execute the mkconfig program to convert the .config file in the top
 level directory into include/nuttx/config.h. config.h is a another
 version of the NuttX configuration that can be included by C files.
 
-## mkconfigvars.sh
+mkconfigvars.sh
+---------------
 
 The HTML documentation expects to have a copy of the auto-generated
 configuration variable documentation
@@ -198,7 +214,7 @@ Help:
      tools/mkconfigvars.sh -h
     tools/mkconfigvars.sh is a tool for generation of configuration variable documentation
 
-USAGE: tools/mkconfigvars.sh \[-d|h\] \[-v \<major.minor.patch\>\]
+USAGE: tools/mkconfigvars.sh \[-d\|h\] \[-v \<major.minor.patch\>\]
 
 Where:
 
@@ -210,33 +226,35 @@ Where:
     -h
        show this help message and exit
 
-## mkexport.sh and Export.mk
+mkexport.sh and Export.mk
+-------------------------
 
-These implement part of the top-level Makefile's 'export' target. That
-target will bundle up all of the NuttX libraries, header files, and the
-startup object into an export-able, binary NuttX distribution. The
+These implement part of the top-level Makefile\'s \'export\' target.
+That target will bundle up all of the NuttX libraries, header files, and
+the startup object into an export-able, binary NuttX distribution. The
 Export.mk is used only by the mkexport.sh script to parse out options
 from the top-level Make.defs file.
 
 USAGE: tools/mkexport.sh \[-d\] \[-z\] \[-u\] -t \<top-dir\> \[-x
-\<lib-ext\>\] -l "lib1 \[lib2 \[lib3 ...\]\]"
+\<lib-ext\>\] -l \"lib1 \[lib2 \[lib3 \...\]\]\"
 
 This script also depends on the environment variable MAKE which is set
 in the top-level Makefile before starting mkexport.sh. If MAKE is not
-defined, the script will set it to <span class="title-ref">which
-make</span>.
+defined, the script will set it to [which make]{.title-ref}.
 
-## mkfsdata.pl
+mkfsdata.pl
+-----------
 
-This perl script is used to build the "fake" file system and CGI support
-as needed for the apps/netutils/webserver. It is currently used only by
-the Makefile at apps/examples/uip. That example serves as an example of
-how to configure the uIP webserver "fake" file system.
+This perl script is used to build the \"fake\" file system and CGI
+support as needed for the apps/netutils/webserver. It is currently used
+only by the Makefile at apps/examples/uip. That example serves as an
+example of how to configure the uIP webserver \"fake\" file system.
 
 NOTE: This perl script comes from uIP and was (probably) written by Adam
 Dunkels. uIP has a license that is compatible with NuttX.
 
-## mkversion.c, cfgdefine.c, and cfgdefine.h
+mkversion.c, cfgdefine.c, and cfgdefine.h
+-----------------------------------------
 
 This is C file that is used to build mkversion program. The mkversion
 program is used during the initial NuttX build.
@@ -250,7 +268,8 @@ execute the mkversion program to convert the .version file in the top
 level directory into include/nuttx/version.h. version.h provides version
 information that can be included by C files.
 
-## mksyscall.c, cvsparser.c, and cvsparser.h
+mksyscall.c, cvsparser.c, and cvsparser.h
+-----------------------------------------
 
 This is a C file that is used to build mksyscall program. The mksyscall
 program is used during the initial NuttX build by the logic in the
@@ -259,11 +278,11 @@ top-level syscall/ directory.
 If you build NuttX as a separately compiled, monolithic kernel and
 separate applications, then there is a syscall layer that is used to get
 from the user application space to the NuttX kernel space. In the user
-application "proxies" for each of the kernel functions are provided. The
-proxies have the same function signature as the kernel function, but
+application \"proxies\" for each of the kernel functions are provided.
+The proxies have the same function signature as the kernel function, but
 only execute a system call.
 
-Within the kernel, there are "stubs" for each of the system calls. The
+Within the kernel, there are \"stubs\" for each of the system calls. The
 stubs receive the marshalled system call data, and perform the actually
 kernel function call (in kernel-mode) on behalf of the proxy function.
 
@@ -271,10 +290,11 @@ Information about the stubs and proxies is maintained in a comma
 separated value (CSV) file in the syscall/ directory. The mksyscall
 program will accept this CVS file as input and generate all of the
 required proxy or stub files as output. See
-\[<span class="title-ref">/component\](</span>/component.md)s/syscall\`
-for additional information.
+\[[/component\](]{.title-ref}/component.md)s/syscall\` for additional
+information.
 
-## mksymtab.c, cvsparser.c, and cvsparser.h
+mksymtab.c, cvsparser.c, and cvsparser.h
+----------------------------------------
 
 This is a C file that is used to build symbol tables from comma
 separated value (CSV) files. This tool is not used during the NuttX
@@ -299,12 +319,14 @@ Example:
     cat ../syscall/syscall.csv ../lib/libc.csv | sort >tmp.csv
     ./mksymtab.exe tmp.csv tmp.c
 
-## mkctags.sh
+mkctags.sh
+----------
 
 A script for creating ctags from Ken Pettit. See
 <http://en.wikipedia.org/wiki/Ctags> and <http://ctags.sourceforge.net/>
 
-## nxstyle.c
+nxstyle.c
+---------
 
 I am embarrassed that this is here. This program is a complete hack but,
 unfortunately, it has become so useful to me that I need to keep it
@@ -339,11 +361,13 @@ Usage:
 
 See also indent.sh and uncrustify.cfg
 
-## pic32mx
+pic32mx
+-------
 
 This directory contains build tools used only for PIC32MX/Z platforms
 
-## bdf-convert.c
+bdf-convert.c
+-------------
 
 This C file is used to build the bdf-converter program. The
 bdf-converter program can be used to convert fonts in Bitmap
@@ -373,7 +397,7 @@ in a similar fashion:
 
 4.  include/nuttx/nx/nxfonts.h. Add your new font as a possible system
     default font:
-    
+
         #if defined(CONFIG_NXFONT_SANS23X27)
         # define NXFONT_DEFAULT FONTID_SANS23X27
         #elif defined(CONFIG_NXFONT_MYFONT)
@@ -403,7 +427,7 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
     bdf-converter program. Notice NXFONTS\_FONTID=2; this must be set to
     the same font ID value that you defined in the
     include/nuttx/nx/nxfonts.h file:
-    
+
         genfontsources:
           ifeq ((CONFIG_NXFONT_SANS23X27),y)
            @(MAKE) -C nxfonts -f Makefile.sources NXFONTS_FONTID=1 EXTRAFLAGS=(EXTRAFLAGS)
@@ -415,7 +439,7 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
 6.  nuttx/libnx/nxfonts/Make.defs. Set the make variable NXFSET\_CSRCS.
     NXFSET\_CSRCS determines the name of the font C file to build when
     NXFONTS\_FONTID=2:
-    
+
         ifeq ((CONFIG_NXFONT_SANS23X27),y)
         NXFSET_CSRCS    += nxfonts_bitmaps_sans23x27.c
         endif
@@ -429,7 +453,7 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
     auto-generated variable and function names and (again) the name of
     the auto-generated file to create (this must be the same name that
     was used in nuttx/libnx/nxfonts/Make.defs):
-    
+
         ifeq ((NXFONTS_FONTID),1)
         NXFONTS_PREFIX    := g_sans23x27_
         GEN_CSRC    = nxfonts_bitmaps_sans23x27.c
@@ -440,10 +464,10 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
         endif
 
 8.  graphics/libnx/nxfonts\_bitmaps.c. This is the file that contains
-    the generic font structures. It is used as a "template" file by
+    the generic font structures. It is used as a \"template\" file by
     nuttx/libnx/nxfonts/Makefile.sources to create your customized font
     data set:
-    
+
         #if NXFONTS_FONTID == 1
         #  include "nxfonts_sans23x27.h"
         #elif NXFONTS_FONTID == 2
@@ -451,7 +475,7 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
         #else
         #  error "No font ID specified"
         #endif
-    
+
     Where nxfonts\_myfont.h is the NuttX font file that we generated in
     step 2 using the bdf-converter tool.
 
@@ -460,14 +484,14 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
     font. The lookup function is NXHANDLE nxf\_getfonthandle(enum
     nx\_fontid\_e fontid). The new font information needs to be added to
     data structures used by that function:
-    
+
         #ifdef CONFIG_NXFONT_SANS23X27
          extern const struct nx_fontpackage_s g_sans23x27_package;
          #endif
          #ifdef CONFIG_NXFONT_MYFONT
          extern const struct nx_fontpackage_s g_myfont_package;
          #endif
-        
+
          static FAR const struct nx_fontpackage_s *g_fontpackages[] =
          {
          #ifdef CONFIG_NXFONT_SANS23X27
@@ -479,7 +503,8 @@ CONFIG\_NXFONT\_SANS23X27 for examples:
          NULL
          };
 
-## define.sh and define.bat
+define.sh and define.bat
+------------------------
 
 Different compilers have different conventions for specifying
 pre-processor definitions on the compiler command line. This bash script
@@ -489,7 +514,8 @@ concern for the particular compiler in use.
 The define.bat script is a counterpart for use in the native Windows
 build.
 
-## flash\_writer.py
+flash\_writer.py
+----------------
 
 This flash writer is using the xmodem for firmware transfer on boards
 based on cxd56 chip (Ex. Spresense). This tool depends on the xmodem
@@ -498,7 +524,8 @@ package (<https://pypi.org/project/xmodem/>).
 for flashing the .spk image to the board please use:
 tools/flash\_writer.py -s -c /dev/ttyUSB0 -d -b 115200 -n nuttx.spk
 
-## ide\_exporter.py
+ide\_exporter.py
+----------------
 
 This Python script will help to create NuttX project in the IAR and
 uVision IDEs. These are few simple the steps to export the IDE
@@ -506,109 +533,111 @@ workspaces.
 
 1)  Start the NuttX build from the Cygwin command line before trying to
     create your project by running:
-    
+
         make V=1 |& tee build_log
-    
+
     This is necessary to certain auto-generated files and directories
     that will be needed. This will provide the build log to construct
     the IDE project also.
 
 2)  Export the IDE project base on that make log. The script usage:
-    
+
     usage: ide\_exporter.py \[-h\] \[-v\] \[-o OUT\_DIR\] \[-d\]
     build\_log {iar,uvision\_armcc,uvision\_gcc} template\_dir
-    
+
     positional arguments:
-    
+
         build_log             Log file from make V=1
         {iar,uvision_armcc,uvision_gcc}
                               The target IDE: iar, uvision_gcc, (uvision_armcc is experimental)
         template_dir          Directory that contains IDEs template projects
-    
+
     optional arguments:
-    
+
         -h, --help            show this help message and exit
         -v, --version         show program's version number and exit
         -o OUT_DIR, --output OUT_DIR
                               Output directory
         -d, --dump            Dump project structure tree
-    
+
     Example:
-    
+
         cd nuttx
         make V=1 |& tee build_log
-        
+
         ./tools/ide_exporter.py makelog_f2nsh_c  iar ./boards/<arch>/<chip>/<board>/ide/template/iar -o ./boards/<arch>/<chip>/<board>/ide/nsh/iar
-    
+
     or:
-    
+
         ./tools/ide_exporter.py makelog_f2nsh_c uvision_gcc ./boards/<arch>/<chip>/<board>/ide/template/uvision_gcc/ -o ./boards/<arch>/<chip>/<board>/ide/nsh/uvision
 
 3)  Limitations:
-    
-    >   - IAR supports C only. Iar C++ does not compatible with g++ so
+
+    > -   IAR supports C only. Iar C++ does not compatible with g++ so
     >     disable C++ if you want to use IAR.
-    > 
-    >   - uvision\_armcc : nuttx asm (inline and .asm) can't be compiled
-    >     with armcc so do not use this option.
-    > 
-    >   - uvision\_gcc : uvision project that uses gcc. Need to specify
+    >
+    > -   uvision\_armcc : nuttx asm (inline and .asm) can\'t be
+    >     compiled with armcc so do not use this option.
+    >
+    > -   uvision\_gcc : uvision project that uses gcc. Need to specify
     >     path to gnu toolchain. In uVison menu, select:
-    >     
+    >
     >         Project/Manage/Project Items.../FolderExtension/Use GCC compiler/ PreFix, Folder
 
-4)  Template projects' constrains:
-    
-    >   - mcu, core, link script shall be configured in template project
-    > 
-    >   - Templates' name are fixed:
-    >     
-    >     >   - template\_nuttx.eww : IAR nuttx workspace template
-    >     >   - template\_nuttx\_lib.ewp : IAR nuttx library project
+4)  Template projects\' constrains:
+
+    > -   mcu, core, link script shall be configured in template project
+    >
+    > -   Templates\' name are fixed:
+    >
+    >     > -   template\_nuttx.eww : IAR nuttx workspace template
+    >     > -   template\_nuttx\_lib.ewp : IAR nuttx library project
     >     >     template
-    >     >   - template\_nuttx\_main.ewp : IAR nuttx main project
+    >     > -   template\_nuttx\_main.ewp : IAR nuttx main project
     >     >     template
-    >     >   - template\_nuttx.uvmpw : uVision workspace
-    >     >   - template\_nuttx\_lib.uvproj : uVision library project
-    >     >   - template\_nuttx\_main.uvproj : uVision main project
-    > 
-    >   - iar:
-    >     
-    >     >   -   - Library option shall be set to 'None' so that IAR
-    >     >         could use nuttx  
-    >     >         libc
-    >     > 
-    >     >   - \_\_ASSEMBLY\_\_ symbol shall be defined in assembler
-    > 
-    >   - uVision\_gcc:
-    >     
-    >     >   - There should be one fake .S file in projects that has
+    >     > -   template\_nuttx.uvmpw : uVision workspace
+    >     > -   template\_nuttx\_lib.uvproj : uVision library project
+    >     > -   template\_nuttx\_main.uvproj : uVision main project
+    >
+    > -   iar:
+    >
+    >     > -   
+    >     >
+    >     >     Library option shall be set to \'None\' so that IAR could use nuttx
+    >     >
+    >     >     :   libc
+    >     >
+    >     > -   \_\_ASSEMBLY\_\_ symbol shall be defined in assembler
+    >
+    > -   uVision\_gcc:
+    >
+    >     > -   There should be one fake .S file in projects that has
     >     >     been defined \_\_ASSEMBLY\_\_ in assembler.
-    >     >   - In Option/CC tab : disable warning
-    >     >   - In Option/CC tab : select Compile thump code (or Misc
+    >     > -   In Option/CC tab : disable warning
+    >     > -   In Option/CC tab : select Compile thump code (or Misc
     >     >     control = -mthumb)
-    >     >   - template\_nuttx\_lib.uvproj shall add 'Post build
-    >     >     action' to copy .a file to .lib
-    >     >   - template\_nuttx\_main.uvproj Linker:
-    >     >       - Select 'Do not use Standard System Startup Files'
-    >     >         and 'Do not use Standard System Libraries'
-    >     >       - Do not select 'Use Math libraries'
-    >     >       - Misc control = --entry=\_\_start
+    >     > -   template\_nuttx\_lib.uvproj shall add \'Post build
+    >     >     action\' to copy .a file to .lib
+    >     > -   template\_nuttx\_main.uvproj Linker:
+    >     >     -   Select \'Do not use Standard System Startup Files\'
+    >     >         and \'Do not use Standard System Libraries\'
+    >     >     -   Do not select \'Use Math libraries\'
+    >     >     -   Misc control = \--entry=\_\_start
 
 5)  How to create template for other configurations:
-    
+
     > 1)  uVision with gcc toolchain:
-    >     
-    >     >   - Copy 3 uVision project files
-    >     >   - Select the MCU for main and lib project
-    >     >   - Correct the path to ld script if needed
-    > 
+    >
+    >     > -   Copy 3 uVision project files
+    >     > -   Select the MCU for main and lib project
+    >     > -   Correct the path to ld script if needed
+    >
     > 2)  iar:
-    >     
-    >     >   - Check if the arch supports IAR (only armv7-m is support
+    >
+    >     > -   Check if the arch supports IAR (only armv7-m is support
     >     >     IAR now)
-    >     >   - Select the MCU for main and lib project
-    >     >   - Add new ld script file for IAR
+    >     > -   Select the MCU for main and lib project
+    >     > -   Add new ld script file for IAR
 
 NOTE: Due to bit rot, the template files for the stm3220g-eval and for
 the stm32f429-disco have been removed from the NuttX repository. For
@@ -616,7 +645,8 @@ reference, they can be found in the Obsoleted repository at
 Obsoleted/stm32f429i\_disco/ltcd/template and at
 Obsoleted/stm3220g-eval/template.
 
-## incdir.sh, incdir.bat, and incdir.c
+incdir.sh, incdir.bat, and incdir.c
+-----------------------------------
 
 Different compilers have different conventions for specifying lists of
 include file paths on the compiler command line. This incdir.sh bash
@@ -629,10 +659,11 @@ context: MinGW-GCC.
 
 incdir.c is a higher performance version of incdir.sh, converted to C.
 
-## indent.sh
+indent.sh
+---------
 
 This script can be used to indent .c and .h files in a manner similar to
-the NuttX coding style. It doesn't do a really good job, however (see
+the NuttX coding style. It doesn\'t do a really good job, however (see
 below and the comments at the top of the indent.sh file).
 
 USAGE:
@@ -668,9 +699,9 @@ coding style in that:
 2.  If your source file has highly formatted comments containing things
     such as tables or lists, then use the -p option to preserve those
     pre-formatted comments.
-3.  I usually align things vertically (like '=' in assignments),
+3.  I usually align things vertically (like \'=\' in assignments),
 4.  indent.sh puts a bogus blank line at the top of the file,
-5.  I don't like the way it handles nested conditional compilation
+5.  I don\'t like the way it handles nested conditional compilation
     intermixed with code. I prefer the preprocessor conditional tests be
     all right justified in that case.
 6.  I also indent brackets differently on structures than does this
@@ -679,8 +710,8 @@ coding style in that:
     like `(FAR void *)&foo` becomes `(FAR void *) & foo`.
 8.  When used with header files, the initial idempotence conditional
     test causes all preprocessor directives to be indented in the file.
-    So for header files, you will need to substitute "^\# " with "\#" in
-    the converted header file.
+    So for header files, you will need to substitute \"\^\# \" with
+    \"\#\" in the converted header file.
 
 You will manually need to check for the issues listed above after
 performing the conversions. nxstyle.c provides a good test that will
@@ -689,7 +720,8 @@ job of formatting.
 
 See also nxstyle.c and uncrustify.cfg
 
-## kconfig.bat
+kconfig.bat
+-----------
 
 Recent versions of NuttX support building NuttX from a native Windows
 CMD.exe shell. But kconfig-frontends is a Linux tool and is not yet
@@ -717,7 +749,8 @@ these problems:
     -   option env="APPSDIR"
     +   default "../apps"
 
-## link.sh, link.bat, copydir.sh, copydir.bat, unlink.sh, and unlink.bat
+link.sh, link.bat, copydir.sh, copydir.bat, unlink.sh, and unlink.bat
+---------------------------------------------------------------------
 
 Different file systems have different capabilities for symbolic links.
 Some Windows file systems have no native support for symbolic links.
@@ -755,7 +788,8 @@ this case. link.bat will attempt to create a symbolic link using the
 NTFS mklink.exe command instead of copying files. That logic, however,
 has not been verified as of this writing.
 
-## Makefile.host
+Makefile.host
+-------------
 
 This is the makefile that is used to make the mkconfig program from the
 mkconfig.c C file, the cmpconfig program from cmpconfig.c C file, the
@@ -765,23 +799,25 @@ from the mksyscall.c file. Usage:
     cd tools/
     make -f Makefile.host <program>
 
-## mkromfsimg.sh
+mkromfsimg.sh
+-------------
 
 This script may be used to automate the generation of a ROMFS file
-system image. It accepts an rcS script "template" and generates an image
-that may be mounted under /etc in the NuttX pseudo file system.
+system image. It accepts an rcS script \"template\" and generates an
+image that may be mounted under /etc in the NuttX pseudo file system.
 
 TIP: Edit the resulting header file and mark the generated data values
-as 'const' so that they will be stored in FLASH.
+as \'const\' so that they will be stored in FLASH.
 
-## mkdeps.c, cnvwindeps.c, mkwindeps.sh, and mknulldeps.sh
+mkdeps.c, cnvwindeps.c, mkwindeps.sh, and mknulldeps.sh
+-------------------------------------------------------
 
-NuttX uses the GCC compiler's capabilities to create Makefile
+NuttX uses the GCC compiler\'s capabilities to create Makefile
 dependencies. The program mkdeps is used to run GCC in order to create
 the dependencies. If a NuttX configuration uses the GCC toolchain, its
 Make.defs file (see
-\[<span class="title-ref">/component\](</span>/component.md)s/boards\`)
-will include a line like:
+\[[/component\](]{.title-ref}/component.md)s/boards\`) will include a
+line like:
 
     MKDEP = (TOPDIR)/tools/mkdeps[.exe] (See NOTE below)
 
@@ -804,11 +840,12 @@ However, this version is still under-development. It works well in the
 all POSIX environment or in the all Windows environment but also does
 not work well in mixed POSIX environment with a Windows toolchain. In
 that case, there are still issues with the conversion of things like
-'c:Program Files' to 'c:program files' by bash. Those issues may,
+\'c:Program Files\' to \'c:program files\' by bash. Those issues may,
 eventually be solvable but for now continue to use mkwindeps.sh in that
 mixed environment.
 
-## netusb.sh
+netusb.sh
+---------
 
 Helper script used to set up the CDC ECM Ethernet Over USB driver, host
 routes, and IP Tables rules to support networking with a NuttX system
@@ -817,21 +854,22 @@ on Linux.
 
 General usage:
 
->  ./tools/netusb.sh Usage: tools/netusb.sh \<main-interface\>
-> \<usb-net-interface\> \<on|off\>
+> \ ./tools/netusb.sh Usage: tools/netusb.sh \<main-interface\>
+> \<usb-net-interface\> \<on\|off\>
 
 This has been tested on the SAMA5D3-Xplained board; see
-<span class="title-ref">Documentation/platforms/arm/sama5/boards/sama5d3-xplained/README.txt</span>
+[Documentation/platforms/arm/sama5/boards/sama5d3-xplained/README.txt]{.title-ref}
 for more information on how to configure the CDC ECM driver for that
 board.
 
-## refresh.sh
+refresh.sh
+----------
 
-\[NOTE: This script with --silent is really obsolete. refresh with the
+\[NOTE: This script with \--silent is really obsolete. refresh with the
 silent option really adds default values. However, as of 217-07-09,
 defconfig files are retained in a compressed format, i.e., with default
-values removed. So the --silent option will accomplish nothing. Without
---silent, you will have the opportunity over override the default value
+values removed. So the \--silent option will accomplish nothing. Without
+\--silent, you will have the opportunity over override the default value
 from the command line and, in that case, the script may still have some
 minimal value.\]
 
@@ -872,16 +910,16 @@ The steps to refresh the file taken by refresh.sh are:
 1.  Make tools/cmpconfig if it is not already built.
 2.  Copy the defconfig file to the top-level NuttX directory as .config
     (being careful to save any previous .config file that you might want
-    to keep\!).
-3.  Execute 'make oldconfig' to update the configuration. 'make
-    oldconfig' will prompt you for each change in the configuration that
-    requires that you make some decision. With the --silent option, the
-    script will use 'make oldefconfig' instead and you won't have to
-    answer any questions; the refresh will simply accept the default
-    value for any new configuration settings.
+    to keep!).
+3.  Execute \'make oldconfig\' to update the configuration. \'make
+    oldconfig\' will prompt you for each change in the configuration
+    that requires that you make some decision. With the \--silent
+    option, the script will use \'make oldefconfig\' instead and you
+    won\'t have to answer any questions; the refresh will simply accept
+    the default value for any new configuration settings.
 4.  Then it runs tools/cmpconfig to show the real differences between
     the configuration files. Configuration files are complex and things
-    can move around so a simple 'diff' between two configuration files
+    can move around so a simple \'diff\' between two configuration files
     is often not useful. But tools/cmpconfig will show only the
     meaningful differences between the two configuration files.
 5.  It will edit the .config file to comment out the setting of the
@@ -890,22 +928,24 @@ The steps to refresh the file taken by refresh.sh are:
     time that the configuration is installed.
 6.  Finally, the refreshed defconfig file is copied back in place where
     it can be committed with the next set of difference to the command
-    line. If you select the --silent option, this file copy will occur
+    line. If you select the \--silent option, this file copy will occur
     automatically. Otherwise, refresh.sh will prompt you first to avoid
     overwriting the defconfig file with changes that you may not want.
 
-## rmcr.c
+rmcr.c
+------
 
 Removes all white space from the end of lines. Whitespace here includes
 space characters, TAB characters, horizontal and vertical TABs, and
 carriage returns. Lines will be terminated with the newline character
 only.
 
-## sethost.sh
+sethost.sh
+----------
 
 Saved configurations may run on Linux, Cygwin (32- or 64-bit), or other
-platforms. The platform characteristics can be changed use 'make
-menuconfig'. Sometimes this can be confusing due to the differences
+platforms. The platform characteristics can be changed use \'make
+menuconfig\'. Sometimes this can be confusing due to the differences
 between the platforms. Enter sethost.sh
 
 sethost.sh is a simple script that changes a configuration to your host
@@ -928,17 +968,18 @@ Or, if you are on a Windows/Cygwin 64-bit platform:
 Other options are available:
 
      ./sethost.sh -h
-    
+
     USAGE: ./sethost.sh [-l|m|c|g|n] [make-opts]
            ./sethost.sh -h
-    
+
     Where:
       -l|m|c|g|n selects Linux (l), macOS (m), Cygwin (c),
          MSYS/MSYS2 (g) or Windows native (n). Default Linux
       make-opts directly pass to make
       -h will show this help test and terminate
 
-## simhostroute.sh
+simhostroute.sh
+---------------
 
 Helper script used to set up the tap driver, host routes, and IP Tables
 rules to support networking with the simulator under Linux. General
@@ -949,7 +990,8 @@ usage:
 
 See boards/sim/sim/sim/NETWORK-LINUX.txt for further information
 
-## simbridge.sh
+simbridge.sh
+------------
 
 Helper script used to set up a bridge to support networking with the
 simulator under Linux. General usage:
@@ -959,7 +1001,8 @@ simulator under Linux. General usage:
 
 See boards/sim/sim/sim/NETWORK-LINUX.txt for further information
 
-## showsize.sh
+showsize.sh
+-----------
 
 Show the top 10 biggest memory hogs in code and data spaces. This must
 be executed from the top-level NuttX directory like:
@@ -970,17 +1013,18 @@ be executed from the top-level NuttX directory like:
     TOP 10 BIG CODE
     ...
 
-## testbuild.sh
+testbuild.sh
+------------
 
 This script automates building of a set of configurations. The intent is
 simply to assure that the set of configurations build correctly. The -h
 option shows the usage:
 
      ./testbuild.sh -h
-    
+
     USAGE: ./testbuild.sh [-l|m|c|g|n] [-d] [-e <extraflags>] [-x] [-j <ncpus>] [-a <appsdir>] [-t <topdir>] [-p] [-G] <testlist-file>
            ./testbuild.sh -h
-    
+
     Where:
       -l|m|c|g|n selects Linux (l), macOS (m), Cygwin (c),
          MSYS/MSYS2 (g) or Windows native (n). Default Linux
@@ -1002,16 +1046,16 @@ option shows the usage:
       -R execute "run" script in the config directories if exists.
       -h will show this help test and terminate
       <testlist-file> selects the list of configurations to test.  No default
-    
+
     Your PATH variable must include the path to both the build tools and the
     kconfig-frontends tools
 
 These script needs two pieces of information.
 
-1.  A description of the platform that you are testing on. This
+a.  A description of the platform that you are testing on. This
     description is provided by the optional -l, -m, -c, -g and -n
     options.
-2.  A list of configurations to build. That list is provided by a test
+b.  A list of configurations to build. That list is provided by a test
     list file. The final, non-optional parameter, \<testlist-file\>,
     provides the path to that file.
 
@@ -1040,17 +1084,18 @@ or skip a configuration on a specific host(e.g. Darwin):
 
     -Darwin,sim:rpserver
 
-## uncrustify.cfg
+uncrustify.cfg
+--------------
 
 This is a configuration script for the uncrustify code beautifier.
-Uncrustify does well with forcing braces into "if" statements and
+Uncrustify does well with forcing braces into \"if\" statements and
 indenting per the NuttX C coding standard. It correctly does things like
 placing all braces on separate lines at the proper indentation level. It
 cannot handle certain requirements of the coding standard such as
 
-  - FAR attributes in pointer declarations.
-  - The NuttX standard function header block comments.
-  - Naming violations such as use of CamelCase variable names, lower
+-   FAR attributes in pointer declarations.
+-   The NuttX standard function header block comments.
+-   Naming violations such as use of CamelCase variable names, lower
     case pre-processor definitions, etc.
 
 Comment blocks, function headers, files headers, etc. must be formatted
@@ -1060,21 +1105,21 @@ Its handling of block comments is fragile. If the comment is perfect, it
 leaves it alone, but if the block comment is deemed to need a fix it
 starts erroneously indenting the continuation lines of the comment.
 
-  - uncrustify.cfg messed up the indent of most block comments.
+-   uncrustify.cfg messed up the indent of most block comments.
     cmt\_sp\_before\_star\_cont is applied inconsistently. I added:
-    
+
         cmt_indent_multi = false # disable all multi-line comment changes
-    
+
     to the .cfg file to limit its damage to block comments.
 
-  - It is very strict at wrapping lines at column 78. Even when column
+-   It is very strict at wrapping lines at column 78. Even when column
     79 just contained the `/` of a closing `*/`. That created many bad
     continuation lines.
 
-  - It moved '{' that opened a struct to the line defining the struct.
+-   It moved \'{\' that opened a struct to the line defining the struct.
     nl\_struct\_brace = add (or force) seemed to be ignored.
 
-  - It also aligned variable names in declarations and '=' signs in
+-   It also aligned variable names in declarations and \'=\' signs in
     assignment statements in a seemingly arbitrary manner. Making
     changes that were not necessary.
 
@@ -1084,7 +1129,7 @@ ballpark, but you should expect to review and hand-edit the files to
 assume 100% compliance.
 
 WARNING: **NEVER** use uncrustify.cfg for modifications to existing
-NuttX files. It will probably corrupt the style in subtle ways\!
+NuttX files. It will probably corrupt the style in subtle ways!
 
 This was last verified against uncrustify 0.66.1 by Bob Feretich.
 
@@ -1104,12 +1149,14 @@ Binaries for both Windows and Linux are available at:
 
 See also indent.sh and nxstyle.c
 
-## zds
+zds
+---
 
 This directory contains build tools used only with the ZDS-II platforms
 (z8, ez80, zNeo).
 
-## zipme.sh
+zipme.sh
+--------
 
 I use this script to create the nuttx-xx.yy.tar.gz tarballs for release.
 It is handy because it also does the kind of clean up that you need to

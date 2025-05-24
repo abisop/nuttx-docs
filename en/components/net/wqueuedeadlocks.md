@@ -1,6 +1,8 @@
-# Work Queue Deadlocks
+Work Queue Deadlocks
+====================
 
-## Use of Work Queues
+Use of Work Queues
+------------------
 
 Most network drivers use a work queue to handle network events. This is
 done for two reason: (1) Most of the example code to leverage from does
@@ -8,7 +10,8 @@ it that way, and (2) it is easier and is a more efficient use memory
 resources to use the work queue rather than creating a dedicated
 task/thread to service the network.
 
-## High and Low Priority Work Queues
+High and Low Priority Work Queues
+---------------------------------
 
 There are two work queues: A single, high priority work queue that is
 intended only to service the back end interrupt processing in a
@@ -16,7 +19,8 @@ semi-normal, tasking context. And low priority work queue(s) that are
 similar but as then name implies are lower in priority and not dedicated
 for time-critical back end interrupt processing.
 
-## Downsides of Work Queues
+Downsides of Work Queues
+------------------------
 
 There are two important downsides to the use of work queues. First, the
 work queues are inherently non-deterministic. The time delay from the
@@ -30,33 +34,36 @@ queues to do most of the work?
 A second problem is related: Only one work queue job can be performed at
 a time. That job should be brief so that it can make the work queue
 available again for the next work queue job as soon as possible. And
-that job should never block waiting for resources\! If the job blocks,
+that job should never block waiting for resources! If the job blocks,
 then it blocks the entire work queue and makes the whole work queue
 unavailable for the duration of the wait.
 
-## Networking on Work Queues
+Networking on Work Queues
+-------------------------
 
 As mentioned, most network drivers use a work queue to handle network
-events. (some are even configurable to use high priority work queue...
-YIKES\!). Most network operations are not really suited for execution on
+events. (some are even configurable to use high priority work queue\...
+YIKES!). Most network operations are not really suited for execution on
 a work queue: The networking operations can be quite extended and also
 can block waiting for for the availability of resources. So, at a
 minimum, networking should never use the high priority work queue.
 
-## Deadlocks
+Deadlocks
+---------
 
 If there is only a single instance of a work queue, then it is easy to
 create a deadlock on the work queue if a work job blocks on the work
 queue. Here is the generic work queue deadlock scenario:
 
-  - A job runs on a work queue and waits for the availability of a
+-   A job runs on a work queue and waits for the availability of a
     resource.
-  - The operation that provides that resource also runs on the same work
+-   The operation that provides that resource also runs on the same work
     queue.
-  - But since the work queue is blocked waiting for the resource, the
+-   But since the work queue is blocked waiting for the resource, the
     job that provides the resource cannot run and a deadlock results.
 
-## IOBs
+IOBs
+----
 
 IOBs (I/O Blocks) are small I/O buffers that can be linked together in
 chains to efficiently buffer variable sized network packet data. This is
@@ -115,19 +122,20 @@ function should be called again.
 The blocking iob\_alloc() call is also the a common cause of work queue
 deadlocks. The scenario again is:
 
-  - Some logic in the OS runs on a work queue and blocks waiting for an
+-   Some logic in the OS runs on a work queue and blocks waiting for an
     IOB to become available,
-  - The logic that releases the IOB also runs on the same work queue,
+-   The logic that releases the IOB also runs on the same work queue,
     but
-  - That logic that provides the IOB cannot execute, however, because
+-   That logic that provides the IOB cannot execute, however, because
     the other job is blocked waiting for the IOB on the same work queue.
 
-## Alternatives to Work Queues
+Alternatives to Work Queues
+---------------------------
 
 To avoid network deadlocks here is the rule: Never run the network on a
-singleton work queue\!
+singleton work queue!
 
-Most network implementation do just that\! Here are a couple of
+Most network implementation do just that! Here are a couple of
 alternatives:
 
 1.  Use Multiple Low Priority Work Queues Unlike the high priority work
@@ -139,7 +147,7 @@ alternatives:
     for a resource), then the job will be assigned to a different thread
     and the deadlock will be broken. The cost of the additional low
     priority work queue thread is primarily the memory set aside for the
-    thread's stack.
+    thread\'s stack.
 
 2.  Use a Dedicated Network Thread The best solution would be to write a
     custom kernel thread to handle driver network operations. This would
@@ -150,31 +158,31 @@ alternatives:
     mutex that enforces mutually exclusive access to the network. The
     network lock can also cause deadlocks and can also interact with the
     work queues to degrade performance. Consider this scenario:
-    
-    >   - Some network logic, perhaps running on on the application
+
+    > -   Some network logic, perhaps running on on the application
     >     thread, takes the network lock then waits for an IOB to become
     >     available (on the application thread, not a work queue).
-    >   - Some network related event runs on the work queue but is
+    > -   Some network related event runs on the work queue but is
     >     blocked waiting for the network lock.
-    >   - Another job is queued behind that network job. This is the one
+    > -   Another job is queued behind that network job. This is the one
     >     that provides the IOB, but it cannot run because the other
     >     thread is blocked waiting for the network lock on the work
     >     queue.
-    
+
     But the network will not be unlocked because the application logic
     holds the network lock and is waiting for the IOB which can never be
     released.
-    
+
     Within the network, this deadlock condition is avoided using a
     special function `net_ioballoc()`. `net_ioballoc()` is a wrapper
     around the blocking `iob_alloc()` that momentarily releases the
     network lock while waiting for the IOB to become available.
-    
+
     Similarly, the network functions `net_lockedait()` and
     `net_timedait()` are wrappers around `nxsem_wait()`
     `nxsem_timedwait()`, respectively, and also release the network lock
     for the duration of the wait.
-    
+
     Caution should be used with any of these wrapper functions. Because
     the network lock is relinquished during the wait, there could
     changes in the network state that occur before the lock is

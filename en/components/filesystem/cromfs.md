@@ -1,6 +1,8 @@
-# CROMFS
+CROMFS
+======
 
-## Overview
+Overview
+--------
 
 This directory contains the the CROMFS file system. This is an in-memory
 (meaning no block driver), read-only (meaning that can lie in FLASH)
@@ -21,7 +23,7 @@ have a file system with 512Kb of data in only 322Kb of FLASH, giving you
 
 LZF compression is not known for its high compression ratios, but rather
 for fast decompression. According to the author of the LZF decompression
-routine, it is nearly as fast as a memcpy\!
+routine, it is nearly as fast as a memcpy!
 
 There is also a new tool at /tools/gencromfs.c that will generate binary
 images for the NuttX CROMFS file system and and an example CROMFS file
@@ -84,7 +86,7 @@ When built into NuttX and deployed on a target, it looks like:
     nsh>
 
 Everything I have tried works: examining directories, catting files,
-etc. The "." and ".." hard links also work:
+etc. The \".\" and \"..\" hard links also work:
 
     nsh> cd /mnt/cromfs
     nsh> cat emptydir/../testdir1/DingDongDell.txt
@@ -92,17 +94,18 @@ etc. The "." and ".." hard links also work:
     Pussy's in the well.
     Who put her in?
     Little Johnny Green.
-    
+
     Who pulled her out?
     Little Tommy Stout.
     What a naughty boy was that,
     To try to drown poor pussy cat,
     Who never did him any harm,
     And killed the mice in his father's barn.
-    
+
     nsh>
 
-## gencromfs
+gencromfs
+---------
 
 The genromfs program can be found in tools/. It is a single C file
 called gencromfs.c. It can be built in this way:
@@ -126,20 +129,21 @@ Where:
 All of these steps are automated in the apps/examples/cromfs/Makefile.
 Refer to that Makefile as an reference.
 
-## Architecture
+Architecture
+------------
 
 The CROMFS file system is represented by an in-memory data structure.
-This structure is a "tree." At the root of the tree is a "volume node"
-that describes the overall operating system. Other entities within the
-file system are presented by other types of nodes: hard links,
-directories, and files. These nodes are all described in
+This structure is a \"tree.\" At the root of the tree is a \"volume
+node\" that describes the overall operating system. Other entities
+within the file system are presented by other types of nodes: hard
+links, directories, and files. These nodes are all described in
 fs/cromfs/cromfs.h.
 
 In addition to general volume information, the volume node provides an
-offset to the the "root directory". The root directory, like all other
+offset to the the \"root directory\". The root directory, like all other
 CROMFS directories is simply a singly linked list of other nodes: hard
-link nodes, directory nodes, and files. This list is managed by "peer
-offsets": Each node in the directory contains an offset to its peer in
+link nodes, directory nodes, and files. This list is managed by \"peer
+offsets\": Each node in the directory contains an offset to its peer in
 the same directory. This directory list is terminated with a zero
 offset.
 
@@ -149,13 +153,13 @@ CROMFS image by simply adding that offset to the well-known address of
 the volume header.
 
 Each hard link, directory, and file node in the directory list includes
-such a "peer offset" to the next node in the list. Each node is followed
-by the NUL-terminated name of the node. Each node also holds an
-additional offset. Directory nodes contain a "child offset". That is,
+such a \"peer offset\" to the next node in the list. Each node is
+followed by the NUL-terminated name of the node. Each node also holds an
+additional offset. Directory nodes contain a \"child offset\". That is,
 the offset to the first entry in another singly linked list of nodes
 comprising the sub-directory.
 
-Hard link nodes hold the "link offset" to the node which is the target
+Hard link nodes hold the \"link offset\" to the node which is the target
 of the link. The link offset may be an offset to another hard link node,
 to a directory, or to a file node. The directory link offset would refer
 the first node in singly linked directory list that represents the
@@ -203,50 +207,51 @@ D=directory node, F=file node, D=Data block):
 Where, for example:
 
     H: ..
-    
+
       Represents a hard-link node with name ".."
-    
+
     |
     +- D: testdir1
     |  |- H: .
-    
+
       Represents a directory node named "testdir1".  The first node of the
       directory list is a hard link with name "."
-    
+
     |
     +- F: JackSprat.txt
     |  `- D,D,D,...D
-    
+
       Represents f file node named "JackSprat.txt" and is followed by some
       sequence of compressed data blocks, D.
 
-## Configuration
+Configuration
+-------------
 
 To build the CROMFS file system, you would add the following to your
 configuration:
 
 1.  Enable LZF (The other LZF settings apply only to compression and,
     hence, have no impact on CROMFS which only decompresses):
-    
+
         CONFIG_LIBC_LZF=y
-    
+
     NOTE: This should be selected automatically when CONFIG\_FS\_CROMFS
     is enabled.
 
 2.  Enable the CROMFS file system:
-    
+
         CONFIG_FS_CROMFS=y
 
 3.  Enable the apps/examples/cromfs example:
-    
+
         CONFIG_EXAMPLES_CROMFS=y
-    
+
     Or the apps/examples/elf example if you like:
-    
+
         CONFIG_ELF=y
         # CONFIG_BINFMT_DISABLE is not set
         CONFIG_EXAMPLES_ELF=y
         CONFIG_EXAMPLES_ELF_CROMFS=y
-    
+
     Or implement your own custom CROMFS file system that example as a
     guideline.

@@ -1,31 +1,30 @@
-# Adafruit NRF52 Feather
-
-<div class="tags">
+Adafruit NRF52 Feather
+======================
 
 chip:nrf52, chip:nrf52832
-
-</div>
 
 The [Adafruit NRF52 Feather](https://www.adafruit.com/product/3406) is a
 development board for the nRF52832 SoC from Nordic.
 
-## Serial Console
+Serial Console
+--------------
 
 The Feather nRF52 default console is the UART0.
 
 The Feather nRF52 have USB serial bridge chip on board and UART0 is
 connected to micro USB connector through the bridge chip.
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
 The Feather has 2 user-controllable LEDs:
 
-| LED  | MCU     |
-| ---- | ------- |
-| LED1 | PIN0-17 |
-| LED2 | PIN0-19 |
+  LED    MCU
+  ------ ---------
+  LED1   PIN0-17
+  LED2   PIN0-19
 
 A high output illuminates the LED.
 
@@ -44,7 +43,8 @@ for application control of the LEDs:
 The Feather nRF52 does not have user-controllable buttons. The reset
 button on the board is connected to nRF52832 reset pin directly.
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:
@@ -61,8 +61,8 @@ NOTES:
 
 > 1.  This configuration uses the mconf-based configuration tool. To
 >     change this configurations using that tool, you should:
-> 
-> > 1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+>
+> > a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
 > >     see additional README.txt files in the NuttX tools repository.
-> > 2.  Execute 'make menuconfig' in nuttx/ in order to start the
+> > b.  Execute \'make menuconfig\' in nuttx/ in order to start the
 > >     reconfiguration process.

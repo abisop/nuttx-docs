@@ -1,4 +1,5 @@
-# Shared Memory
+Shared Memory
+=============
 
 Shared memory interfaces are only available with the NuttX kernel build
 (`CONFIG_BUILD_KERNEL=y`). These interfaces support user memory regions

@@ -1,14 +1,14 @@
-# Compiling with CMake
+Compiling with CMake
+====================
 
-## Initialize Configuration with CMake
+Initialize Configuration with CMake
+-----------------------------------
 
 The first step is to initialize NuttX configuration for a given board,
 based on a pre-existing configuration. To list all supported
 configurations you can do:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd nuttx
 >  ./tools/configure.sh -L | less
 > ```
@@ -17,14 +17,12 @@ The output is in the format `<board name>:<board configuration>`. You
 will see that generally all boards support the `nsh` configuration which
 is a good starting point since it enables booting into the interactive
 command line
-\[<span class="title-ref">/application\](</span>/application.md)s/nsh/index\`.
+\[[/application\](]{.title-ref}/application.md)s/nsh/index\`.
 
-To choose a configuration you pass the `<board name>:<board
-configuration>` such as:
+To choose a configuration you pass the
+`<board name>:<board configuration>` such as:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd nuttx
 >  cmake -B build -DBOARD_CONFIG=stm32f4discovery:nsh -GNinja
 > ```
@@ -34,21 +32,20 @@ The `-B build` tells what is the build directory.
 You can then customize this configuration by using the menu based
 configuration system with:
 
-``` console
+``` {.console}
  cd nuttx
  cmake --build build -t menuconfig 
 ```
 
 Modifying the configuration is covered in
-\[<span class="title-ref">configuring</span>.\](<span class="title-ref">configuring</span>..md)
+\[[configuring]{.title-ref}.\]([configuring]{.title-ref}..md)
 
-## Build NuttX with CMake
+Build NuttX with CMake
+----------------------
 
 We can now build NuttX. To do so, you can simply run:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd nuttx
 >  cmake --build build 
 > ```
@@ -60,13 +57,12 @@ board.
 
 To clean the build, you can do:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cmake --build build -t clean
 > ```
 
-## Out-of-tree building
+Out-of-tree building
+--------------------
 
 Key benefit of CMake is the out-of-tree building, which allows one to
 have different build folders for different configs, very proper if one
@@ -76,9 +72,7 @@ above `build` folders can be out of Nuttx source tree.
 Suppose `NUTTX_DIR` is the nuttx source tree, we can use temporary
 folder for a particular target config as shown below.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  echo NUTTX_DIR
 > /home/user/Projects/Nuttx/nuttx
 >  mkdir -p ~/tmp/rv32/nsh
@@ -106,17 +100,16 @@ folder for a particular target config as shown below.
 This approach works for FLAT configs now and PROTECTED configs soon if
 needed CMake scripts are available already.
 
-## Building KERNEL configs
+Building KERNEL configs
+-----------------------
 
 We can use CMake to build the kernel image for KERNEL configs now,
 assuming apps ROMFS is prepared using the makefile system. If the
-development focus is kernel side and apps don't change often, then CMake
-can help us achieve out-of-tree build if your device's CMake scripts are
-ready. Let's take `canm230` device as an example:
+development focus is kernel side and apps don\'t change often, then
+CMake can help us achieve out-of-tree build if your device\'s CMake
+scripts are ready. Let\'s take `canm230` device as an example:
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  echo NUTTX_DIR
 > /home/user/Projects/Nuttx/nuttx
 >  mkdir -p ~/tmp/k230/nsbi

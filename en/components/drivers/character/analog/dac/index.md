@@ -1,6 +1,7 @@
-# DAC Drivers
+DAC Drivers
+===========
 
-  - `include/nuttx/analog/dac.h`. All structures and APIs needed to work
+-   `include/nuttx/analog/dac.h`. All structures and APIs needed to work
     with DAC drivers are provided in this header file. This header file
     includes:
     1.  Structures and interface descriptions needed to develop a
@@ -8,16 +9,17 @@
     2.  To register the DAC driver with a common DAC character driver.
     3.  Interfaces needed for interfacing user programs with the common
         DAC character driver.
-  - `drivers/analog/dac.c`. The implementation of the common DAC
+-   `drivers/analog/dac.c`. The implementation of the common DAC
     character driver.
 
-## Application Programming Interface
+Application Programming Interface
+---------------------------------
 
 The first necessary thing to be done in order to use the DAC driver from
 an application is to include the correct header filer. It contains the
 Application Programming Interface to the PWM driver. To do so, include
 
-``` c
+``` {.c}
 #include <nuttx/analog/dac.h>
 ```
 
@@ -29,7 +31,7 @@ call.
 Standard POSIX `write()` call is used to send data from an application
 to a controller. Structure `dac_msg_s` is used to pass the data/samples.
 
-``` c
+``` {.c}
 begin_packed_struct struct dac_msg_s
 {
   /* The 8-bit DAC Channel */
@@ -45,7 +47,8 @@ An example application can be found in `nuttx-apps` repository under
 path `examples/dac`. It provides command line interface to write data to
 DAC channels.
 
-## Configuration
+Configuration
+-------------
 
 This section describes DAC driver configuration in `Kconfig`. The reader
 should refer to target documentation for target specific configuration.
@@ -55,7 +58,8 @@ respectively. The FIFO queue size is configurable with
 `CONFIG_DAC_FIFOSIZE`. This size is limited to `255` to fit into
 `uint8_t`.
 
-## Supported External DACs (I2C/SPI)
+Supported External DACs (I2C/SPI)
+---------------------------------
 
 NuttX also provides support for various external DAC devices. These
 usually communicate with the MCU via I2C or SPI interfaces.

@@ -1,5 +1,7 @@
-# GOLDFISH
+GOLDFISH
+========
 
 > goldfish\_timer.rst
 
-## Supported Boards
+Supported Boards
+----------------

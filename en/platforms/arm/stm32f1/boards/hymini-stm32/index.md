@@ -1,42 +1,41 @@
-# HY-MiniSTM32V
-
-<div class="tags">
+HY-MiniSTM32V
+=============
 
 chip:stm32, chip:stm32f1, chip:stm32f103
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 HY-MiniSTM32V development board.
 
-## ST Bootloader
+ST Bootloader
+-------------
 
 A bootloader code is available in an internal boot ROM memory (called
-'system memory' in STM documentation) in all STM32 MCUs. For the F103xx
-this bootloader can be used to upload & flash a firmware image through
-the USART1.
+\'system memory\' in STM documentation) in all STM32 MCUs. For the
+F103xx this bootloader can be used to upload & flash a firmware image
+through the USART1.
 
 Notes:
 
-  - The bootloader is activated by the BOOT0 / BOOT1 pins after a MCU
+-   The bootloader is activated by the BOOT0 / BOOT1 pins after a MCU
     reset. See STM application note 2606 for more details.
-  - On the hymini-stm32 board the USART1 is connected to a PL2303
+-   On the hymini-stm32 board the USART1 is connected to a PL2303
     USB\<-\>serial converter.
 
 To enter bootloader mode in the hymini-stm32 board:
 
-  - Press the 'boot0' button (located next to 'reset' button)
-  - While boot0 button is pressed, reset the board through the reset
+-   Press the \'boot0\' button (located next to \'reset\' button)
+-   While boot0 button is pressed, reset the board through the reset
     button.
-  - Once you pressed / released the 'reset' button, the MCU has
+-   Once you pressed / released the \'reset\' button, the MCU has
     (re)started in bootloader mode (and you can then release the boot0
     button).
 
 A flash utility must be used on your development workstation to upload /
-flash a firmware image. (The 'stm32flash' open source tool, available at
-<http://stm32flash.googlecode.com/> has been used successfully).
+flash a firmware image. (The \'stm32flash\' open source tool, available
+at <http://stm32flash.googlecode.com/> has been used successfully).
 
-## LEDs
+LEDs
+----
 
 The HY-MiniSTM32 board provides only two controllable LEDs labeled LED1
 and LED2. Usage of these LEDs is defined in include/board.h and
@@ -55,12 +54,13 @@ src/up\_leds.c. They are encoded as follows:
     LED_PANIC           The system has crashed  BLINK   BLINK
     LED_IDLE            STM32 is is sleep mode  (Optional, not used)
     =================== ======================= ======= =======
-    
+
     * If NuttX starts correctly, normal state is to have LED1 on and LED2 off.
     ** LED1 is turned off during interrupt.
     *** LED2 is turned on during signal handler.
 
-## RTC
+RTC
+---
 
 The STM32 RTC may configured using the following settings.:
 
@@ -92,68 +92,69 @@ down. The overflow interrupt may be lost even if the STM32 is powered
 down only momentarily. Therefore hi-res solution is only useful in
 systems where the power is always on.
 
-## HY-Mini specific Configuration Options
+HY-Mini specific Configuration Options
+--------------------------------------
 
     CONFIG_ARCH - Identifies the arch/ subdirectory.  This should be set to:
-    
+
            CONFIG_ARCH=arm
-    
+
     CONFIG_ARCH_family - For use in C code:
-    
+
            CONFIG_ARCH_ARM=y
-    
+
     CONFIG_ARCH_architecture - For use in C code:
-    
+
            CONFIG_ARCH_CORTEXM3=y
-    
+
     CONFIG_ARCH_CHIP - Identifies the arch/*/chip subdirectory
-    
+
            CONFIG_ARCH_CHIP=stm32
-    
+
     CONFIG_ARCH_CHIP_name - For use in C code to identify the exact chip:
-    
+
            CONFIG_ARCH_CHIP_STM32F103VC
-    
+
     CONFIG_ARCH_BOARD_STM32_CUSTOM_CLOCKCONFIG - Enables special STM32 clock
     configuration features.
-    
+
            CONFIG_ARCH_BOARD_STM32_CUSTOM_CLOCKCONFIG=n
-    
+
     CONFIG_ARCH_BOARD - Identifies the boards/ subdirectory and
     hence, the board that supports the particular chip or SoC.
-    
+
            CONFIG_ARCH_BOARD=hymini-stm32v (for the HY-Mini development board)
-    
+
     CONFIG_ARCH_BOARD_name - For use in C code
-    
+
            CONFIG_ARCH_BOARD_HYMINI_STM32V=y
-    
+
     CONFIG_ARCH_LOOPSPERMSEC - Must be calibrated for correct operation
     of delay loops
-    
+
     CONFIG_ENDIAN_BIG - define if big endian (default is little
     endian)
-    
+
     CONFIG_RAM_SIZE - Describes the installed DRAM (SRAM in this case):
-    
+
            CONFIG_RAM_SIZE=0x0000C000 (48Kb)
-    
+
     CONFIG_RAM_START - The start address of installed DRAM
-    
+
            CONFIG_RAM_START=0x20000000
-    
+
     CONFIG_ARCH_LEDS - Use LEDs to show state. Unique to boards that
     have LEDs
-    
+
     CONFIG_ARCH_INTERRUPTSTACK - This architecture supports an interrupt
     stack. If defined, this symbol is the size of the interrupt
     stack in bytes.  If not defined, the user task stacks will be
     used during interrupt handling.
-    
+
     CONFIG_ARCH_STACKDUMP - Do stack dumps after assertions
-    
+
     CONFIG_ARCH_LEDS -  Use LEDs to show state. Unique to board architecture.
-    
+
     Individual subsystems can be enabled:
         AHB
         ---
@@ -162,7 +163,7 @@ systems where the power is always on.
         CONFIG_STM32_CRC
         CONFIG_STM32_FSMC
         CONFIG_STM32_SDIO
-    
+
         APB1
         ----
         CONFIG_STM32_TIM2
@@ -188,7 +189,7 @@ systems where the power is always on.
         CONFIG_STM32_PWR
         CONFIG_STM32_DAC
         CONFIG_STM32_USB
-    
+
         APB2
         ----
         CONFIG_STM32_ADC1
@@ -198,17 +199,17 @@ systems where the power is always on.
         CONFIG_STM32_TIM8
         CONFIG_STM32_USART1
         CONFIG_STM32_ADC3
-    
+
       Timer and I2C devices may need to the following to force power to be applied
       unconditionally at power up.  (Otherwise, the device is powered when it is
       initialized).
-    
+
         CONFIG_STM32_FORCEPOWER
-    
+
       The Timer3 alternate mapping is required for PWM control of LCD backlight
-    
+
         CONFIG_STM32_TIM3_PARTIAL_REMAP=y
-    
+
       Timer devices may be used for different purposes.  One special purpose is
       to generate modulated outputs for such things as motor control.  If CONFIG_STM32_TIMn
       is defined (as above) then the following may also be defined to indicate that
@@ -216,15 +217,15 @@ systems where the power is always on.
       or DAC conversion.  Note that ADC/DAC require two definition:  Not only do you have
       to assign the timer (n) for used by the ADC or DAC, but then you also have to
       configure which ADC or DAC (m) it is assigned to.
-    
+
         CONFIG_STM32_TIMn_PWM   Reserve timer n for use by PWM, n=1,..,8
         CONFIG_STM32_TIMn_ADC   Reserve timer n for use by ADC, n=1,..,8
         CONFIG_STM32_TIMn_ADCm  Reserve timer n to trigger ADCm, n=1,..,8, m=1,..,3
         CONFIG_STM32_TIMn_DAC   Reserve timer n for use by DAC, n=1,..,8
         CONFIG_STM32_TIMn_DACm  Reserve timer n to trigger DACm, n=1,..,8, m=1,..,2
-    
+
       Others alternate pin mappings available:
-    
+
         CONFIG_STM32_TIM1_FULL_REMAP
         CONFIG_STM32_TIM1_PARTIAL_REMAP
         CONFIG_STM32_TIM2_FULL_REMAP
@@ -243,15 +244,15 @@ systems where the power is always on.
         CONFIG_STM32_CAN1_REMAP1
         CONFIG_STM32_CAN1_REMAP2
         CONFIG_STM32_CAN2_REMAP
-    
+
       STM32F103V specific device driver settings
-    
+
         CONFIG_U[S]ARTn_SERIAL_CONSOLE - selects the USARTn (n=1,2,3) or UART
            m (m=4,5) for the console and ttys0 (default is the USART1).
-    
+
            Note: USART1 is connected to a PL2303 serial to USB converter.
            So USART1 is available through USB port labeled CN3 on the board.
-    
+
         CONFIG_U[S]ARTn_RXBUFSIZE - Characters are buffered as received.
            This specific the size of the receive buffer
         CONFIG_U[S]ARTn_TXBUFSIZE - Characters are buffered before
@@ -260,13 +261,13 @@ systems where the power is always on.
         CONFIG_U[S]ARTn_BITS - The number of bits.  Must be either 7 or 8.
         CONFIG_U[S]ARTn_PARTIY - 0=no parity, 1=odd parity, 2=even parity
         CONFIG_U[S]ARTn_2STOP - Two stop bits
-    
+
         CONFIG_STM32_SPI_INTERRUPTS - Select to enable interrupt driven SPI
           support. Non-interrupt-driven, poll-waiting is recommended if the
           interrupt rate would be to high in the interrupt driven case.
         CONFIG_STM32_SPIx_DMA - Use DMA to improve SPIx transfer performance.
           Cannot be used with CONFIG_STM32_SPI_INTERRUPT.
-    
+
         CONFIG_SDIO_DMA - Support DMA data transfers.  Requires CONFIG_STM32_SDIO
           and CONFIG_STM32_DMA2.
         CONFIG_STM32_SDIO_PRI - Select SDIO interrupt priority.  Default: 128
@@ -276,9 +277,9 @@ systems where the power is always on.
           4-bit transfer mode.
         CONFIG_MMCSD_HAVE_CARDDETECT - Select if SDIO driver card detection
           is 100% accurate  (it is on the  HY-MiniSTM32V)
-    
+
       HY-MiniSTM32V CAN Configuration
-    
+
         CONFIG_CAN - Enables CAN support (one or both of CONFIG_STM32_CAN1 or
           CONFIG_STM32_CAN2 must also be defined)
         CONFIG_CAN_EXTID - Enables support for the 29-bit extended ID.  Default
@@ -303,15 +304,15 @@ systems where the power is always on.
           Default: 7
         CONFIG_STM32_CAN_REGDEBUG - If CONFIG_DEBUG_FEATURES is set, this will generate an
           dump of all CAN registers.
-    
+
       HY-MiniSTM32V LCD Hardware Configuration.  The HY-Mini board may be delivered with
       either an SSD1289 or an R61505U LCD controller.
-    
+
         CONFIG_LCD_R61505U - Selects the R61505U LCD controller.
         CONFIG_LCD_SSD1289 - Selects the SSD1289 LCD controller.
-    
+
       The following options apply for either LCD controller:
-    
+
         CONFIG_NX_LCDDRIVER - To be defined to include LCD driver
         CONFIG_LCD_LANDSCAPE - Define for 320x240 display "landscape"
           support. In this orientation, the HY-MiniSTM32V's
@@ -329,20 +330,21 @@ systems where the power is always on.
           using timer 3.  The granularity of the settings is determined
           by CONFIG_LCD_MAXPOWER.  Requires CONFIG_STM32_TIM3.
 
-## Configurations
+Configurations
+--------------
 
 NOTES:
 
-  - All configurations described below are using the mconf-based
+-   All configurations described below are using the mconf-based
     configuration tool. To change their configuration using that tool,
     you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
-  - All configurations use a generic GNU EABI toolchain for Linux by
+-   All configurations use a generic GNU EABI toolchain for Linux by
     default.
-  - They are all configured to generate a binary image that can be
+-   They are all configured to generate a binary image that can be
     flashed through the STM32 internal bootloader.
 
 Each HY-MiniSTM32V configuration is maintained in a sub-directory and
@@ -384,7 +386,7 @@ Differences between the two NSH configurations:
                                         apps/system/usbmsc (4)
                                         apps/examples/nximage
     =========== ======================= ================================
-    
+
     (1) You will probably need to the PATH environment variable to set
         up the correct PATH variable for whichever toolchain you may use.
     (2) When any other device other than /dev/console is used for a user
@@ -400,7 +402,7 @@ Differences between the two NSH configurations:
         Caution should be used to assure that the SD drive is not in use when
         the USB storage device is configured.  Specifically, the SD driver
         should be unmounted like::
-    
+
           nsh> mount -t vfat /dev/mmcsd0 /mnt/sdcard # Card is mounted in NSH
           ...
           nsh> umount /mnd/sdcard                    # Unmount before connecting USB!!!
@@ -408,7 +410,7 @@ Differences between the two NSH configurations:
           ...
           nsh> msdis                                 # Disconnect USB storate device
           nsh> mount -t vfat /dev/mmcsd0 /mnt/sdcard # Restore the mount
-    
+
         Failure to do this could result in corruption of the SD card format.
     (5) Option CONFIG_NSH_ARCHINIT must be enabled in order to call the SDIO slot
         initialization code.
@@ -420,17 +422,18 @@ at system/usbmsc. See examples/README.txt for more information.
 
 ### usbnsh
 
-This is another NSH example. If differs from other 'nsh' configurations
-in that this configurations uses a USB serial device for console I/O.
+This is another NSH example. If differs from other \'nsh\'
+configurations in that this configurations uses a USB serial device for
+console I/O.
 
 NOTES:
 
 1.  This configuration does have UART2 output enabled and set up as the
     system logging device:
-    
+
         CONFIG_SYSLOG_CHAR=y               : Use a character device for system logging
         CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" : UART2 will be /dev/ttyS0
-    
+
     However, there is nothing to generate SYSLOG output in the default
     configuration so nothing should appear on UART2 unless you enable
     some debug output or enable the USB monitor.
@@ -440,7 +443,7 @@ NOTES:
     USB monitor is enabled, that trace buffer will be periodically
     emptied and dumped to the system logging device (UART2 in this
     configuration):
-    
+
         CONFIG_USBDEV_TRACE=y                   : Enable USB trace feature
         CONFIG_USBDEV_TRACE_NRECORDS=128        : Buffer 128 records in memory
         CONFIG_NSH_USBDEV_TRACE=n               : No builtin tracing from NSH
@@ -449,18 +452,18 @@ NOTES:
         CONFIG_USBMONITOR_STACKSIZE=2048 : USB monitor daemon stack size
         CONFIG_USBMONITOR_PRIORITY=50    : USB monitor daemon priority
         CONFIG_USBMONITOR_INTERVAL=2     : Dump trace data every 2 seconds
-        
+
         CONFIG_USBMONITOR_TRACEINIT=y    : Enable TRACE output
         CONFIG_USBMONITOR_TRACECLASS=y
         CONFIG_USBMONITOR_TRACETRANSFERS=y
         CONFIG_USBMONITOR_TRACECONTROLLER=y
         CONFIG_USBMONITOR_TRACEINTERRUPTS=y
-        
+
         Using the Prolifics PL2303 Emulation
         ------------------------------------
         You could also use the non-standard PL2303 serial device instead of
         the standard CDC/ACM serial device by changing::
-        
+
         CONFIG_CDCACM=y               : Disable the CDC/ACM serial device class
         CONFIG_CDCACM_CONSOLE=y       : The CDC/ACM serial device is NOT the console
         CONFIG_PL2303=y               : The Prolifics PL2303 emulation is enabled
@@ -483,7 +486,7 @@ the configuration file:
     +CONFIG_DEBUG_FEATURES=y
     +CONFIG_DEBUG_INFO=y
     +CONFIG_DEBUG_USB=y
-    
+
     -CONFIG_EXAMPLES_USBSERIAL_TRACEINIT=n
     -CONFIG_EXAMPLES_USBSERIAL_TRACECLASS=n
     -CONFIG_EXAMPLES_USBSERIAL_TRACETRANSFERS=n
@@ -502,6 +505,6 @@ by making the following changes to the configuration file:
 
     -CONFIG_PL2303=y
     +CONFIG_PL2303=n
-    
+
     -CONFIG_CDCACM=n
     +CONFIG_CDCACM=y

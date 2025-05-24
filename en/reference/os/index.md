@@ -1,4 +1,5 @@
-# Architecture APIs
+Architecture APIs
+=================
 
 The file `include/nuttx/arch.h` identifies by prototype all of the APIs
 that must be provided by the architecture specific logic. The internal

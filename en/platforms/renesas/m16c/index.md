@@ -1,4 +1,5 @@
-# Renesas M16C
+Renesas M16C
+============
 
 **Renesas M16C/26 Microcontroller**. This port uses the Renesas SKP16C26
 Starter kit and the GNU M32C toolchain. The development environment is
@@ -15,6 +16,7 @@ Refer to the NuttX board
 [README](https://github.com/apache/nuttx/blob/master/Documentation/platforms/renesas/m16c/boards/skp16c26/README.txt)
 file for further information.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

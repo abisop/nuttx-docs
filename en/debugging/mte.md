@@ -1,6 +1,8 @@
-# ATM64 MTE extension
+ATM64 MTE extension
+===================
 
-## Introduction
+Introduction
+------------
 
 Arm v8.5 introduced the Arm Memory Tagging Extension (MTE), a hardware
 implementation of tagged memory.
@@ -14,7 +16,8 @@ every load and store.
 NX OS currently supports deploying MTE on ARM64 QEMU, which is supported
 at the EL1 level of NX OS.
 
-## Principle
+Principle
+---------
 
 The Arm Memory Tagging Extension implements lock and key access to
 memory. Locks can be set on memory and keys provided during memory
@@ -31,7 +34,8 @@ address is ignored when using it as an input for address translation.
 This allows the top byte to store metadata. In MTE four bits of the top
 byte are used to provide the key
 
-## Architectural Details
+Architectural Details
+---------------------
 
 MTE adds instructions to the Armv8-A Architecture that are outlined
 below and grouped into three different categories \[6\]: Instructions
@@ -76,9 +80,10 @@ The zeroing form can be used for efficient initialization of memory.
 
 Currently NX OS supports the execution of the above instructions, such
 as irg, ldg, stg instructions. Their test programs are stored in
-"apps/system/mte" to test whether the current system supports
+\"apps/system/mte\" to test whether the current system supports
 
-## Usage
+Usage
+-----
 
 If you want to experience the MTE function of NX OS, you can refer to
 the following： To enable ARM64\_MTE, configure the kernel with:

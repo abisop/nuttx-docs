@@ -1,38 +1,51 @@
-# IMX95LPD5EVK-19
+IMX95LPD5EVK-19
+===============
 
 The IMX95LPD5EVK-19 board is a platform designed to show the most
 commonly used features of the [i.MX 95 automotive applications
 processor](https://www.nxp.com/products/iMX95) .
 
-## Features
+Features
+--------
 
-  -   - Multicore Processing\[1\]
-        
-          - 1x Arm Cortex-M7
-          - 6x Arm Cortex-A55 multicore complex
-          - 1x Arm Cortex-M33
+-   
 
-  -   - Memory
-        
-          -   - On-Chip Memory
-                
-                  - 1376kB SRAM (ECC)
-        
-          -   - External Memory
-                
-                  - Up to 6.4GT/s x32 LPDDR5/LPDDR4X (with Inline ECC &
+    Multicore Processing[^1]
+
+    :   -   1x Arm Cortex-M7
+        -   6x Arm Cortex-A55 multicore complex
+        -   1x Arm Cortex-M33
+
+-   
+
+    Memory
+
+    :   -   
+
+            On-Chip Memory
+
+            :   -   1376kB SRAM (ECC)
+
+        -   
+
+            External Memory
+
+            :   -   Up to 6.4GT/s x32 LPDDR5/LPDDR4X (with Inline ECC &
                     Inline Encryption)
-                  - 1x Octal SPI, including support for SPI NOR and SPI
+                -   1x Octal SPI, including support for SPI NOR and SPI
                     NAND memories
 
-  -   - Connectivity
-        
-          - CAN FD
-          - UART/USART/Profibus, I²C, SPI
-          - Messaging Units (MU) to support IPC between heterogeneous
+-   
+
+    Connectivity
+
+    :   -   CAN FD
+        -   UART/USART/Profibus, I²C, SPI
+        -   Messaging Units (MU) to support IPC between heterogeneous
             cores
 
-## Serial Console
+Serial Console
+--------------
 
 The IMX95LPD5EVK-19 board features a high-speed USB-to-UART/MPSSE
 device, FT4232H (U70) that provides a debug interface for the i.MX95
@@ -44,14 +57,16 @@ Channel A is used as UART port to provide USB-to-UART option for
 debugging the Arm Cortex-M7 core of the i.MX 95 processor (default
 option).
 
-## J-Link External Debug Probe
+J-Link External Debug Probe
+---------------------------
 
 The IMX95LPD5EVK-19 board provides a 2x5-pin Samtec FTSH-105-01-L-DV-K
 header (J30) for connecting a JTAG debugger (external JTAG) for
 debugging the i.MX95 processor. The FT4234H JTAG provides the remote
 debug option for the i.MX95 processor.
 
-## Firmware location
+Firmware location
+-----------------
 
 ### Instruction Tightly Coupled Memory (ITCM)
 
@@ -68,13 +83,14 @@ should be aware of this. For the default sd-card image from the EVK,
 these adaptations are needed on the software running on the M33 and A55
 cores.
 
->   - [System Manager](https://github.com/nxp-imx/imx-sm) (M33) should
+> -   [System Manager](https://github.com/nxp-imx/imx-sm) (M33) should
 >     give the M7 access to the DDR region
->   - [linux-imx](https://github.com/nxp-imx/linux-imx) (A55) should
+> -   [linux-imx](https://github.com/nxp-imx/linux-imx) (A55) should
 >     reserve the DDR region by specifying it in the device tree so
->     linux won't make use of it
+>     linux won\'t make use of it
 
-## Configurations
+Configurations
+--------------
 
 All the configurations can be used in combination with the default
 sd-card image that is shipped with the EVK.
@@ -93,26 +109,19 @@ enabled and can be accessed at J17 on the EVK. Make sure that SW9\[3\]
 (PDM\_CAN\_SEL) is set to ON. The configuration includes CAN utilities
 as candump and cansend.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 [System Manager](https://github.com/nxp-imx/imx-sm) (M33) should give
 the M7 access rights to the PIN\_PDM\_CLK (CAN1\_TX) and
 PIN\_PDM\_BIT\_STREAM0 (CAN1\_RX) pins in the mx95evk.cfg.
 
-Alternatively these can be set manually in the system manager's console:
+Alternatively these can be set manually in the system manager\'s
+console:
 
-``` console
+``` {.console}
 > mm 0x443c01e0 0x6
 > mm 0x443c01e4 0x6
 ```
-
-</div>
 
 ### rpmsg
 
@@ -123,19 +132,11 @@ available on which an OS running on the A55 cores can connect. There is
 also an option to use the filesystem client feature in which a remote
 directory can be mounted to a local directory (CONFIG\_FS\_RPMSGFS).
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 [linux-imx](https://github.com/nxp-imx/linux-imx) (A55) needs the NuttX
 compatible rpmsg\_tty and rpmsg\_fs drivers. See [dev mailing
 list](https://www.mail-archive.com/dev@nuttx.apache.org/msg12112.html)
 
-</div>
-
-1.  NuttX is currently supported exclusively on the Cortex-M7 core of
+[^1]: NuttX is currently supported exclusively on the Cortex-M7 core of
     the i.MX95

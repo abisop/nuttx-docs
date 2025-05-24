@@ -1,16 +1,19 @@
-# gdbserver
+gdbserver
+=========
 
-## Introduction
+Introduction
+------------
 
 This tool can utilize a crash log on a PC to simulate a set of GDB
 server functionalities, enabling the use of GDB to debug the context of
 a NuttX crash. The script directory is located in `tools/gdbserver.py`.
 
-## Usage
+Usage
+-----
 
 We can use `-h` to get help information:
 
-``` bash
+``` {.bash}
  usage: gdbserver.py [-h] -e ELFFILE [-l LOGFILE] [-a {arm,arm-a,arm-t,riscv,esp32s3,xtensa}] [-p PORT] [-g GDB] [-i [INIT_CMD]]
                  [-r [RAWFILE ...]] [-c [COREDUMP]] [--debug]
 
@@ -34,21 +37,20 @@ We can use `-h` to get help information:
    --debug               if enabled, it will show more logs.
 ```
 
-## Log Example
+Log Example
+-----------
 
 1.  Use ./tools/configure.sh esp32s3-devkit:nsh and disable
-    <span class="title-ref">CONFIG\_NSH\_DISABLE\_MW</span>.
-2.  <span class="title-ref">make -j</span>
+    [CONFIG\_NSH\_DISABLE\_MW]{.title-ref}.
+2.  [make -j]{.title-ref}
 3.  Flash image to esp32s3-devkit.
-4.  Run <span class="title-ref">minicom -D /dev/ttyUSB0 -b 115200</span>
-    and reset esp32s3-devkit.
-5.  Use <span class="title-ref">mw -1</span> on nsh to trigger a crash.
+4.  Run [minicom -D /dev/ttyUSB0 -b 115200]{.title-ref} and reset
+    esp32s3-devkit.
+5.  Use [mw -1]{.title-ref} on nsh to trigger a crash.
 6.  Get the crash log from minicom and save it to
-    <span class="title-ref">crash.log</span>.
+    [crash.log]{.title-ref}.
 
-<!-- end list -->
-
-``` bash
+``` {.bash}
 up_dump_register:    PC: 42009cd8    PS: 00060820
 up_dump_register:    A0: 82007d71    A1: 3fc8b6d0    A2: 3fc8b8e0    A3: 00000000
 up_dump_register:    A4: ffffffff    A5: 00000000    A6: 00000001    A7: 00000000
@@ -77,14 +79,12 @@ stack_dump: 0x3fc8b860: 00000000 3fc8b890 00000000 00000000 3fc8b0c0 00000002 00
 stack_dump: 0x3fc8b880: 00000000 3fc8b8b0 00000000 00000000 00000000 00000000 00000000 00000000
 ```
 
-7.  Run <span class="title-ref">./tools/gdbserver.py -e nuttx -l
-    crash.log -p 1234 -a esp32s3</span>
-8.  Run <span class="title-ref">xtensa-esp32s3-elf-gdb nuttx -ex "target
-    remote 127.0.0.1:1234"</span>
+7.  Run [./tools/gdbserver.py -e nuttx -l crash.log -p 1234 -a
+    esp32s3]{.title-ref}
+8.  Run [xtensa-esp32s3-elf-gdb nuttx -ex \"target remote
+    127.0.0.1:1234\"]{.title-ref}
 
-<!-- end list -->
-
-``` bash
+``` {.bash}
 GNU gdb (esp-gdb) 12.1_20221002
 Copyright (C) 2022 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
@@ -122,21 +122,22 @@ Remote debugging using 127.0.0.1:1234
 (gdb)
 ```
 
-## Raw file Example
+Raw file Example
+----------------
 
 1.  If you obtain the memory file from your board, you can also use
     gdbserver.py to reconstruct the scene. The most common way to get
     the raw file is to use the dump memory command in GDB to dump the
     memory and save it as a file.
-2.  Run <span class="title-ref">./tools/gdbserver.py -e nuttx -r
-    rawfile:0x1000 -a arm</span>
+2.  Run [./tools/gdbserver.py -e nuttx -r rawfile:0x1000 -a
+    arm]{.title-ref}
 3.  Run gdb with target remote.
 
-## Coredump Example
+Coredump Example
+----------------
 
-1.  If you have a coredump, you also can run
-    <span class="title-ref">./tools/gdbserver.py -e nuttx -c coredump -a
-    arm</span>
+1.  If you have a coredump, you also can run [./tools/gdbserver.py -e
+    nuttx -c coredump -a arm]{.title-ref}
 2.  Run gdb with target remote.
 
 The benefit of this approach is that in a multi-core AMP system, a
@@ -144,19 +145,20 @@ single coredump might contain memory information from other cores. By
 analyzing this coredump along with the corresponding ELF files from the
 other cores, you can reconstruct the crash site of those other cores.
 
-## Thread awarenes
+Thread awarenes
+---------------
 
-<span class="title-ref">gdbserver.py</span> implements thread debugging
-based on <span class="title-ref">g\_pidhash</span>,
-<span class="title-ref">g\_npidhash</span>, and
-<span class="title-ref">g\_tcbinfo</span> in NuttX. If the log, raw
-file, or coredump you provide can read these variables, it means you can
-use thread-related commands in GDB, such as <span class="title-ref">info
-thread</span> or <span class="title-ref">thread</span>
+[gdbserver.py]{.title-ref} implements thread debugging based on
+[g\_pidhash]{.title-ref}, [g\_npidhash]{.title-ref}, and
+[g\_tcbinfo]{.title-ref} in NuttX. If the log, raw file, or coredump you
+provide can read these variables, it means you can use thread-related
+commands in GDB, such as [info thread]{.title-ref} or
+[thread]{.title-ref}
 
-## How to add new architecture
+How to add new architecture
+---------------------------
 
 The main objective is to establish the sequence of registers in GDB,
 aligning the register names in the crash log with the order of registers
 in GDB. This alignment will facilitate the creation of a new
-architecture's GDB server.
+architecture\'s GDB server.

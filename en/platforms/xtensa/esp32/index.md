@@ -1,4 +1,5 @@
-# Espressif ESP32
+Espressif ESP32
+===============
 
 The ESP32 is a series of single and dual-core SoCs from Espressif based
 on Harvard architecture Xtensa LX6 CPUs and with on-chip support for
@@ -10,11 +11,12 @@ exceptions, the address mapping of two CPUs is symmetric, meaning they
 use the same addresses to access the same memory. Multiple peripherals
 in the system can access embedded memory via DMA.
 
-On dual-core SoCs, the two CPUs are typically named "PRO\_CPU" and
-"APP\_CPU" (for "protocol" and "application"), however for most purposes
-the two CPUs are interchangeable.
+On dual-core SoCs, the two CPUs are typically named \"PRO\_CPU\" and
+\"APP\_CPU\" (for \"protocol\" and \"application\"), however for most
+purposes the two CPUs are interchangeable.
 
-## ESP32 Toolchain
+ESP32 Toolchain
+---------------
 
 The toolchain used to build ESP32 firmware can be either downloaded or
 built from the sources. It is **highly** recommended to use (download or
@@ -24,22 +26,24 @@ Please refer to the Docker
 [container](https://github.com/apache/nuttx/tree/master/tools/ci/docker/linux/Dockerfile)
 and check for the current compiler version being used. For instance:
 
-    ###############################################################################
-    # Build image for tool required by ESP32 builds
-    ###############################################################################
-    FROM nuttx-toolchain-base AS nuttx-toolchain-esp32
-    # Download the latest ESP32 GCC toolchain prebuilt by Espressif
-    RUN mkdir -p xtensa-esp32-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32-elf-gcc --strip-components 1 -xJ
-    
-    RUN mkdir -p xtensa-esp32s2-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s2-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32s2-elf-gcc --strip-components 1 -xJ
-    
-    RUN mkdir -p xtensa-esp32s3-elf-gcc && \
-      curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s3-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
-      | tar -C xtensa-esp32s3-elf-gcc --strip-components 1 -xJ
+``` {.}
+###############################################################################
+# Build image for tool required by ESP32 builds
+###############################################################################
+FROM nuttx-toolchain-base AS nuttx-toolchain-esp32
+# Download the latest ESP32 GCC toolchain prebuilt by Espressif
+RUN mkdir -p xtensa-esp32-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32-elf-gcc --strip-components 1 -xJ
+
+RUN mkdir -p xtensa-esp32s2-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s2-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32s2-elf-gcc --strip-components 1 -xJ
+
+RUN mkdir -p xtensa-esp32s3-elf-gcc && \
+  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32s3-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
+  | tar -C xtensa-esp32s3-elf-gcc --strip-components 1 -xJ
+```
 
 For ESP32, the toolchain version is based on GGC 12.2.0
 (`xtensa-esp32-elf-12.2.0_20230208`)
@@ -48,31 +52,31 @@ For ESP32, the toolchain version is based on GGC 12.2.0
 
 First, create a directory to hold the toolchain:
 
-``` console
+``` {.console}
  mkdir -p /path/to/your/toolchain/xtensa-esp32-elf-gcc
 ```
 
 Download and extract toolchain:
 
-``` console
+``` {.console}
  curl -s -L "https://github.com/espressif/crosstool-NG/releases/download/esp-12.2.0_20230208/xtensa-esp32-elf-12.2.0_20230208-x86_64-linux-gnu.tar.xz" \
 | tar -C xtensa-esp32-elf-gcc --strip-components 1 -xJ
 ```
 
 Add the toolchain to your \`PATH\`:
 
-``` console
+``` {.console}
  echo "export PATH=/path/to/your/toolchain/xtensa-esp32-elf-gcc/bin:PATH" >> ~/.bashrc
 ```
 
-You can edit your shell's rc files if you don't use bash.
+You can edit your shell\'s rc files if you don\'t use bash.
 
 ### Building from source
 
 You can also build the toolchain yourself. The steps to build the
 toolchain with crosstool-NG on Linux are as follows
 
-``` console
+``` {.console}
  git clone https://github.com/espressif/crosstool-NG.git
  cd crosstool-NG
  git submodule update --init
@@ -90,7 +94,8 @@ toolchain with crosstool-NG on Linux are as follows
 These steps are given in the setup guide in [ESP-IDF
 documentation](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/linux-setup-scratch.html).
 
-## Building and flashing NuttX
+Building and flashing NuttX
+---------------------------
 
 ### Installing esptool
 
@@ -100,13 +105,7 @@ the image into the board.
 
 It can be installed with: `pip install esptool>=4.8.1`.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Installing `esptool.py` may required a Python virtual environment on
 newer systems. This will be the case if the `pip install` command throws
@@ -116,12 +115,10 @@ If you are not familiar with virtual environments, refer to [Managing
 esptool on virtual environment]() for instructions on how to install
 `esptool.py`.
 
-</div>
-
 ### Bootloader and partitions
 
-NuttX can boot the ESP32 directly using the so-called "Simple Boot". An
-externally-built 2nd stage bootloader is not required in this case as
+NuttX can boot the ESP32 directly using the so-called \"Simple Boot\".
+An externally-built 2nd stage bootloader is not required in this case as
 all functions required to boot the device are built within NuttX. Simple
 boot does not require any specific configuration (it is selectable by
 default if no other 2nd stage bootloader is used).
@@ -138,22 +135,14 @@ ignored if Simple Boot is used, for instance):
 
      make bootloader
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 It is recommended that if this is the first time you are using the board
 with NuttX to perform a complete SPI FLASH erase.
 
-``` console
+``` {.console}
  esptool.py erase_flash
 ```
-
-</div>
 
 ### Building and Flashing
 
@@ -166,11 +155,11 @@ to build and flash the NuttX firmware simply by running:
 
 where:
 
-  - `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
-  - `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
+-   `ESPTOOL_PORT` is typically `/dev/ttyUSB0` or similar.
+-   `ESPTOOL_BINDIR=./` is the path of the externally-built 2nd stage
     bootloader and the partition table (if applicable): when built using
     the `make bootloader`, these files are placed into `nuttx` folder.
-  - `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
+-   `ESPTOOL_BAUD` is able to change the flash baud rate if desired.
 
 ### Flashing NSH Example
 
@@ -210,7 +199,7 @@ where `<port>` is the serial port where the board is connected:
      Compressed 203816 bytes to 74735...
      Wrote 203816 bytes (74735 compressed) at 0x00001000 in 2.2 seconds (effective 744.4 kbit/s)...
      Hash of data verified.
-    
+
      Leaving...
      Hard resetting via RTS pin...
 
@@ -222,7 +211,8 @@ NuttX console:
     nsh> uname -a
     NuttX 12.8.0 759d37b97c-dirty Mar  5 2025 20:31:15 xtensa esp32-devkitc
 
-## Debugging
+Debugging
+---------
 
 This section describes debugging techniques for the ESP32.
 
@@ -238,66 +228,48 @@ for more information on how to build OpenOCD for ESP32.
 ESP32 has dedicated pins for JTAG debugging. The following pins are used
 for JTAG debugging:
 
-| ESP32 Pin     | JTAG Signal |
-| ------------- | ----------- |
-| MTDO / GPIO15 | TDO         |
-| MTDI / GPIO12 | TDI         |
-| MTCK / GPIO13 | TCK         |
-| MTMS / GPIO14 | TMS         |
+  ESP32 Pin       JTAG Signal
+  --------------- -------------
+  MTDO / GPIO15   TDO
+  MTDI / GPIO12   TDI
+  MTCK / GPIO13   TCK
+  MTMS / GPIO14   TMS
 
-Some boards, like `ESP32-Ethernet-Kit V1.2
-<platforms/xtensa/esp32/boards/esp32-ethernet-kit/index:ESP32-Ethernet-Kit
-V1.2>` and `ESP-WROVER-KIT
-<platforms/xtensa/esp32/boards/esp32-wrover-kit/index:ESP-WROVER-KIT>`,
-have a built-in JTAG debugger.
+Some boards, like
+`ESP32-Ethernet-Kit V1.2 <platforms/xtensa/esp32/boards/esp32-ethernet-kit/index:ESP32-Ethernet-Kit V1.2>`{.interpreted-text
+role="ref"} and
+`ESP-WROVER-KIT <platforms/xtensa/esp32/boards/esp32-wrover-kit/index:ESP-WROVER-KIT>`{.interpreted-text
+role="ref"}, have a built-in JTAG debugger.
 
-Other boards that don't have any built-in JTAG debugger can be debugged
+Other boards that don\'t have any built-in JTAG debugger can be debugged
 using an external JTAG debugger, like the one described for the
-`ESP32-DevKitC
-<platforms/xtensa/esp32/boards/esp32-devkitc/index:Debugging with
-OpenOCD>`.
-
-<div class="note">
-
-<div class="title">
+`ESP32-DevKitC <platforms/xtensa/esp32/boards/esp32-devkitc/index:Debugging with OpenOCD>`{.interpreted-text
+role="ref"}.
 
 Note
-
-</div>
 
 One must configure the USB drivers to enable JTAG communication. Please
 check [Configure USB
 Drivers](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32/api-guides/jtag-debugging/configure-ft2232h-jtag.html#configure-usb-drivers)
-for configuring the JTAG adapter of the `ESP32-Ethernet-Kit V1.2
-<platforms/xtensa/esp32/boards/esp32-ethernet-kit/index:ESP32-Ethernet-Kit
-V1.2>` and `ESP-WROVER-KIT
-<platforms/xtensa/esp32/boards/esp32-wrover-kit/index:ESP-WROVER-KIT>`
-boards and other FT2232-based JTAG adapters.
-
-</div>
+for configuring the JTAG adapter of the
+`ESP32-Ethernet-Kit V1.2 <platforms/xtensa/esp32/boards/esp32-ethernet-kit/index:ESP32-Ethernet-Kit V1.2>`{.interpreted-text
+role="ref"} and
+`ESP-WROVER-KIT <platforms/xtensa/esp32/boards/esp32-wrover-kit/index:ESP-WROVER-KIT>`{.interpreted-text
+role="ref"} boards and other FT2232-based JTAG adapters.
 
 OpenOCD can then be used:
 
     openocd -s <tcl_scripts_path> -c 'set ESP_RTOS hwthread' -f board/esp32-wrover-kit-3.3v.cfg -c 'init; reset halt; esp appimage_offset 0x1000'
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 \- `appimage_offset` should be set to `0x1000` when `Simple Boot` is
 used. For MCUboot, this value should be set to
 `CONFIG_ESP32_OTA_PRIMARY_SLOT_OFFSET` value (`0x10000` by default). -
 `-s <tcl_scripts_path>` defines the path to the OpenOCD scripts. Usually
-set to <span class="title-ref">tcl</span> if running openocd from its
-source directory. It can be omitted if
-<span class="title-ref">openocd-esp32</span> were installed in the
-system with <span class="title-ref">sudo make install</span>.
-
-</div>
+set to [tcl]{.title-ref} if running openocd from its source directory.
+It can be omitted if [openocd-esp32]{.title-ref} were installed in the
+system with [sudo make install]{.title-ref}.
 
 Once OpenOCD is running, you can use GDB to connect to it and debug your
 application:
@@ -314,22 +286,13 @@ whereas the content of the `gdbinit` file is:
     thb nsh_main
     c
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `nuttx` is the ELF file generated by the build process. Please note that
 `CONFIG_DEBUG_SYMBOLS` must be enabled in the `menuconfig`.
 
-</div>
-
-Please refer to
-\[<span class="title-ref">/quick\](</span>/quick.md)start/debugging\`
-for more information about debugging techniques.
+Please refer to \[[/quick\](]{.title-ref}/quick.md)start/debugging\` for
+more information about debugging techniques.
 
 ### Stack Dump and Backtrace Dump
 
@@ -342,36 +305,20 @@ In order to enable this feature, the following options must be enabled
 in the NuttX configuration: `CONFIG_SCHED_BACKTRACE`,
 `CONFIG_DEBUG_SYMBOLS` and, optionally, `CONFIG_ALLSYMS`.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The first two options enable the backtrace dump. The third option
 enables the backtrace dump with the associated symbols, but increases
 the size of the generated NuttX binary.
 
-</div>
-
 Espressif also provides a tool to translate the backtrace dump into a
 human-readable format. This tool is called `btdecode.sh` and is
 available at `tools/espressif/btdecode.sh` of NuttX repository.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 This tool is not necessary if `CONFIG_ALLSYMS` is enabled. In this case,
 the backtrace dump contains the function names.
-
-</div>
 
 #### Example - Crash Dump
 
@@ -429,9 +376,9 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x400e2fcc: nxtask_startup at task_startup.c:70
     0x400e1eb4: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
-    
+
     Backtrace dump for all tasks:
-    
+
     Backtrace for task 2:
     0x400ef738: sched_dumpstack at sched_dumpstack.c:69
     0x40084ed4: dump_backtrace at assert.c:418
@@ -448,7 +395,7 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x400e2fcc: nxtask_startup at task_startup.c:70
     0x400e1eb4: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
-    
+
     Backtrace for task 1:
     0x400edc59: nxsem_wait at sem_wait.c:217
     0x400edb5b: nxsched_waitpid at sched_waitpid.c:165
@@ -463,7 +410,7 @@ crash. Saving this output to a file and using the `btdecode.sh`:
     0x400e2fcc: nxtask_startup at task_startup.c:70
     0x400e1eb4: nxtask_start at task_start.c:75
     0x40000000: ?? ??:0
-    
+
     Backtrace for task 0:
     0x400e12bb: nx_start at nx_start.c:772 (discriminator 1)
     0x400826eb: __esp32_start at esp32_start.c:294
@@ -473,182 +420,108 @@ The above output shows the backtrace of the tasks. By checking it, it is
 possible to track the functions that were being executed when the crash
 occurred.
 
-## Peripheral Support
+Peripheral Support
+------------------
 
-The following list indicates the state of peripherals' support in NuttX:
+The following list indicates the state of peripherals\' support in
+NuttX:
 
-<table>
-<thead>
-<tr class="header">
-<th>Peripheral</th>
-<th>Support</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>ADC AES Bluetooth Camera CAN/TWAI DMA</p></td>
-<td><blockquote>
-<p>Yes Yes Yes No Yes Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>Oneshot</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><p>DAC eFuse Ethernet GPIO</p></td>
-<td><blockquote>
-<p>Yes Yes Yes Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>One-shot</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td><p>I2C I2S</p></td>
-<td><blockquote>
-<p>Yes Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>Master and Slave mode supported</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><p>LCD LED/PWM MCPWM Pulse_CNT RMT RNG RSA RTC SD/MMC SDIO SHA SPI SPIFLASH SPIRAM Timers Touch UART Watchdog Wi-Fi</p></td>
-<td><blockquote>
-<p>No Yes Yes Yes Yes Yes No Yes No No No Yes Yes Yes Yes Yes Yes Yes Yes</p>
-</blockquote></td>
-<td><blockquote>
-<p>There is support for SPI displays</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
++----------------------+----------------------+----------------------+
+| Peripheral           | Support              | NOTES                |
++======================+======================+======================+
+| ADC AES Bluetooth    | > Yes Yes Yes No Yes | > Oneshot            |
+| Camera CAN/TWAI DMA  | > Yes                |                      |
++----------------------+----------------------+----------------------+
+| DAC eFuse Ethernet   | > Yes Yes Yes Yes    | > One-shot           |
+| GPIO                 |                      |                      |
++----------------------+----------------------+----------------------+
+| I2C I2S              | > Yes Yes            | > Master and Slave   |
+|                      |                      | > mode supported     |
++----------------------+----------------------+----------------------+
+| LCD LED/PWM MCPWM    | > No Yes Yes Yes Yes | > There is support   |
+| Pulse\_CNT RMT RNG   | > Yes No Yes No No   | > for SPI displays   |
+| RSA RTC SD/MMC SDIO  | > No Yes Yes Yes Yes |                      |
+| SHA SPI SPIFLASH     | > Yes Yes Yes Yes    |                      |
+| SPIRAM Timers Touch  |                      |                      |
+| UART Watchdog Wi-Fi  |                      |                      |
++----------------------+----------------------+----------------------+
 
-## Memory Map
+Memory Map
+----------
 
 ### Address Mapping
 
-<table>
-<thead>
-<tr class="header">
-<th>BUS TYPE</th>
-<th>START</th>
-<th>LAST</th>
-<th>DESCRIPTION</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Data Data</p>
-<p>Data Data Instruction Instruction . Data / Instruction</p>
-<p>.</p></td>
-<td><p>0x00000000 0x3F400000 0x3F800000 0x3FC00000 0x3FF00000 0x3FF80000 0x40000000 0x400C2000 0x40C00000 0x50000000</p>
-<p>0x50002000</p></td>
-<td><p>0x3F3FFFFF 0x3F7FFFFF 0x3FBFFFFF 0x3FEFFFFF 0x3FF7FFFF 0x3FFFFFFF 0x400C1FFF 0x40BFFFFF 0x4FFFFFFF 0x50001FFF</p>
-<p>0xFFFFFFFF</p></td>
-<td><p>External Memory External Memory</p>
-<p>Peripheral Embedded Memory Embedded Memory External Memory</p>
-<p>Embedded Memory</p></td>
-<td><p>Reserved</p>
-<p>Reserved</p>
-<p>Reserved</p>
-<p>Reserved</p></td>
-</tr>
-</tbody>
-</table>
++-------------+-------------+-------------+-------------+----------+
+| BUS TYPE    | START       | LAST        | DESCRIPTION | NOTES    |
++=============+=============+=============+=============+==========+
+| Data Data   | 0x00000000  | 0x3F3FFFFF  | External    | Reserved |
+|             | 0x3F400000  | 0x3F7FFFFF  | Memory      |          |
+| Data Data   | 0x3F800000  | 0x3FBFFFFF  | External    | Reserved |
+| Instruction | 0x3FC00000  | 0x3FEFFFFF  | Memory      |          |
+| Instruction | 0x3FF00000  | 0x3FF7FFFF  |             | Reserved |
+| . Data /    | 0x3FF80000  | 0x3FFFFFFF  | Peripheral  |          |
+| Instruction | 0x40000000  | 0x400C1FFF  | Embedded    | Reserved |
+|             | 0x400C2000  | 0x40BFFFFF  | Memory      |          |
+| .           | 0x40C00000  | 0x4FFFFFFF  | Embedded    |          |
+|             | 0x50000000  | 0x50001FFF  | Memory      |          |
+|             |             |             | External    |          |
+|             | 0x50002000  | 0xFFFFFFFF  | Memory      |          |
+|             |             |             |             |          |
+|             |             |             | Embedded    |          |
+|             |             |             | Memory      |          |
++-------------+-------------+-------------+-------------+----------+
 
 ### Embedded Memory
 
-<table>
-<thead>
-<tr class="header">
-<th>BUS TYPE</th>
-<th>START</th>
-<th>LAST</th>
-<th>DESCRIPTION</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Data . Data .</p></td>
-<td><p>0x3ff80000 0x3ff82000 0x3ff90000 0x3ffa0000</p></td>
-<td><p>0x3ff81fff 0x3ff8ffff 0x3ff9ffff 0x3ffadfff</p></td>
-<td><p>RTC FAST Memory</p>
-<p>Internal ROM 1</p></td>
-<td><p>PRO_CPU Only Reserved</p>
-<p>Reserved</p></td>
-</tr>
-<tr class="even">
-<td>Data</td>
-<td>0x3ffae000</td>
-<td>0x3ffdffff</td>
-<td>Internal SRAM 2</td>
-<td>DMA</td>
-</tr>
-<tr class="odd">
-<td>Data</td>
-<td>0x3ffe0000</td>
-<td>0x3fffffff</td>
-<td>Internal SRAM 1</td>
-<td>DMA</td>
-</tr>
-</tbody>
-</table>
++-------------+-------------+-------------+-------------+-------------+
+| BUS TYPE    | START       | LAST        | DESCRIPTION | NOTES       |
++=============+=============+=============+=============+=============+
+| Data . Data | 0x3ff80000  | 0x3ff81fff  | RTC FAST    | PRO\_CPU    |
+| .           | 0x3ff82000  | 0x3ff8ffff  | Memory      | Only        |
+|             | 0x3ff90000  | 0x3ff9ffff  |             | Reserved    |
+|             | 0x3ffa0000  | 0x3ffadfff  | Internal    |             |
+|             |             |             | ROM 1       | Reserved    |
++-------------+-------------+-------------+-------------+-------------+
+| Data        | 0x3ffae000  | 0x3ffdffff  | Internal    | DMA         |
+|             |             |             | SRAM 2      |             |
++-------------+-------------+-------------+-------------+-------------+
+| Data        | 0x3ffe0000  | 0x3fffffff  | Internal    | DMA         |
+|             |             |             | SRAM 1      |             |
++-------------+-------------+-------------+-------------+-------------+
 
 ### Boundary Address (Embedded)
 
-<table>
-<thead>
-<tr class="header">
-<th>BUS TYPE</th>
-<th>START</th>
-<th>LAST</th>
-<th>DESCRIPTION</th>
-<th>NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Instruction Instruction .</p></td>
-<td><p>0x40000000 0x40008000 0x40060000</p></td>
-<td><p>0x40007fff 0x4005ffff 0x4006ffff</p></td>
-<td><p>Internal ROM 0 Internal ROM 0</p></td>
-<td><p>Remap</p>
-<p>Reserved</p></td>
-</tr>
-<tr class="even">
-<td><p>Instruction Instruction Instruction</p></td>
-<td><p>0x40070000 0x40080000 0x400a0000</p></td>
-<td><p>0x4007ffff 0x4009ffff 0x400affff</p></td>
-<td><p>Internal SRAM 0 Internal SRAM 0 Internal SRAM 1</p></td>
-<td><p>Cache</p></td>
-</tr>
-<tr class="odd">
-<td><p>Instruction Instruction</p></td>
-<td><p>0x400b0000 0x400b8000</p></td>
-<td><p>0x400b7FFF 0x400bffff</p></td>
-<td><p>Internal SRAM 1 Internal SRAM 1</p></td>
-<td><p>Remap</p></td>
-</tr>
-<tr class="even">
-<td><p>Instruction Data / Instruction</p></td>
-<td><p>0x400c0000 0x50000000</p></td>
-<td><p>0x400c1FFF 0x50001fff</p></td>
-<td><p>RTC FAST Memory RTC SLOW Memory</p></td>
-<td><p>PRO_CPU Only</p></td>
-</tr>
-</tbody>
-</table>
++-------------+-------------+-------------+-------------+-------------+
+| BUS TYPE    | START       | LAST        | DESCRIPTION | NOTES       |
++=============+=============+=============+=============+=============+
+| Instruction | 0x40000000  | 0x40007fff  | Internal    | Remap       |
+| Instruction | 0x40008000  | 0x4005ffff  | ROM 0       |             |
+| .           | 0x40060000  | 0x4006ffff  | Internal    | Reserved    |
+|             |             |             | ROM 0       |             |
++-------------+-------------+-------------+-------------+-------------+
+| Instruction | 0x40070000  | 0x4007ffff  | Internal    | Cache       |
+| Instruction | 0x40080000  | 0x4009ffff  | SRAM 0      |             |
+| Instruction | 0x400a0000  | 0x400affff  | Internal    |             |
+|             |             |             | SRAM 0      |             |
+|             |             |             | Internal    |             |
+|             |             |             | SRAM 1      |             |
++-------------+-------------+-------------+-------------+-------------+
+| Instruction | 0x400b0000  | 0x400b7FFF  | Internal    | Remap       |
+| Instruction | 0x400b8000  | 0x400bffff  | SRAM 1      |             |
+|             |             |             | Internal    |             |
+|             |             |             | SRAM 1      |             |
++-------------+-------------+-------------+-------------+-------------+
+| Instruction | 0x400c0000  | 0x400c1FFF  | RTC FAST    | PRO\_CPU    |
+| Data /      | 0x50000000  | 0x50001fff  | Memory RTC  | Only        |
+| Instruction |             |             | SLOW Memory |             |
++-------------+-------------+-------------+-------------+-------------+
 
 ### External Memory
 
-| BUS TYPE | START      | LAST       | DESCRIPTION    | NOTES          |
-| -------- | ---------- | ---------- | -------------- | -------------- |
-| Data     | 0x3f400000 | 0x3f7fffff | External Flash | Read           |
-| Data     | 0x3f800000 | 0x3fbfffff | External SRAM  | Read and Write |
+  BUS TYPE   START        LAST         DESCRIPTION      NOTES
+  ---------- ------------ ------------ ---------------- ----------------
+  Data       0x3f400000   0x3f7fffff   External Flash   Read
+  Data       0x3f800000   0x3fbfffff   External SRAM    Read and Write
 
 ### Boundary Address (External)
 
@@ -656,150 +529,98 @@ Instruction 0x400c2000 0x40bfffff 11512 KB External Flash Read
 
 ### Linker Segments
 
-<table>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 8%" />
-<col style="width: 36%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>DESCRIPTION</th>
-<th>START</th>
-<th>END</th>
-<th>ATTR</th>
-<th>LINKER SEGMENT NAME</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><dl>
-<dt>FLASH mapped data:</dt>
-<dd><ul>
-<li>.rodata</li>
-<li>Constructors /destructors</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x3f400010</td>
-<td>0x3fc00010</td>
-<td>R</td>
-<td>drom0_0_seg</td>
-</tr>
-<tr class="even">
-<td><dl>
-<dt>COMMON data RAM:</dt>
-<dd><ul>
-<li>.bss/.data</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x3ffb0000</td>
-<td>0x40000000</td>
-<td>RW</td>
-<td>dram0_0_seg (NOTE 1,2,3)</td>
-</tr>
-<tr class="odd">
-<td><dl>
-<dt>IRAM for PRO cpu:</dt>
-<dd><ul>
-<li>Interrupt Vectors</li>
-<li>Low level handlers</li>
-<li>Xtensa/Espressif libraries</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x40080000</td>
-<td>0x400a0000</td>
-<td>RX</td>
-<td>iram0_0_seg</td>
-</tr>
-<tr class="even">
-<td><dl>
-<dt>RTC fast memory:</dt>
-<dd><ul>
-<li>.rtc.text (unused?)</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x400c0000</td>
-<td>0x400c2000</td>
-<td>RWX</td>
-<td>rtc_iram_seg (PRO_CPU only)</td>
-</tr>
-<tr class="odd">
-<td><dl>
-<dt>FLASH:</dt>
-<dd><ul>
-<li>.text</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x400d0018</td>
-<td>0x40400018</td>
-<td>RX</td>
-<td>iram0_2_seg (actually FLASH)</td>
-</tr>
-<tr class="even">
-<td><dl>
-<dt>RTC slow memory:</dt>
-<dd><ul>
-<li>.rtc.data/rodata (unused?)</li>
-</ul>
-</dd>
-</dl></td>
-<td>0x50000000</td>
-<td>0x50001000</td>
-<td>RW</td>
-<td>rtc_slow_seg (NOTE 4)</td>
-</tr>
-</tbody>
-</table>
-
-<div class="note">
-
-<div class="title">
++-----------------+---------+---------+----+------------------------+
+| DESCRIPTION     | START   | END     | AT | LINKER SEGMENT NAME    |
+|                 |         |         | TR |                        |
++=================+=========+=========+====+========================+
+| FLA             | 0x3     | 0x3     | R  | drom0\_0\_seg          |
+| SH mapped data: | f400010 | fc00010 |    |                        |
+|                 |         |         |    |                        |
+| :   -   .rodata |         |         |    |                        |
+|     -           |         |         |    |                        |
+|    Constructors |         |         |    |                        |
+|                 |         |         |    |                        |
+|    /destructors |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
+| C               | 0x3     | 0x4     | RW | dram0\_0\_seg (NOTE    |
+| OMMON data RAM: | ffb0000 | 0000000 |    | 1,2,3)                 |
+|                 |         |         |    |                        |
+| :               |         |         |    |                        |
+|  -   .bss/.data |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
+| IR              | 0x4     | 0x4     | RX | iram0\_0\_seg          |
+| AM for PRO cpu: | 0080000 | 00a0000 |    |                        |
+|                 |         |         |    |                        |
+| :               |         |         |    |                        |
+|   -   Interrupt |         |         |    |                        |
+|         Vectors |         |         |    |                        |
+|     -   Low     |         |         |    |                        |
+|         level   |         |         |    |                        |
+|                 |         |         |    |                        |
+|        handlers |         |         |    |                        |
+|     -   X       |         |         |    |                        |
+| tensa/Espressif |         |         |    |                        |
+|                 |         |         |    |                        |
+|       libraries |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
+| R               | 0x4     | 0x4     | R  | rtc\_iram\_seg         |
+| TC fast memory: | 00c0000 | 00c2000 | WX | (PRO\_CPU only)        |
+|                 |         |         |    |                        |
+| :               |         |         |    |                        |
+|   -   .rtc.text |         |         |    |                        |
+|                 |         |         |    |                        |
+|       (unused?) |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
+| FLASH:          | 0x4     | 0x4     | RX | iram0\_2\_seg          |
+|                 | 00d0018 | 0400018 |    | (actually FLASH)       |
+| :   -   .text   |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
+| R               | 0x5     | 0x5     | RW | rtc\_slow\_seg (NOTE   |
+| TC slow memory: | 0000000 | 0001000 |    | 4)                     |
+|                 |         |         |    |                        |
+| :   -   .       |         |         |    |                        |
+| rtc.data/rodata |         |         |    |                        |
+|                 |         |         |    |                        |
+|       (unused?) |         |         |    |                        |
++-----------------+---------+---------+----+------------------------+
 
 Note
 
-</div>
-
-1)  Linker script will reserve space at the beginning of the segment for
+(1) Linker script will reserve space at the beginning of the segment for
     BT and at the end for trace memory.
-2)  Heap ends at the top of dram\_0\_seg.
-3)  Parts of this region is reserved for the ROM bootloader.
-4)  Linker script will reserve space at the beginning of the segment for
+(2) Heap ends at the top of dram\_0\_seg.
+(3) Parts of this region is reserved for the ROM bootloader.
+(4) Linker script will reserve space at the beginning of the segment for
     co-processor reserve memory and at the end for ULP coprocessor
     reserve memory.
 
-</div>
-
-## 64-bit Timers
+64-bit Timers
+-------------
 
 ESP32 has 4 generic timers of 64 bits (2 from Group 0 and 2 from Group
-1). They're accessible as character drivers, the configuration along
+1). They\'re accessible as character drivers, the configuration along
 with a guidance on how to run the example and the description of the
-application level interface can be found \[<span class="title-ref">here
-\</component\](\`here
-\</component.md)s/drivers/character/timers/timer\></span>.
+application level interface can be found \[[here \</component\](\`here
+\</component.md)s/drivers/character/timers/timer\>]{.title-ref}.
 
-## Watchdog Timers
+Watchdog Timers
+---------------
 
 ESP32 has 3 WDTs. 2 MWDTS from the Timers Module and 1 RWDT from the RTC
-Module (Currently not supported yet). They're accessible as character
+Module (Currently not supported yet). They\'re accessible as character
 drivers, The configuration along with a guidance on how to run the
 example and the description of the application level interface can be
-found \[<span class="title-ref">here \</component\](\`here
-\</component.md)s/drivers/character/timers/watchdog\></span>.
+found \[[here \</component\](\`here
+\</component.md)s/drivers/character/timers/watchdog\>]{.title-ref}.
 
-## SMP
+SMP
+---
 
 The ESP32 has 2 CPUs. Support is included for testing an SMP
 configuration. That configuration is still not yet ready for usage but
-can be enabled with the following configuration settings, in `RTOS
-Features --> Tasks and Scheduling`, with:
+can be enabled with the following configuration settings, in
+`RTOS Features --> Tasks and Scheduling`{.interpreted-text
+role="menuselection"}, with:
 
     CONFIG_SPINLOCK=y
     CONFIG_SMP=y
@@ -814,7 +635,8 @@ of the following in `scripts/esp32.cfg`:
     # Only configure the APP CPU
     #set ESP32_ONLYCPU 2
 
-## Wi-Fi
+Wi-Fi
+-----
 
 A standard network interface will be configured and can be initialized
 such as:
@@ -828,39 +650,17 @@ In this case a connection to AP with SSID `myssid` is done, using
 `mypasswd` as password. IP address is obtained via DHCP using `renew`
 command. You can check the result by running `ifconfig` afterwards.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
-
-</div>
 
 Boards usually expose a `wifi` defconfig which enables Wi-Fi
 
-</div>
-
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please check \[<span class="title-ref">wapi \</application\](\`wapi
-\</application.md)s/wireless/wapi/index\></span> documentation for more
-information about its commands and arguments.
-
-</div>
-
-<div class="note">
-
-<div class="title">
+Please check \[[wapi \</application\](\`wapi
+\</application.md)s/wireless/wapi/index\>]{.title-ref} documentation for
+more information about its commands and arguments.
 
 Note
-
-</div>
 
 The `wapi psk` command on Station mode sets a security threshold. That
 is, it enables connecting only to an equally or more secure network than
@@ -869,9 +669,8 @@ network and enables the device to connect to networks that are equally
 or more secure than that (WPA3-SAE, for instance, would be eligible for
 connecting to).
 
-</div>
-
-## Wi-Fi SoftAP
+Wi-Fi SoftAP
+------------
 
 It is possible to use ESP32 as an Access Point (SoftAP). Actually there
 are some boards config examples called sta\_softap which enables this
@@ -889,24 +688,17 @@ In this case, you are creating the access point `nuttxapp` in your board
 and to connect to it on your smartphone you will be required to type the
 password `mypasswd` using WPA2.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please check \[<span class="title-ref">wapi \</application\](\`wapi
-\</application.md)s/wireless/wapi/index\></span> documentation for more
-information about its commands and arguments.
-
-</div>
+Please check \[[wapi \</application\](\`wapi
+\</application.md)s/wireless/wapi/index\>]{.title-ref} documentation for
+more information about its commands and arguments.
 
 The `dhcpd_start` is necessary to let your board to associate an IP to
 your smartphone.
 
-## Bluetooth
+Bluetooth
+---------
 
 These are the steps to test Bluetooth Low Energy (BLE) scan on ESP32
 (i.e. Devkit board). First configure to use the BLE board profile:
@@ -922,10 +714,10 @@ the scan command:
     nsh> ifconfig
     bnep0   Link encap:UNSPEC at DOWN
             inet addr:0.0.0.0 DRaddr:0.0.0.0 Mask:0.0.0.0
-    
+
     wlan0   Link encap:Ethernet HWaddr ac:67:b2:53:8b:ec at UP
             inet addr:10.0.0.2 DRaddr:10.0.0.1 Mask:255.255.255.0
-    
+
     nsh> bt bnep0 scan start
     nsh> bt bnep0 scan stop
     nsh> bt bnep0 scan get
@@ -952,51 +744,37 @@ the scan command:
         advertiser data: 1e ff 06 00 01 09 20 02 7c 33 a3 a7 cd c9 44 5b
     nsh>
 
-## I2S
+I2S
+---
 
 The I2S peripheral is accessible using either the generic I2S audio
-driver or a specific audio codec driver. Also, it's possible to use the
+driver or a specific audio codec driver. Also, it\'s possible to use the
 I2S character driver to bypass the audio subsystem and develop specific
 usages of the I2S peripheral.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-Note that the bit-width and sample rate can be modified "on-the-go" when
-using audio-related drivers. That is not the case for the I2S character
-device driver and such parameters are set on compile time through
-<span class="title-ref">make menuconfig</span>.
-
-</div>
-
-<div class="warning">
-
-<div class="title">
+Note that the bit-width and sample rate can be modified \"on-the-go\"
+when using audio-related drivers. That is not the case for the I2S
+character device driver and such parameters are set on compile time
+through [make menuconfig]{.title-ref}.
 
 Warning
-
-</div>
 
 Some upper driver implementations might not handle both transmission and
 reception configured at the same time on the same peripheral.
 
-</div>
+Please check for usage examples using the \[[ESP32 DevKitC
+\</platform\](\`ESP32 DevKitC
+\</platform.md)s/xtensa/esp32/boards/esp32-devkitc/index\>]{.title-ref}.
 
-Please check for usage examples using the
-\[<span class="title-ref">ESP32 DevKitC \</platform\](\`ESP32 DevKitC
-\</platform.md)s/xtensa/esp32/boards/esp32-devkitc/index\></span>.
-
-## Analog-to-digital converter (ADC)
+Analog-to-digital converter (ADC)
+---------------------------------
 
 Two ADC units are available for the ESP32:
 
-  - ADC1 with 8 channels
-  - ADC2 with 10 channels
+-   ADC1 with 8 channels
+-   ADC2 with 10 channels
 
 Those units are independent and can be used simultaneously. During
 bringup, GPIOs for selected channels are configured automatically to be
@@ -1009,115 +787,47 @@ the attenuation and resolution.
 Each ADC unit is accessible using the ADC character driver, which
 returns data for the enabled channels.
 
-The ADC unit can be enabled in the menu `System Type --> ESP32
-Peripheral Selection --> Analog-to-digital converter (ADC)`.
+The ADC unit can be enabled in the menu
+`System Type --> ESP32 Peripheral Selection --> Analog-to-digital converter (ADC)`{.interpreted-text
+role="menuselection"}.
 
-Then, it can be customized in the menu `System Type --> ADC
-Configuration`, which includes operating mode, gain and channels.
+Then, it can be customized in the menu
+`System Type --> ADC Configuration`{.interpreted-text
+role="menuselection"}, which includes operating mode, gain and channels.
 
-<table>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>ADC1 GPIO</th>
-<th>ADC2 GPIO</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td><blockquote>
-<p>36</p>
-</blockquote></td>
-<td><blockquote>
-<p>4</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td><blockquote>
-<p>37</p>
-</blockquote></td>
-<td><blockquote>
-<p>0</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td><blockquote>
-<p>38</p>
-</blockquote></td>
-<td><blockquote>
-<p>2</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td><blockquote>
-<p>39</p>
-</blockquote></td>
-<td><blockquote>
-<p>15</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td><blockquote>
-<p>32</p>
-</blockquote></td>
-<td><blockquote>
-<p>13</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td><blockquote>
-<p>33</p>
-</blockquote></td>
-<td><blockquote>
-<p>12</p>
-</blockquote></td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td><blockquote>
-<p>34</p>
-</blockquote></td>
-<td><blockquote>
-<p>14</p>
-</blockquote></td>
-</tr>
-<tr class="even">
-<td><p>7 8 9</p></td>
-<td><blockquote>
-<p>35</p>
-</blockquote></td>
-<td><blockquote>
-<p>27 25 26</p>
-</blockquote></td>
-</tr>
-</tbody>
-</table>
-
-<div class="warning">
-
-<div class="title">
++---------+-----------+------------+
+| Channel | ADC1 GPIO | ADC2 GPIO  |
++=========+===========+============+
+| 0       | > 36      | > 4        |
++---------+-----------+------------+
+| 1       | > 37      | > 0        |
++---------+-----------+------------+
+| 2       | > 38      | > 2        |
++---------+-----------+------------+
+| 3       | > 39      | > 15       |
++---------+-----------+------------+
+| 4       | > 32      | > 13       |
++---------+-----------+------------+
+| 5       | > 33      | > 12       |
++---------+-----------+------------+
+| 6       | > 34      | > 14       |
++---------+-----------+------------+
+| 7 8 9   | > 35      | > 27 25 26 |
++---------+-----------+------------+
 
 Warning
-
-</div>
 
 ADC2 channels 1, 2 and 3 are used as strapping pins and can present
 undefined behavior.
 
-</div>
-
-## Using QEMU
+Using QEMU
+----------
 
 Get or build QEMU from [here](https://github.com/espressif/qemu/wiki).
 
-Enable the `ESP32_QEMU_IMAGE` config found in `Board Selection --> ESP32
-binary image for QEMU`.
+Enable the `ESP32_QEMU_IMAGE` config found in
+`Board Selection --> ESP32 binary image for QEMU`{.interpreted-text
+role="menuselection"}.
 
 Build and generate the QEMU image:
 
@@ -1132,9 +842,9 @@ can be run as:
 QEMU for ESP32 does not correctly define the chip revision as v3.0 so
 you have two options:
 
-  - \#define `ESP32_IGNORE_CHIP_REVISION_CHECK` in
+-   \#define `ESP32_IGNORE_CHIP_REVISION_CHECK` in
     `arch/xtensa/src/esp32/esp32_start.c`
-  - Emulate the efuse as described
+-   Emulate the efuse as described
     [here](https://github.com/espressif/esp-toolchain-docs/blob/main/qemu/esp32/README.md#emulating-esp32-eco3).
 
 ### QEMU Networking
@@ -1144,7 +854,8 @@ Networking is possible using the openeth MAC driver. Enable
 
      qemu-system-xtensa -nographic -machine esp32 -drive file=nuttx.merged.bin,if=mtd,format=raw -nic user,model=open_eth
 
-## Secure Boot and Flash Encryption
+Secure Boot and Flash Encryption
+--------------------------------
 
 ### Secure Boot
 
@@ -1159,71 +870,47 @@ MCUboot (read more about MCUboot [here](https://docs.mcuboot.com/)).
 The Secure Boot process on the ESP32 involves the following steps
 performed:
 
-1.  The first stage bootloader verifies the second stage bootloader's
+1.  The first stage bootloader verifies the second stage bootloader\'s
     RSA-PSS signature. If the verification is successful, the first
     stage bootloader loads and executes the second stage bootloader.
 2.  When the second stage bootloader loads a particular application
-    image, the application's signature (RSA, ECDSA or ED25519) is
+    image, the application\'s signature (RSA, ECDSA or ED25519) is
     verified by MCUboot. If the verification is successful, the
     application image is executed.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Once enabled, Secure Boot will not boot a modified bootloader. The
 bootloader will only boot an application firmware image if it has a
 verified digital signature. There are implications for reflashing
 updated images once Secure Boot is enabled. You can find more
-information about the ESP32's Secure boot
+information about the ESP32\'s Secure boot
 [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html).
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the bootloader image is built on top of the Hardware Abstraction
 Layer component of [ESP-IDF](https://github.com/espressif/esp-idf), the
 [API port by Espressif](https://docs.mcuboot.com/readme-espressif.html)
 will be used by MCUboot rather than the original NuttX port.
 
-</div>
-
 ### Flash Encryption
 
-Flash encryption is intended for encrypting the contents of the ESP32's
+Flash encryption is intended for encrypting the contents of the ESP32\'s
 off-chip flash memory. Once this feature is enabled, firmware is flashed
 as plaintext, and then the data is encrypted in place on the first boot.
 As a result, physical readout of flash will not be sufficient to recover
 most flash contents.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 After enabling Flash Encryption, an encryption key is generated
 internally by the device and cannot be accessed by the user for
 re-encrypting data and re-flashing the system, hence it will be
 permanently encrypted. Re-flashing an encrypted system is complicated
-and not always possible. You can find more information about the ESP32's
-Flash Encryption
+and not always possible. You can find more information about the
+ESP32\'s Flash Encryption
 [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/flash-encryption.html).
-
-</div>
 
 ### Prerequisites
 
@@ -1248,37 +935,35 @@ application binary images, respectively, of the compiled project:
      espsecure.py generate_signing_key --version 2 bootloader_signing_key.pem
      imgtool keygen --key app_signing_key.pem --type rsa-3072
 
-<div class="important">
-
-<div class="title">
-
 Important
-
-</div>
 
 The contents of the key files must be stored securely and kept secret.
 
-</div>
-
 ### Enabling Secure Boot and Flash Encryption
 
-To enable Secure Boot for the current project, go to the project's NuttX
-directory, execute `make menuconfig` and the following steps:
+To enable Secure Boot for the current project, go to the project\'s
+NuttX directory, execute `make menuconfig` and the following steps:
 
-> 1.  Enable experimental features in `Build Setup --> Show experimental
->     options`;
-> 2.  Enable MCUboot in `Application Configuration --> Bootloader
->     Utilities --> MCUboot`;
-> 3.  Change image type to `MCUboot-bootable format` in `System Type -->
->     Application Image Configuration --> Application Image Format`;
-> 4.  Enable building MCUboot from the source code by selecting `Build
->     binaries from source`; in `System Type --> Application Image
->     Configuration --> Source for bootloader binaries`;
-> 5.  Enable Secure Boot in `System Type --> Application Image
->     Configuration --> Enable hardware Secure Boot in bootloader`;
+> 1.  Enable experimental features in
+>     `Build Setup --> Show experimental options`{.interpreted-text
+>     role="menuselection"};
+> 2.  Enable MCUboot in
+>     `Application Configuration --> Bootloader Utilities --> MCUboot`{.interpreted-text
+>     role="menuselection"};
+> 3.  Change image type to `MCUboot-bootable format` in
+>     `System Type --> Application Image Configuration --> Application Image Format`{.interpreted-text
+>     role="menuselection"};
+> 4.  Enable building MCUboot from the source code by selecting
+>     `Build binaries from source`; in
+>     `System Type --> Application Image Configuration --> Source for bootloader binaries`{.interpreted-text
+>     role="menuselection"};
+> 5.  Enable Secure Boot in
+>     `System Type --> Application Image Configuration --> Enable hardware Secure Boot in bootloader`{.interpreted-text
+>     role="menuselection"};
 > 6.  If you want to protect the SPI Bus against data sniffing, you can
->     enable Flash Encryption in `System Type --> Application Image
->     Configuration --> Enable Flash Encryption on boot`.
+>     enable Flash Encryption in
+>     `System Type --> Application Image Configuration --> Enable Flash Encryption on boot`{.interpreted-text
+>     role="menuselection"}.
 
 Now you can design an update and confirm agent to your application.
 Check the [MCUboot design guide](https://docs.mcuboot.com/design.html)
@@ -1298,42 +983,36 @@ device (it will automatically be in the confirmed state, you can learn
 more about image confirmation
 [here](https://docs.mcuboot.com/design.html#image-swapping)). To flash
 to the primary image slot, select `Application image primary slot` in
-`System Type --> Application Image Configuration --> Target slot for
-image flashing` and compile it using `make -j
-ESPSEC_KEYDIR=~/signing_keys`.
+`System Type --> Application Image Configuration --> Target slot for image flashing`{.interpreted-text
+role="menuselection"} and compile it using
+`make -j ESPSEC_KEYDIR=~/signing_keys`.
 
-When creating update images, make sure to change `System Type -->
-Application Image Configuration --> Target slot for image flashing` to
-`Application image secondary slot`.
-
-<div class="important">
-
-<div class="title">
+When creating update images, make sure to change
+`System Type --> Application Image Configuration --> Target slot for image flashing`{.interpreted-text
+role="menuselection"} to `Application image secondary slot`.
 
 Important
 
-</div>
-
 When deploying your application, make sure to disable UART Download Mode
-by selecting `Permanently disabled` in `System Type --> Application
-Image Configuration --> UART ROM download mode` and change usage mode to
-`Release` in <span class="title-ref">System Type --\> Application Image
-Configuration --\> Enable usage mode</span>. **After disabling UART
-Download Mode you will not be able to flash other images through UART.**
+by selecting `Permanently disabled` in
+`System Type --> Application Image Configuration --> UART ROM download mode`{.interpreted-text
+role="menuselection"} and change usage mode to `Release` in [System Type
+\--\> Application Image Configuration \--\> Enable usage
+mode]{.title-ref}. **After disabling UART Download Mode you will not be
+able to flash other images through UART.**
 
-</div>
-
-## Things to Do
+Things to Do
+------------
 
 1.  Lazy co-processor save logic supported by Xtensa. That logic works
     like this:
-    
-    1.  CPENABLE is set to zero on each context switch, disabling all
+
+    a.  CPENABLE is set to zero on each context switch, disabling all
         co-processors.
-    2.  If/when the task attempts to use the disabled co-processor, an
+    b.  If/when the task attempts to use the disabled co-processor, an
         exception occurs
-    3.  The co-processor exception handler re-enables the co-processor.
-    
+    c.  The co-processor exception handler re-enables the co-processor.
+
     Instead, the NuttX logic saves and restores CPENABLE on each context
     switch. This has disadvantages in that (1) co-processor context will
     be saved and restored even if the co-processor was never used, and
@@ -1348,7 +1027,8 @@ Download Mode you will not be able to flash other images through UART.**
 
 3.  See SMP-related issues above
 
-## \_<span class="title-ref">Managing esptool on virtual environment</span>
+\_[Managing esptool on virtual environment]{.title-ref}
+-------------------------------------------------------
 
 This section describes how to install `esptool`, `imgtool` or any other
 Python packages in a proper environment.
@@ -1419,10 +1099,11 @@ following command:
      deactivate
 
 This will return your shell prompt to its normal state. You can
-reactivate the virtual environment at any time by running the `source
-myenv/bin/activate` command again. You can also delete the virtual
-environment by deleting the directory that contains it.
+reactivate the virtual environment at any time by running the
+`source myenv/bin/activate` command again. You can also delete the
+virtual environment by deleting the directory that contains it.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

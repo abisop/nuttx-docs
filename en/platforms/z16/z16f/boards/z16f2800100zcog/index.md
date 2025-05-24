@@ -1,10 +1,12 @@
-# z16f2800100zcog
+z16f2800100zcog
+===============
 
 z16f Microcontroller. This port use the Zilog z16f2800100zcog
 development kit and the Zilog ZDS-II Windows command line tools. The
 development environment is Cygwin under WinXP.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -34,15 +36,16 @@ Interaction with NSH is via the serial console at 57600 8N1 baud.
 
 **OSTEST Project**
 
-  - `ostest.zfpproj`  
-    is a simple ZDS II - ZNEO 5.0.1 project that will allow you to use
+`ostest.zfpproj`
+
+:   is a simple ZDS II - ZNEO 5.0.1 project that will allow you to use
     the ZDS-II debugger. Before using, copy the following files from the
     toplevel directory:
-    
+
         nuttx.hex, nuttx.map, nuttx.lod
-    
+
     to this directory as:
-    
+
         ostest.hex, ostest.map, ostest.lod
 
 **Loading and Executing Code**
@@ -54,7 +57,7 @@ Interaction with NSH is via the serial console at 57600 8N1 baud.
 5.  In the debug tab, connect to the debugger
 6.  In the debug tab, load code, reset, and go
 
-Hmmm... it appears that the code does not run if started by a hardware
+Hmmm\... it appears that the code does not run if started by a hardware
 reset. It runs only when started via the debugger. What is up with that?
 
 **Console Output**

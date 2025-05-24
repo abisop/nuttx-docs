@@ -1,94 +1,85 @@
-# esp32s3-lhcbit
-
-<div class="tags">
+esp32s3-lhcbit
+==============
 
 chip:esp32, chip:esp32s3
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 ESP32S3-LHCBit board.
 
-![](lcb-bit-top.jpeg)
+![](lcb-bit-top.jpeg){.align-center}
 
-![](lcb-bit-botton.jpeg)
+![](lcb-bit-botton.jpeg){.align-center}
 
-## Board information
+Board information
+-----------------
 
 This board was release by Laboratório Hacker de Campinas (LHC) in 2024
 and developed based on ESP32-S3-WROOM-1 module.
 
-  - The board features:
-    
-      - ESP32-S3-16R8
-      - USB-to-UART bridge via micro USB port
-      - SPI FLASH (size varies according to model)
-      - Lora module RAK3172-SiP
-      - Adafruit Mini TFT - 0.96" 160x80
+The board features:
+
+:   -   ESP32-S3-16R8
+    -   USB-to-UART bridge via micro USB port
+    -   SPI FLASH (size varies according to model)
+    -   Lora module RAK3172-SiP
+    -   Adafruit Mini TFT - 0.96\" 160x80
 
 Board documentation: <https://github.com/lhc/Hardware/tree/main/LHCbit>
 
-## BOARD-RGB LED
+BOARD-RGB LED
+-------------
 
 The LHCBit board has one LED RGB Addressable
 
-> 
-> 
-> | LED      | PINS |
-> | -------- | ---- |
-> | LED\_RGB | IO14 |
-> 
+>   LED        PINS
+>   ---------- ------
+>   LED\_RGB   IO14
 
-## BOARD BUTTONS
+BOARD BUTTONS
+-------------
 
 The LHCBit board has 2 buttons
 
-> 
-> 
-> | BUTTON | PINS |
-> | ------ | ---- |
-> | SW1    | IO13 |
-> | SW2    | IO12 |
-> 
+>   BUTTON   PINS
+>   -------- ------
+>   SW1      IO13
+>   SW2      IO12
 
-## BOARD LORA
+BOARD LORA
+----------
 
 The LHCBit board has a RAK3172-SiP lora module with AT command
 communication via UART
 
-> 
-> 
-> | LORA      | PINS |
-> | --------- | ---- |
-> | UART1\_TX | IO9  |
-> | UART1\_RX | IO11 |
-> | BOOT      | IO10 |
-> 
+>   LORA        PINS
+>   ----------- ------
+>   UART1\_TX   IO9
+>   UART1\_RX   IO11
+>   BOOT        IO10
 
-## BOARD DISPLAY
+BOARD DISPLAY
+-------------
 
-The LHCBit board comes with a 0.96" TFT display with sdcard, both with
+The LHCBit board comes with a 0.96\" TFT display with sdcard, both with
 SPI communication and individual CS pins.
 
-> 
-> 
-> | SHIELD     | PINS |
-> | ---------- | ---- |
-> | SPI\_MOSI  | IO15 |
-> | SPI\_MISO  | IO16 |
-> | TFT\_CS    | IO21 |
-> | TFT\_RESET | IO48 |
-> | TFT\_DC    | IO37 |
-> | SD\_CS     | IO39 |
-> 
+>   SHIELD       PINS
+>   ------------ ------
+>   SPI\_MOSI    IO15
+>   SPI\_MISO    IO16
+>   TFT\_CS      IO21
+>   TFT\_RESET   IO48
+>   TFT\_DC      IO37
+>   SD\_CS       IO39
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
 
     tools/configure.sh esp32s3-lhcbit:<subdir>
-    
+
     Where <subdir> is one of the following:
 
 ### Configuration Directories

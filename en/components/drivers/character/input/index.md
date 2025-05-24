@@ -1,4 +1,5 @@
-# Input Devices
+Input Devices
+=============
 
 > keypad.rst
 

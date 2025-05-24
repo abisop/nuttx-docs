@@ -1,31 +1,27 @@
-# ST STM3220G-EVAL
-
-<div class="tags">
+ST STM3220G-EVAL
+================
 
 chip:stm32, chip:stm32f2, chip:stm32f207, ethernet
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM3220G-EVAL development board.
 
-## Ethernet
+Ethernet
+--------
 
 The Ethernet driver is configured to use the MII interface:
 
 Board Jumper Settings:
 
-> 
-> 
-> | Jumper | Description                                                              |
-> | ------ | ------------------------------------------------------------------------ |
-> | JP8    | To enable MII, JP8 should not be fitted.                                 |
-> | JP6    | 2-3: Enable MII interface mode                                           |
-> | JP5    | 2-3: Provide 25 MHz clock for MII or 50 MHz clock for RMII by MCO at PA8 |
-> | SB1    | Not used with MII                                                        |
-> 
+>   Jumper   Description
+>   -------- --------------------------------------------------------------------------
+>   JP8      To enable MII, JP8 should not be fitted.
+>   JP6      2-3: Enable MII interface mode
+>   JP5      2-3: Provide 25 MHz clock for MII or 50 MHz clock for RMII by MCO at PA8
+>   SB1      Not used with MII
 
-## LEDs
+LEDs
+----
 
 The STM3220G-EVAL board has four LEDs labeled LD1, LD2, LD3 and LD4 on
 the board.. These LEDs are not used by the board port unless
@@ -33,19 +29,16 @@ CONFIG\_ARCH\_LEDS is defined. In that case, the usage by the board port
 is defined in include/board.h and src/up\_leds.c. The LEDs are used to
 encode OS-relatedevents as follows:
 
-> 
-> 
-> | SYMBOL               | Meaning                                       | LED1\[1\] | LED2 | LED3 | LED4 |
-> | -------------------- | --------------------------------------------- | --------- | ---- | ---- | ---- |
-> | LED\_STARTED         | NuttX has been started                        | ON        | OFF  | OFF  | OFF  |
-> | LED\_HEAPALLOCATE    | Heap has been allocated                       | OFF       | ON   | OFF  | OFF  |
-> | LED\_IRQSENABLED     | Interrupts enabled                            | ON        | ON   | OFF  | OFF  |
-> | LED\_STACKCREATED    | Idle stack created                            | OFF       | OFF  | ON   | OFF  |
-> | LED\_INIRQ           | In an interrupt\[2\]                          | ON        | N/C  | N/C  | OFF  |
-> | LED\_SIGNAL          | In a signal handler\[3\]                      | N/C       | ON   | N/C  | OFF  |
-> | LED\_ASSERTION       | An assertion failed                           | ON        | ON   | N/C  | OFF  |
-> | LED\_PANIC LED\_IDLE | The system has crashed STM32 is is sleep mode | N/C       | N/C  | N/C  | ON   |
-> 
+>   SYMBOL                 Meaning                                         LED1\[1\]   LED2   LED3   LED4
+>   ---------------------- ----------------------------------------------- ----------- ------ ------ ------
+>   LED\_STARTED           NuttX has been started                          ON          OFF    OFF    OFF
+>   LED\_HEAPALLOCATE      Heap has been allocated                         OFF         ON     OFF    OFF
+>   LED\_IRQSENABLED       Interrupts enabled                              ON          ON     OFF    OFF
+>   LED\_STACKCREATED      Idle stack created                              OFF         OFF    ON     OFF
+>   LED\_INIRQ             In an interrupt\[2\]                            ON          N/C    N/C    OFF
+>   LED\_SIGNAL            In a signal handler\[3\]                        N/C         ON     N/C    OFF
+>   LED\_ASSERTION         An assertion failed                             ON          ON     N/C    OFF
+>   LED\_PANIC LED\_IDLE   The system has crashed STM32 is is sleep mode   N/C         N/C    N/C    ON
 
 \[1\] If LED1, LED2, LED3 are statically on, then NuttX probably failed
 to boot and these LEDs will give you some indication of where the
@@ -57,7 +50,8 @@ illuminated on a small proportion of the time.
 
 \[3\] LED2 may also flicker normally if signals are processed.
 
-## PWM
+PWM
+---
 
 The STM3220G-Eval has no real on-board PWM devices, but the board can be
 configured to output a pulse train using timer output pins. The
@@ -101,7 +95,8 @@ ACCESS:
     Daughterboard Extension Connector, CN3, pin 17
     Ground is available on CN3, pin1
 
-## CAN
+CAN
+---
 
 Connector 10 (CN10) is DB-9 male connector that can be used with CAN1 or
 CAN2.:
@@ -121,7 +116,8 @@ Mapping to STM32 GPIO pins:
     PB13  = ULPI_D6 & CAN2_TX
     PB5   = ULPI_D7 & CAN2_RX
 
-## FSMC SRAM
+FSMC SRAM
+---------
 
 ### On-board SRAM
 
@@ -152,7 +148,8 @@ There are 2 possible SRAM configurations:
                      CONFIG_MM_REGIONS == 2
                      CONFIG_STM32_EXTERNAL_RAM defined
 
-## I/O Expanders
+I/O Expanders
+-------------
 
 The STM3220G-EVAL has two STMPE811QTR I/O expanders on board both
 connected to the STM32 via I2C1. They share a common interrupt line:
@@ -160,68 +157,39 @@ PI2.
 
 STMPE811 U24, I2C address 0x41 (7=bit)
 
-<table>
-<thead>
-<tr class="header">
-<th>STPE11</th>
-<th>PIN</th>
-<th>BOARD SIGNAL</th>
-<th>BOARD CONNECTION</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Y-</td>
-<td>.</td>
-<td>TouchScreen_Y-</td>
-<td>LCD Connector XL</td>
-</tr>
-<tr class="even">
-<td>X-</td>
-<td>.</td>
-<td>TouchScreen_X-</td>
-<td>LCD Connector XR</td>
-</tr>
-<tr class="odd">
-<td>Y+</td>
-<td>.</td>
-<td>TouchScreen_Y+</td>
-<td>LCD Connector XD</td>
-</tr>
-<tr class="even">
-<td><p>X+ IN3 IN2 IN1 IN0</p></td>
-<td><h4 id="section">.</h4>
-<h5 id="section-1">.</h5></td>
-<td><p>TouchScreen_X+ EXP_IO9 EXP_IO10 EXP_IO11 EXP_IO12</p></td>
-<td><p>LCD Connector XU</p></td>
-</tr>
-</tbody>
-</table>
++------------------+---------+------------------+------------------+
+| STPE11           | PIN     | BOARD SIGNAL     | BOARD CONNECTION |
++==================+=========+==================+==================+
+| Y-               | .       | TouchScreen\_Y-  | LCD Connector XL |
++------------------+---------+------------------+------------------+
+| X-               | .       | TouchScreen\_X-  | LCD Connector XR |
++------------------+---------+------------------+------------------+
+| Y+               | .       | TouchScreen\_Y+  | LCD Connector XD |
++------------------+---------+------------------+------------------+
+| X+ IN3 IN2 IN1   | ###     | TouchScreen\_X+  | LCD Connector XU |
+| IN0              | # . {#s | EXP\_IO9         |                  |
+|                  | ection} | EXP\_IO10        |                  |
+|                  |         | EXP\_IO11        |                  |
+|                  | #####   | EXP\_IO12        |                  |
+|                  | . {#sec |                  |                  |
+|                  | tion-1} |                  |                  |
++------------------+---------+------------------+------------------+
 
 STMPE811 U29, I2C address 0x44 (7-bit)
 
-<table>
-<thead>
-<tr class="header">
-<th>STPE11</th>
-<th>PIN</th>
-<th>BOARD SIGNAL</th>
-<th>BOARD CONNECTION</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Y-X-Y+ X+ IN3 IN2 IN1 IN0</p></td>
-<td><h4 id="section-2">.</h4>
-<h4 id="section-3">.</h4>
-<h5 id="section-4">.</h5></td>
-<td><p>EXP_IO1 EXP_IO2 EXP_IO3 EXP_IO4 EXP_IO5 EXP_IO6 EXP_IO7 EXP_IO8</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
++----------------+----------------+----------------+----------------+
+| STPE11         | PIN            | BOARD SIGNAL   | BOARD          |
+|                |                |                | CONNECTION     |
++================+================+================+================+
+| Y-X-Y+ X+ IN3  | ####           | EXP\_IO1       |                |
+|                |                | EXP\_IO3       |                |
+|                | ####           | EXP\_IO4       |                |
+|                |                | EXP\_IO6       |                |
+|                | #####          | EXP\_IO7       |                |
++----------------+----------------+----------------+----------------+
 
-## Configurations
+Configurations
+--------------
 
 Each STM3220G-EVAL configuration is maintained in a sub-directory and
 can be selected as follow:
@@ -240,10 +208,10 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  The server address is 10.0.0.1 and it serves IP addresses in the
@@ -251,7 +219,7 @@ NOTES:
     configurable).
 
 3.  Default build environment (also easily reconfigured):
-    
+
         CONFIG_HOST_WINDOWS=y
         CONFIG_WINDOWS_CYGWIN=y
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y
@@ -259,7 +227,7 @@ NOTES:
 ### nettest:
 
 This configuration directory may be used to verify networking
-performance using the STM32's Ethernet controller. It uses
+performance using the STM32\'s Ethernet controller. It uses
 apps/examples/nettest to exercise the TCP/IP network.:
 
     CONFIG_EXAMPLES_NETTEST_SERVER=n                       : Target is configured as the client
@@ -272,18 +240,18 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  Default build environment:
-    
+
         CONFIG_HOST_WINDOWS=y                    : Windows
         CONFIG_WINDOWS_CYGWIN=y                  : Under Cygwin
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y       : GNU EABI toolchain for Windows
-        
+
         Than can, of course, be easily changes by reconfiguring per Note 1.
 
 ### nsh:
@@ -300,10 +268,10 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  This example assumes that a network is connected. During its
@@ -315,47 +283,47 @@ NOTES:
 
 3.  This example supports the ADC test (apps/examples/adc) but this must
     be manually enabled by selecting:
-    
+
         CONFIG_ADC=y             : Enable the generic ADC infrastructure
         CONFIG_STM32_ADC3=y      : Enable ADC3
         CONFIG_STM32_TIM1=y      : Enable Timer 1
         CONFIG_STM32_TIM1_ADC=y  : Indicate that timer 1 will be used to trigger an ADC
         CONFIG_STM32_TIM1_ADC3=y : Assign timer 1 to drive ADC3 sampling
         CONFIG_STM32_ADC3_SAMPLE_FREQUENCY=100 : Select a sampling frequency
-        
+
         See also apps/examples/README.txt
-        
+
         General debug for analog devices (ADC/DAC)::
-        
+
         CONFIG_DEBUG_ANALOG
 
 4.  This example supports the PWM test (apps/examples/pwm) but this must
     be manually enabled by selecting eeither:
-    
+
         CONFIG_PWM=y                : Enable the generic PWM infrastructure
         CONFIG_PWM_PULSECOUNT=n     : Disable to support for TIM1/8 pulse counts
         CONFIG_STM32_TIM4=y         : Enable TIM4
         CONFIG_STM32_TIM4_PWM=y     : Use TIM4 to generate PWM output
         CONFIG_STM32_TIM4_CHANNEL=2 : Select output on TIM4, channel 2
-    
+
     If CONFIG\_STM32\_FSMC is disabled, output will appear on CN3, pin
     32. Ground is available on CN3, pin1.
-    
+
     Or..:
-    
+
         CONFIG_PWM=y                : Enable the generic PWM infrastructure
         CONFIG_PWM_PULSECOUNT=y     : Enable to support for TIM1/8 pulse counts
         CONFIG_STM32_TIM8=y         : Enable TIM8
         CONFIG_STM32_TIM8_PWM=y     : Use TIM8 to generate PWM output
         CONFIG_STM32_TIM8_CHANNEL=4 : Select output on TIM8, channel 4
-    
+
     If CONFIG\_STM32\_FSMC is disabled, output will appear on CN3, pin
     17 Ground is available on CN23 pin1.
-    
+
     See also include/board.h and apps/examples/README.txt
-    
+
     Special PWM-only debug options:
-    
+
         CONFIG_DEBUG_PWM_INFO
 
 5\. This example supports the CAN loopback test (apps/examples/can) but
@@ -365,11 +333,11 @@ this must be manually enabled by selecting:
     CONFIG_CAN_EXTID=y or n  : Enable to support extended ID frames
     CONFIG_STM32_CAN1=y      : Enable CAN1
     CONFIG_CAN_LOOPBACK=y    : Enable CAN loopback mode
-    
+
     See also apps/examples/README.txt
-    
+
     Special CAN-only debug options::
-    
+
     CONFIG_DEBUG_CAN_INFO
     CONFIG_STM32_CAN_REGDEBUG
 
@@ -392,14 +360,14 @@ file:
     CONFIG_WATCHDOG=y         : Enables watchdog timer driver support
     CONFIG_STM32_WWDG=y       : Enables the WWDG timer facility, OR
     CONFIG_STM32_IWDG=y       : Enables the IWDG timer facility (but not both)
-    
+
     The WWDG watchdog is driven off the (fast) 42MHz PCLK1 and, as result,
     has a maximum timeout value of 49 milliseconds.  For WWDG watchdog, you
     should also add the following to the configuration file::
-    
+
     CONFIG_EXAMPLES_WATCHDOG_PINGDELAY=20
     CONFIG_EXAMPLES_WATCHDOG_TIMEOUT=49
-    
+
     The IWDG timer has a range of about 35 seconds and should not be an issue.
 
 9.  Adding LCD and graphics support:
@@ -410,21 +378,21 @@ Enable the application configurations that you want to use. As examples:
     CONFIG_EXAMPLES_NXHELLO=y :
     CONFIG_EXAMPLES_NXIMAGE=y :
     CONFIG_EXAMPLES_NXLINES=y :
-    
+
     defconfig (nuttx/.config)::
-    
+
     CONFIG_STM32_FSMC=y       : FSMC support is required for the LCD
     CONFIG_NX=y               : Enable graphics support
     CONFIG_MM_REGIONS=2       : When FSMC is enabled, so is the on-board SRAM memory region
 
 10. USB OTG FS Device or Host Support:
-    
+
         CONFIG_USBDEV             : Enable USB device support, OR
         CONFIG_USBHOST            : Enable USB host support (but not both)
-        
+
         CONFIG_STM32_OTGFS        : Enable the STM32 USB OTG FS block
         CONFIG_STM32_SYSCFG       : Needed for all USB OTF FS support
-        
+
         CONFIG_SCHED_WORKQUEUE    : Worker thread support is required for the mass
                                     storage class (both host and device).
         CONFIG_NSH_ARCHINIT       : Architecture specific USB initialization
@@ -442,13 +410,13 @@ the following ways:
 
     -CONFIG_STM32_USART3=y      : USART3 is disabled
     +CONFIG_STM32_USART3=n
-    
+
     -CONFIG_STM32_SDIO=n        : SDIO is enabled
     +CONFIG_STM32_SDIO=y
 
 Logically, these are the only differences: This configuration has SDIO
 (and the SD card) enabled and the serial console disabled. There is ONLY
-a Telnet console\!.
+a Telnet console!.
 
 There are some special settings to make life with only a Telnet:
 
@@ -463,17 +431,17 @@ There are some special settings to make life with only a Telnet:
       command called 'dmesg' that can be used to dump the RAM log.
 
 There are a few other configuration differences as necessary to support
-this different device configuration. Just the do the 'diff' if you are
+this different device configuration. Just the do the \'diff\' if you are
 curious.
 
 NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  See the notes for the nsh configuration. Most also apply to the nsh2
@@ -491,24 +459,24 @@ NOTES:
 
 6.  Another SDIO/DMA issue. This one is probably a software bug. This is
     the bug as stated in the TODO list:
-    
-    "If you use a large I/O buffer to access the file system, then the
+
+    \"If you use a large I/O buffer to access the file system, then the
     MMCSD driver will perform multiple block SD transfers. With DMA ON,
     this seems to result in CRC errors detected by the hardware during
-    the transfer. Workaround: CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1"
-    
+    the transfer. Workaround: CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1\"
+
     For this reason, CONFIG\_MMCSD\_MULTIBLOCK\_LIMIT=1 appears in the
     defconfig file.
 
 7.  Another DMA-related concern. I see this statement in the reference
-    manual: "The burst configuration has to be selected in order to
+    manual: \"The burst configuration has to be selected in order to
     respect the AHB protocol, where bursts must not cross the 1 KB
     address boundary because the minimum address space that can be
     allocated to a single slave is 1 KB. This means that the 1 KB
     address boundary should not be crossed by a burst block transfer,
     otherwise an AHB error would be generated, that is not reported by
-    the DMA registers."
-    
+    the DMA registers.\"
+
     There is nothing in the DMA driver to prevent this now.
 
 ### nxwm:
@@ -526,9 +494,9 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 2.  This configuration is currently set up to build under Cygwin on a
     Windows machine using the ARM EABI GCC Windows toolchain. That
@@ -539,7 +507,7 @@ NOTES:
 A simple test of the Telnet daemon(see apps/netutils/README.txt,
 apps/examples/README.txt, and apps/examples/telnetd). This is the same
 daemon that is used in the nsh configuration so if you use NSH, then you
-don't care about this. This test is good for testing the Telnet daemon
+don\'t care about this. This test is good for testing the Telnet daemon
 only because it works in a simpler environment than does the nsh
 configuration.
 
@@ -547,14 +515,14 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configurations using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  Default build environment (easily reconfigured):
-    
+
         CONFIG_HOST_WINDOWS=y
         CONFIG_WINDOWS_CYGWIN=y
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y

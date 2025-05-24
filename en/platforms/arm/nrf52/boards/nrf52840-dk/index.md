@@ -1,52 +1,52 @@
-# nRF52840-DK
-
-<div class="tags">
+nRF52840-DK
+===========
 
 chip:nrf52, chip:nrf52840
-
-</div>
 
 The [NRF52840-DK
 (PCA10056)](https://www.nordicsemi.com/Products/Development-hardware/nRF52840-DK)
 is a development board for the nRF52840 SoC from Nordic.
 
-## Serial Console
+Serial Console
+--------------
 
 The PCA10056 default console is the UART0.
 
 The PCA10056 does not have RS-232 drivers or serial connectors on board.
 UART0 is connected to the virtual COM port:
 
-| Signal   | PIN   |
-| -------- | ----- |
-| UART0-RX | P0.08 |
-| UART0-TX | P0.06 |
+  Signal     PIN
+  ---------- -------
+  UART0-RX   P0.08
+  UART0-TX   P0.06
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
 The PCA10056 has 4 user-controllable LEDs:
 
-| LED  | MCU   |
-| ---- | ----- |
-| LED1 | P0.13 |
-| LED2 | P0.14 |
-| LED3 | P0.15 |
-| LED4 | P0.26 |
+  LED    MCU
+  ------ -------
+  LED1   P0.13
+  LED2   P0.14
+  LED3   P0.15
+  LED4   P0.26
 
 A low output illuminates the LED.
 
 ### Pushbuttons
 
-| BUTTON  | MCU   |
-| ------- | ----- |
-| BUTTON1 | P0.11 |
-| BUTTON2 | P0.12 |
-| BUTTON3 | P0.24 |
-| BUTTON4 | P0.25 |
+  BUTTON    MCU
+  --------- -------
+  BUTTON1   P0.11
+  BUTTON2   P0.12
+  BUTTON3   P0.24
+  BUTTON4   P0.25
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:
@@ -91,12 +91,12 @@ NuttShell configuration with support for RNDIS USB device driver.
 
 ### sdc
 
-Enables Nordic's SoftDevice controller and uses NuttX BLE stack for the
+Enables Nordic\'s SoftDevice controller and uses NuttX BLE stack for the
 host-layer. The `btsak` application is included as a builtin.
 
 ### sdc\_nimble
 
-Enables Nordic's SoftDevice controller and uses nimBLE for the
+Enables Nordic\'s SoftDevice controller and uses nimBLE for the
 host-layer. The `nimble` test application can be used to enable a simple
 GATT server.
 

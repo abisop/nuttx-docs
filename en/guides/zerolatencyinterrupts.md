@@ -1,6 +1,8 @@
-# High Performance: Zero Latency Interrupts, Maskable Nested Interrupts
+High Performance: Zero Latency Interrupts, Maskable Nested Interrupts
+=====================================================================
 
-## Generic Interrupt Handling
+Generic Interrupt Handling
+--------------------------
 
 NuttX includes a generic interrupt handling subsystem that makes it
 convenient to deal with interrupts using only IRQ numbers. In order to
@@ -28,7 +30,8 @@ terminology. The
 [Nucleus](https://www.embedded.com/design/operating-systems/4461604/Interrupts-in-the-Nucleus-SE-RTOS)
 RTOS, for example, uses the terms *Native* and *Managed* interrupts.
 
-## Bypassing the Generic Interrupt Handling
+Bypassing the Generic Interrupt Handling
+----------------------------------------
 
 Most modern MCUs (such as the ARM Cortex-M family) receive and dispatch
 interrupts through a *vector table*. The vector table is a table in
@@ -58,40 +61,41 @@ when the `CONFIG_ARCH_RAMVECTORS` option is enabled.
 
 So what is the downside? There are two:
 
-  - Your custom interrupt handler will not have collected its state into
+-   Your custom interrupt handler will not have collected its state into
     the `struct xcptcontext` container. Therefore, it cannot communicate
     with operating system. Your custom interrupt handler has been taken
-    "out of the game" and can no longer work with the system.
-  - If your custom interrupt is truly going to be *high performance*
-    then you will also have to support nested interrupts\! The custom
+    \"out of the game\" and can no longer work with the system.
+-   If your custom interrupt is truly going to be *high performance*
+    then you will also have to support nested interrupts! The custom
     interrupt must have a high priority and must be able interrupt the
     generic interrupt handling logic. Otherwise, it will be occasionally
     delayed when there is a collision between your custom interrupt and
     other, lower priority interrupts.
 
-## Getting Back into the Game
+Getting Back into the Game
+--------------------------
 
 As mentioned, the custom interrupt handler cannot use most of the
 services of the OS since it has not created a `struct xcptcontext`
-container. So it needs a mechanism to "get back into the game" when it
+container. So it needs a mechanism to \"get back into the game\" when it
 needs to interact with the operating system to, for example, post a
 semaphore, signal a thread, or send a message.
 
 The ARM Cortex-M family supports a special way to do this using the
 *PendSV* interrupt:
 
-  - The custom logic would connect with the *PendSV* interrupt using the
+-   The custom logic would connect with the *PendSV* interrupt using the
     standard `irq_attach()` interface.
-  - In the custom interrupt handler, it would schedule the *PendSV*
+-   In the custom interrupt handler, it would schedule the *PendSV*
     interrupt when it needs to communicate with the OS.
-  - The *PendSV* interrupt is dispatched through the generic interrupt
+-   The *PendSV* interrupt is dispatched through the generic interrupt
     system so when the attached *PendSV* interrupt is handled, it will
     be in a context where it can perform any necessary OS interactions.
 
 With the ARMv7\_M architecture, the *PendSV* interrupt can be generated
 with:
 
-``` c
+``` {.c}
 up_trigger_irq(NVIC_IRQ_PENDSV);
 ```
 
@@ -106,23 +110,26 @@ of this Wiki page.
 
 The following table shows the priority levels of the Cortex-M family:
 
-    IRQ type               Priority
-    Dataabort              0x00
-    High prio IRQ1         0x20   (Zero-latency interrupt)
-    High prio IRQ2         0x30   (Can't call OS API in ISR)
-    SVC                    0x70
-    Disable IRQ            0x80
-    (critical-section)
-    Low  prio IRQ          0xB0
-    PendSV                 0xE0
+``` {.}
+IRQ type               Priority
+Dataabort              0x00
+High prio IRQ1         0x20   (Zero-latency interrupt)
+High prio IRQ2         0x30   (Can't call OS API in ISR)
+SVC                    0x70
+Disable IRQ            0x80
+(critical-section)
+Low  prio IRQ          0xB0
+PendSV                 0xE0
+```
 
 Lower priority *numbers* mean a higher priority on this architecture.
 
 As you can see, the zero-latency interrupts have higher priority than
 the critical section and SVC, but with the tradeoff that High prio IRQ
-can't call OS APIs in ISR.
+can\'t call OS APIs in ISR.
 
-## Maskable Nested Interrupts
+Maskable Nested Interrupts
+--------------------------
 
 The ARM Cortex-M family supports a feature called *BASEPRI* that can be
 used to disable interrupts at a priority level below a certain level.
@@ -141,15 +148,17 @@ interrupts that you want to be able to mask.
 
 The following table shows the priority levels of the Cortex-M family:
 
-    IRQ type                Priority
-    Dataabort               0x00
-    SVC                     0x70
-    Disable IRQ             0x80
-    (critical-section)
-    High prio IRQ1          0x90    (Maskable nested interrupt)
-    High prio IRQ2          0xA0    (Can call OS API in ISR)
-    Low  prio IRQ           0xB0
-    PendSV                  0xE0
+``` {.}
+IRQ type                Priority
+Dataabort               0x00
+SVC                     0x70
+Disable IRQ             0x80
+(critical-section)
+High prio IRQ1          0x90    (Maskable nested interrupt)
+High prio IRQ2          0xA0    (Can call OS API in ISR)
+Low  prio IRQ           0xB0
+PendSV                  0xE0
+```
 
 Lower priority *numbers* mean a higher priority on this architecture.
 
@@ -157,32 +166,32 @@ As you can see, the priority levels of the maskable nested interrupts
 are between the critical section and the low-priority interrupts. In
 this case, High prio IRQ can call OS APIs in ISR.
 
-## Nested Interrupt Handling
+Nested Interrupt Handling
+-------------------------
 
 Some general notes about nested interrupt handling are provided in
-\[<span class="title-ref">ne\](\`ne.md)stedinterrupts</span>. In this
-case, handling the nested custom interrupt is simpler because the
-generic interrupt handler is not re-entered. Rather, the generic
-interrupt handler must simply be made to co-exist with the custom
-interrupt interrupt handler.
+\[[ne\](\`ne.md)stedinterrupts]{.title-ref}. In this case, handling the
+nested custom interrupt is simpler because the generic interrupt handler
+is not re-entered. Rather, the generic interrupt handler must simply be
+made to co-exist with the custom interrupt interrupt handler.
 
 Modifications may be required to the generic interrupt handling logic to
 accomplish. A few points need to be made here:
 
-  - The MCU should support interrupt prioritization so that the custom
+-   The MCU should support interrupt prioritization so that the custom
     interrupt can be scheduled with a higher priority.
-  - The generic interrupt handlers currently disable interrupts during
+-   The generic interrupt handlers currently disable interrupts during
     interrupts. Instead, they must be able to keep the custom interrupt
     enabled throughout interrupt process but still prevent re-entrancy
     by other standard interrupts (This can be done by setting an
     interrupt base priority level in the Cortex-M family).
-  - The custom interrupt handler can now interrupt the generic interrupt
+-   The custom interrupt handler can now interrupt the generic interrupt
     handler at any place. Is the logic safe in all cases to be
     interrupted? Sometimes interrupt handlers place the MCU in
     momentarily perverse states while registers are being manipulated.
     Make sure that it is safe to take interrupts at any time (or else
     keep the interrupts disabled in the critical times).
-  - Will the custom interrupt handler have all of the resources it needs
+-   Will the custom interrupt handler have all of the resources it needs
     in place when it occurs? Will it have a valid stack pointer? (In the
     Cortex-M implementation, for example, the MSP may not be valid when
     the custom interrupt handler is entered).
@@ -190,7 +199,8 @@ accomplish. A few points need to be made here:
 Some of these issues are complex and so you should expect some
 complexity in getting the nested interrupt handler to work.
 
-## Cortex-M3/4 Implementation
+Cortex-M3/4 Implementation
+--------------------------
 
 Such high priority, nested interrupt handler has been implemented for
 the Cortex-M3/4 families.
@@ -211,10 +221,10 @@ at an execution priority between `NVIC_SYSH_PRIORITY_MIN` and
 *SVCall*).
 
 If, in addition, `CONFIG_ARCH_HIPRI_INTERRUPT` is defined, then special
-high priority interrupts are supported. These are not "nested" in the
+high priority interrupts are supported. These are not \"nested\" in the
 normal sense of the word. These high priority interrupts can interrupt
-normal processing but execute outside of OS (although they can "get back
-into the game" via a *PendSV* interrupt).
+normal processing but execute outside of OS (although they can \"get
+back into the game\" via a *PendSV* interrupt).
 
 ### Disabling the High Priority Interrupt
 
@@ -225,7 +235,7 @@ non-interrupt level logic. Now the question arises, if we are using the
 *BASEPRI* to disable interrupts and have high priority interrupts
 enabled (`CONFIG_ARCH_HIPRI_INTERRUPT=y`), do we disable all interrupts
 except *SVCall* (we cannot disable *SVCall* interrupts)? Or do we only
-disable the "normal" interrupts?
+disable the \"normal\" interrupts?
 
 If we are using the *BASEPRI* register to disable interrupts, then the
 answer is that we must disable *ONLY* the normal interrupts. That is
@@ -242,9 +252,9 @@ priority interrupts.
 
 ### Dependencies
 
-  - `CONFIG_ARCH_HAVE_IRQPRIO`. Support for prioritized interrupt
+-   `CONFIG_ARCH_HAVE_IRQPRIO`. Support for prioritized interrupt
     support must be enabled.
-  - Floating Point Registers. If used with a Cortex-M4 that supports
+-   Floating Point Registers. If used with a Cortex-M4 that supports
     hardware floating point, you cannot use hardware floating point in
     the high priority interrupt handler UNLESS you use the common vector
     logic that supports saving of floating point registers on all
@@ -258,26 +268,26 @@ First, You need to change the address in the vector table so that the
 high priority interrupt vectors to your special C interrupt handler.
 There are two ways to do this:
 
-  - If you select `CONFIG_ARCH_RAMVECTORS`, then vectors will be kept in
-    RAM and the system will support the interface: `int
-    up_ramvec_attach(int irq, up_vector_t vector)`. That interface can
-    be used to attach your C interrupt handler to the vector at run
+-   If you select `CONFIG_ARCH_RAMVECTORS`, then vectors will be kept in
+    RAM and the system will support the interface:
+    `int up_ramvec_attach(int irq, up_vector_t vector)`. That interface
+    can be used to attach your C interrupt handler to the vector at run
     time.
-  - Alternatively, you could keep your vectors in FLASH but in order to
+-   Alternatively, you could keep your vectors in FLASH but in order to
     this, you would have to develop your own custom vector table.
 
 Second, you need to set the priority of your interrupt in *NVIC* to
-`NVIC_SYSH_HIGH_PRIORITY` using the standard interface: `int
-up_prioritize_irq(int irq, int priority);`
+`NVIC_SYSH_HIGH_PRIORITY` using the standard interface:
+`int up_prioritize_irq(int irq, int priority);`
 
 ### Example Code
 
 You can find an example that tests the high priority, nested interrupts
 in the NuttX source:
 
-  - \[<span class="title-ref">/platform\](</span>/platform.md)s/arm/stm32f1/boards/viewtool-stm32f107/index\`
+-   \[[/platform\](]{.title-ref}/platform.md)s/arm/stm32f1/boards/viewtool-stm32f107/index\`
     Description of the configuration
-  - `nuttx/boards/arm/stm32/viewtool-stm32f107/highpri` Test
+-   `nuttx/boards/arm/stm32/viewtool-stm32f107/highpri` Test
     configuration
-  - `nuttx/boards/arm/stm32/viewtool-stm32f107/src/stm32_highpri` Test
+-   `nuttx/boards/arm/stm32/viewtool-stm32f107/src/stm32_highpri` Test
     driver.

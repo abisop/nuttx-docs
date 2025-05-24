@@ -1,19 +1,13 @@
-# Pseudo File System
-
-<div class="warning">
-
-<div class="title">
+Pseudo File System
+==================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Pseudo+File+System>
 
-</div>
-
-## Overview
+Overview
+--------
 
 ### Pseudo Root File System
 
@@ -37,20 +31,19 @@ NuttX does not support special files in the way that, say, Linux does.
 In fact, it is more correct to say that NuttX file systems do not
 support special files at all.
 
-NuttX does, however, support Linux-like special
-<span class="title-ref">device node</span>, character driver, and block
-driver files (as well as NuttX-specific mountpoint, named semaphore,
-message queue, and shared memory special files). However, these are not
-special files in sense that the term special files is used in a POSIX
-environment: In NuttX these special files may
-<span class="title-ref">only</span> be created in the root pseudo-file
-system. For the case of device nodes, see [Device
+NuttX does, however, support Linux-like special [device
+node]{.title-ref}, character driver, and block driver files (as well as
+NuttX-specific mountpoint, named semaphore, message queue, and shared
+memory special files). However, these are not special files in sense
+that the term special files is used in a POSIX environment: In NuttX
+these special files may [only]{.title-ref} be created in the root
+pseudo-file system. For the case of device nodes, see [Device
 Nodes](https://cwiki.apache.org/confluence/display/NUTTX/Device+Nodes)
 for further information.
 
-In NuttX, the underlying principle is that all
-<span class="title-ref">named resources</span> appear as special files
-in the root pseudo-file system and are managed by the VFS.
+In NuttX, the underlying principle is that all [named
+resources]{.title-ref} appear as special files in the root pseudo-file
+system and are managed by the VFS.
 
 ### Mounted Volumes
 
@@ -75,37 +68,37 @@ file system. The approach selected by NuttX is intended to support
 greater scalability from the very tiny platform to the moderate
 platform.
 
-## FAQ
+FAQ
+---
 
-**Question**: I'm wondering why I can't create a directory. If I try to
-create a dir.
+**Question**: I\'m wondering why I can\'t create a directory. If I try
+to create a dir.
 
-``` bash
+``` {.bash}
 mkdir /mnt
 ```
 
 I get this,
 
-``` bash
+``` {.bash}
 nsh: mkdir: mkdir failed: 2
 ```
 
 although if I do this it creates both directories, mnt and sda
 
-``` bash
+``` {.bash}
 mount -t vfat /dev/mmcsd0 /mnt/sda
 ```
 
 **Answer**: This is because the top level directories are part of a
-<span class="title-ref">pseudo-filesystem</span> – like the Linux
-`proc/` or `sys/` file systems. But the NuttX pseudo-file system begins
-at the top level `/`.
+[pseudo-filesystem]{.title-ref} -- like the Linux `proc/` or `sys/` file
+systems. But the NuttX pseudo-file system begins at the top level `/`.
 
 What that really means is that you do must have
 `CONFIG_DISABLE_PSEUDOFS_OPERATIONS` selected. Because you can normally
 create directories in the pseudo-filesystem with not problem:
 
-``` bash
+``` {.bash}
 NuttShell (NSH) NuttX-9.0.0
 nsh> mkdir /mnt
 nsh> ls
@@ -121,66 +114,61 @@ nsh>
 ```
 
 But lets assume that you do have operations on the pseudo-file system
-disabled. Why doesn't it work? There is no
-<span class="title-ref">real</span> media there so you cannot create a
-file there or create any directories there. The `mount` command is
-special, it knows how to create mount points in the pseudo-file system.
+disabled. Why doesn\'t it work? There is no [real]{.title-ref} media
+there so you cannot create a file there or create any directories there.
+The `mount` command is special, it knows how to create mount points in
+the pseudo-file system.
 
 The pseudo-file system is just a tree structure in RAM. It serves two
-purposes: (1) you don't have to have a real file system to use NuttX. It
-comes up out-of-the-box with usable (but limited) pseudo-file system.
+purposes: (1) you don\'t have to have a real file system to use NuttX.
+It comes up out-of-the-box with usable (but limited) pseudo-file system.
 That allows a little more civilized programming environment on even very
 resource limited MCUs. And (2) this pseudo-file system is a place where
 all special NuttX files are retained: Character drivers, block drivers,
 and mount points.
 
-The NuttX top-level pseudo-filesystem creates the
-<span class="title-ref">illusion</span> of directories and provides a
-consistent, seamless semantic for interacting with mounted file systems.
-If there is a file called `hello.txt` in your volume mounted at
-`/mnt/sda`, then:
+The NuttX top-level pseudo-filesystem creates the [illusion]{.title-ref}
+of directories and provides a consistent, seamless semantic for
+interacting with mounted file systems. If there is a file called
+`hello.txt` in your volume mounted at `/mnt/sda`, then:
 
-`/mnt` - is a <span class="title-ref">node</span> in the
-pseudo-filesystem that does nothing but contain the name mnt and provide
-links to things <span class="title-ref">under</span> `mnt`.
+`/mnt` - is a [node]{.title-ref} in the pseudo-filesystem that does
+nothing but contain the name mnt and provide links to things
+[under]{.title-ref} `mnt`.
 
 `/mnt/sda` - This refers to a node that contains the name sda that can
-be found <span class="title-ref">under</span> the node with the name
-mnt. This node is a special <span class="title-ref">mountpoint
-node</span> in the pseudo-filesystem. It contains the methods needed to
-interact will real file system. Everything
-<span class="title-ref">below</span> `/mnt/sda` is in the physical
-media.
+be found [under]{.title-ref} the node with the name mnt. This node is a
+special [mountpoint node]{.title-ref} in the pseudo-filesystem. It
+contains the methods needed to interact will real file system.
+Everything [below]{.title-ref} `/mnt/sda` is in the physical media.
 
 `/mnt/sda/hello.txt` - This, then refers to the file `hello.txt` at the
 relative path `hello.txt` on the mounted media. The transition from the
 pseudo-filesystem to the real media is seamless.
 
 This is a little different from Linux: Linux always has to boot up with
-a <span class="title-ref">real</span> file system – even if it is only a
-initrd RAM disk. In Linux, these special files (links, drivers, pipes,
-etc.) reside on real media and can reside in any Linux-compatible
-filesystem.
+a [real]{.title-ref} file system -- even if it is only a initrd RAM
+disk. In Linux, these special files (links, drivers, pipes, etc.) reside
+on real media and can reside in any Linux-compatible filesystem.
 
-Normal `mkdir` can only work if there is a
-<span class="title-ref">real</span> filesystem at the location. There
-are no real directories in the pseudo-filesystem. The pseudo-filesystem
-does support <span class="title-ref">nodes</span> that look like
+Normal `mkdir` can only work if there is a [real]{.title-ref} filesystem
+at the location. There are no real directories in the pseudo-filesystem.
+The pseudo-filesystem does support [nodes]{.title-ref} that look like
 directories and have some of the properties of directories (like the
 node `/mnt` mentioned above). But this is really an illusion.
 
 If `CONFIG_DISABLE_PSEUDOFS_OPERATIONS` is not enabled, then NuttX adds
-the capability to create new, empty <span class="title-ref">nodes</span>
-in the pseudo-filesystem using `mkdir`, completing the illusion.
+the capability to create new, empty [nodes]{.title-ref} in the
+pseudo-filesystem using `mkdir`, completing the illusion.
 
 \[On the other hand, all directories are really an
-<span class="title-ref">illusion</span> in a way and I suppose that in
-that sense these nodes the pseudo-filesystem are just as
-<span class="title-ref">real</span> as any other directory.\]
+[illusion]{.title-ref} in a way and I suppose that in that sense these
+nodes the pseudo-filesystem are just as [real]{.title-ref} as any other
+directory.\]
 
 After you mount the SD card at `/mnt/sda`, then you can do:
 
-``` bash
+``` {.bash}
 mkdir /mnt/sda/newdir
 ```
 
@@ -189,18 +177,18 @@ That should work fine and should create a directory at the relative path
 
 There are a few other special NSH commands like mount that can change
 the pseudo-filesystem. Like `losetup`, `mkfifo`, `mkrd`, `umount`, etc.
-In fact, these commands <span class="title-ref">only</span> work in the
-pseudo-filesystem. Try them in `/mnt/sda`... they won't work.
+In fact, these commands [only]{.title-ref} work in the
+pseudo-filesystem. Try them in `/mnt/sda`\... they won\'t work.
 
-But none of the <span class="title-ref">normal</span> commands that
-modify files or directories will work in the pseudo-filesystem: `mkdir`,
-`mv`, `rm`, `rmdir`. These all require real media. They will not work in
-the pseudo-filesystem, but will work in `/mnt/sda`.
+But none of the [normal]{.title-ref} commands that modify files or
+directories will work in the pseudo-filesystem: `mkdir`, `mv`, `rm`,
+`rmdir`. These all require real media. They will not work in the
+pseudo-filesystem, but will work in `/mnt/sda`.
 
 And trying to pipe to something in the pseudo-filesystem will also fail.
 You cannot do this, for example:
 
-``` bash
+``` {.bash}
 NuttShell (NSH) NuttX-6.20
 nsh> cat "Hello, World!" >/hello.text
 nsh: cat: open failed: 22

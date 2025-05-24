@@ -1,10 +1,12 @@
-# Microchip pic32mz
+Microchip pic32mz
+=================
 
-## Microchip PIC32MZEF
+Microchip PIC32MZEF
+-------------------
 
 (MIPS M5150 architecture).
 
-A port is in available for the MikroElectronika [Flip\&Click
+A port is in available for the MikroElectronika [Flip&Click
 PIC32MZ](https://www.mikroe.com/flipclick-pic32mz) development board
 based on the PIC32MZ2048EFH100 MCU. This board configuration was added
 in NuttX-7.24 and is, for the most part, compatible with the PIC32MZEC
@@ -16,13 +18,13 @@ family.
 port simply from the PIC32MX; others require more extensive efforts.
 Driver status as of (2015-03-29) is provided below:
 
-  - I/O ports include I/O port interrupts
-  - UART serial driver that provides the NSH console,
-  - Timer,
-  - I2C (untested),
-  - SPI (untested),
-  - On-board buttons and LEDs,
-  - Ethernet (code complete, but not yet functional),
+-   I/O ports include I/O port interrupts
+-   UART serial driver that provides the NSH console,
+-   Timer,
+-   I2C (untested),
+-   SPI (untested),
+-   On-board buttons and LEDs,
+-   Ethernet (code complete, but not yet functional),
 
 **NuttX-7.29**. Abdelatif Guettouche contributed additional timer
 support including: Timer lower half driver, free-running, and one-shot
@@ -38,7 +40,8 @@ file for further information.
 
 **Development Environment:** Same as for the PIC32MZ.
 
-## Microchip PIC32MZEC
+Microchip PIC32MZEC
+-------------------
 
 PIC32MZEC Family (MIPS microAptiv). A port is in available for the
 PIC32MZ Embedded Connectivity (EC) Starter Kit. There are two

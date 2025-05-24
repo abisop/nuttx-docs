@@ -1,7 +1,4 @@
-# pinephonepro
-
-<div class="tags">
+pinephonepro
+============
 
 chip:rk3399
-
-</div>

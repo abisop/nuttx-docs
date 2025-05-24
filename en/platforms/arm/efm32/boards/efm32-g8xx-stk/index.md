@@ -1,1 +1,2 @@
-# efm32-g8xx-stk
+efm32-g8xx-stk
+==============

@@ -1,4 +1,5 @@
-# QEMU x86
+QEMU x86
+========
 
 **QEMU/Bifferboard i486**. This port uses the
 [QEMU](http://wiki.qemu.org/Main_Page) i486 and the native Linux,
@@ -10,10 +11,11 @@ examples under QEMU. The port is reported to be functional on the
 [Bifferboard](http://bifferos.bizhat.com) as well. In NuttX 7.1,
 Lizhuoyi contributed additional keyboard and VGA drivers. This is a
 great, stable starting point for anyone interested in fleshing out the
-x86 port\! Refer to the NuttX
+x86 port! Refer to the NuttX
 [README](https://github.com/apache/nuttx/blob/master/Documentation/platforms/x86/qemu/boards/qemu-i486/README.txt)
 file for further information.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

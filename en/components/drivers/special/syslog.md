@@ -1,6 +1,8 @@
-# SYSLOG
+SYSLOG
+======
 
-## SYSLOG Interfaces
+SYSLOG Interfaces
+-----------------
 
 ### Standard SYSLOG Interfaces
 
@@ -10,9 +12,7 @@ the header file `include/syslog.h`. The primary interface to SYSLOG
 sub-system is the function `syslog()` and, to a lesser extent, its
 companion `vsyslog()`:
 
-<div class="c">
-
-function:: int syslog(int priority, FAR const IPTR char \*format, ...);
+function:: int syslog(int priority, FAR const IPTR char \*format, \...);
 
 Generates a log message. The priority argument is formed by ORing the
 facility and the level values (see `include/syslog.h`). The remaining
@@ -22,20 +22,12 @@ format.
 The NuttX implementation does not support any special formatting
 characters beyond those supported by `printf()`.
 
-</div>
-
-<div class="c">
-
 function:: void vsyslog(int priority, FAR const IPTR char \*src,
 va\_list ap);
 
-Performs the same task as :c`syslog` with the difference that it takes a
-set of arguments which have been obtained using the `stdarg` variable
-argument list macros.
-
-</div>
-
-<div class="c">
+Performs the same task as :c`syslog`{.interpreted-text role="func"} with
+the difference that it takes a set of arguments which have been obtained
+using the `stdarg` variable argument list macros.
 
 function:: int setlogmask(int mask);
 
@@ -49,35 +41,25 @@ bit corresponding to a priority `p` is `LOG_MASK(p)`; `LOG_UPTO(p)`
 provides the mask of all priorities in the above list up to and
 including `p`.
 
-Per *OpenGroup.org* "If the `maskpri` argument is 0, the current log
-mask is not modified." In this implementation, the value zero is
+Per *OpenGroup.org* \"If the `maskpri` argument is 0, the current log
+mask is not modified.\" In this implementation, the value zero is
 permitted in order to disable all SYSLOG levels.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 REVISIT: Per POSIX the SYSLOG mask should be a per-process value but in
 NuttX, the scope of the mask is dependent on the nature of the build:
 
-  - *Flat Build*: There is one, global SYSLOG mask that controls all
+-   *Flat Build*: There is one, global SYSLOG mask that controls all
     output.
-  - *Protected Build*: There are two SYSLOG masks. One within the kernel
+-   *Protected Build*: There are two SYSLOG masks. One within the kernel
     that controls only kernel output. And one in user-space that
     controls only user SYSLOG output.
-  - *Kernel Build*: The kernel build is compliant with the POSIX
+-   *Kernel Build*: The kernel build is compliant with the POSIX
     requirement: There will be one mask for for each user process,
     controlling the SYSLOG output only form that process. There will be
     a separate mask accessible only in the kernel code to control kernel
     SYSLOG output.
-
-</div>
-
-</div>
 
 The above are all standard interfaces as defined at
 [OpenGroup.org](http://pubs.opengroup.org/onlinepubs/009695399/functions/closelog.html).
@@ -93,11 +75,11 @@ therefore, the debugging interface macros defined in the header file
 simply wrappers around `syslog()`. The debugging interfaces differ from
 the syslog interfaces in that:
 
->   - They do not take a priority parameter; the priority is inherent in
+> -   They do not take a priority parameter; the priority is inherent in
 >     the debug macro name.
->   - They decorate the output stream with information such as the file
+> -   They decorate the output stream with information such as the file
 >     name
->   - They can each be disabled via configuration options.
+> -   They can each be disabled via configuration options.
 
 Each debug macro has a base name that represents the priority and a
 prefix that represents the sub-system. Each macro is individually
@@ -108,26 +90,27 @@ enabled with `CONFIG_DEBUG_USB_ERROR`.
 The base debug macro names, their priority, and configuration variable
 are summarized below:
 
-  - `info()`. The `info()` macro is the lowest priority (`LOG_INFO`) and
+-   `info()`. The `info()` macro is the lowest priority (`LOG_INFO`) and
     is intended to provide general information about the flow of program
     execution so that you can get an overview of the behavior of the
     program. `info()` is often very chatty and voluminous and usually
     more information than you may want to see. The `info()` macro is
     controlled via CONFIG\_DEBUG\_subsystem\_INFO
-  - `warn()`. The `warn()` macro has medium priority (`LOG_WARN`) and is
+-   `warn()`. The `warn()` macro has medium priority (`LOG_WARN`) and is
     controlled by `CONFIG_DEBUG_subsystem_WARN`. The `warn()` is
     intended to note exceptional or unexpected conditions that might be
     potential errors or, perhaps, minor errors that easily recovered.
-  - `err()`. This is a high priority debug macro (`LOG_ERROR`) and
+-   `err()`. This is a high priority debug macro (`LOG_ERROR`) and
     controlled by `CONFIG_DEBUG_subsystem_ERROR`. The `err()` is
     reserved to indicate important error conditions.
-  - `alert()`. The highest priority debug macro (`LOG_EMERG`) and is
+-   `alert()`. The highest priority debug macro (`LOG_EMERG`) and is
     controlled by `CONFIG_DEBUG_ALERT`. The `alert()` macro is reserved
     for use solely by assertion and crash handling logic. It also
     differs from the other macros in that it cannot be enabled or
     disabled per subsystem.
 
-## SYSLOG Channels
+SYSLOG Channels
+---------------
 
 ### SYSLOG Channel Interfaces
 
@@ -136,7 +119,7 @@ supports the SYSLOG output is referred to as a SYSLOG *channel*. Each
 SYSLOG channel is represented by an interface defined in
 `include/nuttx/syslog/syslog.h`:
 
-``` c
+``` {.c}
 /* This structure provides the interface to a SYSLOG device */
 
 typedef CODE int (*syslog_putc_t)(int ch);
@@ -155,7 +138,7 @@ struct syslog_channel_s
 ```
 
 The channel interface is instantiated by calling
-:c`syslog_channel_register()`.
+:c`syslog_channel_register()`{.interpreted-text role="func"}.
 
 ### SYSLOG Channel Initialization
 
@@ -165,17 +148,17 @@ available immediately upon reset. This initialized data is in the file
 `drivers/syslog/syslog_channel.c`. The initial SYSLOG capability is
 determined by the selected SYSLOG channel:
 
-  - *In-Memory Buffer (RAMLOG)*. Full SYSLOG capability as available at
+-   *In-Memory Buffer (RAMLOG)*. Full SYSLOG capability as available at
     reset.
-  - *Serial Console*. If the serial implementation provides the
+-   *Serial Console*. If the serial implementation provides the
     low-level character output function `up_putc()`, then that low level
     serial output is available as soon as the serial device has been
     configured.
-  - For all other SYSLOG channels, all SYSLOG output goes to the bit-
+-   For all other SYSLOG channels, all SYSLOG output goes to the bit-
     bucket until the SYSLOG channel device has been initialized.
 
 The syslog channel device is initialized when the bring-up logic calls
-:c`syslog_initialize()`.
+:c`syslog_initialize()`{.interpreted-text role="func"}.
 
 Different types of SYSLOG devices have different OS initialization
 requirements. Some are available immediately at reset, some are
@@ -195,15 +178,15 @@ syslog to open or close the specified channel at runtime.
 You can control SYSLOG channels by using the ioctl command in NuttX with
 either the SYSLOGIOC\_GETCHANNELS or SYSLOGIOC\_SETFILTER.
 
-  - `SYSLOGIOC_GETCHANNELS`. This command can get a list of all channels
-  - `SYSLOGIOC_SETFILTER`. This command enables/disables the specified
+-   `SYSLOGIOC_GETCHANNELS`. This command can get a list of all channels
+-   `SYSLOGIOC_SETFILTER`. This command enables/disables the specified
     channel.
 
 In nsh, you can view/set the syslog channel status through the
 setlogmask command.
 
-  - `setlogmask list`. Print all channel status
-  - `setlogmask <enable/disable> <channel>`. Enable or disable the
+-   `setlogmask list`. Print all channel status
+-   `setlogmask <enable/disable> <channel>`. Enable or disable the
     specified channel.
 
 ### Interrupt Level SYSLOG Output
@@ -216,41 +199,41 @@ often where the most critical operations are performed.
 There are three conditions under which SYSLOG output generated from
 interrupt level processing can a included the SYSLOG output stream:
 
-> 1.  **Low-Level Serial Output**. If you are using the "default" SYSLOG
->     channel (`CONFIG_SYSLOG_DEFAULT`) and if the underlying
+> 1.  **Low-Level Serial Output**. If you are using the \"default\"
+>     SYSLOG channel (`CONFIG_SYSLOG_DEFAULT`) and if the underlying
 >     architecture supports the low-level `up_putc()`
 >     interface(`CONFIG_ARCH_LOWPUTC`), then the SYSLOG logic will
 >     direct the output to `up_putc()` which is capable of generating
 >     the serial output within the context of an interrupt handler.
->     
+>
 >     There are a few issues in doing this however:
->     
->       - `up_putc()` is able to generate debug output in any context
+>
+>     -   `up_putc()` is able to generate debug output in any context
 >         because it disables serial interrupts and polls the hardware
 >         directly. These polls may take many milliseconds and during
 >         that time, all interrupts are disable within the interrupt
 >         handler. This, of course, interferes with the real-time
 >         behavior of the RTOS.
->       - The output generated by `up_putc()` is immediate and in
+>     -   The output generated by `up_putc()` is immediate and in
 >         real-time. The normal SYSLOG output, on the other hand, is
 >         buffered in the serial driver and may be delayed with respect
 >         to the immediate output by many lines. Therefore, the
 >         interrupt level SYSLOG output provided through `up_putc()` is
 >         grossly out of synchronization with other debug output
-> 
+>
 > 2.  **In-Memory Buffering**. If the RAMLOG SYSLOG channel is
 >     supported, then all SYSLOG output is buffered in memory. Interrupt
 >     level SYSLOG output is no different than normal SYSLOG output in
 >     this case.
-> 
+>
 > 3.  **Serialization Buffer**. A final option is the use of an
 >     *interrupt buffer* to buffer the interrupt level SYSLOG output. In
 >     this case:
->     
->       - SYSLOG output generated from interrupt level process in not
+>
+>     -   SYSLOG output generated from interrupt level process in not
 >         sent to the SYSLOG channel immediately. Rather, it is buffered
 >         in the interrupt serialization buffer.
->       - Later, when the next normal syslog output is generated, it
+>     -   Later, when the next normal syslog output is generated, it
 >         will first empty the content of the interrupt buffer to the
 >         SYSLOG device in the proper context. It will then be followed
 >         by the normal syslog output. In this case, the interrupt level
@@ -263,7 +246,8 @@ The SYSLOG interrupt buffer is enabled with `CONFIG_SYSLOG_INTBUFFER`.
 When the interrupt buffer is enabled, you must also provide the size of
 the interrupt buffer with `CONFIG_SYSLOG_INTBUFSIZE`.
 
-## SYSLOG Channel Options
+SYSLOG Channel Options
+----------------------
 
 ### SYSLOG Console Device
 
@@ -275,17 +259,17 @@ This SYSLOG channel is automatically selected by `syslog_initialize()`
 in the LATE initialization phase based on configuration options. The
 configuration options that affect this channel selection include:
 
->   - `CONFIG_DEV_CONSOLE`. This setting indicates that the system
+> -   `CONFIG_DEV_CONSOLE`. This setting indicates that the system
 >     supports a console device, i.e., that the character device
 >     `/dev/console` exists.
->   - `CONFIG_SERIAL_CONSOLE`. This configuration option is
+> -   `CONFIG_SERIAL_CONSOLE`. This configuration option is
 >     automatically selected when a UART or USART is configured as the
 >     system console. There is no user selection.
->   - `CONFIG_SYSLOG_CONSOLE`. This configuration option is manually
+> -   `CONFIG_SYSLOG_CONSOLE`. This configuration option is manually
 >     selected from the SYSLOG menu. This is the option that actually
 >     enables the SYSLOG console device. It depends on
 >     `CONFIG_DEV_CONSOLE`.
->   - `CONFIG_ARCH_LOWPUTC`. This is an indication from the architecture
+> -   `CONFIG_ARCH_LOWPUTC`. This is an indication from the architecture
 >     configuration that the platform supports the `up_putc()`
 >     interface. `up_putc()` is a very low level UART interface that can
 >     even be used from interrupt handling.
@@ -294,13 +278,7 @@ Interrupt level SYSLOG output will be lost unless: (1) the interrupt
 buffer is enabled to support serialization, or (2) a serial console is
 used and `up_putc()` is supported.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 The console channel uses the fixed character device at `/dev/console`.
 The console channel is not synonymous with `stdout` (or file descriptor
@@ -308,12 +286,10 @@ The console channel is not synonymous with `stdout` (or file descriptor
 used. Initially, `stdout` does, indeed, use the `/dev/console` device.
 However, `stdout` may subsequently be redirected to some other device or
 file. This is always the case, for example, when a transient device is
-used for a console -- such as a USB console or a Telnet console. The
+used for a console \-- such as a USB console or a Telnet console. The
 SYSLOG channel is not redirected as `stdout` is; the SYSLOG channel will
 stayed fixed (unless it is explicitly changed via
 `syslog_channel_register()`).
-
-</div>
 
 References: `drivers/syslog/syslog_consolechannel.c` and
 `drivers/syslog/syslog_device.c`
@@ -331,9 +307,9 @@ This SYSLOG device channel is selected with `CONFIG_SYSLOG_CHAR` and has
 no other dependencies. Differences from the SYSLOG console channel
 include:
 
->   - `CONFIG_SYSLOG_DEVPATH`. This configuration option string must be
+> -   `CONFIG_SYSLOG_DEVPATH`. This configuration option string must be
 >     set provide the full path to the character device to be used.
->   - The forced SYSLOG output always goes to the bit-bucket. This means
+> -   The forced SYSLOG output always goes to the bit-bucket. This means
 >     that interrupt level SYSLOG output will be lost unless the
 >     interrupt buffer is enabled to support serialization.
 
@@ -361,12 +337,13 @@ that can be used to configure the RAMLOG as a SYSLOG channel. The RAMLOG
 functionality is described in a more general way in the following
 paragraphs.
 
-## RAM Logging Device
+RAM Logging Device
+------------------
 
 The RAM logging driver is a driver that was intended to support
 debugging output (SYSLOG) when the normal serial output is not
 available. For example, if you are using a Telnet or USB serial console,
-the debug output will get lost -- or worse. For example, what if you
+the debug output will get lost \-- or worse. For example, what if you
 want to debug the network over Telnet? The RAM logging driver can also
 accept debug output data from interrupt handler with no special
 serialization buffering. As an added benefit, the RAM logging driver is
@@ -389,26 +366,26 @@ circular buffer to the console (and also clear the circular buffer).
 
 ### RAMLOG Configuration options
 
-  - `CONFIG_RAMLOG`: Enables the RAM logging feature
-  - `CONFIG_RAMLOG_SYSLOG`: Use the RAM logging device for the SYSLOG
+-   `CONFIG_RAMLOG`: Enables the RAM logging feature
+-   `CONFIG_RAMLOG_SYSLOG`: Use the RAM logging device for the SYSLOG
     interface. If this feature is enabled, then all debug output will be
     re-directed to the circular buffer in RAM. This RAM log can be
     viewed from NSH using the `dmesg` command. NOTE: Unlike the limited,
     generic character driver SYSLOG device, the RAMLOG *can* be used to
     capture debug output from interrupt level handlers.
-  - `CONFIG_RAMLOG_NPOLLWAITERS`: The number of threads than can be
+-   `CONFIG_RAMLOG_NPOLLWAITERS`: The number of threads than can be
     waiting for this driver on `poll()`. Default: 4
-  - `CONFIG_RAMLOG_BUFSIZE`: The size of the circular buffer to use.
+-   `CONFIG_RAMLOG_BUFSIZE`: The size of the circular buffer to use.
     Default: 1024 bytes.
 
 Other miscellaneous settings
 
-  - `CONFIG_RAMLOG_CRLF`: Prepend a carriage return before every
+-   `CONFIG_RAMLOG_CRLF`: Prepend a carriage return before every
     linefeed that goes into the RAM log.
-  - `CONFIG_RAMLOG_NONBLOCKING`: Reading from the RAMLOG will never
+-   `CONFIG_RAMLOG_NONBLOCKING`: Reading from the RAMLOG will never
     block if the RAMLOG is empty. If the RAMLOG is empty, then zero is
     returned (usually interpreted as end-of-file). If you do not define
-    this, the NSH `dmesg` command will lock up when called\! So you
-    probably do want this\!
-  - `CONFIG_RAMLOG_NPOLLWAITERS`: The maximum number of threads that may
+    this, the NSH `dmesg` command will lock up when called! So you
+    probably do want this!
+-   `CONFIG_RAMLOG_NPOLLWAITERS`: The maximum number of threads that may
     be waiting on the poll method.

@@ -1,6 +1,8 @@
-# NXP/FreeScale KLxx
+NXP/FreeScale KLxx
+==================
 
-## NXP/FreeScale KL25Z
+NXP/FreeScale KL25Z
+-------------------
 
 There are two board ports for the KL25Z parts:
 
@@ -17,7 +19,8 @@ comes with a USB based bootloader. See the
 [Freescale](http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=FRDM-KL25Z&tid=vanFRDM-KL25Z)
 website for further information about this board.
 
-## NXP/FreeScale KL26Z
+NXP/FreeScale KL26Z
+-------------------
 
 This is a port of NuttX to the Freedom KL25Z board that features the
 MK26Z128VLH4 Cortex-M0+ MCU, 128KB of FLASH and 16KB of SRAM. See the

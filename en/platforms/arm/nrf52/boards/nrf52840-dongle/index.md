@@ -1,37 +1,37 @@
-# nRF52840-dongle
-
-<div class="tags">
+nRF52840-dongle
+===============
 
 chip:nrf52, chip:nrf52840
-
-</div>
 
 The [nRF52840-dongle
 (PCA10059)](https://www.nordicsemi.com/Products/Development-hardware/nrf52840-dongle)
 is a a small, low-cost USB dongle based on nRF52840 from Nordic.
 
-## Serial Console
+Serial Console
+--------------
 
-| Pin   | Signal  | Notes                 |
-| ----- | ------- | --------------------- |
-| P0.15 | UART TX | edge soldering points |
-| P0.13 | UART RX | edge soldering points |
+  Pin     Signal    Notes
+  ------- --------- -----------------------
+  P0.15   UART TX   edge soldering points
+  P0.13   UART RX   edge soldering points
 
-## LEDs and Buttons
+LEDs and Buttons
+----------------
 
 ### LEDs
 
-| LED  | MCU   |
-| ---- | ----- |
-| LED1 | P0.06 |
+  LED    MCU
+  ------ -------
+  LED1   P0.06
 
 ### Pushbuttons
 
-| BUTTON  | MCU   |
-| ------- | ----- |
-| BUTTON1 | P1.06 |
+  BUTTON    MCU
+  --------- -------
+  BUTTON1   P1.06
 
-## Configurations
+Configurations
+--------------
 
 Each configuration is maintained in a sub-directory and can be selected
 as follow:
@@ -50,6 +50,7 @@ soldering points, at 115200 bps).
 Basic NuttShell configuration (CDCACM console enabled in USB Port, at
 115200 bps).
 
-## Flash & Debug
+Flash & Debug
+-------------
 
 Both flashing and debuing is possible only with an external debug probe.

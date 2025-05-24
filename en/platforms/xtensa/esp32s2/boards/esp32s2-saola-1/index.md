@@ -1,43 +1,43 @@
-# ESP32-S2-Saola-1
-
-<div class="tags">
+ESP32-S2-Saola-1
+================
 
 chip:esp32, chip:esp32s2
-
-</div>
 
 The
 [ESP32-S2-Saola-1](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-saola-1-v1.2.html)
 is a development board for the ESP32-S2 SoC from Espressif, based on the
 following modules:
 
->   - ESP32-S2-WROVER
->   - ESP32-S2-WROVER-I
->   - ESP32-S2-WROOM
->   - ESP32-S2-WROOM-I
+> -   ESP32-S2-WROVER
+> -   ESP32-S2-WROVER-I
+> -   ESP32-S2-WROOM
+> -   ESP32-S2-WROOM-I
 
 In this guide, we take ESP32-S2-Saola-1 equipped with ESP32-S2-WROVER as
 an example.
 
-![ESP32-S2-Saola-1](esp32-s2-saola-1-v1.2-isometric.png)
+![ESP32-S2-Saola-1](esp32-s2-saola-1-v1.2-isometric.png){.align-center}
 
-## Features
+Features
+--------
 
->   - ESP32-S2-WROVER
->       - 4 MB external SPI flash + 2 MB PSRAM
->   - USB-to-UART bridge via micro USB port
->   - Power LED
->   - EN and BOOT buttons
->   - RGB LED (Addressable RGB LED (WS2812), driven by GPIO18)
+> -   ESP32-S2-WROVER
+>     -   4 MB external SPI flash + 2 MB PSRAM
+> -   USB-to-UART bridge via micro USB port
+> -   Power LED
+> -   EN and BOOT buttons
+> -   RGB LED (Addressable RGB LED (WS2812), driven by GPIO18)
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CP2102 converter and is available on the micro-USB connector (J1).
 
 It will show up as /dev/ttyUSB\[n\] where \[n\] will probably be 0.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -56,61 +56,55 @@ There are two on-board LEDs. RED\_LED (D5) indicates the presence of
 3.3V power and is not controlled by software. RGB LED (U6) is a WS2812
 addressable LED and is driven by GPIO18.
 
-## I2S
+I2S
+---
 
 ESP32-S2 has an I2S peripheral accessible using either the generic I2S
 audio driver or a specific audio codec driver
 ([CS4344](https://www.cirrus.com/products/cs4344-45-48/) bindings are
 available at the moment). The generic I2S audio driver enables using
 both the receiver module (RX) and the transmitter module (TX) without
-using any specific codec. Also, it's possible to use the I2S character
+using any specific codec. Also, it\'s possible to use the I2S character
 device driver to bypass the audio subsystem and write directly to the
 I2S peripheral.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 When using the audio system, sample rate and data width are
 automatically set by the upper half audio driver.
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
 The above statement is not valid when using the I2S character device
-driver. It's possible to use 8, 16, 24, and 32-bit-widths writing
+driver. It\'s possible to use 8, 16, 24, and 32-bit-widths writing
 directly to the I2S character device. Just make sure to set the
 bit-width:
 
      make menuconfig
 
-  - \-\> System Type
-    
-      - \-\> ESP32-S2 Peripheral Selection
-        
-          - \-\> I2S  
-            \-\> Bit Width
+-\> System Type
 
-</div>
+:   
 
-  - The following configurations use the I2S peripheral::
-    
-      - `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:audio`
-      - `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:i2schar`
-      - `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:nxlooper`
+    -\> ESP32-S2 Peripheral Selection
 
-## Configurations
+    :   
+
+        -\> I2S
+
+        :   -\> Bit Width
+
+The following configurations use the I2S peripheral::
+
+:   -   `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:audio`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:i2schar`{.interpreted-text
+        role="ref"}
+    -   `platforms/xtensa/esp32s2/boards/esp32s2-saola-1/index:nxlooper`{.interpreted-text
+        role="ref"}
+
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -119,8 +113,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### adc
 
@@ -156,12 +150,12 @@ to allow that.
 
 The CS4344 audio codec is connected to the following pins:
 
-| ESP32-S2 Pin | CS4344 Pin | Description                               |
-| ------------ | ---------- | ----------------------------------------- |
-| 33           | MCLK       | Master Clock                              |
-| 35           | SCLK       | Serial Clock                              |
-| 34           | LRCK       | Left Right Clock (Word Select)            |
-| 36           | SDIN       | Serial Data In on CS4344. (DOUT on ESP32) |
+  ESP32-S2 Pin   CS4344 Pin   Description
+  -------------- ------------ -------------------------------------------
+  33             MCLK         Master Clock
+  35             SCLK         Serial Clock
+  34             LRCK         Left Right Clock (Word Select)
+  36             SDIN         Serial Data In on CS4344. (DOUT on ESP32)
 
 **ROMFS example**
 
@@ -173,18 +167,11 @@ This will create a temporary folder in `apps/examples/romfs/testdir`.
 Move a PCM-encoded (`.wav`) audio file with 16 or 24 bits/sample
 (sampled at 16\~48kHz) to this folder.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-You can use `this 440 Hz sinusoidal tone <tone.wav>`. The audio file
-should be located at `apps/examples/romfs/testdir/tone.wav`
-
-</div>
+You can use `this 440 Hz sinusoidal tone <tone.wav>`{.interpreted-text
+role="download"}. The audio file should be located at
+`apps/examples/romfs/testdir/tone.wav`
 
 Build the project again and flash it (make sure not to clean it, just
 build)
@@ -217,18 +204,10 @@ maximum number of cores for this system. It also enables some
 optimization flags and disables the NuttShell to get the best possible
 score.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the NSH is disabled, the application will start as soon as the system
 is turned on.
-
-</div>
 
 ### cxx
 
@@ -271,11 +250,10 @@ can scan for all I2C devices using the following command:
     nsh> i2c dev 0x00 0x7f
 
 To use slave mode, you can enable
-<span class="title-ref">ESP32S2\_I2S\_ROLE\_SLAVE</span> option. To use
-slave mode driver following snippet demonstrates how write to i2c bus
-using slave driver:
+[ESP32S2\_I2S\_ROLE\_SLAVE]{.title-ref} option. To use slave mode driver
+following snippet demonstrates how write to i2c bus using slave driver:
 
-``` C
+``` {.C}
 #define ESP_I2C_SLAVE_PATH  "/dev/i2cslv0"
 int main(int argc, char *argv[])
   {
@@ -296,15 +274,15 @@ peripheral, enabling both the TX and the RX for those peripherals.
 
 **I2S pinout**
 
-| ESP32-S2 Pin | Signal Pin | Description         |
-| ------------ | ---------- | ------------------- |
-| 33           | MCLK       | Master Clock        |
-| 35           | SCLK       | Bit Clock (SCLK)    |
-| 34           | LRCK       | Word Select (LRCLK) |
-| 36           | DOUT       | Data Out            |
-| 37           | DIN        | Data In             |
+  ESP32-S2 Pin   Signal Pin   Description
+  -------------- ------------ ---------------------
+  33             MCLK         Master Clock
+  35             SCLK         Bit Clock (SCLK)
+  34             LRCK         Word Select (LRCLK)
+  36             DOUT         Data Out
+  37             DIN          Data In
 
-After successfully built and flashed, run on the boards's terminal:
+After successfully built and flashed, run on the boards\'s terminal:
 
     nsh> i2schar
 
@@ -333,30 +311,22 @@ using the RX module and reproduce the captured data on the TX module.
 The I2S will act as a receiver (master mode), capturing data from DIN,
 which needs to be connected to an external source as follows:
 
-| ESP32-S2 Pin | Signal Pin | Description                |
-| ------------ | ---------- | -------------------------- |
-| 33           | MCLK       | Master Clock               |
-| 35           | SCLK       | Bit Clock (SCLK) Output    |
-| 34           | LRCK       | Word Select (LRCLK) Output |
-| 36           | DOUT       | Data Out                   |
-| 37           | DIN        | Data In                    |
+  ESP32-S2 Pin   Signal Pin   Description
+  -------------- ------------ ----------------------------
+  33             MCLK         Master Clock
+  35             SCLK         Bit Clock (SCLK) Output
+  34             LRCK         Word Select (LRCLK) Output
+  36             DOUT         Data Out
+  37             DIN          Data In
 
 The DOUT pin will output the captured data frame.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
 The ESP32-S2 contains a single I2S peripheral, so the peripheral works
-on "full-duplex" mode. The <span class="title-ref">SCLK</span> and
-<span class="title-ref">LRCK</span> signals are connected internally and
-the TX module is set-up as slave and the RX as master.
-
-</div>
+on \"full-duplex\" mode. The [SCLK]{.title-ref} and [LRCK]{.title-ref}
+signals are connected internally and the TX module is set-up as slave
+and the RX as master.
 
 **nxlooper**
 
@@ -364,18 +334,12 @@ The `nxlooper` application captures data from the audio device with
 receiving capabilities and forwards the audio data frame to the audio
 device with transmitting capabilities.
 
-After successfully built and flashed, run on the boards's terminal:
+After successfully built and flashed, run on the boards\'s terminal:
 
     nsh> nxlooper
     nxlooper> loopback
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 `loopback` command default arguments for the channel configuration, the
 data width and the sample rate are, respectively, 2 channels, 16
@@ -383,8 +347,6 @@ bits/sample and 48KHz. These arguments can be supplied to select
 different audio formats, for instance:
 
 nxlooper\> loopback 2 8 44100
-
-</div>
 
 ### oneshot
 
@@ -403,7 +365,7 @@ ESP32-S2. To test it, just run the `oneshot` example:
 This is the NuttX test at apps/testing/ostest that is run against all
 new architecture ports to assure a correct implementation of the OS.
 
-qencoder ---
+qencoder \-\--
 
 This configuration demonstrates the use of Quadrature Encoder connected
 to pins GPIO10 and GPIO11. You can start measurement of pulses using the
@@ -423,7 +385,7 @@ to GPIO2. To test it, just execute the `pwm` application:
 
 ### random
 
-This configuration shows the use of the ESP32-S2's True Random Number
+This configuration shows the use of the ESP32-S2\'s True Random Number
 Generator with entropy sourced from Wi-Fi and Bluetooth noise. To test
 it, just run `rand` to get 32 randomly generated bytes:
 
@@ -443,7 +405,7 @@ in the ESP-IDF documentation. The minimal data unit in the frame is
 called the RMT symbol, which is represented by `rmt_item32_t` in the
 driver:
 
-![](rmt_symbol.png)
+![](rmt_symbol.png){.align-center}
 
 The example `rmtchar` can be used to test the RMT peripheral. Connecting
 these pins externally to each other will make the transmitter send RMT
@@ -495,9 +457,9 @@ Where x in the timer instance.
 This configuration enables the support for the TWAI (Two-Wire Automotive
 Interface) driver. You can test it by connecting TWAI RX and TWAI TX
 pins which are GPIO0 and GPIO2 by default to a external transceiver or
-connecting TWAI RX to TWAI TX pin by enabling the `Device Drivers -> CAN
-Driver Support -> CAN loopback mode` option and running the `can`
-example:
+connecting TWAI RX to TWAI TX pin by enabling the
+`Device Drivers -> CAN Driver Support -> CAN loopback mode` option and
+running the `can` example:
 
     nsh> can
     nmsgs: 0
@@ -523,7 +485,6 @@ Where x is the watchdog instance.
 
 To test the XTWDT(/dev/watchdog3) an interrupt handler needs to be
 implemented because XTWDT does not have system reset feature. To
-implement an interrupt handler
-<span class="title-ref">WDIOC\_CAPTURE</span> command can be used. When
-interrupt rises, XTAL32K clock can be restored with
-<span class="title-ref">WDIOC\_RSTCLK</span> command.
+implement an interrupt handler [WDIOC\_CAPTURE]{.title-ref} command can
+be used. When interrupt rises, XTAL32K clock can be restored with
+[WDIOC\_RSTCLK]{.title-ref} command.

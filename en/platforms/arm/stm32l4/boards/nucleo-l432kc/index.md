@@ -1,10 +1,7 @@
-# ST Nucleo L432KC
-
-<div class="tags">
+ST Nucleo L432KC
+================
 
 chip:stm32, chip:stm32l4, chip:stm32l432
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the ST
 Nucleo-l432kc board from ST Micro. See
@@ -13,29 +10,29 @@ Nucleo-l432kc board from ST Micro. See
 
 NucleoL432KC:
 
-  - Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L432KCU6
-  - Memory: 256 KB Flash and 64 KB SRAM
-  - ADC: 1×12-bit, 5 MSPS A/D converter: up to 10 channels
-  - DMA: 16-stream DMA controllers with FIFOs and burst support
-  - Timers: Up to 11 timers: up to five 16-bit, one 32-bit, two
+-   Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L432KCU6
+-   Memory: 256 KB Flash and 64 KB SRAM
+-   ADC: 1×12-bit, 5 MSPS A/D converter: up to 10 channels
+-   DMA: 16-stream DMA controllers with FIFOs and burst support
+-   Timers: Up to 11 timers: up to five 16-bit, one 32-bit, two
     low-power 16 bit timers, two watchdog timers, and a SysTick timer
-  - GPIO: Up to 26 I/O ports with interrupt capability, most 5v tolerant
-  - I2C: Up to 2 × I2C interfaces
-  - USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
-  - SPIs: Up to 2 SPIs
-  - SAIs: 1 dual-channel audio interface
-  - CAN interface
-  - QSPI interface
-  - USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
-  - CRC calculation unit
-  - RTC
+-   GPIO: Up to 26 I/O ports with interrupt capability, most 5v tolerant
+-   I2C: Up to 2 × I2C interfaces
+-   USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
+-   SPIs: Up to 2 SPIs
+-   SAIs: 1 dual-channel audio interface
+-   CAN interface
+-   QSPI interface
+-   USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
+-   CRC calculation unit
+-   RTC
 
 Board features:
 
-  - Peripherals: 1 led
-  - Debug: Serial wire debug and JTAG interfaces via on-board micro-usb
+-   Peripherals: 1 led
+-   Debug: Serial wire debug and JTAG interfaces via on-board micro-usb
     stlink v2.1
-  - Expansion I/F Arduino Nano Headers
+-   Expansion I/F Arduino Nano Headers
 
 Uses a STM32F103 to provide a ST-Link for programming, debug similar to
 the OpenOcd FTDI function - USB to JTAG front-end.
@@ -43,13 +40,15 @@ the OpenOcd FTDI function - USB to JTAG front-end.
 See <http://mbed.org/platforms/ST-Nucleo-L432KC> for more information
 about these boards.
 
-## Development Environment
+Development Environment
+-----------------------
 
 Either Linux or Cygwin on Windows can be used for the development
 environment. The source has been built only using the GNU toolchain (see
 below). Other toolchains will likely cause problems.
 
-## GNU Toolchain Options
+GNU Toolchain Options
+---------------------
 
 ### Toolchain Configurations
 
@@ -65,18 +64,19 @@ configuration. As an example:
 
     CONFIG_ARM_TOOLCHAIN_GNU_EABI : Generic arm-none-eabi toolchain
 
-## IDEs
+IDEs
+----
 
 NuttX is built using command-line make. It can be used with an IDE, but
 some effort will be required to create the project.
 
 ### Makefile Build
 
-Under Eclipse, it is pretty easy to set up an "empty makefile project"
+Under Eclipse, it is pretty easy to set up an \"empty makefile project\"
 and simply use the NuttX makefile to build the system. That is almost
-for free under Linux. Under Windows, you will need to set up the "Cygwin
-GCC" empty makefile project in order to work with Windows (Google for
-"Eclipse Cygwin" -there is a lot of help on the internet).
+for free under Linux. Under Windows, you will need to set up the
+\"Cygwin GCC\" empty makefile project in order to work with Windows
+(Google for \"Eclipse Cygwin\" -there is a lot of help on the internet).
 
 Using Sourcery CodeBench from
 <http://www.mentor.com/embedded-software/sourcery-tools/sourcery-codebench/overview>
@@ -108,7 +108,8 @@ file is arch/arm/src/stm32/stm32\_vectors.S. With RIDE, I have to build
 NuttX one time from the Cygwin command line in order to obtain the
 pre-built startup object needed by RIDE.
 
-## NuttX EABI "buildroot" Toolchain
+NuttX EABI \"buildroot\" Toolchain
+----------------------------------
 
 A GNU GCC-based toolchain is assumed. The PATH environment variable
 should be modified to point to the correct path to the Cortex-M3 GCC
@@ -120,7 +121,7 @@ Bitbucket download site
 builds and executes in the Linux or Cygwin environment.
 
 1.  You must have already configured NuttX in \<some-dir\>/nuttx.:
-    
+
          tools/configure.sh nucleo-l432kc:nsh
          make qconfig
          V=1 make context all 2>&1 | tee mout
@@ -147,16 +148,17 @@ more details PLUS some special instructions that you will need to follow
 if you are building a Cortex-M3 toolchain for Cygwin under Windows.
 
 NOTE: Unfortunately, the 4.6.3 EABI toolchain is not compatible with the
-the NXFLAT tools. See the top-level TODO file (under "Binary loaders")
+the NXFLAT tools. See the top-level TODO file (under \"Binary loaders\")
 for more information about this problem. If you plan to use NXFLAT,
 please do not use the GCC 4.6.3 EABI toolchain; instead use the GCC
 4.3.3 EABI toolchain.
 
-## NXFLAT Toolchain
+NXFLAT Toolchain
+----------------
 
 If you are *not* using the NuttX buildroot toolchain and you want to use
 the NXFLAT tools, then you will still have to build a portion of the
-buildroot tools -- just the NXFLAT tools. The buildroot with the NXFLAT
+buildroot tools \-- just the NXFLAT tools. The buildroot with the NXFLAT
 tools can be downloaded from the NuttX Bitbucket download site
 (<https://bitbucket.org/nuttx/nuttx/downloads/>).
 
@@ -164,7 +166,7 @@ This GNU toolchain builds and executes in the Linux or Cygwin
 environment.
 
 1.  You must have already configured NuttX in \<some-dir\>/nuttx.:
-    
+
         tools/configure.sh lpcxpresso-lpc1768:<sub-dir>
 
 2.  Download the latest buildroot package into \<some-dir\>
@@ -184,7 +186,8 @@ environment.
 8.  Make sure that the PATH variable includes the path to the newly
     built NXFLAT binaries.
 
-## mbed
+mbed
+----
 
 The Nucleo-L432KC includes boot loader from mbed:
 
@@ -200,103 +203,50 @@ Using the mbed loader:
     close then re-open and the Nucleo-L432KC will be running the new
     code.
 
-## Hardware
+Hardware
+--------
 
 ### LEDs
 
 The Nucleo L432KC provides a single user LED, LD3. LD3 is the green LED
 connected to Arduino signal D13 corresponding to MCU I/O PB3 (pin 26).
 
-  - When the I/O is HIGH value, the LED is on.
-  - When the I/O is LOW, the LED is off.
+-   When the I/O is HIGH value, the LED is on.
+-   When the I/O is LOW, the LED is off.
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
 include/board.h and src/sam\_leds.c. The LEDs are used to encode
 OS-related events as follows when the LED is available:
 
-> 
-> 
-> <table>
-> <thead>
-> <tr class="header">
-> <th>SYMBOL</th>
-> <th>Meaning</th>
-> <th>LD3</th>
-> </tr>
-> </thead>
-> <tbody>
-> <tr class="odd">
-> <td>LED_STARTED</td>
-> <td>NuttX has been started</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_HEAPALLOCATE</td>
-> <td>Heap has been allocated</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_IRQSENABLED</td>
-> <td>Interrupts enabled</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_STACKCREATED</td>
-> <td>Idle stack created</td>
-> <td><blockquote>
-> <p>ON</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_INIRQ</td>
-> <td>In an interrupt</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_SIGNAL</td>
-> <td>In a signal handler</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_ASSERTION</td>
-> <td>An assertion failed</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_PANIC</td>
-> <td>The system has crashed</td>
-> <td><blockquote>
-> <p>Blinking</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_IDLE</td>
-> <td>MCU is is sleep mode</td>
-> <td><blockquote>
-> <p>Not used</p>
-> </blockquote></td>
-> </tr>
-> </tbody>
-> </table>
+> +-------------------+-------------------------+-------------+
+> | SYMBOL            | Meaning                 | LD3         |
+> +===================+=========================+=============+
+> | LED\_STARTED      | NuttX has been started  | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_HEAPALLOCATE | Heap has been allocated | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_IRQSENABLED  | Interrupts enabled      | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_STACKCREATED | Idle stack created      | > ON        |
+> +-------------------+-------------------------+-------------+
+> | LED\_INIRQ        | In an interrupt         | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_SIGNAL       | In a signal handler     | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_ASSERTION    | An assertion failed     | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_PANIC        | The system has crashed  | > Blinking  |
+> +-------------------+-------------------------+-------------+
+> | LED\_IDLE         | MCU is is sleep mode    | > Not used  |
+> +-------------------+-------------------------+-------------+
 
 Thus if LD3, NuttX has successfully booted and is, apparently, running
 normally. If LD3 is flashing at approximately 2Hz, then a fatal error
 has been detected and the system has halted.
 
-## Serial Consoles
+Serial Consoles
+---------------
 
 ### USART1
 
@@ -351,10 +301,10 @@ TTL to RS-232 converter connection:
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
+-   SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10 as USART signals. Thus SB13 and SB14 should be OFF.
-  - SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     disconnected to PA3 and PA2 on STM32 MCU.
 
 To configure USART2 as the console:
@@ -377,10 +327,10 @@ to use during board bring-up.
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
+-   SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10.
-  - SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     connected to PA3 and PA2 on STM32 MCU to have USART communication
     between them. Thus SB61, SB62 and SB63 should be OFF.
 
@@ -394,7 +344,8 @@ COM port? 115200 8N1?
 As shipped, SB62 and SB63 are open and SB13 and SB14 closed, so the
 virtual COM port is enabled.
 
-## SPI Flash support:
+SPI Flash support:
+------------------
 
 We can use an external SPI Serial Flash with nucleo-l432kc board. In
 this case we tested with AT45DB081D (8Mbit = 1MiB).
@@ -402,54 +353,52 @@ this case we tested with AT45DB081D (8Mbit = 1MiB).
 You can connect the AT45DB081D memory in the nucleo-l432kc board this
 way:
 
-> 
-> 
-> | Memory | nucleo-l432kc |
-> | ------ | ------------- |
-> | SI     | D11 (PB5)     |
-> | SCK    | D13 (PB3)     |
-> | RESET  | 3V3           |
-> | CS     | D10 (PA11)    |
-> | WP     | 3V3           |
-> | VCC    | 3V3           |
-> | GND    | GND           |
-> | SO     | D12 (PB4)     |
-> 
+>   Memory   nucleo-l432kc
+>   -------- ---------------
+>   SI       D11 (PB5)
+>   SCK      D13 (PB3)
+>   RESET    3V3
+>   CS       D10 (PA11)
+>   WP       3V3
+>   VCC      3V3
+>   GND      GND
+>   SO       D12 (PB4)
 
-You can start with default "nucleo-l432kc/nsh" configuration option and
-enable/disable these options using "make menuconfig" :
+You can start with default \"nucleo-l432kc/nsh\" configuration option
+and enable/disable these options using \"make menuconfig\" :
 
     System Type  --->
         STM32L4 Peripheral Support  --->
             [*] SPI1
-    
+
     Device Drivers  --->
         -*- Memory Technology Device (MTD) Support  --->
                 -*-   SPI-based AT45DB flash
                 (1000000) AT45DB Frequency
-    
+
     File Systems  --->
         [*] NXFFS file system
-    
+
     Then after compiling and flashing the file nuttx.bin you can test the flash
     this way:
-    
+
     nsh> ls /mnt
     /mnt:
      at45db/
-    
+
     nsh> echo "Testing" > /mnt/at45db/file.txt
-    
+
     nsh> ls /mnt/at45db
     /mnt/at45db:
      file.txt
-    
+
     nsh> cat /mnt/at45db/file.txt
     Testing
-    
+
     nsh>
 
-## Configurations
+Configurations
+--------------
 
 ### nsh:
 
@@ -462,24 +411,24 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  By default, this configuration uses the ARM EABI toolchain for
     Linux. That can easily be reconfigured, of course.:
-    
+
         CONFIG_HOST_LINUX=y                     : Builds under Linux
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y      : GNU EABI toolchain for Linux
 
 3.  Although the default console is USART2 (which would correspond to
     the Virtual COM port) I have done all testing with the console
-    device configured for USART1 (see instruction above under "Serial
+    device configured for USART1 (see instruction above under \"Serial
     Consoles). I have been using a TTL-to-RS-232 converter connected as
     shown below:
-    
+
         Nucleo CN10 STM32L432KC
         ----------- ------------
         Pin 21 PA9  USART1_RX   *Warning you make need to reverse RX/TX on

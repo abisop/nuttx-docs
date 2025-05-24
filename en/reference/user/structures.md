@@ -1,13 +1,16 @@
-# OS Data Structures
+OS Data Structures
+==================
 
-## Scalar Types
+Scalar Types
+------------
 
 Many of the types used to communicate with NuttX are simple scalar
 types. These types are used to provide architecture independence of the
 OS from the application. The scalar types used at the NuttX interface
 include:
 
-## Hidden Interface Structures
+Hidden Interface Structures
+---------------------------
 
 Several of the types used to interface with NuttX are structures that
 are intended to be hidden from the application. From the standpoint of
@@ -17,21 +20,24 @@ structures include:
 
 In order to maintain portability, applications should not reference
 specific elements within these hidden structures. These hidden
-structures will not be described further in this user's manual.
+structures will not be described further in this user\'s manual.
 
-## Access to the `errno` Variable
+Access to the `errno` Variable
+------------------------------
 
 A pointer to the thread-specific `errno` value is available through a
 function call:
 
-## User Interface Structures
+User Interface Structures
+-------------------------
 
-:c`main_t` defines the type of a task entry point. :c`main_t` is
-declared in `sys/types.h`.
+:c`main_t`{.interpreted-text role="type"} defines the type of a task
+entry point. :c`main_t`{.interpreted-text role="type"} is declared in
+`sys/types.h`.
 
 This structure is used to pass scheduling priorities to and from NuttX:
 
-``` c
+``` {.c}
 struct sched_param
 {
  int sched_priority;
@@ -41,7 +47,7 @@ struct sched_param
 This structure is used to pass timing information between the NuttX and
 a user application:
 
-``` c
+``` {.c}
 struct timespec
 {
  time_t tv_sec;  /* Seconds */
@@ -52,7 +58,7 @@ struct timespec
 This structure is used to communicate message queue attributes between
 NuttX and a MoBY application:
 
-``` c
+``` {.c}
 struct mq_attr {
  size_t       mq_maxmsg;   /* Max number of messages in queue */
  size_t       mq_msgsize;  /* Max message size */
@@ -63,7 +69,7 @@ struct mq_attr {
 
 The following structure defines the action to take for given signal:
 
-``` c
+``` {.c}
 struct sigaction
 {
  union
@@ -80,7 +86,7 @@ struct sigaction
 
 The following types is used to pass parameters to/from signal handlers:
 
-``` c
+``` {.c}
 typedef struct siginfo
 {
  int          si_signo;
@@ -92,7 +98,7 @@ typedef struct siginfo
 This defines the type of the struct siginfo si\_value field and is used
 to pass parameters with signals.
 
-``` c
+``` {.c}
 union sigval
 {
  int   sival_int;
@@ -103,7 +109,7 @@ union sigval
 The following is used to attach a signal to a message queue to notify a
 task when a message is available on a queue.
 
-``` c
+``` {.c}
 struct sigevent
 {
  int          sigev_signo;

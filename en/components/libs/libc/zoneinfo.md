@@ -1,58 +1,62 @@
-# libs/libc/zoneinfo
+libs/libc/zoneinfo
+==================
 
 Author: Gregory Nutt \<<gnutt@nuttx.org>\>
 
-## Directory Contents
+Directory Contents
+------------------
 
 This directory contains logic to create a version of the TZ/Olson
 database. This database is required if localtime() support is selected
 via CONFIG\_LIBC\_LOCALTIME. This logic in this directory does the
 following:
 
-  - It downloads the current TZ database from the IANA website
-  - It downloads the current timezone tools from the same location
-  - It builds the tools and constructs the binary TZ database
-  - It will then, optionally, build a ROMFS filesystem image containing
+-   It downloads the current TZ database from the IANA website
+-   It downloads the current timezone tools from the same location
+-   It builds the tools and constructs the binary TZ database
+-   It will then, optionally, build a ROMFS filesystem image containing
     the data base.
 
-## Creating and Mounting a ROMFS TZ Database
+Creating and Mounting a ROMFS TZ Database
+-----------------------------------------
 
 The ROMFS filesystem image can that be mounted during the boot-up
 sequence so that it is available for the localtime() logic. There are
 two steps to doing this:
 
-  - First, a ROM disk device must be created. This is done by calling
+-   First, a ROM disk device must be created. This is done by calling
     the function romdisk\_register() as described in
     nuttx/include/nuttx/drivers/ramdisk.h. This is an OS level operation
     and must be done in the board-level logic before your application
     starts.
-    
+
     romdisk\_register() will create a block driver at /dev/ramN where N
     is the device minor number that was provided to romdisk\_register.
 
-  - The second step is to mount the file system. This step can be
+-   The second step is to mount the file system. This step can be
     performed either in your board configuration logic or by your
     application using the mount() interface described in
     nuttx/include/sys/mount.h.
-    
+
     These steps, however, must be done very early in initialization,
     before there is any need for time-related services.
 
 Both of these steps are shown together in the following code sample at
 the end of this page.
 
-## Example Configuration
+Example Configuration
+---------------------
 
 I have tested this using the sim/nsh configuration. Here are the
 modifications to the configuration that I used for testing:
 
     CONFIG_BOARD_LATE_INITIALIZE=y
-    
+
     CONFIG_LIBC_LOCALTIME=y
     CONFIG_LIBC_TZDIR="/share/zoneinfo"
     CONFIG_LIBC_TZ_MAX_TIMES=370
     CONFIG_LIBC_TZ_MAX_TYPES=20
-    
+
     CONFIG_LIBC_ZONEINFO=y
     CONFIG_LIBC_ZONEINFO_ROMFS=y
 
@@ -80,7 +84,7 @@ you can force rebuilding of the ROMFS filesystem be removing some files:
     make
 
 If you have problems building the simulator on your platform, check out
-\[<span class="title-ref">/platform\](</span>/platform.md)s/sim/sim/boards/sim/index\`.
+\[[/platform\](]{.title-ref}/platform.md)s/sim/sim/boards/sim/index\`.
 You might find some help there.
 
 Here is a sample run. I have not seen any errors in single stepping
@@ -99,9 +103,10 @@ NOTE: Because of daylight savings time, US/Mountain is GMT-6 on Apr 11.
 The above suggests that perhaps the NSH data command may be setting
 local time, but printing GMT time?
 
-## Sample Code to Mount the ROMFS Filesystem
+Sample Code to Mount the ROMFS Filesystem
+-----------------------------------------
 
-``` C
+``` {.C}
 /****************************************************************************
  * Included Files
  ****************************************************************************/

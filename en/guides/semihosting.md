@@ -1,21 +1,14 @@
-# Semihosting
-
-<div class="warning">
-
-<div class="title">
+Semihosting
+===========
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Semihosting>
 
-</div>
-
 Relevant files:
 
-``` bash
+``` {.bash}
 fs/hostfs/
 arch/arm/include/armv7-m/syscall.h
 arch/arm/src/common/up_hostfs.c
@@ -23,6 +16,6 @@ arch/arm/src/common/up_hostfs.c
 
 Mounting:
 
-``` bash
+``` {.bash}
 mount -t hostfs -o fs=/host/path /local/path
 ```

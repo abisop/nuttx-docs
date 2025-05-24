@@ -1,4 +1,5 @@
-# PWM Drivers
+PWM Drivers
+===========
 
 For the purposes of this driver, a PWM device is any device that
 generates periodic output pulses of controlled frequency and pulse
@@ -8,36 +9,37 @@ might be needed to control a stepper motor).
 
 The NuttX PWM driver is split into two parts:
 
-1.  An "upper half", generic driver that provides the common PWM
+1.  An \"upper half\", generic driver that provides the common PWM
     interface to application level code, and
-2.  A "lower half", platform-specific driver that implements the
+2.  A \"lower half\", platform-specific driver that implements the
     low-level timer controls to implement the PWM functionality.
 
 Files supporting PWM can be found in the following locations:
 
-  - **Interface Definition**. The header file for the NuttX PWM driver
+-   **Interface Definition**. The header file for the NuttX PWM driver
     reside at `include/nuttx/timers/pwm.h`. This header file includes
     both the application level interface to the PWM driver as well as
-    the interface between the "upper half" and "lower half" drivers. The
-    PWM module uses a standard character driver framework. However,
+    the interface between the \"upper half\" and \"lower half\" drivers.
+    The PWM module uses a standard character driver framework. However,
     since the PWM driver is a device control interface and not a data
     transfer interface, the majority of the functionality available to
     the application is implemented in driver ioctl calls.
-  - **"Upper Half" Driver**. The generic, "upper half" PWM driver
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" PWM driver
     resides at `drivers/timers/pwm.c`.
-  - **"Lower Half" Drivers**. Platform-specific PWM drivers reside in
+-   **\"Lower Half\" Drivers**. Platform-specific PWM drivers reside in
     `arch/<architecture>/src/<hardware>` directory for the specific
     processor `<architecture>` and for the specific `<chip>` PWM
     peripheral devices.
 
-## Application Level Interface
+Application Level Interface
+---------------------------
 
 The first necessary thing to be done in order to use the PWM driver in
 an application is to include the header file for the NuttX timer driver.
 It contains the Application Level Interface to the PWM driver. To do so,
 include:
 
-``` c
+``` {.c}
 #include <nuttx/timers/pwm.h>
 ```
 
@@ -49,16 +51,16 @@ The PWM is accessed only through `ioctl` interface, functions `read` and
 `write` does not have any affect. Following `ioctl` commands are
 available:
 
->   - :c`PWMIOC_SETCHARACTERISTICS`
->   - :c`PWMIOC_GETCHARACTERISTICS`
->   - :c`PWMIOC_START`
->   - :c`PWMIOC_STOP`
+> -   :c`PWMIOC_SETCHARACTERISTICS`{.interpreted-text role="macro"}
+> -   :c`PWMIOC_GETCHARACTERISTICS`{.interpreted-text role="macro"}
+> -   :c`PWMIOC_START`{.interpreted-text role="macro"}
+> -   :c`PWMIOC_STOP`{.interpreted-text role="macro"}
 
 The `PWMIOC_SETCHARACTERISTICS` command sets PWM characteristics such as
 frequency, duty cycle, dead times and so on. These characteristics are
 set through `pwm_info_s` structure.
 
-``` c
+``` {.c}
 struct pwm_info_s
 {
    /* Frequency of the pulse train */
@@ -97,7 +99,7 @@ struct pwm_info_s
 Structure `pwm_chan_s` holds the representation of one PWM channel if
 multiple channels are used ( `CONFIG_PWM_MULTICHAN` is set).
 
-``` c
+``` {.c}
 struct pwm_chan_s
 {
    /* Duty of the pulse train, "1"-to-"0" duration.
@@ -144,7 +146,7 @@ polarity `dcpol`. If set to zero, default controller values (or values
 determined in the configuration) are used. Following defines can be used
 to set the polarities:
 
-``` c
+``` {.c}
 /* Not defined, the default output state is arch dependent */
 #define PWM_CPOL_NDEF             0
 /* Logical zero */
@@ -190,7 +192,8 @@ This may not be supported by all drivers.
 An example application can be found in `nuttx-apps` repository under the
 path `examples/pwm`.
 
-## Configuration
+Configuration
+-------------
 
 This section describes common PWM configuration in `Kconfig`. The reader
 should refer to target documentation for target specific configuration.

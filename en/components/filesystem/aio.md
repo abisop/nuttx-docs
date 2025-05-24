@@ -1,3 +1,4 @@
-# Asynchronous I/O support
+Asynchronous I/O support
+========================
 
 See `include/aio.h`.

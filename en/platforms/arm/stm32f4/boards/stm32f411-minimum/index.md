@@ -1,23 +1,21 @@
-# stm32f411-minimum
-
-<div class="tags">
+stm32f411-minimum
+=================
 
 chip:stm32, chip:stm32f4, chip:stm32f411
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the WeAct
 Studio MiniF4 minimum system development board.
 
-## Board information
+Board information
+-----------------
 
-It is sometimes referred to as "black pill", although there are several
-clone boards with f103-like chips and even an official f103 blackpill
-from Robotdyn. Both WeAct Studio (via Taobao and Aliexpress) and
-Adafruit sell the boards as "BlackPill Core Board" with STM32F411CEU6 or
-STM32F401CCU6 or "STM32F411 BlackPill Development board", so we'll
-assume that WeAct Studio is the original manufacturer and F401/F411 is
-the chip.
+It is sometimes referred to as \"black pill\", although there are
+several clone boards with f103-like chips and even an official f103
+blackpill from Robotdyn. Both WeAct Studio (via Taobao and Aliexpress)
+and Adafruit sell the boards as \"BlackPill Core Board\" with
+STM32F411CEU6 or STM32F401CCU6 or \"STM32F411 BlackPill Development
+board\", so we\'ll assume that WeAct Studio is the original manufacturer
+and F401/F411 is the chip.
 
 Board documentation:
 <https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1>
@@ -29,22 +27,22 @@ Summary pages from STM32-base
 
 The board features:
 
-  - On-board 64 Mbits (8 MBytes) External SPI-NOR Flash (optional),
-  - nRST reset button and BOOT0 ST BootROM entry button,
-  - One user LED and one user push-button,
-  - HSE 25 Mhz and LSE 32.768 kHz,
-  - USB OTG FS with micro-AB connector,
-  - Around 30 remappable GPIOs on 2.54mm headers (after excluding 7
+-   On-board 64 Mbits (8 MBytes) External SPI-NOR Flash (optional),
+-   nRST reset button and BOOT0 ST BootROM entry button,
+-   One user LED and one user push-button,
+-   HSE 25 Mhz and LSE 32.768 kHz,
+-   USB OTG FS with micro-AB connector,
+-   Around 30 remappable GPIOs on 2.54mm headers (after excluding 7
     power pins, two LSE pins, the LED pin, NRST, BOOT1 and the SWD
     header),
-  - Serial Wire Debug header for use with an external SWD/JTAG adapter.
+-   Serial Wire Debug header for use with an external SWD/JTAG adapter.
 
 As F4 series have a USB DFuSe-capable BootROM \[AN2606\], the board can
-be flashed via <span class="title-ref">dfu-util</span> over USB, or via
-<span class="title-ref">stm32flash</span> over UART without any
-debuggers.
+be flashed via [dfu-util]{.title-ref} over USB, or via
+[stm32flash]{.title-ref} over UART without any debuggers.
 
-## LEDs
+LEDs
+----
 
 The STM32F411 Minimum board has only one software controllable LED on
 PC13. This LED can be used by the board port when CONFIG\_ARCH\_LEDS
@@ -53,38 +51,34 @@ option is enabled.
 If enabled the LED is simply turned on when the board boots
 successfully, and is blinking on panic / assertion failed.
 
-## UARTs
+UARTs
+-----
 
 ### USART1
 
-> 
-> 
-> | UART/USART | PINS |
-> | ---------- | ---- |
-> | TX         | PA9  |
-> | RX         | PA10 |
-> 
+>   UART/USART   PINS
+>   ------------ ------
+>   TX           PA9
+>   RX           PA10
 
 ### USART2
 
-> 
-> 
-> | UART/USART | PINS |
-> | ---------- | ---- |
-> | CTS        | PA0  |
-> | RTS        | PA1  |
-> | TX         | PA2  |
-> | RX         | PA3  |
-> | CK         | PA4  |
-> 
+>   UART/USART   PINS
+>   ------------ ------
+>   CTS          PA0
+>   RTS          PA1
+>   TX           PA2
+>   RX           PA3
+>   CK           PA4
 
 ### Default USART/UART Configuration
 
 USART1 (RX & TX only) is available through pins PA9 (TX) and PA10 (RX).
 
-## USB
+USB
+---
 
-The board routes F401/F411's built-in FS PHY to a USB-C (non-dual-role)
+The board routes F401/F411\'s built-in FS PHY to a USB-C (non-dual-role)
 port. The chips still have a DWC2 USBOTG IP core, but only device mode
 is used. Note that only V3.1 PCB got a DNI solder bridge to short 5V and
 USB VBUS. Previous revisions had no support for USB host because of lack
@@ -95,10 +89,11 @@ FS PHY, also no OVER/PWRON GPIOs.
 
 If using USB and USART1 simultaneously, make sure to check
 CONFIG\_OTG\_ID\_GPIO\_DISABLE, else stm32\_otgfsdev driver code remaps
-PA10 pin from USART1\_RX to OTG\_ID, and you'll lose keyboard/console
-input\!
+PA10 pin from USART1\_RX to OTG\_ID, and you\'ll lose keyboard/console
+input!
 
-## SPI NOR Flash
+SPI NOR Flash
+-------------
 
 The seller may send boards with soldered on-board SPI NOR Flash, usually
 Winbond W25Q64JVSIQ (QuadSPI) or similar. F401/F411 lack QuadSPI
@@ -107,13 +102,14 @@ filesystems. For example, external flash can be formatted with SmartFS
 (or NXFFS, LittleFS) and mounted on boot by board init code or
 interactively from NSH.
 
-## Configurations
+Configurations
+--------------
 
 Each stm32f411-minimum configuration is maintained in a sub-directory
 and can be selected as follow:
 
     tools/configure.sh stm32f411-minimum:<subdir>
-    
+
     Where <subdir> is one of the following:
 
 ### Configuration Directories

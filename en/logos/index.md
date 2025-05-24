@@ -1,10 +1,7 @@
-<div class="todo">
-
 Add NuttX Logo to use on electronic boards PCBs.
 
-</div>
-
-# NuttX Logos
+NuttX Logos
+===========
 
 The original NuttX logo was created by Greg Nutt (the creator of NuttX)
 himself.
@@ -15,28 +12,32 @@ style.
 That original vector file was lost and all we have is a PNG file
 depicting it:
 
-![](NuttX_Orig.png)
+![](NuttX_Orig.png){.align-center}
 
-## Modern NuttX Logo
+Modern NuttX Logo
+-----------------
 
 Some years ago Dave Marples created a representation of the original
 Logo, it is very similar to the original Logo and seems more modern:
 
-![](NuttX_Logo.png)
+![](NuttX_Logo.png){.align-center}
 
-Download SVG version `svg <NuttX_Logo.svg>`
+Download SVG version `svg <NuttX_Logo.svg>`{.interpreted-text
+role="download"}
 
 This logo can be used in websites, promotion materials, etc.
 
-## Simplified NuttX Logo
+Simplified NuttX Logo
+---------------------
 
 There is also a simplified Logo created by Alan C. Assis. This version
-can be used on Documentation, T-Shirts and other places where we don't
+can be used on Documentation, T-Shirts and other places where we don\'t
 have a huge hue of colors.
 
-![](NuttX_Simple.png)
+![](NuttX_Simple.png){.align-center}
 
-Download SVG version `svg <NuttX_Simple.svg>`
+Download SVG version `svg <NuttX_Simple.svg>`{.interpreted-text
+role="download"}
 
 These logos are not registered by Apache Foundation, but please use it
 with respect to the NuttX Project, always to help to promote the

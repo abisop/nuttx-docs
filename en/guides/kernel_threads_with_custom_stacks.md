@@ -1,25 +1,20 @@
-# Kernel Threads with Custom Stacks
-
-<div class="warning">
-
-<div class="title">
+Kernel Threads with Custom Stacks
+=================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Kernel+Threads+with+Custom+Stacks>
 
-</div>
-
-## Background
+Background
+----------
 
 Under certain conditions, it may be necessary to create a kernel thread
 whose stack lives in some custom memory. This page provides and example
 of how that would be done:
 
-## Example
+Example
+-------
 
 Here is the body of some function. It expects to have the following
 inputs:
@@ -31,9 +26,7 @@ inputs:
 5.  `argv`: An optional array of argument strings passed to the kernel
     thread
 
-<!-- end list -->
-
-``` c
+``` {.c}
 /* Allocate a TCB for the new kernel thread.  kmm_zalloc() is
 * used to that all fields of the new TCB will be zeroed.
 */
@@ -97,7 +90,8 @@ if (ret < 0)
 return OK;
 ```
 
-## Freeing the TCB
+Freeing the TCB
+---------------
 
 Prior to calling `nxtask_init()`, the TCB can be freed using the kmm
 allocator, specifically the function `kmm_free()`. However, after
@@ -110,7 +104,8 @@ be allocated with one of the `kmm_malloc()` allocation functions.
 You must never free the TCB after `nxtask_activate()` returns
 successfully.
 
-## Freeing the Custom Stack Memory
+Freeing the Custom Stack Memory
+-------------------------------
 
 The effect of the `TCB_FLAG_CUSTOM_STACK` flag is that the OS will not
 attempt to free the custom stack memory if the kernel thread exits,
@@ -126,9 +121,9 @@ you want in this case.
 
 The actual logic is a slightly more complex and somewhat redundant:
 
-  - If `TCB_FLAG_CUSTOM_STACK` is set in the TCB flags, no attempt will
+-   If `TCB_FLAG_CUSTOM_STACK` is set in the TCB flags, no attempt will
     be made to free the custom stack.
-  - If `TCB_FLAG_CUSTOM_STACK` is not set in the TCB flags, the stack
+-   If `TCB_FLAG_CUSTOM_STACK` is not set in the TCB flags, the stack
     will be de-allocated for the kernel thread only if the stack lies in
     the kernel memory pool.
 

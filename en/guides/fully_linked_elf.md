@@ -1,17 +1,10 @@
-# ELF Programs – No Symbol Tables
-
-<div class="warning">
-
-<div class="title">
+ELF Programs -- No Symbol Tables
+================================
 
 Warning
 
-</div>
-
 Migrated from:
 <https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=139629542>
-
-</div>
 
 You can easily extend the firmware in your released, embedded system
 using ELF programs provided via a file system (for example, an SD card
@@ -27,11 +20,12 @@ Alan Carvalho de Assis has also made a video based on this example in
 the YouTube [NuttX
 Channel](https://www.youtube.com/watch?v=oL6KAgkTb8M).
 
-## Creating the Export Package
+Creating the Export Package
+---------------------------
 
 At the time that you release the firmware, you should create and save an
 export package. The export package is all that you need to create
-post-release, add-on modules for your embedded system. Let's illustrate
+post-release, add-on modules for your embedded system. Let\'s illustrate
 this using the `STM32F4-Discovery` networking `NSH` configuration with
 the `STM32F4DIS-BB` baseboard. (This demonstration assumes that you also
 have support for some externally modifiable media in the board
@@ -47,7 +41,7 @@ file system support in some fashion.)
 drive](https://www.youtube.com/watch?v=5hB5ZXpRoS4) or [SD
 card](https://www.youtube.com/watch?v=H28t4RbOXqI).)
 
-``` shell
+``` {.shell}
  make distclean
  tools/configure.sh -c stm32f4discovery:netnsh
  make menuconfig
@@ -58,18 +52,14 @@ important configuration settings:
 
 1.  Disable networking (Only because it is not needed in this example):
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 # CONFIG_NET is not set
 ```
 
 2.  Enable basic ELF binary support with no built-in symbol table
     support:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 CONFIG_ELF=y
 CONFIG_LIBC_EXECFUNCS=y
 # CONFIG_EXECFUNCS_HAVE_SYMTAB is not set
@@ -77,9 +67,7 @@ CONFIG_LIBC_EXECFUNCS=y
 
 3.  Enable PATH variable support:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 CONFIG_BINFMT_EXEPATH=y
 CONFIG_PATH_INITIAL="/bin"
 # CONFIG_DISABLE_ENVIRON not set
@@ -87,45 +75,35 @@ CONFIG_PATH_INITIAL="/bin"
 
 4.  Enable execution of ELF files from the `NSH` command line:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 CONFIG_NSH_FILE_APPS=y
 ```
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 You must enable some application that uses `printf()`. This is necessary
 to assure that the symbol `printf()` is included in the base system.
-Here we assume that you include the "Hello, World\!" example from
+Here we assume that you include the \"Hello, World!\" example from
 `apps/examples/hello`:
 
-</div>
-
-``` shell
+``` {.shell}
 CONFIG_EXAMPLES_HELLO=y
 ```
 
 Then we can build the NuttX firmware image and the export package:
 
-``` shell
+``` {.shell}
  make
  make export
 ```
 
-When `make export` completes, you will find a ZIP'ed package in the
+When `make export` completes, you will find a ZIP\'ed package in the
 top-level NuttX directory called `nuttx-export-x.y.zip` (for version
 `x.y`). The version is determined by the `.version` file in the same
 directory. The content of this ZIP file is the following directory
 structure:
 
-``` shell
+``` {.shell}
 nuttx-export-x.x
  |- arch/
  |- build/
@@ -136,20 +114,15 @@ nuttx-export-x.x
  `- .config
 ```
 
-## The Add-On Build Directory
+The Add-On Build Directory
+--------------------------
 
 In order to create the add-on ELF program, you will need (1) the export
 package, (2) the program build `Makefile`, (3) a linker script used by
 the `Makefile`, and (4) a Bash script to create a linker script. That
 `Makefile` and Bash Script are discussed in the following paragraphs.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 These example files implicitly assume a GNU tool chain is used and, in
 at least one place, that the target is an ARMv7-M platform. A non-GNU
@@ -158,15 +131,14 @@ and linker script. There is at least one ARMv7-M specific change that
 would have to be made for other platforms in the script that creates the
 linker script (`mkdefines.sh`).
 
-</div>
+Hello Example
+-------------
 
-## Hello Example
-
-To keep things manageable, let's use a concrete example. Suppose the ELF
-program that we wish to add to the release code is the single source
+To keep things manageable, let\'s use a concrete example. Suppose the
+ELF program that we wish to add to the release code is the single source
 file `hello.c`:
 
-``` c
+``` {.c}
 #include <stdio.h>
 
 int main(int argc, char **argv)
@@ -176,17 +148,18 @@ int main(int argc, char **argv)
 }
 ```
 
-Let's say that we have a directory called `addon` and it contains the
+Let\'s say that we have a directory called `addon` and it contains the
 `hello.c` source file, a `Makefile` that will create the ELF program,
 and a Bash script called `mkdefines.sh` that will create a linker
 script.
 
-## Building the ELF Program
+Building the ELF Program
+------------------------
 
 The first step in creating the ELF program is to unzip the Export
 Package. We start with our `addon` directory containing the following:
 
-``` shell
+``` {.shell}
  cd addon
  ls
 gnu-elf.ld hello.c Makefile mkdefines.sh nuttx-export-7.25.zip
@@ -194,16 +167,16 @@ gnu-elf.ld hello.c Makefile mkdefines.sh nuttx-export-7.25.zip
 
 Where:
 
-  - `gnu-elf.ld` is the linker script.
-  - `hello.c` is our example source file.
-  - `Makefile` will build our ELF program and symbol table.
-  - `mksymtab.h` is the Bash script that will create the symbol table
+-   `gnu-elf.ld` is the linker script.
+-   `hello.c` is our example source file.
+-   `Makefile` will build our ELF program and symbol table.
+-   `mksymtab.h` is the Bash script that will create the symbol table
     for the ELF program.
-  - `nuttx-export-7.25.zip` is the Export Package for NuttX-7.25.
+-   `nuttx-export-7.25.zip` is the Export Package for NuttX-7.25.
 
 We unzip the Export Package like:
 
-``` shell
+``` {.shell}
  unzip nuttx-export-7.25.zip
 ```
 
@@ -211,27 +184,28 @@ Then we have a new directory called `nuttx-export-7.25` that contains
 all of the content from the released NuttX code that we need to build
 the ELF program.
 
-## The Makefile
+The Makefile
+------------
 
 The ELF program is created simply as:
 
-``` shell
+``` {.shell}
  make
 ```
 
 This uses the following `Makefile` to generate several files:
 
-  - `hello.o`: The compiled `hello.c` object.
-  - `hello.r`: A "partially linked" ELF object that still has undefined
-    symbols.
-  - `hello`: The fully linked, relocatable ELF program.
-  - `linker.ld`: A linker script created by `mkdefines.sh`.
+-   `hello.o`: The compiled `hello.c` object.
+-   `hello.r`: A \"partially linked\" ELF object that still has
+    undefined symbols.
+-   `hello`: The fully linked, relocatable ELF program.
+-   `linker.ld`: A linker script created by `mkdefines.sh`.
 
 Only the resulting `hello` is needed.
 
 Below is the `Makefile` used to create the ELF program:
 
-``` shell
+``` {.shell}
 include nuttx-export-7.25/build/Make.defs
 
 # Long calls are need to call from RAM into FLASH
@@ -298,15 +272,16 @@ rm -f System.map
 rm -f *.o
 ```
 
-## The Linker Script
+The Linker Script
+-----------------
 
-Two linker scripts are used. One is a normal file (we'll call it the
+Two linker scripts are used. One is a normal file (we\'ll call it the
 main linker script), and the other, `defines.ld`, is created on-the-fly
 as described in the next section.
 
 The main linker script, `gnu-elf.ld`, contains the following:
 
-``` shell
+``` {.shell}
 SECTIONS
 {
 .text 0x00000000 :
@@ -371,7 +346,8 @@ SECTIONS
 }
 ```
 
-## Creating the `defines.ld` Linker Script
+Creating the `defines.ld` Linker Script
+---------------------------------------
 
 The additional linker script `defines.ld` is created through a
 three-step process:
@@ -385,7 +361,7 @@ three-step process:
 
 Below is the version of `mkdefines.sh` used in this demo:
 
-``` bash
+``` {.bash}
 #!/bin/bash
 
 usage="Usage: 0 <system-map> <relprog>"
@@ -453,42 +429,33 @@ symbol in the `System.map` that was created when the released firmware
 was built. Finally, it uses the symbol name and the symbol address to
 create each symbol table entry.
 
-<div class="note">
-
-<div class="title">
-
 Note
 
-</div>
-
-  - For the ARMv7-M architecture, bit 0 of the address must be set to
+-   For the ARMv7-M architecture, bit 0 of the address must be set to
     indicate thumb mode. If you are using a different architecture that
     requires normal aligned addresses, you will need to change the
     following line by eliminating the ORed value:
 
-<!-- end list -->
-
-``` shell
+``` {.shell}
 echo "{var} = 0x{varaddr} | 0x00000001;"
 ```
 
-  - If the new ELF module uses a symbol that is not provided in the base
+-   If the new ELF module uses a symbol that is not provided in the base
     firmware and, hence, not included in the `System.map` file, this
     script will fail. In that case, you will need to provide the missing
     logic within the ELF program itself, if possible.
-  - The technique as described here is only valid in the FLAT build
+-   The technique as described here is only valid in the FLAT build
     mode. It could probably also be extended to work in the PROTECTED
     mode by substituting `User.map` for `System.map`.
 
-</div>
-
 Here is an example `defines.ld` created by `mkdefines.sh`:
 
-``` shell
+``` {.shell}
 printf = 0x0800aefc | 0x00000001 ;
 ```
 
-## Replacing an NSH Built-In Function
+Replacing an NSH Built-In Function
+----------------------------------
 
 Files can be executed by `NSH` from the command line by simply typing
 the name of the ELF program. This requires:
@@ -502,7 +469,7 @@ Suppose, for example, I have a built-in application called `hello`.
 Before installing the new replacement `hello` ELF program in the file
 system, this is the version of `hello` that `NSH` will execute:
 
-``` shell
+``` {.shell}
 nsh> hello
 Hello, World!
 nsh>
@@ -523,22 +490,17 @@ Now suppose that we do add our custom `hello` to the file system. When
 it will run successfully. The built-in version will be ignored. It has
 been replaced with the version in the file system:
 
-``` shell
+``` {.shell}
 nsh> mount -t vfat /dev/mmcsd0 /bin
 nsh> hello
 Hello from Add-On Program!
 nsh>
 ```
 
-## Version Dependency
-
-<div class="note">
-
-<div class="title">
+Version Dependency
+------------------
 
 Note
-
-</div>
 
 This technique generates ELF programs using fixed addresses from the
 `System.map` file of a versioned release. The generated ELF programs can
@@ -547,39 +509,37 @@ likely result if used with a different firmware version, because the
 addresses from the `System.map` will not match the addresses in a
 different version of the firmware.
 
-</div>
+The alternative approach using \[[Symbol Table\](\`Symbol Table.md)s
+\<fully\_linked\_elf\>]{.title-ref} is more or less version independent.
 
-The alternative approach using \[<span class="title-ref">Symbol
-Table\](\`Symbol Table.md)s \<fully\_linked\_elf\></span> is more or
-less version independent.
-
-## Tightly Coupled Memories
+Tightly Coupled Memories
+------------------------
 
 Most MCUs based on ARMv7-M family processors support some kind of
 Tightly Coupled Memory (TCM). These TCMs have somewhat different
 properties for specialized operations. Depending on the bus matrix of
 the processor, you may not be able to execute programs from TCM. For
 instance, the `STM32 F4` supports Core Coupled Memory (CCM), but since
-it is tied directly to the D-bus, it cannot be used to execute
-programs\! On the other hand, the `STM32F3` has a CCM that is accessible
-to both the D-Bus and the I-Bus, in which case it should be possible to
-execute programs from this TCM.
+it is tied directly to the D-bus, it cannot be used to execute programs!
+On the other hand, the `STM32F3` has a CCM that is accessible to both
+the D-Bus and the I-Bus, in which case it should be possible to execute
+programs from this TCM.
 
 ![image](./image/system_arch_stm32f42xx_and_f43xx.png)
 
 ![image](./image/system_arch_stm32f303xBC_and_f358xC.png)
 
 When ELF programs are loaded into memory, the memory is allocated from
-the heap via a standard memory allocator. By default with the `STM32
-F4`, the CCM is included in `HEAP` and will typically be allocated
-first. If CCM memory is allocated to hold the ELF program, a hard-fault
-will occur immediately when you try to execute the ELF program in
-memory.
+the heap via a standard memory allocator. By default with the
+`STM32 F4`, the CCM is included in `HEAP` and will typically be
+allocated first. If CCM memory is allocated to hold the ELF program, a
+hard-fault will occur immediately when you try to execute the ELF
+program in memory.
 
 Therefore, it is necessary on `STM32 F4` platforms to include the
 following configuration setting:
 
-``` shell
+``` {.shell}
 CONFIG_STM32_CCMEXCLUDE=y
 ```
 

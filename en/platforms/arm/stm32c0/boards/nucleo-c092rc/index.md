@@ -1,26 +1,26 @@
-# ST Nucleo C092RC
-
-<div class="tags">
+ST Nucleo C092RC
+================
 
 chip:stm32, chip:stm32c0, chip:stm32c092
-
-</div>
 
 The Nucleo C092RC is a member of the Nucleo-64 board family.
 
 CANFD not supported yet.
 
-## Buttons
+Buttons
+-------
 
 B1 USER: the user button is connected to the I/O PC13 of the STM32
 microcontroller.
 
-## Serial Console
+Serial Console
+--------------
 
-At default USART2 connected to "Virtual COM Port" is used as serial
+At default USART2 connected to \"Virtual COM Port\" is used as serial
 console.
 
-## Configurations
+Configurations
+--------------
 
 ### nsh
 
@@ -36,6 +36,6 @@ to see a wide range of features that are supported by the OS.
 
 Enabled features:
 
-  - NSH
-  - ADC with DMA enabled using A0 and A1 pins
-  - button with software debouncing enabled (no RC filter on the board)
+-   NSH
+-   ADC with DMA enabled using A0 and A1 pins
+-   button with software debouncing enabled (no RC filter on the board)

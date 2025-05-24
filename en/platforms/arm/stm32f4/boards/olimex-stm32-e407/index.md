@@ -1,15 +1,13 @@
-# Olimex STM32-E407
-
-<div class="tags">
+Olimex STM32-E407
+=================
 
 chip:stm32, chip:stm32f4, chip:stm32f407
-
-</div>
 
 The Olimex STM32-E407 configuration is based on the configuration
 olimex-stm32-h407 and stm32f4discovery.
 
-## Configurations
+Configurations
+--------------
 
 ### Instantiating Configurations
 
@@ -19,12 +17,12 @@ and can be selected as follow:
     tools/configure.sh [OPTIONS] olimex-stm32-e407:<subdir>
 
 Typical options include -l for a Linux host platform or -c for Cygwin
-host platform. See 'tools/configure.sh -h' for other options. And
+host platform. See \'tools/configure.sh -h\' for other options. And
 \<subdir\> is one of the sub-directories listed below.
 
 ### Compile Firmware
 
-Once you've set the proper configuration, you just need to execute the
+Once you\'ve set the proper configuration, you just need to execute the
 next command:
 
     make
@@ -78,8 +76,8 @@ sensor works with I2C, you need to do the next connections:
 This example is configured to work with the USBNSH instead of UART NSH,
 so the console will be shown over the USB\_OTG1 connector.
 
-On the console, type "ls /dev " and if the registration process goes
-fine, you should see a device called "press0". Now execute the app
+On the console, type \"ls /dev \" and if the registration process goes
+fine, you should see a device called \"press0\". Now execute the app
 BMP180 to see the ambient pressure value.
 
 ### dac
@@ -90,9 +88,9 @@ is attached to the PA4 pin (Arduino header D10).
 This example is configured to work with the USBNSH instead of UART NSH,
 so the console will be shown over the USB\_OTG1 connector.
 
-On the console, type "ls /dev " and if the registration process goes
-fine, you should see a device called "dac0". Now execute the app dac put
-a value at the output.
+On the console, type \"ls /dev \" and if the registration process goes
+fine, you should see a device called \"dac0\". Now execute the app dac
+put a value at the output.
 
 ### ina219
 
@@ -107,8 +105,8 @@ sensor works with I2C, you need to do the next connections:
 This example is configured to work with the USBNSH instead of UART NSH,
 so the console will be shown over the USB\_OTG1 connector.
 
-On the console, type "ls /dev " and if the registration process goes
-fine, you should see a device called "ina219". Now execute the app
+On the console, type \"ls /dev \" and if the registration process goes
+fine, you should see a device called \"ina219\". Now execute the app
 ina219 to see the ambient pressure value.
 
 ### timer
@@ -117,8 +115,8 @@ This configuration set the proper configuration to use the timer1 of the
 board. This example is configured to work with the USBNSH instead of
 UART NSH, so the console will be shown over the USB\_OTG1 connector.
 
-On the console, type "ls /dev " and if the registration process goes
-fine, you should see a device called "timer1".
+On the console, type \"ls /dev \" and if the registration process goes
+fine, you should see a device called \"timer1\".
 
 ### mrf24j40-mac
 
@@ -137,17 +135,17 @@ you need to do the next connections:
 This example is configured to work with the USBNSH instead of UART NSH,
 so the console will be shown over the USB\_OTG1 connector.
 
-Once you're on the console, you need to check if the initialization
-process was fine. To do so, you need to type "ls /dev" and you should
-see a device call "ieee0". At this point we need to set-up the network,
-follow the next steps:
+Once you\'re on the console, you need to check if the initialization
+process was fine. To do so, you need to type \"ls /dev\" and you should
+see a device call \"ieee0\". At this point we need to set-up the
+network, follow the next steps:
 
     This is an example of how to configure a coordinator:
     i8sak /dev/ieee0 startpan cd:ab
     i8sak set chan 11
     i8sak set saddr 42:01
     i8sak acceptassoc
-    
+
     This is an example of how to configure the endpoint:
     i8sak /dev/ieee0
     i8sak set chan 11
@@ -173,20 +171,20 @@ next connections:
 This example is configured to work with the USBNSH instead of UART NSH,
 so the console will be shown over the USB\_OTG1 connector.
 
-Once you're on the console, you need to check if the initialization
-process was fine. To do so, you need to type "ls /dev" and you should
-see a device call "ieee0". At this point we need to set-up the network,
-follow the next steps:
+Once you\'re on the console, you need to check if the initialization
+process was fine. To do so, you need to type \"ls /dev\" and you should
+see a device call \"ieee0\". At this point we need to set-up the
+network, follow the next steps:
 
     This is an example of how to configure a coordinator:
     i8sak wpan0 startpan cd:ab
     i8sak set chan 11
     i8sak set saddr 42:01
     i8sak acceptassoc
-    
+
     When the association was complete, you need to bring-up the network:
     ifup wpan0
-    
+
     This is an example of how to configure the endpoint:
     i8sak wpan0
     i8sak set chan 11
@@ -194,10 +192,10 @@ follow the next steps:
     i8sak set saddr 42:02
     i8sak set ep_saddr 42:01
     i8sak assoc
-    
+
     When the association was complete, you need to bring-up the network:
     ifup wpan0
 
-If you execute the command "ifconfig", you will be able to see the info
-of the WPAN0 interface and see the assigned IP. This interface can be
-use with an UDP or TCP server/client application.
+If you execute the command \"ifconfig\", you will be able to see the
+info of the WPAN0 interface and see the assigned IP. This interface can
+be use with an UDP or TCP server/client application.

@@ -1,6 +1,8 @@
-# Microchip SAM34
+Microchip SAM34
+===============
 
-## Microchip SAM3U
+Microchip SAM3U
+---------------
 
 This port uses the [Microchip](http://www.atmel.com/) SAM3U-EK
 development board that features the SAM3U4E MCU. This port uses a GNU
@@ -13,7 +15,8 @@ native toolchain (CodeSourcery or devkitARM), or 4) Native Windows. A
 DIY toolchain for inux or Cygwin is provided by the NuttX
 [buildroot](https://bitbucket.org/nuttx/buildroot/downloads/) package.
 
-## Microchip SAM3X
+Microchip SAM3X
+---------------
 
 There are two SAM3X boards supported:
 
@@ -21,7 +24,7 @@ There are two SAM3X boards supported:
     features the ATSAM3X8E MCU running at 84MHz. See the [Arduino
     Due](http://arduino.cc/en/Main/arduinoBoardDue) page for more
     information.
-2.  The Mikroelektronika [Flip\&Click
+2.  The Mikroelektronika [Flip&Click
     SAM3X](https://www.mikroe.com/flip-n-click-sam3x) development board.
     This board is an Arduino Due *work-alike* with additional support
     for 4 mikroBUS Click boards.
@@ -29,21 +32,22 @@ There are two SAM3X boards supported:
 **Development Environments:** See the Microchip SAM3U discussion
 [above.](#at91sam3u)
 
-## Microchip SAM4L
+Microchip SAM4L
+---------------
 
 This port uses the Microchip SAM4L Xplained Pro development board. This
 board features the ATSAM4LC4C MCU running at 48MHz with 256KB of FLASH
 and 32KB of internal SRAM.
 
 **STATUS:** As of this writing, the basic port is code complete and a
-fully verified configuration exists for the NuttShell `NSH <nsh>`). The
-first fully functional SAM4L Xplained Pro port was released in
-NuttX-6.28. Support for the SAM4L Xplained modules was added in
-NuttX-6.29:
+fully verified configuration exists for the NuttShell
+`NSH <nsh>`{.interpreted-text role="ref"}). The first fully functional
+SAM4L Xplained Pro port was released in NuttX-6.28. Support for the
+SAM4L Xplained modules was added in NuttX-6.29:
 
-  - Support for the SPI-based SD card on the I/O1 module.
-  - Driver for the LED1 segment LCD module.
-  - Support for the UG-2832HSWEG04 OLED on the SAM4L Xplained Pro's
+-   Support for the SPI-based SD card on the I/O1 module.
+-   Driver for the LED1 segment LCD module.
+-   Support for the UG-2832HSWEG04 OLED on the SAM4L Xplained Pro\'s
     OLED1 module
 
 Refer to the NuttX board
@@ -69,7 +73,8 @@ memory allocation for things like stacks and I/O buffers:
 You can see that 22.8KB (71.1%) of the SRAM heap is still available for
 further application development while NSH is running.
 
-## Microchip SAM4CM
+Microchip SAM4CM
+----------------
 
 General architectural support was provided for SAM4CM family in NuttX
 7.3 This was *architecture-only* support, meaning that support for the
@@ -87,7 +92,8 @@ in an SMP configuration. Refer to the NuttX board
 [README](https://github.com/apache/nuttx/blob/master/Documentation/platforms/arm/sam34/boards/sam4cmp-db/README.txt)
 file for further information.
 
-## Microchip SAM4E
+Microchip SAM4E
+---------------
 
 General architectural support was provided for the SAM4E family in NuttX
 6.32. This was *architecture-only* support, meaning that support for the
@@ -97,18 +103,19 @@ Mitko.
 
 **Microchip SAM4E-EK**. Board support was added for the SAM4E-EK
 development board in NuttX 7.1. A fully functional NuttShell (NSH)
-configuration is available (see `NSH <nsh>`). That NSH configuration
-includes networking support and support for an AT25 Serial FLASH file
-system.
+configuration is available (see `NSH <nsh>`{.interpreted-text
+role="ref"}). That NSH configuration includes networking support and
+support for an AT25 Serial FLASH file system.
 
-## Microchip SAM4S
+Microchip SAM4S
+---------------
 
 There are ports to two Microchip SAM4S board:
 
-  - There is a port the Microchip SAM4S Xplained development board. This
+-   There is a port the Microchip SAM4S Xplained development board. This
     board features the ATSAM4S16 MCU running at 120MHz with 1MB of FLASH
     and 128KB of internal SRAM.
-  - There is also a port to the Microchip SAM4S Xplained *Pro*
+-   There is also a port to the Microchip SAM4S Xplained *Pro*
     development board. This board features the ATSAM4S32C MCU running at
     120MHz with 2MB of FLASH and 160KB of internal SRAM.
 
@@ -120,9 +127,9 @@ was contributed in part by Mitko.
 
 **Microchip SAM4E-EK**. Board support was added for the SAM4E-EK
 development board in NuttX 7.1. A fully functional NuttShell (NSH)
-configuration is available (see `NSH <nsh>`). That NSH configuration
-includes networking support and support for an AT25 Serial FLASH file
-system.
+configuration is available (see `NSH <nsh>`{.interpreted-text
+role="ref"}). That NSH configuration includes networking support and
+support for an AT25 Serial FLASH file system.
 
 **Development Environments:** 1) Linux with native Linux GNU toolchain,
 2) Cygwin/MSYS with Cygwin GNU Cortex-M3 or 4 toolchain, 3) Cygwin/MSYS

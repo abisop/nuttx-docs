@@ -1,9 +1,6 @@
-# ST Nucleo L073RZ
-
-<div class="tags">
+ST Nucleo L073RZ
+================
 
 chip:stm32, chip:stm32l0, chip:stm32l073
-
-</div>
 
 The Nucleo L073RZ is a member of the Nucleo-64 board family.

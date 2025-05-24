@@ -1,6 +1,8 @@
-# Device Drivers
+Device Drivers
+==============
 
-## Standard Device Drivers
+Standard Device Drivers
+-----------------------
 
 Device drivers should be implemented in the RTOS and used by
 applications. Drivers provide access to device functionality for
@@ -10,7 +12,8 @@ the NuttX directory structure, share-able device drivers reside under
 at `nuttx/boards/<arch>/<chip>/<board>/src` or
 `nuttx/boards/<arch>/<chip>/drivers` that are built into the RTOS.
 
-## Bus Drivers
+Bus Drivers
+-----------
 
 There a many things that get called drivers in OS; NuttX makes a
 distinction between device drivers and bus drivers. For example, SPI,
@@ -38,12 +41,13 @@ drivers that use PCI, PCMCIA, USB, Ethernet, I2C, or SPI. Bus drivers
 only exist to support the communication between the device driver and
 the device on the bus.
 
-Back to SPI... There will never be an application accessible interface
+Back to SPI\... There will never be an application accessible interface
 to SPI. If your application were to use SPI directly, then you would
 have have embedded a device driver in your application and would have
 violated the RTOS functional partition.
 
-## Test Drivers
+Test Drivers
+------------
 
 It would be possible to provide character driver, such as SPI driver,
 that could perform bus level accesses on behalf of an application. There
@@ -57,10 +61,10 @@ be possible to build any meaningless application with it.
 ### The I2C Tool
 
 Of course, like most rules, there are lots of violations. I2C is another
-bus and the the I2C "driver" is another transport similar in many ways
+bus and the the I2C \"driver\" is another transport similar in many ways
 to SPI. For I2C, there is an application at `apps/system/i2c` alled the
-"I2C tool" that will allow you access I2C devices from the command line.
-This is not really just a test tool and not a real part of an
+\"I2C tool\" that will allow you access I2C devices from the command
+line. This is not really just a test tool and not a real part of an
 application.
 
 And there is a fundamental flaw in the I2C tool: it uses NuttX internal
@@ -72,7 +76,8 @@ cases, the OS interfaces are strictly enforced. In the kernel pand
 protected build modes, the I2C tool is not available because it cannot
 access those NuttX internal interfaces.
 
-## User Space Drivers
+User Space Drivers
+------------------
 
 Above, it was stated that if your application were to use a bus
 directly, then you would have have embedded a device driver in your
@@ -81,7 +86,8 @@ built into user applications are referred to as user space drivers in
 some contexts. There is no plan or intent to support user space drivers
 in NuttX.
 
-## Communication Devices
+Communication Devices
+---------------------
 
 What about interface like CAN and UARTs? Why are those exposed as
 drivers when SPI and I2C are not?
@@ -95,7 +101,7 @@ In the case of true buses that support generic devices, the principle is
 a good one. But there are grey areas too.
 
 CAN seems similar to Ethernet. Both are network interfaces of sorts. You
-wouldn't interface directly with Ethernet driver because you need to go
+wouldn\'t interface directly with Ethernet driver because you need to go
 through a network stack of some type. The OSI model prevents it.
 
 UARTs are communication devices. There is no RS-232 bus with devices
@@ -116,31 +122,33 @@ those latter serial interfaces clearly have a host/device, master/slave
 model associated with them. It make perfectly good sense to think of
 them as buses that support device interfaces.
 
-## I/O Expander
+I/O Expander
+------------
 
 An I/O expander is device that interfaces with the MCU, usually via I2C,
 and provides additional discrete inputs and outputs. The same rules
 apply:
 
-  - **GPIOS are Board-Specific**. Nothing in the system should now about
+-   **GPIOS are Board-Specific**. Nothing in the system should now about
     GPIOs except for board specific logic. GPIOs can change from
     board-toboard. They can come and go. They can be replaced by GPIO
     expanders. Your (portable) application should not have any knowledge
     about how any discrete I/O is implemented on the board. There will
     never be GPIO drivers as a part of the NuttX architecture.
-  - **Common Drivers are Board-Independent**. Nor should common drivers
+-   **Common Drivers are Board-Independent**. Nor should common drivers
     (like those in `drivers/`) know anything about GPIOs. In ALL cases,
     the board specific implementation in the board directories creates a
-    "lower half" driver and binds that "lower half" driver with an
-    common "upper half" driver to initialize the driver. Only the board
-    logic has any kind of GPIO knowledge; not the application and not
-    the common "upper half driver".
-  - **I2C and SPI Drivers are Internal Bus Drivers**. Similarly I2C and
+    \"lower half\" driver and binds that \"lower half\" driver with an
+    common \"upper half\" driver to initialize the driver. Only the
+    board logic has any kind of GPIO knowledge; not the application and
+    not the common \"upper half driver\".
+-   **I2C and SPI Drivers are Internal Bus Drivers**. Similarly I2C and
     SPI drivers are not accessible to applications. These are NOT device
     drivers but are bus drivers. They should not be accessed directly by
     applications. Rather, again, the board-specific logic generates a
-    "lower half" driver that provides a common I2C or SPI interface and
-    binds that with an "upper half" driver to initialize the driver.
+    \"lower half\" driver that provides a common I2C or SPI interface
+    and binds that with an \"upper half\" driver to initialize the
+    driver.
 
 None of those rules change if you use an I/O expander, things just get
 more convoluted.
@@ -154,7 +162,7 @@ Consider this case for some `<board>`:
     a GPIO input.
 2.  The GPIO button inputs go to I2C I/O expander at say,
     `drivers/ioexpander/myexpander.c`, and finally to
-3.  The discrete joystick driver "upper half" driver
+3.  The discrete joystick driver \"upper half\" driver
     (`drivers/input/djoystick.c`).
 
 ### Implementation Details
@@ -170,19 +178,19 @@ layered architecture:
 2.  The discrete joystick driver would have been initialized by logic in
     some file like `boards/<arch>/xyz/<board>/src/xyz_djoystick.c` when
     the system was initialized. `zyz_joystick.c` would have created
-    instance of the `struct djoy_lowerhalf_s` "lower half" interface as
-    described in `nuttx/include/nuttx/input/djoystick.h` and would have
-    passed that interface instance to the `drivers/input/djoystick.c`
-    "upper half" driver to initialize it.
+    instance of the `struct djoy_lowerhalf_s` \"lower half\" interface
+    as described in `nuttx/include/nuttx/input/djoystick.h` and would
+    have passed that interface instance to the
+    `drivers/input/djoystick.c` \"upper half\" driver to initialize it.
 
-3.  As part of the creation of the `struct djoy_lowerhalf_s` "lower
-    half" interface instance, logic in `xyz_djoystick.c` would have done
-    the following: It would have created an I2C driver instance by
+3.  As part of the creation of the `struct djoy_lowerhalf_s` \"lower
+    half\" interface instance, logic in `xyz_djoystick.c` would have
+    done the following: It would have created an I2C driver instance by
     called MCU specific I2C initialization logic then passed this I2C
     driver instance to the I/O expander initialization interface in
     `drivers/ioexpander/myexpander.c` to create the I/O expander
     interface instance.
-    
+
     Note that the I/O expander interface should NOT be a normal
     character driver. It should NOT be accessed via
     open/close/read/write/ioctl. Rather, it should return an instance of
@@ -190,25 +198,25 @@ layered architecture:
     would be described in `nuttx/include/ioexpander/ioexpander.h`. It is
     an internal operating system interface and would never be available
     to application logic.
-    
-    After receiving the I/O expander interface instance, the "lower
-    half" discrete joystick interface would retain this internally as
-    private data. Nothing in the system other than this "lower half"
+
+    After receiving the I/O expander interface instance, the \"lower
+    half\" discrete joystick interface would retain this internally as
+    private data. Nothing in the system other than this \"lower half\"
     discrete joystick driver needs to know how the joystick is connected
     on board.
 
-4.  After creating the "upper half" discrete joystick interface
-    interface, the "lower half" discrete joystick interface would enable
-    interrupts from the I/O expander device.
+4.  After creating the \"upper half\" discrete joystick interface
+    interface, the \"lower half\" discrete joystick interface would
+    enable interrupts from the I/O expander device.
 
-5.  When a key is pressed, the "lower half" discrete joystick driver
+5.  When a key is pressed, the \"lower half\" discrete joystick driver
     would receive an interrupt from the I/O expander. It would then
     interact with the I/O driver to obtain the current discrete button
     depressions. The I/O expander driver would interact with I2C to
     obtain those button settings. Then the discrete joystick interface
-    callback will be called, providing the discrete joystick "upper
-    half" driver with the joystick input.
+    callback will be called, providing the discrete joystick \"upper
+    half\" driver with the joystick input.
 
-6.  The "upper half" discrete joystick character driver would then
+6.  The \"upper half\" discrete joystick character driver would then
     return the encoded joystick input to the application in response to
     a `read()` from application code.

@@ -1,4 +1,5 @@
-# I3C Device Drivers
+I3C Device Drivers
+==================
 
 The I3C (Improved Inter-Integrated Circuit) driver is a comprehensive
 software framework designed to support the advanced features of the I3C
@@ -10,7 +11,7 @@ interfaces. Meanwhile, the underlying IP drivers, developed specifically
 for the I3C driver framework, handle the implementation of IP
 functionalities and the adaptation of framework-level interfaces.
 
-  - Key Components of the I3C Driver Framework:
+-   Key Components of the I3C Driver Framework:
 
 > 1.  **Dynamic Addressing and Access**: One of the primary advancements
 >     of I3C over I2C is its support for dynamic addressing. This allows
@@ -29,7 +30,7 @@ functionalities and the adaptation of framework-level interfaces.
 >     configuration and release, CCC command transmission, I3C device
 >     data transmission, and I2C device data transmission.
 
-  - Data Structures and Interfaces:
+-   Data Structures and Interfaces:
 
 > 1.  **I3C Master Controller (struct i3c\_master\_controller)**:
 >     Represents an I3C controller and manages basic software
@@ -49,14 +50,14 @@ functionalities and the adaptation of framework-level interfaces.
 >     structure for encapsulating CCC commands transmitted to I3C
 >     devices.
 
-  - Application Usage of I3C
+-   Application Usage of I3C
 
 Applications interact with I3C devices through device nodes (/dev/i3cX
 for I3C and /dev/i2cX for I2C devices, where X represents the specific
 bus number). Standard file operations such as open, close, read, write,
 and ioctl are supported.
 
-  - IOCTL Commands:
+-   IOCTL Commands:
     1.  For I2C devices, IOCTL commands like I2C\_TRANSFER and
         I2C\_RESET are available, allowing applications to transmit data
         and reset I2C devices.
@@ -66,7 +67,7 @@ and ioctl are supported.
         IBI (In-Band Interrupt) commands, I3CIOC\_REQ\_IBI and
         I3CIOC\_FREE\_IBI for requesting and releasing IBI commands, and
         I3CIOC\_GET\_DEVINFO for retrieving device information.
-  - Data Transmission Format:
+-   Data Transmission Format:
 
 When transmitting data to I3C slave devices, applications must
 encapsulate their data in a struct i3c\_transfer\_s format. This
@@ -75,7 +76,7 @@ address, nxfers for the number of data frames to be transmitted, xfers
 for the data frame format, and additional fields for IBI operation
 requests and device information retrieval.
 
-  - Provisional ID Implementation:
+-   Provisional ID Implementation:
 
 Due to the use of dynamic addressing in I3C, devices may be identified
 using Provisional IDs (PIDs). These PIDs are encoded in the reg\[3\]

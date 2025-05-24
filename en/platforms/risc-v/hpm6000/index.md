@@ -1,5 +1,7 @@
-# Hpmicro HPM6000
+Hpmicro HPM6000
+===============
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

@@ -1,25 +1,19 @@
-# Removing Device Drivers with NSH
-
-<div class="warning">
-
-<div class="title">
+Removing Device Drivers with NSH
+================================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/Removing+Device+Drivers+with+NSH>
 
-</div>
-
-## NuttX and Unix-like Operating Systems Compared
+NuttX and Unix-like Operating Systems Compared
+----------------------------------------------
 
 There are many things that are called device drivers. In this context,
 the discussion is limited to **character device drivers**. In NuttX,
 character device drivers are represented by device driver nodes in the
-top-level \[<span class="title-ref">p\](\`p.md)seudo filesystem
-\</components/filesystem/pseudofs\></span>.
+top-level \[[p\](\`p.md)seudo filesystem
+\</components/filesystem/pseudofs\>]{.title-ref}.
 
 Standard Unix-like operating systems also support device driver nodes,
 which superficially resemble NuttX device driver nodes: Both look like
@@ -47,7 +41,8 @@ Internally, NuttX supports a function called `unregister_driver()` that
 can be invoked to remove a device driver. Therefore, removing the device
 driver node must behave as though `unregister_driver()` were called.
 
-## The unlink() Method
+The unlink() Method
+-------------------
 
 How is this accomplished in NuttX? It is done via a special device
 driver method called `unlink()`.
@@ -56,27 +51,20 @@ NuttX device drivers are implemented via a vtable of function pointers.
 That vtable defines the interface between the pseudo-file system and the
 device driver. This vtable is the structure `struct file_operations`
 defined in `[nuttx]/include/nuttx/fs/fs.h`. It provides several
-interfaces that closely match the standard POSIX interfaces—`open()`,
-`close()`, `read()`, `write()`, etc.—and also includes a method called
+interfaces that closely match the standard POSIX interfaces---`open()`,
+`close()`, `read()`, `write()`, etc.---and also includes a method called
 `unlink()`. This `unlink()` method is called by the NuttX VFS when a
 user removes a device driver node.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 Removal of device driver nodes is only permitted if
 `CONFIG_DISABLE_PSEUDOFS_OPERATIONS` is **not** defined. All pseudo-file
 system operations may be suppressed to reduce the FLASH footprint in
 systems with extremely limited resources.
 
-</div>
-
-## Removing a Device Node from NSH
+Removing a Device Node from NSH
+-------------------------------
 
 Below is a summary of what happens when a device node is deleted using
 the NSH `rm` command:
@@ -88,11 +76,11 @@ the NSH `rm` command:
     `[nuttx]/fs/vfs/fs_unlink.c` is then executed.
 3.  The VFS `unlink()` detects that the target to be removed is a device
     node in the top-level pseudo-file system. It calls the device
-    driver's `unlink()` method. It also removes the device node from the
-    pseudo-filesystem. However, the underlying resources required to
+    driver\'s `unlink()` method. It also removes the device node from
+    the pseudo-filesystem. However, the underlying resources required to
     support the device driver interface may remain until the device
     driver frees those resources.
-4.  When the device driver's `unlink()` method is called, it determines
+4.  When the device driver\'s `unlink()` method is called, it determines
     if the device resources can be freed immediately. If so, it frees
     those resources. If, for example, there are still open references to
     the device driver, it may defer freeing the resources until the last
@@ -105,17 +93,9 @@ the NSH `rm` command:
     the unlink operation was deferred. If so, it frees any remaining
     device driver resources at that time.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 Some character device driver instances do not implement the `unlink()`
 method. If problems arise when attempting to remove character drivers as
 described in this Wiki page, a missing `unlink()` method is the most
 likely cause.
-
-</div>

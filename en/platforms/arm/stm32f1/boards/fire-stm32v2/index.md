@@ -1,10 +1,7 @@
-# fire-stm2v2
-
-<div class="tags">
+fire-stm2v2
+===========
 
 chip:stm32, chip:stm32f1, chip:stm32f103
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the M3
 Wildfire development board (STM32F103VET6). See
@@ -14,9 +11,11 @@ This configuration should support both the version 2 and version 3 of
 the Wildfire board (using NuttX configuration options). However, only
 version 2 has been verified.
 
-## Pin Configuration
+Pin Configuration
+-----------------
 
-## DFU and JTAG
+DFU and JTAG
+------------
 
 ### Enabling Support for the DFU Bootloader
 
@@ -41,7 +40,7 @@ The DFU SE PC-based software is available from the STMicro website,
 <http://www.st.com>. General usage instructions:
 
 1.  Convert the NuttX Intel Hex file (nuttx.hex) into a special DFU file
-    (nuttx.dfu)... see below for details.
+    (nuttx.dfu)\... see below for details.
 2.  Connect the M3 Wildfire board to your computer using a USB cable.
 3.  Start the DFU loader on the M3 Wildfire board. You do this by
     resetting the board while holding the *Key* button. Windows should
@@ -54,9 +53,9 @@ downloaded from the STMicro Website. You can build it using RIDE (or
 other toolchains); you will need a JTAG emulator to burn it into FLASH
 the first time.
 
-In order to use STMicro's built-in DFU loader, you will have to get the
+In order to use STMicro\'s built-in DFU loader, you will have to get the
 NuttX binary into a special format with a .dfu extension. The DFU SE
-PC\_based software installation includes a file "DFU File Manager"
+PC\_based software installation includes a file \"DFU File Manager\"
 conversion program that a file in Intel Hex format to the special DFU
 format. When you successfully build NuttX, you will find a file called
 nutt.hex in the top-level directory. That is the file that you should
@@ -77,30 +76,31 @@ is for all JTAG support to be disabled.:
 
     CONFIG_STM32_JTAG_FULL_ENABLE - sets SWJ_CFG[2:0] to 000 which enables full
       SWJ (JTAG-DP + SW-DP)
-    
+
     CONFIG_STM32_JTAG_NOJNTRST_ENABLE - sets SWJ_CFG[2:0] to 001 which enable
       full SWJ (JTAG-DP + SW-DP) but without JNTRST.
-    
+
     CONFIG_STM32_JTAG_SW_ENABLE - sets SWJ_CFG[2:0] to 010 which would set JTAG-DP
       disabled and SW-DP enabled.
-    
+
     The default setting (none of the above defined) is SWJ_CFG[2:0] set to 100
     which disable JTAG-DP and SW-DP.
 
-## OpenOCD
+OpenOCD
+-------
 
 I have also used OpenOCD with the M3 Wildfire. In this case, I used the
 Olimex USB ARM OCD. See the script in
 boards/arm/stm32/fire-stm32v2/tools/oocd.sh for more information. Using
 the script:
 
-  - Start the OpenOCD GDB server:
-    
+-   Start the OpenOCD GDB server:
+
         cd <nuttx-build-directory>
         boards/arm/stm32/fire-stm32v2/tools/oocd.sh PWD
 
-  - Load NuttX:
-    
+-   Load NuttX:
+
         cd <nuttx-built-directory>
         arm-none-eabi-gdb nuttx
         gdb> target remote localhost:3333
@@ -108,12 +108,13 @@ the script:
         gdb> mon halt
         gdb> load nuttx
 
-  - Running NuttX:
-    
+-   Running NuttX:
+
         gdb> mon reset
         gdb> c
 
-## LEDs
+LEDs
+----
 
 The M3 Wildfire has 3 LEDs labeled LED1, LED2 and LED3. These LEDs are
 not used by the NuttX port unless CONFIG\_ARCH\_LEDS is defined. In that
@@ -126,14 +127,15 @@ follows:
     #define LED_HEAPALLOCATE           1  /* ON     OFF    OFF */
     #define LED_IRQSENABLED            2  /* OFF    ON     OFF */
     #define LED_STACKCREATED           3  /* OFF    OFF    OFF */
-    
+
     #define LED_INIRQ                  4  /* NC     NC    ON  (momentary) */
     #define LED_SIGNAL                 5  /* NC     NC    ON  (momentary) */
     #define LED_ASSERTION              6  /* NC     NC    ON  (momentary) */
     #define LED_PANIC                  7  /* NC     NC    ON  (2Hz flashing) */
     #undef  LED_IDLE                      /* Sleep mode indication not supported */
 
-## RTC
+RTC
+---
 
 The STM32 RTC may configured using the following settings.:
 
@@ -165,9 +167,11 @@ down. The overflow interrupt may be lost even if the STM32 is powered
 down only momentarily. Therefore hi-res solution is only useful in
 systems where the power is always on.
 
-## M3 Wildfire-specific Configuration Options
+M3 Wildfire-specific Configuration Options
+------------------------------------------
 
-## Configurations
+Configurations
+--------------
 
 Each M3 Wildfire configuration is maintained in a sub-directory and can
 be selected as follow:
@@ -185,12 +189,12 @@ file.
 
 Reconfiguring: This configuration uses to the kconfig-mconf
 configuration tool to control the configuration. See the section
-entitled "NuttX Configuration Tool" in the top-level README.txt file.
+entitled \"NuttX Configuration Tool\" in the top-level README.txt file.
 
 Start Delays: If no SD card is present in the slot, or if the network is
 not connected, then there will be long start-up delays before you get
 the NSH prompt. If I am focused on ENC28J60 debug, I usually disable
-MMC/SD so that I don't have to bother with the SD card:
+MMC/SD so that I don\'t have to bother with the SD card:
 
     CONFIG_STM32_SDIO=n
     CONFIG_MMCSD=n
@@ -203,7 +207,7 @@ using the kconfig-mconf configuration tool:
 
     > make menuconfig
 
-Then de-select "Networking Support" -\> "Networking Support"
+Then de-select \"Networking Support\" -\> \"Networking Support\"
 
 PDATE: The primary problem with the ENC29J60 is a v2 board issue: The
 SPI FLASH and the ENC28J60 shared the same SPI chip select signal

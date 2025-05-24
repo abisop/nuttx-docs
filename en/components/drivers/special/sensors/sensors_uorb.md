@@ -1,4 +1,5 @@
-# Sensor "uORB" Drivers
+Sensor \"uORB\" Drivers
+=======================
 
 NuttX, in order to uniformly manage all sensors, reuse common code, and
 reduce space occupation, extracts the common parts of all sensor drivers
@@ -14,14 +15,16 @@ halves need to be instantiated within the driver, and device nodes are
 registered separately through the API (sensor\_register) provided by the
 upper half.
 
-## Naming
+Naming
+------
 
 The name used for this component in NuttX may be misleading because this
-sensor framework is not dependent on "uORB" in any way. Sensors
+sensor framework is not dependent on \"uORB\" in any way. Sensors
 implemented in this way can be used as general character drivers with a
 standardized interface.
 
-## **Driver Model**
+**Driver Model**
+----------------
 
 The NuttX Sensor Upperhalf Driver is primarily responsible for
 registering device nodes, implementing the struct file\_operations,
@@ -36,26 +39,29 @@ operations such as `activate`, `set_interval`, `batch`, `selftest`,
 mechanisms, sensor events are sent to the ring buffer in the upper
 layer.
 
-![image](sensor_driver_model.png)
+![image](sensor_driver_model.png){.align-center width="800px"}
 
-## Problems to solve
+Problems to solve
+-----------------
 
 The current implementation uses the `float` type which may make it
 difficult to use on platforms without FPU support.
 
-## **Code**
+**Code**
+--------
 
     nuttx/driver/sensor/sensor.c               sensor upperhalf implementation
     nuttx/driver/sensor/sensor_rpmsg.c         sensor rpmsg lowerhalf implementation
     nuttx/driver/sensor/usensor.c              userspace sensor register implementation
     nuttx/include/nuttx/sensors/sensor.h       sensor unify structure header file
     nuttx/include/nuttx/sensors/ioctl.h        sensor ioctl cmd header file
-    
+
     CONFIG_SENSORS                             open sensor driver config
     CONFIG_USENSORS                            open user sensor driver config
     CONFIG_SENSORS_RPMSG                       open rpmsg sensor driver config
 
-## **Data Structures**
+**Data Structures**
+-------------------
 
 ### **Sensor Types**
 
@@ -77,7 +83,7 @@ Units: m/s=2. Event data structure: (This indicates that there is a
 specific data structure for accelerometer events, but the actual
 structure is not provided in the text you gave.)
 
-(won't introduce them one by one since there are many)
+(won\'t introduce them one by one since there are many)
 
 ### **Sensor Topic Definition**
 
@@ -86,8 +92,8 @@ uORB, is defined in `include/nuttx/uorb.h`.
 
 ### **Lower Half Structure**
 
-This structure serves as a bridge between the sensor driver's upper half
-and lower half. Both the upper half and lower half populate this
+This structure serves as a bridge between the sensor driver\'s upper
+half and lower half. Both the upper half and lower half populate this
 structure, with the lower half responsible for synchronizing
 configuration information and the upper half for exposing data reporting
 interfaces.
@@ -121,7 +127,7 @@ Currently, they are only used for sensor\_rpmsg.
 
 `persist` indicates whether the topic is a notification-type topic.
 
-``` C
+``` {.C}
 struct sensor_lowerhalf_s
 {
   int type;
@@ -163,7 +169,7 @@ and esize is the element size of the data reported by the sensor. If the
 registration is successful, a character device node will be created at
 the specified path. If it fails, an error code will be returned.
 
-``` C
+``` {.C}
 int sensor_register(FAR struct sensor_lowerhalf_s *dev, int devno);
 void sensor_unregister(FAR struct sensor_lowerhalf_s *dev, int devno);
 
@@ -177,7 +183,7 @@ void sensor_custom_unregister(FAR struct sensor_lowerhalf_s *dev,
 
 The function returns a timestamp with microsecond precision.
 
-``` C
+``` {.C}
 static inline uint64_t sensor_get_timestamp(void);
 ```
 
@@ -201,7 +207,7 @@ respectively. filep contains user information, so the driver can
 differentiate between different users. Currently, this interface is only
 used by the sensor\_rpmsg lower half.
 
-``` C
+``` {.C}
 CODE int (*open)(FAR struct sensor_lowerhalf_s *lower,
                  FAR struct file *filep);
 
@@ -215,7 +221,7 @@ When the caller invokes open, if it is a subscriber, it will call
 activate in the lower half to activate the sensor. When close is called,
 deactivate is invoked to turn off the sensor.
 
-``` C
+``` {.C}
 CODE int (*activate)(FAR struct sensor_lowerhalf_s *lower,
                      FAR struct file *filep, bool enable);
 ```
@@ -238,7 +244,7 @@ max\_delay, it will be adjusted. When modifying the sampling rate, it
 should be ensured that the data that has already been prepared is not
 lost.
 
-``` C
+``` {.C}
 CODE int (*batch)(FAR struct sensor_lowerhalf_s *lower,
                   FAR struct file *filep,
                   FAR unsigned long *latency_us);
@@ -249,7 +255,7 @@ CODE int (*batch)(FAR struct sensor_lowerhalf_s *lower,
 To proactively obtain sensor data, set to NULL if using interrupt or
 polling methods.
 
-``` C
+``` {.C}
 CODE int (*fetch)(FAR struct sensor_lowerhalf_s *lower,
                   FAR struct file *filep,
                   FAR char *buffer, size_t buflen);
@@ -260,7 +266,7 @@ CODE int (*fetch)(FAR struct sensor_lowerhalf_s *lower,
 The sensor self-test is mainly used for factory testing and aging
 purposes.
 
-``` C
+``` {.C}
 CODE int (*selftest)(FAR struct sensor_lowerhalf_s *lower,
                      FAR struct file *filep,
                      unsigned long arg);
@@ -271,7 +277,7 @@ CODE int (*selftest)(FAR struct sensor_lowerhalf_s *lower,
 Trigger calibration with calibrate and return calibration data to arg.
 Use set\_calibvalue to set calibration data to the underlying sensor.
 
-``` C
+``` {.C}
 CODE int (*calibrate)(FAR struct sensor_lowerhalf_s *lower,
                       FAR struct file *filep,
                       unsigned long arg);
@@ -287,7 +293,7 @@ CODE int (*set_calibvalue)(FAR struct sensor_lowerhalf_s *lower,
 Use get\_info to proactively obtain sensor information data, with the
 return value being `sensor_device_info_s`.
 
-``` C
+``` {.C}
 struct sensor_device_info_s
 {
   uint32_t      version;
@@ -320,7 +326,7 @@ Call flow:
 > 3.  `sensor_ioctl`
 > 4.  `control()`.
 
-``` C
+``` {.C}
 CODE int (*control)(FAR struct file *filep,
                     FAR struct sensor_lowerhalf_s *lower,
                     int cmd, unsigned long arg);
@@ -371,7 +377,7 @@ it for the actual physical hardware. The same applies to other controls.
 
 When local data is published, the sensor rpmsg lower half collects all
 messages within a sampling interval that does not exceed half of the
-fastest topic's interval and sends them to other cores together,
+fastest topic\'s interval and sends them to other cores together,
 reducing IPC occurrences and saving power consumption.
 
 ### **Subscription and Publication Order**
@@ -383,7 +389,8 @@ obtain the latest data. For general-purpose topics, subscribing after
 publication will only allow reading of data published after the
 subscription.
 
-## **Programming Modes**
+**Programming Modes**
+---------------------
 
 NuttX Sensor drivers support three data retrieval methods: proactive,
 interrupt-driven, and polling. The proactive method allows filling
@@ -427,18 +434,18 @@ be called immediately to retrieve the data.
 ### **Interrupt-Driven Retrieval**
 
 For sensors with hardware interrupts, sensor data can be read via the
-bus in the interrupt's bottom half, and the event can be pushed to the
-upper layer's circular buffer using `sensor_lowerhalf_s::push_event`.
+bus in the interrupt\'s bottom half, and the event can be pushed to the
+upper layer\'s circular buffer using `sensor_lowerhalf_s::push_event`.
 When using the internal circular buffer, data generated in each
-interrupt's bottom half is pushed to the upper layer's circular buffer.
-Upper-layer applications read data directly from the buffer. When the
-buffer has no data, it will depend on the blocking flag in f\_oflags to
-determine whether to wait. Common sensors operate in interrupt mode.
-When an interrupt occurs, a worker is scheduled to start the bottom
-half, which then retrieves sensor data via buses such as I2C or SPI and
-calls the push\_event interface to push the data to the upper half's
-buffer. It is recommended to configure an interrupt pin for sensors with
-a sampling rate higher than 25Hz.
+interrupt\'s bottom half is pushed to the upper layer\'s circular
+buffer. Upper-layer applications read data directly from the buffer.
+When the buffer has no data, it will depend on the blocking flag in
+f\_oflags to determine whether to wait. Common sensors operate in
+interrupt mode. When an interrupt occurs, a worker is scheduled to start
+the bottom half, which then retrieves sensor data via buses such as I2C
+or SPI and calls the push\_event interface to push the data to the upper
+half\'s buffer. It is recommended to configure an interrupt pin for
+sensors with a sampling rate higher than 25Hz.
 
 ### **Polling Retrieval**
 
@@ -446,32 +453,33 @@ For sensors without hardware interrupts, data generated by the sensor
 can be collected through periodic polling, with the polling period
 typically varying based on the sampling rate.
 
-## Implemented Drivers
+Implemented Drivers
+-------------------
 
-  - \[<span class="title-ref">adxl362</span>\](<span class="title-ref">adxl362</span>.md)
-  - \[<span class="title-ref">adxl372</span>\](<span class="title-ref">adxl372</span>.md)
-  - bh1749nuc
-  - bme680
-  - bmi088
-  - bmi160
-  - bmi270
-  - bmm150
-  - bmp180
-  - bmp280
-  - ds18b20
-  - fakesensor
-  - fs3000
-  - gnss
-  - goldfish\_gnss
-  - goldfish\_sensor
-  - hyt271
-  - l3gd20
-  - \[<span class="title-ref">li\](\`li.md)s2mdl</span>
-  - lsm9ds1
-  - ltr308
-  - mpu9250
-  - ms56xx
-  - \[<span class="title-ref">nau7802</span>\](<span class="title-ref">nau7802</span>.md)
-  - \[<span class="title-ref">\](</span>.md)sht4x\`
-  - \[<span class="title-ref">l\](\`l.md)sm6dso32</span>
-  - wtgahrs2
+-   \[[adxl362]{.title-ref}\]([adxl362]{.title-ref}.md)
+-   \[[adxl372]{.title-ref}\]([adxl372]{.title-ref}.md)
+-   bh1749nuc
+-   bme680
+-   bmi088
+-   bmi160
+-   bmi270
+-   bmm150
+-   bmp180
+-   bmp280
+-   ds18b20
+-   fakesensor
+-   fs3000
+-   gnss
+-   goldfish\_gnss
+-   goldfish\_sensor
+-   hyt271
+-   l3gd20
+-   \[[li\](\`li.md)s2mdl]{.title-ref}
+-   lsm9ds1
+-   ltr308
+-   mpu9250
+-   ms56xx
+-   \[[nau7802]{.title-ref}\]([nau7802]{.title-ref}.md)
+-   \[[\](]{.title-ref}.md)sht4x\`
+-   \[[l\](\`l.md)sm6dso32]{.title-ref}
+-   wtgahrs2

@@ -1,5 +1,7 @@
-# fvp-v8r
+fvp-v8r
+=======
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

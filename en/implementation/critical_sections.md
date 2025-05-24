@@ -1,18 +1,20 @@
-# Critical Sections
+Critical Sections
+=================
 
-## Types and Effects of Critical Sections
+Types and Effects of Critical Sections
+--------------------------------------
 
 A critical section is a short sequence of code where exclusive execution
 is assured by globally disabling other activities while that code
 sequence executes. When we discuss critical sections here we really
 refer to one of two mechanisms:
 
-  - **Critical Section proper** A critical section is established by
+-   **Critical Section proper** A critical section is established by
     calling `enter_critical_section()`; the code sequence exits the
     critical section by calling `leave_critical_section()`. For the
     single CPU case, this amounts to simply disabling interrupts but is
     more complex in the SMP case where spinlocks are also involved.
-  - **Disabling Pre-emption** This is a related mechanism that is lumped
+-   **Disabling Pre-emption** This is a related mechanism that is lumped
     into this discussion because of the similarity of its effects on the
     system. When pre-emption is disabled (via `sched_lock()`),
     interrupts remain enabled, but context switches may not occur; the
@@ -21,36 +23,37 @@ refer to one of two mechanisms:
 
 The use of either mechanism will always harm real-time performance. The
 effects of critical sections on real-time performance is discussed in
-\[<span class="title-ref">/implementation/preemption\_latency</span>.\](<span class="title-ref">/implementation/preemption\_latency</span>..md)
+\[[/implementation/preemption\_latency]{.title-ref}.\]([/implementation/preemption\_latency]{.title-ref}..md)
 The end result is that a certain amount of **jitter** is added to the
 real-time response.
 
 Critical sections cannot be avoided within the OS and, as a consequence,
-a certain amount of "jitter" in the response time is expected. The
+a certain amount of \"jitter\" in the response time is expected. The
 important thing is to monitor the maximum time that critical sections
 are in place in order to manage that jitter so that the variability in
 response time is within an acceptable range.
 
 NOTE: This discussion applies to Normal interrupt processing. Most of
 this discussion does not apply to
-\[<span class="title-ref">/guide\](</span>/guide.md)s/zerolatencyinterrupts\`.
-Those interrupts are not masked in the same fashion and none of the
-issues address in this page apply to those interrupts.
+\[[/guide\](]{.title-ref}/guide.md)s/zerolatencyinterrupts\`. Those
+interrupts are not masked in the same fashion and none of the issues
+address in this page apply to those interrupts.
 
-## Single CPU Critical Sections
+Single CPU Critical Sections
+----------------------------
 
 ### OS Interfaces
 
-Before we talk about SMP Critical Sections let's first review the
+Before we talk about SMP Critical Sections let\'s first review the
 internal OS interfaces available and what they do in the single CPU
 case:
 
-  - `up_irq_save()` (and its companion, `up_irq_restore()`). These
+-   `up_irq_save()` (and its companion, `up_irq_restore()`). These
     simple interfaces just enable and disable interrupts globally. This
     is the simplest way to establish a critical section in the single
     CPU case. It does have side-effects to real-time behavior as
     discussed elsewhere.
-  - `up_irq_save()` should never be called directly, however. Instead,
+-   `up_irq_save()` should never be called directly, however. Instead,
     the wrapper macros enter\_critical\_section() (and its companion
     `leave_critical_section()`) or `spin_lock_irqsave()` (and
     `spin_unlock_irqrestore()`) should be used. In the single CPU case,
@@ -58,12 +61,12 @@ case:
     `up_irq_save()`). Rather than being called directly, they should
     always be called indirectly through these macros so that the code
     will function in the SMP environment as well.
-  - Finally, there is `sched_lock()` (and `sched_unlock()`) that disable
+-   Finally, there is `sched_lock()` (and `sched_unlock()`) that disable
     (and enable) pre-emption. That is, `sched_lock()` will lock your
     kernel thread in place and prevent other tasks from running.
     Interrupts are still enabled, but other tasks cannot run.
 
-### Using sched\_lock() for Critical Sections – **DON'T**
+### Using sched\_lock() for Critical Sections -- **DON\'T**
 
 In the single CPU case, `sched_lock()` can do a pretty good job of
 establishing a critical section too. After all, if no other tasks can
@@ -75,7 +78,8 @@ the SMP case. In the SMP case, locking the scheduer does not provide any
 kind of exclusive access to resources. Tasks running on other CPUs are
 still free to do whatever they wish.
 
-## SMP Critical Sections
+SMP Critical Sections
+---------------------
 
 ### `up_irq_save()` and `up_irq_restore()`
 
@@ -95,7 +99,7 @@ spinlocks. Spins locks are simply loops that execute in one processor.
 If processor A sets spinlock x, then processor B would have to wait for
 the spinlock like:
 
-``` C
+``` {.C}
 while (test_and_set(x))
  {
  }
@@ -122,10 +126,10 @@ NOTE that a critical section is indeed created: While within the
 critical section, the code does have exclusive access to the resource
 being protected. However the behavior is really very different:
 
-  - In the single CPU case, disable interrupts stops all possible
+-   In the single CPU case, disable interrupts stops all possible
     activity from any other task. The single CPU becomes single threaded
     and un-interruptible.
-  - In the SMP case, tasks continue to run on other CPUs. It is only
+-   In the SMP case, tasks continue to run on other CPUs. It is only
     when those other tasks attempt to enter a code sequence protected by
     the critical section that those tasks on other CPUs will be stopped.
     They will be stopped waiting on a spinlock.
@@ -171,12 +175,12 @@ of a critical section.
 
 There are two important things to note, however:
 
-  - The logic within this critical section must never suspend\! For
+-   The logic within this critical section must never suspend! For
     example, if code were to call `spin_lock_irqsave()` then `sleep()`,
     then the sleep would occur with the spinlock in the lock state and
     the whole system could be blocked. Rather, `spin_lock_irqsave()` can
     only be used with straight line code.
-  - This is a different critical section than the one established via
+-   This is a different critical section than the one established via
     `enter_critical_section()`. Taking one critical section, does not
     prevent logic on another CPU from taking the other critical section
     and the result is that you make not have the protection that you
@@ -187,15 +191,16 @@ There are two important things to note, however:
 Other than some details, the SMP `sched_lock()` works much like it does
 in the single CPU case. Here are the caveats:
 
-  - As in the single CPU case, the case that calls `sched_lock()` is
+-   As in the single CPU case, the case that calls `sched_lock()` is
     locked in place and cannot be suspected.
-  - However, tasks will continue to run on other CPUs so `sched_lock()`
+-   However, tasks will continue to run on other CPUs so `sched_lock()`
     cannot be used as a critical section.
-  - Tasks on other CPUs are also locked in place. However, they may opt
+-   Tasks on other CPUs are also locked in place. However, they may opt
     to suspend themselves at any time (say, via `sleep()`). In that
-    case, only the CPU's IDLE task will be permitted to run.
+    case, only the CPU\'s IDLE task will be permitted to run.
 
-## The Critical Section Monitor
+The Critical Section Monitor
+----------------------------
 
 ### Internal OS Hooks
 
@@ -225,80 +230,76 @@ configuration as a prefix.
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_THREAD=0
 
-  - Default 0 to enable executing time statistic, and make it a source
+-   Default 0 to enable executing time statistic, and make it a source
     to support cpuload.
-  - \> 0 to also do alert log when executing time above the
+-   \> 0 to also do alert log when executing time above the
     configuration ticks.
-  - \-1 to disable thread executing time statistic feature.
+-   -1 to disable thread executing time statistic feature.
 
-This method is **recommend** as a cpuload backend if you don't have more
-requirements in critmon. When disabled all other statistics in critmon,
-this method is a high efficiency way do cpu load statistic. As we did
-not add hooks to critical sections and preemption operations. Only have
-instructions when scheduler triggers context switch.
+This method is **recommend** as a cpuload backend if you don\'t have
+more requirements in critmon. When disabled all other statistics in
+critmon, this method is a high efficiency way do cpu load statistic. As
+we did not add hooks to critical sections and preemption operations.
+Only have instructions when scheduler triggers context switch.
 
 **Workq executing**:
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_WQUEUE=-1
 
-  - Default -1 to disable workq queue max execution time
-  - \> 0 to do alert log when workq executing time above the
+-   Default -1 to disable workq queue max execution time
+-   \> 0 to do alert log when workq executing time above the
     configuration ticks.
 
 **Preemption disabled time**:
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_PREEMPTION=-1
 
-  - Default -1 to disable preemption disabled time statistic.
-  - \>= 0 to enable preemption disabled time statistic, data will be in
+-   Default -1 to disable preemption disabled time statistic.
+-   \>= 0 to enable preemption disabled time statistic, data will be in
     critmon procfs.
-  - \> 0 to also do alert log when preemption disabled time above the
+-   \> 0 to also do alert log when preemption disabled time above the
     configuration ticks.
 
 **Critical section entered time**:
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_CSECTION=-1
 
-  - Default -1 to disable critical section entered time statistic.
-  - \>= 0 to enable critical section entered time statistic, data will
+-   Default -1 to disable critical section entered time statistic.
+-   \>= 0 to enable critical section entered time statistic, data will
     be in critmon procfs.
-  - \> 0 to also do alert log when critical section entered time above
+-   \> 0 to also do alert log when critical section entered time above
     the configuration ticks.
 
 **Irq executing time**:
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_IRQ=-1
 
-  - Default -1 to disable irq executing time statistic.
-  - \>= 0 to enable irq executing time statistic, data will be in
+-   Default -1 to disable irq executing time statistic.
+-   \>= 0 to enable irq executing time statistic, data will be in
     critmon procfs.
-  - \> 0 to also do alert log when irq executing time above the
+-   \> 0 to also do alert log when irq executing time above the
     configuration ticks.
 
 **Wdog executing time**:
 
     CONFIG_SCHED_CRITMONITOR_MAXTIME_WDOG=-1
 
-  - Default -1 to disable wdog executing time statistic.
-  - \>= 0 to enable wdog executing time statistic, data will be in
+-   Default -1 to disable wdog executing time statistic.
+-   \>= 0 to enable wdog executing time statistic, data will be in
     critmon procfs.
-  - \> 0 to also do alert log when wdog executing time above the
+-   \> 0 to also do alert log when wdog executing time above the
     configuration ticks.
 
 **Perf Timers interface**
 
-<div class="todo">
-
 missing description for perf\_xxx interface
-
-</div>
 
 **Per Thread and Global Critical Sections**
 
 In NuttX critical sections are controlled on a per-task basis. For
 example, consider the following code sequence:
 
-``` C
+``` {.C}
 irqstate_t flags = enter_critical_section();
 sleep(5);
 leave_critical_section(flags);
@@ -314,7 +315,7 @@ section will be re-established when that Task A runs again after the
 sleep time expires.
 
 However, if Task B that is resumed is also within a critical section,
-then the critical section will be extended even longer\! This is why the
+then the critical section will be extended even longer! This is why the
 global time that the critical section in place may be longer than any
 time that an individual thread holds the critical section.
 
@@ -323,10 +324,10 @@ time that an individual thread holds the critical section.
 The OS reports these maximum times via the ProcFS file system, typically
 mounted at `/proc`:
 
-  - The `/proc/<ID>/critmon` pseudo-file reports the per-thread maximum
+-   The `/proc/<ID>/critmon` pseudo-file reports the per-thread maximum
     value for thread ID = \<ID\>. There is one instance of this critmon
     file for each active task in the system.
-  - The `/proc/critmon` pseuo-file reports similar information for the
+-   The `/proc/critmon` pseuo-file reports similar information for the
     global state of the CPU.
 
 The form of the output from the `/proc/<ID>/critmon` file is:
@@ -341,7 +342,7 @@ critical section was held.
 
 This file cat be read from NSH like:
 
-``` bash
+``` {.bash}
 nsh> cat /proc/1/critmon
 0.000009610,0.000001165
 ```
@@ -357,7 +358,7 @@ case there will be multiple lines, one for each CPU.
 
 This file can also be read from NSH:
 
-``` bash
+``` {.bash}
 nsh> cat /proc/critmon
 0,0.000009902,0.000023590
 ```
@@ -372,7 +373,7 @@ Also available is a application daemon at `apps/system/critmon`. This
 daemon periodically reads the ProcFS files described above and dumps the
 output to stdout. This daemon is enabled with:
 
-``` bash
+``` {.bash}
 nsh> critmon_start
 Csection Monitor: Started: 3
 Csection Monitor: Running: 3
@@ -388,21 +389,22 @@ MAX DISABLE MAX TIME
 
 And can be stopped with:
 
-``` bash
+``` {.bash}
 nsh> critmon_stop
 Csection Monitor: Stopping: 3
 Csection Monitor: Stopped: 3
 ```
 
-## IRQ Monitor and Worst Case Response Time
+IRQ Monitor and Worst Case Response Time
+----------------------------------------
 
 The IRQ Monitor is additional OS instrumentation. A full discussion of
 the IRQ Monitor is beyond the scope of this page. Suffice it to say:
 
-  - The IRQ Monitor is enabled with `CONFIG_SCHED_IRQMONITOR=y`.
-  - The data collected by the IRQ Monitor is provided in `/proc/irqs`.
-  - This data can also be viewed using the `nsh> irqinfo` command.
-  - This data includes the number of interrupts received for each IRQ
+-   The IRQ Monitor is enabled with `CONFIG_SCHED_IRQMONITOR=y`.
+-   The data collected by the IRQ Monitor is provided in `/proc/irqs`.
+-   This data can also be viewed using the `nsh> irqinfo` command.
+-   This data includes the number of interrupts received for each IRQ
     and the time required to process the interrupt, from entry into the
     attached interrupt handler until exit from the interrupt handler.
 
@@ -410,18 +412,18 @@ From this information we can calculate the worst case response time from
 interrupt request until a task runs that can process the the interrupt.
 That worst cast response time, `Tresp`, is given by:
 
-  - `Tresp1 = Tcrit + Tintr + C1`
-  - `Tresp2 = Tintr + Tpreempt + C2`
-  - `Tresp = MAX(Tresp1, Tresp2)`
+-   `Tresp1 = Tcrit + Tintr + C1`
+-   `Tresp2 = Tintr + Tpreempt + C2`
+-   `Tresp = MAX(Tresp1, Tresp2)`
 
 Where:
 
-  - `C1` and `C2` are unknown, irreducible constants that reflect such
+-   `C1` and `C2` are unknown, irreducible constants that reflect such
     things as hardware interrupt latency and context switching time,
-  - `Tcrit` is the longest observed time within a critical section,
-  - `Tintr` is the time required for interrupt handler execution for the
+-   `Tcrit` is the longest observed time within a critical section,
+-   `Tintr` is the time required for interrupt handler execution for the
     event of interest, and
-  - `Tpreempt` is the longest observed time with preemption disabled.
+-   `Tpreempt` is the longest observed time with preemption disabled.
 
 NOTES:
 
@@ -435,14 +437,14 @@ NOTES:
     might some additional, unmeasured delay after the interrupt and
     before the responding task can run depending on the order in which
     the critical section is released and preemption is re-enabled:
-    
-    >   - When the task leaves the critical section, the pending
+
+    > -   When the task leaves the critical section, the pending
     >     interrupt will execute immediately with or without preemption
     >     enabled.
-    >   - If preemption is enabled first, then the will be no delay
+    > -   If preemption is enabled first, then the will be no delay
     >     after the interrupt because preemption will be enabled when
     >     the interrupt returns.
-    >   - If the task leaves critical section first, then there will be
+    > -   If the task leaves critical section first, then there will be
     >     some small delay of unknown duration after the interrupts
     >     returns and before the responding task can run because
     >     preemption will be disabled when the interrupt returns.
@@ -455,13 +457,13 @@ NOTES:
     hardware arbitration is such that the interrupt of interest will be
     deferred by no more than one interrupt). Concurrent, nested
     interrupts might be better supported with prioritized. See more:
-    \[<span class="title-ref">/guide\](</span>/guide.md)s/nestedinterrupts\`.
-    
-    >   - `Tresp1 = Tcrit + Tintrmax + Tintr + C1`
-    >     
+    \[[/guide\](]{.title-ref}/guide.md)s/nestedinterrupts\`.
+
+    > -   `Tresp1 = Tcrit + Tintrmax + Tintr + C1`
+    >
     >     Where:
-    >     
-    >       - `Tintrmax` is the longest interrupt processing time of all
+    >
+    >     -   `Tintrmax` is the longest interrupt processing time of all
     >         interrupt sources (excluding the interrupt for the event
     >         under consideration).
 
@@ -482,9 +484,9 @@ deadline? You have these options:
     correctly be used only to protect resources that are shared between
     tasking level logic and interrupt level logic.
 3.  Switch to
-    \[<span class="title-ref">/guide\](</span>/guide.md)s/zerolatencyinterrupts\`.
-    Those interrupts are not subject to most of the issues discussed in
-    this page.
+    \[[/guide\](]{.title-ref}/guide.md)s/zerolatencyinterrupts\`. Those
+    interrupts are not subject to most of the issues discussed in this
+    page.
 
 **NOTE**
 

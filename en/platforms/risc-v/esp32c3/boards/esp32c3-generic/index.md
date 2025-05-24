@@ -1,4 +1,5 @@
-# ESP32-C3 DevKit
+ESP32-C3 DevKit
+===============
 
 The ESP32-C3 DevKit is an entry-level development board equipped with
 either an ESP32-C3-WROOM-02 or an ESP32-C3-MINI-1. ESP32-C3-WROOM-02 and
@@ -8,11 +9,12 @@ Most of the I/O pins are broken out to the pin headers on both sides for
 easy interfacing. Developers can either connect peripherals with jumper
 wires or mount ESP32-C3 DevKit on a breadboard.
 
-|                                                      |                                                    |
-| ---------------------------------------------------- | -------------------------------------------------- |
-| ![ESP32-C3-DevKitC-02](ESP32-C3-DevKitC-02-v1.1.png) | ![ESP32-C3-DevKitM-1](ESP32-C3-DevKitM-1-v1.0.png) |
+  --------------------------------------------------------------------- -------------------------------------------------------------------
+  ![ESP32-C3-DevKitC-02](ESP32-C3-DevKitC-02-v1.1.png){.align-center}   ![ESP32-C3-DevKitM-1](ESP32-C3-DevKitM-1-v1.0.png){.align-center}
+  --------------------------------------------------------------------- -------------------------------------------------------------------
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -30,7 +32,8 @@ software input.
 There is one on-board LED that indicates the presence of power. Another
 WS2812 LED is connected to GPIO8 and is available for software.
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -39,8 +42,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### adc
 
@@ -148,30 +151,21 @@ maximum number of cores for this system. It also enables some
 optimization flags and disables the NuttShell to get the best possible
 score.
 
-<div class="note">
-
-<div class="title">
-
 Note
-
-</div>
 
 As the NSH is disabled, the application will start as soon as the system
 is turned on.
-
-</div>
 
 ### efuse
 
 This configuration demonstrates the use of the eFuse driver. It can be
 accessed through the `/dev/efuse` device file. Virtual eFuse mode can be
-used by enabling
-<span class="title-ref">CONFIG\_ESPRESSIF\_EFUSE\_VIRTUAL</span> option
+used by enabling [CONFIG\_ESPRESSIF\_EFUSE\_VIRTUAL]{.title-ref} option
 to prevent possible damages on chip.
 
 The following snippet demonstrates how to read MAC address:
 
-``` C
+``` {.C}
 int fd;
 int ret;
 uint8_t mac[6];
@@ -196,7 +190,7 @@ ret = ioctl(fd, EFUSEIOC_READ_FIELD, &param);
 ```
 
 To find offset and count variables for related eFuse, please refer to
-Espressif's Technical Reference Manuals.
+Espressif\'s Technical Reference Manuals.
 
 ### gpio
 
@@ -207,7 +201,7 @@ At the nsh, we can turn the outputs on and off with the following:
 
     nsh> gpio -o 1 /dev/gpio0
     nsh> gpio -o 1 /dev/gpio1
-    
+
     nsh> gpio -o 0 /dev/gpio0
     nsh> gpio -o 0 /dev/gpio1
 
@@ -226,11 +220,11 @@ can scan for all I2C devices using the following command:
     nsh> i2c dev 0x00 0x7f
 
 To use slave mode, you can enable
-<span class="title-ref">ESPRESSIF\_I2C0\_SLAVE\_MODE</span> option. To
-use slave mode driver following snippet demonstrates how write to i2c
-bus using slave driver:
+[ESPRESSIF\_I2C0\_SLAVE\_MODE]{.title-ref} option. To use slave mode
+driver following snippet demonstrates how write to i2c bus using slave
+driver:
 
-``` C
+``` {.C}
 #define ESP_I2C_SLAVE_PATH  "/dev/i2cslv0"
 int main(int argc, char *argv[])
   {
@@ -251,15 +245,15 @@ peripheral, enabling both the TX and the RX for those peripherals.
 
 **I2S pinout**
 
-| ESP32-C3 Pin | Signal Pin | Description         |
-| ------------ | ---------- | ------------------- |
-| 0            | MCLK       | Master Clock        |
-| 4            | SCLK       | Bit Clock (SCLK)    |
-| 5            | LRCK       | Word Select (LRCLK) |
-| 18           | DOUT       | Data Out            |
-| 19           | DIN        | Data In             |
+  ESP32-C3 Pin   Signal Pin   Description
+  -------------- ------------ ---------------------
+  0              MCLK         Master Clock
+  4              SCLK         Bit Clock (SCLK)
+  5              LRCK         Word Select (LRCLK)
+  18             DOUT         Data Out
+  19             DIN          Data In
 
-After successfully built and flashed, run on the boards's terminal:
+After successfully built and flashed, run on the boards\'s terminal:
 
     nsh> i2schar
 
@@ -302,7 +296,7 @@ in the ESP-IDF documentation. The minimal data unit in the frame is
 called the RMT symbol, which is represented by `rmt_item32_t` in the
 driver:
 
-![](rmt_symbol.png)
+![](rmt_symbol.png){.align-center}
 
 The example `rmtchar` can be used to test the RMT peripheral. Connecting
 these pins externally to each other will make the transmitter send RMT
@@ -349,7 +343,7 @@ to each other and running the `spi` example:
 
 If SPI peripherals are already in use you can also use bitbang driver
 which is a software implemented SPI peripheral by enabling
-<span class="title-ref">CONFIG\_ESPRESSIF\_SPI\_BITBANG</span> option.
+[CONFIG\_ESPRESSIF\_SPI\_BITBANG]{.title-ref} option.
 
 ### spiflash
 
@@ -376,18 +370,11 @@ In this case, you are creating the access point `nuttxapp` in your board
 and to connect to it on your smartphone you will be required to type the
 password `mypasswd` using WPA2.
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi SoftAP Mode <esp32_wi-fi_softap>`{.interpreted-text
+role="ref"} for more information.
 
 The `dhcpd_start` is necessary to let your board to associate an IP to
 your smartphone.
@@ -410,9 +397,9 @@ This configuration enables the support for the TWAI (Two-Wire Automotive
 Interface) driver. You can test it by connecting TWAI RX and TWAI TX
 pins which are GPIO0 and GPIO2 by default to an external transceiver or
 connecting TWAI RX to TWAI TX pin by enabling the
-<span class="title-ref">CONFIG\_CAN\_LOOPBACK</span> option (`Device
-Drivers -> CAN Driver Support -> CAN loopback mode`) and running the
-`can` example:
+[CONFIG\_CAN\_LOOPBACK]{.title-ref} option
+(`Device Drivers -> CAN Driver Support -> CAN loopback mode`) and
+running the `can` example:
 
     nsh> can
     nmsgs: 0
@@ -428,11 +415,12 @@ Drivers -> CAN Driver Support -> CAN loopback mode`) and running the
 
 This configuration tests the built-in USB-to-serial converter found in
 ESP32-C3 (revision 3). `esptool` can be used to check the version of the
-chip and if this feature is supported. Running `esptool.py -p <port>
-chip_id` should have `Chip is ESP32-C3 (revision 3)` in its output. When
-connecting the board a new device should appear, a `/dev/ttyACMX` on
-Linux or a `/dev/cu.usbmodemXXX` om macOS. This can be used to flash and
-monitor the device with the usual commands:
+chip and if this feature is supported. Running
+`esptool.py -p <port> chip_id` should have
+`Chip is ESP32-C3 (revision 3)` in its output. When connecting the board
+a new device should appear, a `/dev/ttyACMX` on Linux or a
+`/dev/cu.usbmodemXXX` om macOS. This can be used to flash and monitor
+the device with the usual commands:
 
     make download ESPTOOL_PORT=/dev/ttyACM0
     minicom -D /dev/ttyACM0
@@ -451,10 +439,9 @@ Where X is the watchdog instance.
 
 To test the XTWDT(/dev/watchdog3) an interrupt handler needs to be
 implemented because XTWDT does not have system reset feature. To
-implement an interrupt handler
-<span class="title-ref">WDIOC\_CAPTURE</span> command can be used. When
-interrupt rises, XTAL32K clock can be restored with
-<span class="title-ref">WDIOC\_RSTCLK</span> command.
+implement an interrupt handler [WDIOC\_CAPTURE]{.title-ref} command can
+be used. When interrupt rises, XTAL32K clock can be restored with
+[WDIOC\_RSTCLK]{.title-ref} command.
 
 ### wifi
 
@@ -466,22 +453,15 @@ Enables Wi-Fi support. You can define your credentials this way:
             -> Network initialization (NETUTILS_NETINIT [=y])
                 -> WAPI Configuration
 
-Or if you don't want to keep it saved in the firmware you can do it at
+Or if you don\'t want to keep it saved in the firmware you can do it at
 runtime:
 
     nsh> wapi psk wlan0 mypasswd 3
     nsh> wapi essid wlan0 myssid 1
     nsh> renew wlan0
 
-<div class="tip">
-
-<div class="title">
-
 Tip
 
-</div>
-
-Please refer to `ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>` for more
-information.
-
-</div>
+Please refer to
+`ESP32 Wi-Fi Station Mode <esp32_wi-fi_sta>`{.interpreted-text
+role="ref"} for more information.

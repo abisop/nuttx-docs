@@ -1,19 +1,13 @@
-# ARMv7-M Run Time Stack Checking
-
-<div class="warning">
-
-<div class="title">
+ARMv7-M Run Time Stack Checking
+===============================
 
 Warning
-
-</div>
 
 Migrated from:
 <https://cwiki.apache.org/confluence/display/NUTTX/ARMv7-M+Run+Time+Stack+Checking>
 
-</div>
-
-## Overview
+Overview
+--------
 
 Nuttx supports facilities to verify the dynamically allocated stacks and
 fixed stacks used by the tasks and interrupt context running under
@@ -76,7 +70,7 @@ accommodate the transition to the interrupt stack and the remaining
 60-200 bytes are just margin. Either way stacks should always be
 allocated with at least 200 bytes of margin.
 
-Because of the reserved register rBS contains the current context's
+Because of the reserved register rBS contains the current context\'s
 stack base, and rBS is not updated on the entry to an ISR, it is not
 possible to check the stack penetration for an interrupt with Per
 function Call stack checking.
@@ -112,7 +106,7 @@ see below). Yet to do this the start function must NOT have the preamble
 and postamble code added to it. This is accomplished with the use the
 following gcc attribute:
 
-``` c
+``` {.c}
 #ifdef CONFIG_ARMV7M_STACKCHECK
 /* we need to get r10 set before we can allow instrumentation calls */
 
@@ -120,9 +114,9 @@ void __start(void) __attribute__ ((no_instrument_function));
 #endif
 ```
 
-...
+\...
 
-``` c
+``` {.c}
 void __start(void)
 {
   const uint32_t *src;
@@ -139,10 +133,10 @@ void __start(void)
 The minus 64 is setting the limit 64 bytes above the bottom of the
 stack. Note: This may be adding another 64 bytes of margin
 
-For the creation of a task's context the following code is needed to set
-up `rBS`
+For the creation of a task\'s context the following code is needed to
+set up `rBS`
 
-``` c
+``` {.c}
 void up_initial_state(struct tcb_s *tcb)
 {
   struct xcptcontext *xcp = &tcb->xcp;
@@ -168,7 +162,7 @@ compiler flags set to reserve `R10` and enable the instrumentation.
 This is done for a given architecture in
 nuttx/arch/arm/src/\<arch\>/Make.defs:
 
-``` makefile
+``` {.makefile}
 ifeq ((CONFIG_ARMV7M_STACKCHECK),y)
 CMN_CSRCS += up_stackcheck.c
 endif
@@ -177,7 +171,7 @@ endif
 The compiler flags are added in the
 nuttx/arch/arm/src/armv7-m/Toolchain.defs
 
-``` makefile
+``` {.makefile}
 # enable precise stack overflow tracking
 ifeq ((CONFIG_ARMV7M_STACKCHECK),y)
 INSTRUMENTATIONDEFINES   = -finstrument-functions -ffixed-r10

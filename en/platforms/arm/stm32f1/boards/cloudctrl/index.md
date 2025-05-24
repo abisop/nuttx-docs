@@ -1,10 +1,7 @@
-# CloudController
-
-<div class="tags">
+CloudController
+===============
 
 chip:stm32, chip:stm32f1, chip:stm32f107
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 CloudController development board featuring the STMicro STM32F107VCT
@@ -12,25 +9,26 @@ MCU.
 
 Features of the CloudController board include:
 
-  - STM32F107VCT
+-   STM32F107VCT
 
-  - 10/100M PHY (DM9161AEP)
+-   10/100M PHY (DM9161AEP)
 
-  - USB OTG
+-   USB OTG
 
-  - USART connectos (USART1-2)
+-   USART connectos (USART1-2)
 
-  - SPI Flash (W25X16)
+-   SPI Flash (W25X16)
 
-  - 3)  LEDs (LED1-3)
+-   (3) LEDs (LED1-3)
 
-  - 3)  Buttons (KEY1-3, USERKEY2, USERKEY, TEMPER, WAKEUP)
+-   (3) Buttons (KEY1-3, USERKEY2, USERKEY, TEMPER, WAKEUP)
 
-  - 5V/3.3V power conversion
+-   5V/3.3V power conversion
 
-  - SWD
+-   SWD
 
-## STM32F107VCT Pin Usage
+STM32F107VCT Pin Usage
+----------------------
 
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
@@ -56,7 +54,7 @@ Features of the CloudController board include:
     76 PA14 TCK/SWCLK
     77 PA15 TDI
     == ==== ============== ===================================================================
-    
+
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
     == ==== ============== ===================================================================
@@ -81,7 +79,7 @@ Features of the CloudController board include:
     53 PB14 SD_CD          There is confusion here.  Schematic is wrong LCD_WR is PB14.
     54 PB15 I2S_DIN        Audio DAC
     == ==== ============== ===================================================================
-    
+
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
     == ==== ============== ===================================================================
@@ -103,7 +101,7 @@ Features of the CloudController board include:
     8  PC14 OSC32_IN       Y1 32.768Khz XTAL
     9  PC15 OSC32_OUT      Y1 32.768Khz XTAL
     == ==== ============== ===================================================================
-    
+
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
     == ==== ============== ===================================================================
@@ -128,7 +126,7 @@ Features of the CloudController board include:
     61 PD14 LCD_WR         To TFT LCD (CN13). Schematic is wrong LCD_WR is PB14.
     62 PD15 LCD_RD         To TFT LCD (CN13)
     == ==== ============== ===================================================================
-    
+
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
     == ==== ============== ===================================================================
@@ -149,19 +147,19 @@ Features of the CloudController board include:
     45 PE14 DB14           To TFT LCD (CN13)
     46 PE15 DB15           To TFT LCD (CN13)
     == ==== ============== ===================================================================
-    
+
     == ==== ============== ===================================================================
     PN NAME SIGNAL         NOTES
     == ==== ============== ===================================================================
     73 N/C
-    
+
     12 OSC_IN              Y2 25Mhz XTAL
     13 OSC_OUT             Y2 25Mhz XTAL
-    
+
     94 BOOT0               JP15 (3.3V or GND)
     14 RESET               S5
     6  VBAT                JP14 (3.3V or battery)
-    
+
     49 VSS_1               GND
     74 VSS_2               GND
     99 VSS_3               GND
@@ -171,28 +169,26 @@ Features of the CloudController board include:
     20 VREF-               VREF-
     == ==== ============== ===================================================================
 
-## LEDs
+LEDs
+----
 
 > The Cloudctrl board has four LEDs labeled LED1, LED2, LED3 and LED4 on
 > the board. These LEDs are not used by the board port unless
 > CONFIG\_ARCH\_LEDS is defined. In that case, the usage by the board
 > port is defined in include/board.h and src/up\_leds.c. The LEDs are
 > used to encode OS-related events as follows:
-> 
-> > 
-> > 
-> > | SYMBOL               | Meaning                                       | LED1\[1\] | LED2 | LED3 | LED4\[4\] |
-> > | -------------------- | --------------------------------------------- | --------- | ---- | ---- | --------- |
-> > | LED\_STARTED         | NuttX has been started                        | ON        | OFF  | OFF  | OFF       |
-> > | LED\_HEAPALLOCATE    | Heap has been allocated                       | OFF       | ON   | OFF  | OFF       |
-> > | LED\_IRQSENABLED     | Interrupts enabled                            | ON        | ON   | OFF  | OFF       |
-> > | LED\_STACKCREATED    | Idle stack created                            | OFF       | OFF  | ON   | OFF       |
-> > | LED\_INIRQ           | In an interrupt\[2\]                          | ON        | N/C  | N/C  | OFF       |
-> > | LED\_SIGNAL          | In a signal handler\[3\]                      | N/C       | ON   | N/C  | OFF       |
-> > | LED\_ASSERTION       | An assertion failed                           | ON        | ON   | N/C  | OFF       |
-> > | LED\_PANIC LED\_IDLE | The system has crashed STM32 is is sleep mode | N/C       | N/C  | N/C  | ON        |
-> > 
-
+>
+> >   SYMBOL                 Meaning                                         LED1\[1\]   LED2   LED3   LED4\[4\]
+> >   ---------------------- ----------------------------------------------- ----------- ------ ------ -----------
+> >   LED\_STARTED           NuttX has been started                          ON          OFF    OFF    OFF
+> >   LED\_HEAPALLOCATE      Heap has been allocated                         OFF         ON     OFF    OFF
+> >   LED\_IRQSENABLED       Interrupts enabled                              ON          ON     OFF    OFF
+> >   LED\_STACKCREATED      Idle stack created                              OFF         OFF    ON     OFF
+> >   LED\_INIRQ             In an interrupt\[2\]                            ON          N/C    N/C    OFF
+> >   LED\_SIGNAL            In a signal handler\[3\]                        N/C         ON     N/C    OFF
+> >   LED\_ASSERTION         An assertion failed                             ON          ON     N/C    OFF
+> >   LED\_PANIC LED\_IDLE   The system has crashed STM32 is is sleep mode   N/C         N/C    N/C    ON
+> >
 > > \[1\] If LED1, LED2, LED3 are statically on, then NuttX probably
 > > failed to boot and these LEDs will give you some indication of where
 > > the failure was \[2\] The normal state is LED1 ON and LED1 faintly
@@ -202,9 +198,11 @@ Features of the CloudController board include:
 > > LED4 may not be available if RS-485 is also used. For RS-485, it
 > > will then indicate the RS-485 direction.
 
-## Cloudctrl-specific Configuration Options
+Cloudctrl-specific Configuration Options
+----------------------------------------
 
-## Configurations
+Configurations
+--------------
 
 Each Cloudctrl configuration is maintained in a sub-directory and can be
 selected as follow:
@@ -222,7 +220,7 @@ Configuration enables both the serial and telnet NSH interfaces.:
     CONFIG_NSH_DHCPC=n                        : DHCP is disabled
     CONFIG_NSH_IPADDR=0x0a000002              : Target IP address 10.0.0.2
     CONFIG_NSH_DRIPADDR=0x0a000001            : Host IP address 10.0.0.1
-    
+
     NOTES:
     1. This example assumes that a network is connected.  During its
        initialization, it will try to negotiate the link speed.  If you have
@@ -230,24 +228,24 @@ Configuration enables both the serial and telnet NSH interfaces.:
        delay (maybe 30 seconds?) before anything happens.  That is the timeout
        before the networking finally gives up and decides that no network is
        available.
-    
+
     2. Enabling the ADC example:
-    
+
        The only internal signal for ADC testing is the potentiometer input:
-    
+
          ADC1_IN10(PC0) Potentiometer
-    
+
        External signals are also available on CON5 CN14:
-    
+
          ADC_IN8 (PB0) CON5 CN14 Pin2
          ADC_IN9 (PB1) CON5 CN14 Pin1
-    
+
        The signal selection is hard-coded in boards/shenzhou/src/up_adc.c:  The
        potentiometer input (only) is selected.
-    
+
        These selections will enable sampling the potentiometer input at 100Hz using
        Timer 1:
-    
+
          CONFIG_ANALOG=y                        : Enable analog device support
          CONFIG_ADC=y                           : Enable generic ADC driver support
          CONFIG_ADC_DMA=n                       : ADC DMA is not supported
@@ -286,7 +284,7 @@ functionality on by setting:
 
     -CONFIG_LCD_NOGETRUN=y
     +# CONFIG_LCD_NOGETRUN is not set
-    
+
     -CONFIG_NX_WRITEONLY=y
     +# CONFIG_NX_WRITEONLY is not set
 

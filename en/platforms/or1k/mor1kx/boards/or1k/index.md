@@ -1,3 +1,4 @@
-# or1k
+or1k
+====
 
 Generic OpenRISC board.

@@ -1,37 +1,37 @@
-# ESP32-2432S028
-
-<div class="tags">
+ESP32-2432S028
+==============
 
 chip:esp32, chip:esp32wrover32
-
-</div>
 
 The ESP32-2432S028 is a development board based on an ESP32-WROVER-32
 module. It is designed for a wide range of applications, particularly in
 the field of the Internet of Things (IoT).
 
-|                                                                  |                                                                |
-| ---------------------------------------------------------------- | -------------------------------------------------------------- |
-| ![ESP32-2432S028 board layout - front](esp32-2432S028-front.png) | ![ESP32-2432S028 board layout - back](esp32-2432s028-back.png) |
+  --------------------------------------------------------------------------------- -------------------------------------------------------------------------------
+  ![ESP32-2432S028 board layout - front](esp32-2432S028-front.png){.align-center}   ![ESP32-2432S028 board layout - back](esp32-2432s028-back.png){.align-center}
+  --------------------------------------------------------------------------------- -------------------------------------------------------------------------------
 
-## Features
+Features
+--------
 
->   - LCD screen (2.8 inch)
->   - MicroSD card slot
->   - RGB LED
->   - Audio
->   - Light Dependent Resistor (LDR)
+> -   LCD screen (2.8 inch)
+> -   MicroSD card slot
+> -   RGB LED
+> -   Audio
+> -   Light Dependent Resistor (LDR)
 
 Most of I/O pins are broken out to the boards, but from the back side of
 the board, there are some pins available are separated into two
 connectors femme JST 1.28 mm 4P.
 
-## Serial Console
+Serial Console
+--------------
 
 UART0 is, by default, the serial console. It connects to the on-board
 CH340 converter.
 
-## Buttons and LEDs
+Buttons and LEDs
+----------------
 
 ### Board Buttons
 
@@ -48,13 +48,15 @@ software input.
 
 There is one RGB LED available.
 
-## Pin Mapping
+Pin Mapping
+-----------
 
-| Pin                              | Signal                                                                                                                      | Notes |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 0 2 4 12 13 14 15 16 17 21 26 34 | BOOT Button LCD Reset RGB LED Green LCD MISO LCD MOSI LCD Clock LCD CS RGB LED Blue RGB LED Red LCD Backlight Audio Out LDR |       |
+  Pin                                Signal                                                                                                                        Notes
+  ---------------------------------- ----------------------------------------------------------------------------------------------------------------------------- -------
+  0 2 4 12 13 14 15 16 17 21 26 34   BOOT Button LCD Reset RGB LED Green LCD MISO LCD MOSI LCD Clock LCD CS RGB LED Blue RGB LED Red LCD Backlight Audio Out LDR   
 
-## Configurations
+Configurations
+--------------
 
 All of the configurations presented below can be tested by running the
 following commands:
@@ -63,8 +65,8 @@ following commands:
      make flash ESPTOOL_PORT=/dev/ttyUSB0 -j
 
 Where \<config\_name\> is the name of board configuration you want to
-use, i.e.: nsh, buttons, wifi... Then use a serial console terminal like
-`picocom` configured to 115200 8N1.
+use, i.e.: nsh, buttons, wifi\... Then use a serial console terminal
+like `picocom` configured to 115200 8N1.
 
 ### lvgl
 
@@ -75,7 +77,7 @@ NuttX LCD driver. You can find LVGL here:
     https://github.com/lvgl/lvgl
 
 This configuration uses the LVGL demonstration at
-<span class="title-ref">apps/examples/lvgldemo</span>.
+[apps/examples/lvgldemo]{.title-ref}.
 
 ### nsh
 

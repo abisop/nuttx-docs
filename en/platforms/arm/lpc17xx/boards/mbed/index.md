@@ -1,4 +1,5 @@
-# mbed
+mbed
+====
 
 The configurations in this directory support the mbed board
 (<http://mbed.org>) that features the NXP LPC1768 microcontroller. This

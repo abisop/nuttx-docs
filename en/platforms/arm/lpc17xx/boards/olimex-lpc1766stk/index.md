@@ -1,1 +1,2 @@
-# olimex-lpc1766stk
+olimex-lpc1766stk
+=================

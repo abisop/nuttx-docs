@@ -1,15 +1,13 @@
-# ST STM32VLDiscovery
-
-<div class="tags">
+ST STM32VLDiscovery
+===================
 
 chip:stm32, chip:stm32f1, chip:stm32f100
-
-</div>
 
 This page discusses issues unique to NuttX configurations for the
 STMicro STM32VLDiscovery (Value Line Discovery) board.
 
-## LEDs
+LEDs
+----
 
 It is assumed that STMicro STM32F100RB generic board board has one LED
 on PA0. You should configure the port and pin number in
@@ -32,7 +30,8 @@ src/up\_leds.c. The LED is used to encode OS-related events as follows:
 
 So basically if the LED is off it means that there is a problem.
 
-## UART
+UART
+----
 
 ### Default USART/UART Configuration
 
@@ -41,75 +40,76 @@ are configured on pins PA10 and PA9, respectively. Then connect the RX
 pin of your USB/Serial adapter to TX pin (PA9) and the TX pin of your
 adapter to RX pin (PA10) of your board besides, of course, the GND pin.
 
-## "STMicro STM32F100RB generic" specific Configuration Options
+\"STMicro STM32F100RB generic\" specific Configuration Options
+--------------------------------------------------------------
 
     CONFIG_ARCH - Identifies the arch/ subdirectory.  This should
        be set to:
-    
+
        CONFIG_ARCH=arm
-    
+
     CONFIG_ARCH_family - For use in C code:
-    
+
        CONFIG_ARCH_ARM=y
-    
+
     CONFIG_ARCH_architecture - For use in C code:
-    
+
        CONFIG_ARCH_CORTEXM3=y
-    
+
     CONFIG_ARCH_CHIP - Identifies the arch/*/chip subdirectory
-    
+
        CONFIG_ARCH_CHIP=stm32
-    
+
     CONFIG_ARCH_CHIP_name - For use in C code to identify the exact
        chip:
-    
+
        CONFIG_ARCH_CHIP_STM32F100RB=y
-    
+
     CONFIG_ARCH_BOARD_STM32_CUSTOM_CLOCKCONFIG - Enables special STM32 clock
        configuration features.
-    
+
        CONFIG_ARCH_BOARD_STM32_CUSTOM_CLOCKCONFIG=n
-    
+
     CONFIG_ARCH_BOARD - Identifies the boards/ subdirectory and
        hence, the board that supports the particular chip or SoC.
-    
+
        CONFIG_ARCH_BOARD=stm32vldiscovery
-    
+
     CONFIG_ARCH_BOARD_name - For use in C code
-    
+
        CONFIG_ARCH_BOARD_STM32VL_DISCOVERY=y
-    
+
     CONFIG_ARCH_LOOPSPERMSEC - Must be calibrated for correct operation
        of delay loops
-    
+
     CONFIG_ENDIAN_BIG - define if big endian (default is little
        endian)
-    
+
     CONFIG_RAM_SIZE - Describes the installed DRAM (SRAM in this case):
-    
+
        CONFIG_RAM_SIZE=8192 (8kB)
-    
+
     CONFIG_RAM_START - The start address of installed DRAM
-    
+
        CONFIG_RAM_START=0x20000000
-    
+
     CONFIG_ARCH_LEDS - Use LED to show state. Unique to boards that have LED(s)
-    
+
     CONFIG_ARCH_INTERRUPTSTACK - This architecture supports an interrupt
        stack. If defined, this symbol is the size of the interrupt
        stack in bytes.  If not defined, the user task stacks will be
        used during interrupt handling.
-    
+
     CONFIG_ARCH_STACKDUMP - Do stack dumps after assertions
-    
+
     Individual subsystems can be enabled::
-    
+
        AHB
        ----
        CONFIG_STM32_CRC
        CONFIG_STM32_DMA1
        CONFIG_STM32_DMA2
-    
+
        APB1
        ----
        CONFIG_STM32_TIM2
@@ -137,7 +137,7 @@ adapter to RX pin (PA10) of your board besides, of course, the GND pin.
        CONFIG_STM32_DAC1
        CONFIG_STM32_DAC2
        CONFIG_STM32_CEC
-    
+
        APB2
        ----
        CONFIG_STM32_ADC1
@@ -147,7 +147,7 @@ adapter to RX pin (PA10) of your board besides, of course, the GND pin.
        CONFIG_STM32_TIM15
        CONFIG_STM32_TIM16
        CONFIG_STM32_TIM17
-    
+
     Timer devices may be used for different purposes.  One special purpose is
     to generate modulated outputs for such things as motor control.  If CONFIG_STM32_TIMn
     is defined (as above) then the following may also be defined to indicate that
@@ -155,31 +155,31 @@ adapter to RX pin (PA10) of your board besides, of course, the GND pin.
     or DAC conversion. Note that ADC/DAC require two definition:  Not only do you have
     to assign the timer (n) for used by the ADC or DAC, but then you also have to
     configure which ADC or DAC (m) it is assigned to.
-    
+
     CONFIG_STM32_TIMn_PWM   Reserve timer n for use by PWM, n=1,..,17
     CONFIG_STM32_TIMn_ADC   Reserve timer n for use by ADC, n=1,..,17
     CONFIG_STM32_TIMn_ADC1  Reserve timer n to trigger ADCm, n=1,..,17
     CONFIG_STM32_TIMn_DAC   Reserve timer n for use by DAC, n=1,..,17
     CONFIG_STM32_TIMn_DACm  Reserve timer n to trigger DACm, n=1,..,17, m=1,..,2
-    
+
     For each timer that is enabled for PWM usage, we need the following additional
     configuration settings:
-    
+
     CONFIG_STM32_TIMx_CHANNEL - Specifies the timer output channel {1,..,4}
-    
+
     NOTE: The STM32 timers are each capable of generating different signals on
     each of the four channels with different duty cycles.  That capability is
     not supported by this driver:  Only one output channel per timer.
-    
+
     JTAG Enable settings (by default full SWJ is enabled):
-    
+
     CONFIG_STM32_JTAG_FULL_ENABLE - Enables full SWJ (JTAG-DP + SW-DP)
     CONFIG_STM32_JTAG_NOJNTRST_ENABLE - Enables full SWJ (JTAG-DP + SW-DP)
       but without JNTRST.
     CONFIG_STM32_JTAG_SW_ENABLE - Set JTAG-DP disabled and SW-DP enabled
-    
+
     STMicro STM32F100RB generic specific device driver settings
-    
+
     CONFIG_U[S]ARTn_SERIAL_CONSOLE - selects the USARTn (n=1,2,3) or UART
            m (m=4,5) for the console and ttys0 (default is the USART1).
     CONFIG_U[S]ARTn_RXBUFSIZE - Characters are buffered as received.
@@ -191,7 +191,8 @@ adapter to RX pin (PA10) of your board besides, of course, the GND pin.
     CONFIG_U[S]ARTn_PARTIY - 0=no parity, 1=odd parity, 2=even parity
     CONFIG_U[S]ARTn_2STOP - Two stop bits
 
-## Configurations
+Configurations
+--------------
 
 Each STMicro STM32F100RB generic configuration is maintained in a
 sub-directory and can be selected as follow:

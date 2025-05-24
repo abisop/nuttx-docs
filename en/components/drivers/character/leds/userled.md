@@ -1,13 +1,14 @@
-# USERLED Drivers
+USERLED Drivers
+===============
 
 The USERLED is a NuttX subsystem to control LEDs on the user board.
 Using it is possible for applications to control each LED individually
 or as a group.
 
-There is an application called "leds" that will test all LEDs in your
+There is an application called \"leds\" that will test all LEDs in your
 board (counting in binary, turning ON and OFF each LED).
 
-``` bash
+``` {.bash}
 NuttShell (NSH)
 nsh> leds
 nsh>
@@ -23,10 +24,10 @@ led daemon: LED set 0x04
 led daemon: LED set 0x05
 ```
 
-Also is possible for users to control the LEDs from "nsh\>" using the
-"printf" command to send data to it in hexa code:
+Also is possible for users to control the LEDs from \"nsh\>\" using the
+\"printf\" command to send data to it in hexa code:
 
-``` bash
+``` {.bash}
 NuttShell (NSH)
 nsh> printf \x000000a5 > /dev/userleds
 ```
@@ -38,24 +39,24 @@ together, so in order to use USERLED please disable CONFIG\_ARCH\_LEDS.
 
 The NuttX USERLED driver is split into two parts:
 
-1.  An "upper half" (userled\_upper.c), generic driver that provides the
-    common interface to application level code, and
-2.  A "lower half" (userled\_lower.c), that calls the platform-specific
-    board functions (board\_userled\_initialize(), board\_userled(),
-    board\_userled\_all(), etc) that implements the low-level control of
-    the LEDs.
+1.  An \"upper half\" (userled\_upper.c), generic driver that provides
+    the common interface to application level code, and
+2.  A \"lower half\" (userled\_lower.c), that calls the
+    platform-specific board functions (board\_userled\_initialize(),
+    board\_userled(), board\_userled\_all(), etc) that implements the
+    low-level control of the LEDs.
 
 Files supporting USERLED can be found in the following locations:
 
-  - **Interface Definition**. The header file for the NuttX USERLED
+-   **Interface Definition**. The header file for the NuttX USERLED
     driver resides at `include/nuttx/leds/userled.h`. This header file
     includes both the application level interface to the USERLED driver
-    as well as the interface between the "upper half" and "lower half"
-    drivers. The USERLED module uses a standard character driver
+    as well as the interface between the \"upper half\" and \"lower
+    half\" drivers. The USERLED module uses a standard character driver
     framework.
-  - **"Upper Half" Driver**. The generic, "upper half" USERLED driver
-    resides at `drivers/leds/userled_upper.c`.
-  - **"Lower Half" Drivers**. Lower Half of the USERLED driver resides
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" USERLED
+    driver resides at `drivers/leds/userled_upper.c`.
+-   **\"Lower Half\" Drivers**. Lower Half of the USERLED driver resides
     in `drivers/leds/userled_lower.c` and the directory for the board
     specific functions will be at
     `boards/<arch>/<family>/<boardname>/src/<arch>_userleds.c`.
@@ -68,7 +69,7 @@ For stm32f4discovery board this initialization code is placed at
 `boards/arm/stm32/stm32f4discovery/src/stm32_bringup.c` and this is the
 block responsible to initialize the subsystem:
 
-``` C
+``` {.C}
 #ifdef CONFIG_USERLED
   /* Register the LED driver */
 

@@ -1,6 +1,8 @@
-# Coresight - HW Assisted Tracing on ARM
+Coresight - HW Assisted Tracing on ARM
+======================================
 
-## Overview
+Overview
+--------
 
 Coresight is an umbrella of technologies allowing for the debugging of
 ARM based SoC. It includes solutions for JTAG and HW assisted tracing.
@@ -25,46 +27,59 @@ memory buffer.
 refer to the following document for more details:
 <https://developer.arm.com/documentation/102520/latest/>
 
-## Acronyms and Classification
+Acronyms and Classification
+---------------------------
 
 Acronyms:
 
-  - PTM:  
-    Program Trace Macrocell
+PTM:
 
-  - ETM:  
-    Embedded Trace Macrocell
+:   Program Trace Macrocell
 
-  - STM:  
-    System trace Macrocell
+ETM:
 
-  - ETB:  
-    Embedded Trace Buffer
+:   Embedded Trace Macrocell
 
-  - ITM:  
-    Instrumentation Trace Macrocell
+STM:
 
-  - TPIU:  
-    Trace Port Interface Unit
+:   System trace Macrocell
 
-  - TMC-ETR:  
-    Trace Memory Controller, configured as Embedded Trace Router
+ETB:
 
-  - TMC-ETF:  
-    Trace Memory Controller, configured as Embedded Trace FIFO
+:   Embedded Trace Buffer
+
+ITM:
+
+:   Instrumentation Trace Macrocell
+
+TPIU:
+
+:   Trace Port Interface Unit
+
+TMC-ETR:
+
+:   Trace Memory Controller, configured as Embedded Trace Router
+
+TMC-ETF:
+
+:   Trace Memory Controller, configured as Embedded Trace FIFO
 
 Classification:
 
-  - Source:  
-    ETM, STM, ITM
+Source:
 
-  - Link:  
-    Funnel, replicator, TMC-ETF
+:   ETM, STM, ITM
 
-  - Sinks:  
-    ETB, TPIU, TMC-ETR
+Link:
 
-## Framework and implementation
+:   Funnel, replicator, TMC-ETF
+
+Sinks:
+
+:   ETB, TPIU, TMC-ETR
+
+Framework and implementation
+----------------------------
 
 The coresight framework provides a central point to represent, configure
 and manage coresight devices on a platform. Any coresight compliant

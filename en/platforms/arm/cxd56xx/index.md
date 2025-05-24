@@ -1,4 +1,5 @@
-# Sony CXD56xx
+Sony CXD56xx
+============
 
 (6 x ARM Cortex-M4)
 
@@ -6,7 +7,7 @@ Support for the CXD56*xx* was introduced by Nobuto Kobayashi in
 NuttX-7.30.
 
 **Sony Spresence**. Spresense is a compact development board based on
-Sony’s power-efficient multicore microcontroller CXD5602. Basic support
+Sony's power-efficient multicore microcontroller CXD5602. Basic support
 for the Sony Spresense board was included in the contribution of Nobuto
 Kobayashi in NuttX-7.30. *NOTE*: That was an initial, bare bones basic
 Spresense port sufficient for running a NuttShell (NSH) and should not
@@ -15,11 +16,11 @@ there has been much development of the NuttX CXD56xx port.
 
 **Features:**
 
-  - Integrated GPS: Embedded GNSS with support for GPS, QZSS.
-  - Hi-res audio output and multi mic inputs" Advanced 192kHz/24 bit
+-   Integrated GPS: Embedded GNSS with support for GPS, QZSS.
+-   Hi-res audio output and multi mic inputs\" Advanced 192kHz/24 bit
     audio codec and amplifier for audio output, and support for up to 8
     mic input channels.
-  - Multicore microcontroller: Spresense is powered by Sony's CXD5602
+-   Multicore microcontroller: Spresense is powered by Sony\'s CXD5602
     microcontroller (ARM® Cortex®-M4F × 6 cores), with a clock speed of
     156 MHz.
 
@@ -34,7 +35,7 @@ RTC, PWM, Timers, Watchdog Timer, UID, SCU, ADC, eMMC, Camera CISIF,
 GNSS, and others.
 
 **NuttX-8.1**. Alin Jerpelea brought in ten (external) sensor drivers
-that integrate through the CXD56xx's SCU.
+that integrate through the CXD56xx\'s SCU.
 
 **NuttX-8.2**. Masayuki Ishikawa implemented SMP operation of the
 CX56Dxx parts. Alin Jerpelea: Added support for the Altair LTE modem
@@ -45,6 +46,7 @@ added an audio\_tone\_generator, added optional initialization of GNSS
 and GEOFENCE at boot if the drivers are enabled, added an lcd examples
 configuration.
 
-## Supported Boards
+Supported Boards
+----------------
 
 > boards/*/*

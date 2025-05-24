@@ -1,4 +1,5 @@
-# Boards Support
+Boards Support
+==============
 
 This page discusses the board support logic for NuttX.
 
@@ -11,28 +12,29 @@ If you have board-specific, application callable logic, that logic
 should not go here. Please consider using a sub-directory under
 `apps/platform` instead.
 
-## Board-Specific Configurations
+Board-Specific Configurations
+-----------------------------
 
 The NuttX configuration consists of:
 
-  - Processor architecture specific files. These are the files contained
+-   Processor architecture specific files. These are the files contained
     in the `arch/<arch>/` directory.
 
-  - Chip/SoC specific files. Each processor architecture is embedded in
+-   Chip/SoC specific files. Each processor architecture is embedded in
     a chip or System-on-a-Chip (SoC) architecture. The full chip
     architecture includes the processor architecture plus chip-specific
     interrupt logic, general purpose I/O (GIO) logic, and specialized,
     internal peripherals (such as UARTs, USB, etc.).
-    
+
     These chip-specific files are contained within chip-specific
     sub-directories in the `arch/<arch>/` directory and are selected via
     the `CONFIG_ARCH_name` selection
 
-  - Board specific files. In order to be usable, the chip must be
+-   Board specific files. In order to be usable, the chip must be
     contained in a board environment. The board configuration defines
     additional properties of the board including such things as
     peripheral LEDs, external peripherals (such as network, USB, etc.).
-    
+
     These board-specific configuration files can be found in the
     `boards/<arch>/<chip>/<board>/` sub-directories. Additional
     configuration information may be available in board-specific
@@ -44,7 +46,8 @@ These board-specific configurations plus the architecture-specific
 configurations in the `arch/` subdirectory completely define a
 customized port of NuttX.
 
-## `boards/` Directory Structure
+`boards/` Directory Structure
+-----------------------------
 
 The `boards/` directory contains board specific configuration logic.
 Each board must provide a subdirectory `<board>` under `boards/` with
@@ -64,17 +67,17 @@ the following characteristics:
     |   `-- defconfig
     ...
 
-## Summary of Files
+Summary of Files
+----------------
 
-  - `include/` -- This directory contains board specific header files.
+-   `include/` \-- This directory contains board specific header files.
     This directory will be linked as include/arch/board at configuration
-    time and can be included via \#include \<arch/board/header.h\>`.
-    These header file can only be included by files
-    in`arch/\<arch\>include/`and`arch/\<arch\>/src\`\`
-  - `src/` -- This directory contains board specific drivers. This
+    time and can be included via \#include
+    \<arch/board/header.h\>`.  These header file can only be included by files in`arch/\<arch\>include/`and`arch/\<arch\>/src\`\`
+-   `src/` \-- This directory contains board specific drivers. This
     directory will be linked as `arch/<arch>/src/board` at configuration
     time and will be integrated into the build system.
-  - `src/Makefile` -- This makefile will be invoked to build the board
+-   `src/Makefile` \-- This makefile will be invoked to build the board
     specific drivers. It must support the following targets:
     `libext(LIBEXT)`, `clean`, and `distclean`.
 
@@ -84,43 +87,44 @@ Make.defs and defconfig. Typically, each set of configuration files is
 retained in a separate configuration sub-directory (`<config1-dir>`,
 `<config2-dir>`, .. in the above diagram).
 
-  - `Make.defs` -- This makefile fragment provides architecture and
+-   `Make.defs` \-- This makefile fragment provides architecture and
     tool-specific build options. It will be included by all other
     makefiles in the build (once it is installed). This make fragment
     should define:
-    
+
         Tools: CC, LD, AR, NM, OBJCOPY, OBJDUMP
         Tool options: CFLAGS, LDFLAGS
-    
+
     When this makefile fragment runs, it will be passed TOPDIR which is
     the path to the root directory of the build. This makefile fragment
     should include:
-    
+
         (TOPDIR)/.config          : NuttX configuration
         (TOPDIR)/tools/Config.mk  : Common definitions
-    
+
     Definitions in the `Make.defs` file probably depend on some of the
     settings in the `.config` file. For example, the `CFLAGS` will most
     likely be different if `CONFIG_DEBUG_FEATURES=y`.
-    
+
     The included `tools/Config.mk` file contains additional definitions
     that may be overridden in the architecture-specific `Make.defs` file
     as necessary:
-    
+
         COMPILE, ASSEMBLE, ARCHIVE, CLEAN, and MKDEP macros
 
-  - `defconfig` -- This is a configuration file similar to the Linux
+-   `defconfig` \-- This is a configuration file similar to the Linux
     configuration file. In contains variable/value pairs like:
-    
+
         CONFIG_VARIABLE=value
-    
+
     This configuration file will be used at build time:
-    
-    > 1)  as a makefile fragment included in other makefiles, and
-    > 2)  to generate include/nuttx/config.h which is included by most C
+
+    > (1) as a makefile fragment included in other makefiles, and
+    > (2) to generate include/nuttx/config.h which is included by most C
     >     files in the system.
 
-## Configuration Variables
+Configuration Variables
+-----------------------
 
 At one time, this section provided a list of all NuttX configuration
 variables. However, NuttX has since converted to use the
@@ -141,50 +145,53 @@ regenerated at any time using that tool or, more appropriately, the
 wrapper script at nuttx/tools/mkconfigvars.sh. That script will generate
 the file nuttx/Documentation/NuttXConfigVariables.html.
 
-## Supported Boards
+Supported Boards
+----------------
 
-The list of supported boards can be found in `Supported Platforms
-<platforms>`.
+The list of supported boards can be found in
+`Supported Platforms <platforms>`{.interpreted-text role="ref"}.
 
-## Configuring NuttX
+Configuring NuttX
+-----------------
 
 Configuring NuttX requires only copying:
 
     boards/<arch>/<chip>/<board>/<config-dir>/Make.def to {TOPDIR}/Make.defs
     boards/<arch>/<chip>/<board>/<config-dir>/defconfig to {TOPDIR}/.config
 
-  - `tools/configure.sh`
-    
+-   `tools/configure.sh`
+
     There is a script that automates these steps. The following steps
     will accomplish the same configuration:
-    
+
         tools/configure.sh <board>:<config-dir>
-    
+
     There is an alternative Windows batch file that can be used in the
     windows native environment like:
-    
+
         tools\configure.bat <board>:<config-dir>
-    
-    See \[<span class="title-ref">tool\](\`tool.md)s/index</span> for
-    more information about these scripts.
-    
+
+    See \[[tool\](\`tool.md)s/index]{.title-ref} for more information
+    about these scripts.
+
     And if your application directory is not in the standard location
     (`../apps` or `../apps-<version>`), then you should also specify the
     location of the application directory on the command line like:
-    
+
         cd tools
         ./configure.sh -a <app-dir> <board>:<config-dir>
 
-## Adding a New Board Configuration
+Adding a New Board Configuration
+--------------------------------
 
 Okay, so you have created a new board configuration directory. Now, how
 do you hook this board into the configuration system so that you can
 select with `make menuconfig`?
 
-You will need modify the file `boards/Kconfig`. Let's look at the
+You will need modify the file `boards/Kconfig`. Let\'s look at the
 STM32F4-Discovery configuration in the `Kconfig` file and see how we
 would add a new board directory to the configuration. For this
-configuration let's say that you new board resides in the directory
+configuration let\'s say that you new board resides in the directory
 `boards/myarch/mychip/myboard`; It uses an MCU selected with
 `CONFIG_ARCH_CHIP_MYMCU`; and you want the board to be selected with
 `CONFIG_ARCH_BOARD_MYBOARD`. Then here is how you can clone the
@@ -211,7 +218,7 @@ board-specific files reside. In our case, these files reside in
 `boards/myarch/mychip/myboard` and we add the following to the long list
 of defaults (again in alphabetical order):
 
-Now the build system knows where to find your board configuration\!
+Now the build system knows where to find your board configuration!
 
 And finally, add something like this near the bottom of
 `boards/myarch/mychip/myboard`:
@@ -219,7 +226,8 @@ And finally, add something like this near the bottom of
 This includes additional, board-specific configuration variable
 definitions in `boards/myarch/mychip/myboard/Kconfig`.
 
-## Building Symbol Tables
+Building Symbol Tables
+----------------------
 
 Symbol tables are needed at several of the binfmt interfaces in order to
 bind a module to the base code. These symbol tables can be tricky to
@@ -229,7 +237,7 @@ table against the symbols required by the applications.
 
 The top-level System.map file is one good source of symbol information
 (which, or course, was just generated from the top-level nuttx file
-using the GNU 'nm' tool).
+using the GNU \'nm\' tool).
 
 There are also common-separated value (CSV) values in the source try
 that provide information about symbols. In particular:

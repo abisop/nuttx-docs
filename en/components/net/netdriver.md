@@ -1,21 +1,22 @@
-# Network Drivers
+Network Drivers
+===============
 
 The NuttX network driver is split into two parts:
 
-1.  An "upper half", generic driver that provides the common network
+1.  An \"upper half\", generic driver that provides the common network
     interface to application level code, and
-2.  A "lower half", platform-specific driver that implements the
+2.  A \"lower half\", platform-specific driver that implements the
     low-level timer controls to implement the network functionality.
 
 Files supporting network driver can be found in the following locations:
 
-  - **Interface Definition**. The header file for the NuttX network
+-   **Interface Definition**. The header file for the NuttX network
     driver resides at `include/nuttx/net/netdev_lowerhalf.h`. This
-    header file includes the interface between the "upper half" and
-    "lower half" drivers.
-  - **"Upper Half" Driver**. The generic, "upper half" network driver
-    resides at `drivers/net/netdev_upperhalf.c`.
-  - **"Lower Half" Drivers**. Platform-specific network drivers reside
+    header file includes the interface between the \"upper half\" and
+    \"lower half\" drivers.
+-   **\"Upper Half\" Driver**. The generic, \"upper half\" network
+    driver resides at `drivers/net/netdev_upperhalf.c`.
+-   **\"Lower Half\" Drivers**. Platform-specific network drivers reside
     in `arch/<architecture>/src/<hardware>` or `drivers/net` directory
     for the specific processor `<architecture>` and for the specific
     `<chip>` network peripheral devices.
@@ -24,7 +25,8 @@ Files supporting network driver can be found in the following locations:
 architecture. Known lower-half drivers:
 `arch/sim/src/sim/sim_netdriver.c`, `drivers/virtio/virtio-net.c`
 
-## How to change full network driver into lower-half one
+How to change full network driver into lower-half one
+-----------------------------------------------------
 
 We have many network drivers that are implemented as full network
 drivers with `include/nuttx/net/netdev.h`, we can change them into
@@ -42,12 +44,12 @@ upper-half driver). Here is a guide to do so:
     `transmit` and `receive` in the `netdev_ops_s` structure. You may
     need to change `memcpy` for `d_buf` into `netpkt_copyin` and
     `netpkt_copyout`.
-      - Note that the `receive` function just need to return the
+    -   Note that the `receive` function just need to return the
         received packet instead of calling functions like `ipv4_input`
         or doing reply. The upper-half will call `receive` to get all
         packets until it returns `NULL` and send these packets into the
         network stack.
-      - Also remember to call `netpkt_free` for the transmitted packets.
+    -   Also remember to call `netpkt_free` for the transmitted packets.
 4.  Remove work queues related to send and receive, and replace them
     with calling `netdev_lower_txdone` and `netdev_lower_rxready`. Then
     the upper-half driver will call `transmit` and `receive` to send/get
@@ -67,13 +69,14 @@ upper-half driver). Here is a guide to do so:
     quota is set to 5, it means that if the driver has 5 unreleased
     packets (`netpkt_free`), the upper-half will not call `transmit`
     until they are released.
-      - Note: An exception is that if the net stack is replying for RX
+    -   Note: An exception is that if the net stack is replying for RX
         packet, this replied packet will always be put into `transmit`,
         which may exceed the TX quota temporarily.
 
-## "Lower Half" Example
+\"Lower Half\" Example
+----------------------
 
-``` c
+``` {.c}
 struct <chip>_priv_s
 {
   /* This holds the information visible to the NuttX network */

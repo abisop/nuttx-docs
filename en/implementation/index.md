@@ -1,1 +1,2 @@
-# Implementation Details
+Implementation Details
+======================

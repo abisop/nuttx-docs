@@ -1,31 +1,25 @@
-# LSM6DSO32
+LSM6DSO32
+=========
 
 The LSM6DSO32 is a high-performance IMU with a 3-axis gyroscope and
 3-axis accelerometer by STMicroelectronics. It has both I2C and SPI
 interfaces, although this driver only supports I2C.
 
-This driver uses the \[<span class="title-ref">uorb\](\`uorb.md)
-\</components/drivers/special/sensors/sensors\_uorb\></span> interface.
-It supports the self-test capability for both the accelerometer and
-gyroscope.
-
-<div class="warning">
-
-<div class="title">
+This driver uses the \[[uorb\](\`uorb.md)
+\</components/drivers/special/sensors/sensors\_uorb\>]{.title-ref}
+interface. It supports the self-test capability for both the
+accelerometer and gyroscope.
 
 Warning
-
-</div>
 
 The LSM6DSO32 is a feature-packed sensor, and this driver does not
 implement many of its features, such as tap, wakeup, acting as a master
 to other sensors, etc.
 
-</div>
+Application Programming Interface
+---------------------------------
 
-## Application Programming Interface
-
-``` c
+``` {.c}
 #include <nuttx/sensors/lsm6dso32.h>
 ```
 
@@ -39,22 +33,14 @@ mode. The polling mode will create a kernel thread to poll the sensor
 periodically according to the set interval. Polling mode is register by
 leaving the `attach` functions `NULL` in the `config` parameter.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
 
-</div>
-
 To use interrupt-driven mode, `CONFIG_SCHED_HPWORK` must be enabled.
-
-</div>
 
 The following snippet shows how to register the driver in polling mode.
 The values of `gy_int` and `xl_int` can be safely ignored for this mode.
 
-``` c
+``` {.c}
 /* Example for an RP2040 MCU */
 
  struct lsm6dso32_config_s lsm6dso32_config = {
@@ -77,7 +63,7 @@ interrupt-driven mode. Here, you must specify which interrupt pin is the
 DRDY signal for the gyroscope interrupt handler, and which interrupt pin
 is the DRDY signal for the accelerometer interrupt handler.
 
-``` c
+``` {.c}
 /* Example for an RP2040 MCU */
 
 /* This function registers the gyroscope interrupt handler and immediately
@@ -142,19 +128,11 @@ self-test. The sensor under test depends which topic the self-test was
 called on: the gyroscope or the accelerometer. The self test for both
 sensors takes no arguments.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 The self-test feature must be performed while the sensor is stationary.
 
-</div>
-
-``` c
+``` {.c}
 err = orb_ioctl(gyro, SNIOC_SELFTEST, 0);
 if (err < 0)
   {
@@ -173,7 +151,7 @@ For the gyroscope, the argument is an array of 3 floats, representing
 the X, Y and Z offsets to be subtracted from measurements in radians per
 second, in that order.
 
-``` c
+``` {.c}
 /* Accelerometer offset example */
 
 float offsets[3] = {0.0f, 0.0f, 9.81f};
@@ -184,18 +162,10 @@ The interface for setting the measurement interval operates individually
 on the gyroscope and accelerometer. That is to say that they can have
 different sampling rates.
 
-<div class="warning">
-
-<div class="title">
-
 Warning
-
-</div>
 
 This driver does not implement the low-power mode sampling for the
 accelerometer at 1.6Hz, only 12.5Hz and above.
-
-</div>
 
 The temperature measurement including in the data for both the
 accelerometer and gyroscope is pulled from the same on-board temperature
@@ -205,7 +175,7 @@ mode, in which case the temperature ODR matches that of the
 accelerometer. However, this driver currently does not implement those
 power modes.
 
-``` c
+``` {.c}
 unsigned freq = 50;
 err = orb_set_frequency(accel, freq);
 if (err)
@@ -221,11 +191,11 @@ functionality.
 ### `SNIOC_WHO_AM_I`
 
 This command reads the `WHOAMI` register of the LSM6DSO32. This should
-always return <span class="title-ref">0x6c</span>. The argument is a
-pointer to an 8-bit unsigned integer. This command has the same result
-when called on either the accelerometer or gyroscope topic.
+always return [0x6c]{.title-ref}. The argument is a pointer to an 8-bit
+unsigned integer. This command has the same result when called on either
+the accelerometer or gyroscope topic.
 
-``` c
+``` {.c}
 uint8_t id;
 err = orb_ioctl(accel, SNIOC_WHO_AM_I, (unsigned long)&id);
 ```
@@ -236,7 +206,7 @@ This command allows the user to set the full scale range of either the
 accelerometer on the gyroscope.
 
 When called on the accelerometer, the argument should be the desired FSR
-in units of 'g'. The available options are 4, 8, 16 and 32g.
+in units of \'g\'. The available options are 4, 8, 16 and 32g.
 
 When called on the gyroscope, the argument should be the desired FSR in
 units of degrees per second. The available options are 125, 250, 500,
@@ -245,17 +215,17 @@ units of degrees per second. The available options are 125, 250, 500,
 Note that by default, the accelerometer has a full scale range of +/-4g
 and the gyroscope has a full scale range of +/-125dps.
 
-``` c
+``` {.c}
 err = orb_ioctl(accel, SNIOC_SETFULLSCALE, 16);
 err = orb_ioctl(gyro, SNIOC_SETFULLSCALE, 150);
 ```
 
 To check the FSR, you can get the sensor info and check the `max_range`
-field. This value is in m/s^2 for the accelerometer and rad/s for the
+field. This value is in m/s\^2 for the accelerometer and rad/s for the
 gyroscope, so it must be converted to units of g or degree per second in
 order to directly compare it against what was set.
 
-``` c
+``` {.c}
 struct sensor_device_info_s info;
 err = orb_ioctl(accel, SNIOC_GET_INFO, (unsigned long)&info);
 if (err < 0)

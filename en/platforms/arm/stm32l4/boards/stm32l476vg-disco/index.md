@@ -1,10 +1,7 @@
-# ST STM32L476VG-DISCO
-
-<div class="tags">
+ST STM32L476VG-DISCO
+====================
 
 chip:stm32, chip:stm32l4, chip:stm32l476
-
-</div>
 
 XXX all this needs review and update
 
@@ -15,30 +12,30 @@ STM32L476VG Discovery board from ST Micro. See
 
 STM32L476VG:
 
-  - Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L476VGT6
-  - Memory: 1024 KB Flash and 96+32 KB SRAM
-  - ADC: 3x12-bit, 2.4 MSPS A/D converter: up to 24 channels
-  - DMA: 16-stream DMA controllers with FIFOs and burst support
-  - Timers: Up to 11 timers: up to eight 16-bit, two 32-bit timers, two
+-   Microprocessor: 32-bit ARM Cortex M4 at 80MHz STM32L476VGT6
+-   Memory: 1024 KB Flash and 96+32 KB SRAM
+-   ADC: 3x12-bit, 2.4 MSPS A/D converter: up to 24 channels
+-   DMA: 16-stream DMA controllers with FIFOs and burst support
+-   Timers: Up to 11 timers: up to eight 16-bit, two 32-bit timers, two
     watchdog timers, and a SysTick timer
-  - GPIO: Up to 51 I/O ports with interrupt capability
-  - I2C: Up to 3 x I2C interfaces
-  - USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
-  - SPIs: Up to 3 SPIs
-  - SAIs: Up to 2 dual-channel audio interfaces
-  - CAN interface
-  - SDIO interface
-  - QSPI interface
-  - USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
-  - CRC calculation unit
-  - RTC
+-   GPIO: Up to 51 I/O ports with interrupt capability
+-   I2C: Up to 3 x I2C interfaces
+-   USARTs: Up to 3 USARTs, 2 UARTs, 1 LPUART
+-   SPIs: Up to 3 SPIs
+-   SAIs: Up to 2 dual-channel audio interfaces
+-   CAN interface
+-   SDIO interface
+-   QSPI interface
+-   USB: USB 2.0 full-speed device/host/OTG controller with on-chip PHY
+-   CRC calculation unit
+-   RTC
 
 Board features:
 
-  - Peripherals: 2 led, 1 d-pad joystick, 2 x LED, LCD, USC OTG FS, SAI
+-   Peripherals: 2 led, 1 d-pad joystick, 2 x LED, LCD, USC OTG FS, SAI
     stereo Digital Microphone, MEMS Accelerometer, Magnetometer,
     Gyroscope, 128 Mbit QSPI Flash, current ammeter
-  - Debug: Serial wire debug and JTAG interfaces
+-   Debug: Serial wire debug and JTAG interfaces
 
 Uses a STM32F103 to provide a ST-Link for programming, debug similar to
 the OpenOcd FTDI function - USB to JTAG front-end.
@@ -46,7 +43,8 @@ the OpenOcd FTDI function - USB to JTAG front-end.
 See <http://mbed.org/platforms/ST-Nucleo-L476RG> for more information
 about these boards.
 
-## mbed
+mbed
+----
 
 The Nucleo-F401RE includes boot loader from mbed:
 
@@ -63,13 +61,14 @@ Using the mbed loader:
     close then re-open and the Nucleo-F4x1RE will be running the new
     code.
 
-## Hardware
+Hardware
+--------
 
 ### GPIO
 
     SERIAL_TX=PA_2    USER_BUTTON=PC_13
     SERIAL_RX=PA_3    LED1       =PA_5
-    
+
     A0=PA_0  USART2RX D0=PA_3            D8 =PA_9
     A1=PA_1  USART2TX D1=PA_2            D9 =PC_7
     A2=PA_4           D2=PA_10   WIFI_CS=D10=PB_6 SPI_CS
@@ -78,7 +77,7 @@ Using the mbed loader:
     A5=PC_0   WIFI_EN=D5=PB_4       LED1=D13=PA_5 SPI_SCK
                  LED2=D6=PB_10  I2C1_SDA=D14=PB_9 Probe
                       D7=PA_8   I2C1_SCL=D15=PB_8 Probe
-    
+
     From: https://mbed.org/platforms/ST-Nucleo-F401RE/
 
 ### Buttons
@@ -92,96 +91,42 @@ The Nucleo F401RE and Nucleo F411RE provide a single user LED, LD2. LD2
 is the green LED connected to Arduino signal D13 corresponding to MCU
 I/O PA5 (pin 21) or PB13 (pin 34) depending on the STM32target.
 
-  - When the I/O is HIGH value, the LED is on.
-  - When the I/O is LOW, the LED is off.
+-   When the I/O is HIGH value, the LED is on.
+-   When the I/O is LOW, the LED is off.
 
 These LEDs are not used by the board port unless CONFIG\_ARCH\_LEDS is
 defined. In that case, the usage by the board port is defined in
 include/board.h and src/sam\_leds.c. The LEDs are used to encode
 OS-related events as follows when the red LED (PE24) is available:
 
-> 
-> 
-> <table>
-> <thead>
-> <tr class="header">
-> <th>SYMBOL</th>
-> <th>Meaning</th>
-> <th>LD2</th>
-> </tr>
-> </thead>
-> <tbody>
-> <tr class="odd">
-> <td>LED_STARTED</td>
-> <td>NuttX has been started</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_HEAPALLOCATE</td>
-> <td>Heap has been allocated</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_IRQSENABLED</td>
-> <td>Interrupts enabled</td>
-> <td><blockquote>
-> <p>OFF</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_STACKCREATED</td>
-> <td>Idle stack created</td>
-> <td><blockquote>
-> <p>ON</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_INIRQ</td>
-> <td>In an interrupt</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_SIGNAL</td>
-> <td>In a signal handler</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_ASSERTION</td>
-> <td>An assertion failed</td>
-> <td><blockquote>
-> <p>No change</p>
-> </blockquote></td>
-> </tr>
-> <tr class="even">
-> <td>LED_PANIC</td>
-> <td>The system has crashed</td>
-> <td><blockquote>
-> <p>Blinking</p>
-> </blockquote></td>
-> </tr>
-> <tr class="odd">
-> <td>LED_IDLE</td>
-> <td>MCU is is sleep mode</td>
-> <td><blockquote>
-> <p>Not used</p>
-> </blockquote></td>
-> </tr>
-> </tbody>
-> </table>
+> +-------------------+-------------------------+-------------+
+> | SYMBOL            | Meaning                 | LD2         |
+> +===================+=========================+=============+
+> | LED\_STARTED      | NuttX has been started  | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_HEAPALLOCATE | Heap has been allocated | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_IRQSENABLED  | Interrupts enabled      | > OFF       |
+> +-------------------+-------------------------+-------------+
+> | LED\_STACKCREATED | Idle stack created      | > ON        |
+> +-------------------+-------------------------+-------------+
+> | LED\_INIRQ        | In an interrupt         | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_SIGNAL       | In a signal handler     | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_ASSERTION    | An assertion failed     | > No change |
+> +-------------------+-------------------------+-------------+
+> | LED\_PANIC        | The system has crashed  | > Blinking  |
+> +-------------------+-------------------------+-------------+
+> | LED\_IDLE         | MCU is is sleep mode    | > Not used  |
+> +-------------------+-------------------------+-------------+
 
 Thus if LD2, NuttX has successfully booted and is, apparently, running
 normally. If LD2 is flashing at approximately 2Hz, then a fatal error
 has been detected and the system has halted.
 
-## Serial Consoles
+Serial Consoles
+---------------
 
 ### USART1
 
@@ -191,20 +136,17 @@ Pins and Connectors:
          PB7   CN7 pin 21
     TXD: PA10  CN9 pin 3, CN10 pin 33
          PB6   CN5 pin 3, CN10 pin 17
-    
+
     NOTE:  You may need to edit the include/board.h to select different USART1
     pin selections.
 
 TTL to RS-232 converter connection:
 
-> 
-> 
-> | Nucleo CN10                      | STM32F4x1RE |
-> | -------------------------------- | ----------- |
-> | Pin 21 PA9                       | USART1\_RX  |
-> | Pin 33 PA10 Pin 20 GND Pin 8 U5V | USART1\_TX  |
-> 
-
+>   Nucleo CN10                        STM32F4x1RE
+>   ---------------------------------- -------------
+>   Pin 21 PA9                         USART1\_RX
+>   Pin 33 PA10 Pin 20 GND Pin 8 U5V   USART1\_TX
+>
 > Warning you make need to reverse RX/TX on some RS-232 converters
 
 To configure USART1 as the console:
@@ -232,22 +174,19 @@ UART2 is the default in all of these configurations.
 
 TTL to RS-232 converter connection:
 
-> 
-> 
-> | Nucleo CN9 | STM32F4x1RE |
-> | ---------- | ----------- |
-> | Pin 1 PA3  | USART2\_RX  |
-> | Pin 2 PA2  | USART2\_TX  |
-> 
-
+>   Nucleo CN9   STM32F4x1RE
+>   ------------ -------------
+>   Pin 1 PA3    USART2\_RX
+>   Pin 2 PA2    USART2\_TX
+>
 > Warning you make need to reverse RX/TX on some RS-232 converters
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
+-   SB62 and SB63 Closed: PA2 and PA3 on STM32 MCU are connected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10 as USART signals. Thus SB13 and SB14 should be OFF.
-  - SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Open: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     disconnected to PA3 and PA2 on STM32 MCU.
 
 To configure USART2 as the console:
@@ -291,10 +230,10 @@ to use during board bring-up.
 
 Solder Bridges. This configuration requires:
 
-  - SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
+-   SB62 and SB63 Open: PA2 and PA3 on STM32 MCU are disconnected to D1
     and D0 (pin 7 and pin 8) on Arduino connector CN9 and ST Morpho
     connector CN10.
-  - SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
+-   SB13 and SB14 Closed: PA2 and PA3 on STM32F103C8T6 (ST-LINK MCU) are
     connected to PA3 and PA2 on STM32 MCU to have USART communication
     between them. Thus SB61, SB62 and SB63 should be OFF.
 
@@ -308,22 +247,20 @@ COM port? 115200 8N1?
 As shipped, SB62 and SB63 are open and SB13 and SB14 closed, so the
 virtual COM port is enabled.
 
-## Shields
+Shields
+-------
 
 ### RS-232 from Cutedigi.com
 
 Supports a single RS-232 connected via
 
-> 
-> 
-> | Nucleo CN9 | STM32F4x1RE | Cutedigi |
-> | ---------- | ----------- | -------- |
-> | Pin 1 PA3  | USART2\_RX  | RXD      |
-> | Pin 2 PA2  | USART2\_TX  | TXD      |
-> 
+>   Nucleo CN9   STM32F4x1RE   Cutedigi
+>   ------------ ------------- ----------
+>   Pin 1 PA3    USART2\_RX    RXD
+>   Pin 2 PA2    USART2\_TX    TXD
 
 Support for this shield is enabled by selecting USART2 and configuring
-SB13, 14, 62, and 63 as described above under "Serial Consoles"
+SB13, 14, 62, and 63 as described above under \"Serial Consoles\"
 
 ### Itead Joystick Shield
 
@@ -332,94 +269,35 @@ about this joystick.
 
 Itead Joystick Connection:
 
-> 
-> 
-> <table>
-> <tbody>
-> <tr class="odd">
-> <td>ARDUINO</td>
-> <td>ITEAD</td>
-> <td>NUCLEO=F4x1</td>
-> </tr>
-> <tr class="even">
-> <td>PIN NAME</td>
-> <td>SIGNAL</td>
-> <td>SIGNAL</td>
-> </tr>
-> <tr class="odd">
-> <td>=========</td>
-> <td>=================</td>
-> <td>=================================</td>
-> </tr>
-> <tr class="even">
-> <td><blockquote>
-> <p>D3</p>
-> </blockquote></td>
-> <td>Button E Output</td>
-> <td>PB3</td>
-> </tr>
-> <tr class="odd">
-> <td><blockquote>
-> <p>D4</p>
-> </blockquote></td>
-> <td>Button D Output</td>
-> <td>PB5</td>
-> </tr>
-> <tr class="even">
-> <td><blockquote>
-> <p>D5</p>
-> </blockquote></td>
-> <td>Button C Output</td>
-> <td>PB4</td>
-> </tr>
-> <tr class="odd">
-> <td><blockquote>
-> <p>D6</p>
-> </blockquote></td>
-> <td>Button B Output</td>
-> <td>PB10</td>
-> </tr>
-> <tr class="even">
-> <td><blockquote>
-> <p>D7</p>
-> </blockquote></td>
-> <td>Button A Output</td>
-> <td>PA8</td>
-> </tr>
-> <tr class="odd">
-> <td><blockquote>
-> <p>D8</p>
-> </blockquote></td>
-> <td>Button F Output</td>
-> <td>PA9</td>
-> </tr>
-> <tr class="even">
-> <td><blockquote>
-> <p>D9</p>
-> </blockquote></td>
-> <td>Button G Output</td>
-> <td>PC7</td>
-> </tr>
-> <tr class="odd">
-> <td><blockquote>
-> <p>A0</p>
-> </blockquote></td>
-> <td>Joystick Y Output</td>
-> <td>PA0 ADC1_0</td>
-> </tr>
-> <tr class="even">
-> <td><blockquote>
-> <p>A1</p>
-> </blockquote></td>
-> <td>Joystick X Output</td>
-> <td>PA1 ADC1_1</td>
-> </tr>
-> </tbody>
-> </table>
-> 
+> +-----------+-------------------+-----------------------------------+
+> | ARDUINO   | ITEAD             | NUCLEO=F4x1                       |
+> +-----------+-------------------+-----------------------------------+
+> | PIN NAME  | SIGNAL            | SIGNAL                            |
+> +-----------+-------------------+-----------------------------------+
+> | ========= | ================= | ================================= |
+> +-----------+-------------------+-----------------------------------+
+> | > D3      | Button E Output   | PB3                               |
+> +-----------+-------------------+-----------------------------------+
+> | > D4      | Button D Output   | PB5                               |
+> +-----------+-------------------+-----------------------------------+
+> | > D5      | Button C Output   | PB4                               |
+> +-----------+-------------------+-----------------------------------+
+> | > D6      | Button B Output   | PB10                              |
+> +-----------+-------------------+-----------------------------------+
+> | > D7      | Button A Output   | PA8                               |
+> +-----------+-------------------+-----------------------------------+
+> | > D8      | Button F Output   | PA9                               |
+> +-----------+-------------------+-----------------------------------+
+> | > D9      | Button G Output   | PC7                               |
+> +-----------+-------------------+-----------------------------------+
+> | > A0      | Joystick Y Output | PA0 ADC1\_0                       |
+> +-----------+-------------------+-----------------------------------+
+> | > A1      | Joystick X Output | PA1 ADC1\_1                       |
+> +-----------+-------------------+-----------------------------------+
+>
 > All buttons are pulled on the shield. A sensed low value indicates
 > when the button is pressed.
-> 
+>
 > NOTE: Button F cannot be used with the default USART1 configuration
 > because PA9 is configured for USART1\_RX by default. Use select
 > different USART1 pins in the board.h file or select a different USART
@@ -428,24 +306,21 @@ Itead Joystick Connection:
 
 Itead Joystick Signal interpretation:
 
-> 
-> 
-> | BUTTON   | TYPE                   | NUTTX ALIAS     |
-> | -------- | ---------------------- | --------------- |
-> | Button A | Large button A         | JUMP/BUTTON 3   |
-> | Button B | Large button B         | FIRE/BUTTON 2   |
-> | Button C | Joystick select button | SELECT/BUTTON 1 |
-> | Button D | Tiny Button D          | BUTTON 6        |
-> | Button E | Tiny Button E          | BUTTON 7        |
-> | Button F | Large Button F         | BUTTON 4        |
-> | Button G | Large Button G         | BUTTON 5        |
-> 
+>   BUTTON     TYPE                     NUTTX ALIAS
+>   ---------- ------------------------ -----------------
+>   Button A   Large button A           JUMP/BUTTON 3
+>   Button B   Large button B           FIRE/BUTTON 2
+>   Button C   Joystick select button   SELECT/BUTTON 1
+>   Button D   Tiny Button D            BUTTON 6
+>   Button E   Tiny Button E            BUTTON 7
+>   Button F   Large Button F           BUTTON 4
+>   Button G   Large Button G           BUTTON 5
 
 Itead Joystick configuration settings:
 
     System Type -> STM32 Peripheral Support
       CONFIG_STM32_ADC1=y              : Enable ADC1 driver support
-    
+
     Drivers
       CONFIG_ANALOG=y                  : Should be automatically selected
       CONFIG_ADC=y                     : Should be automatically selected
@@ -459,7 +334,7 @@ the analog joystick example at apps/examples/ajoystick:
     CONFIG_NSH_ARCHINIT=y
     CONFIG_EXAMPLES_AJOYSTICK=y
     CONFIG_EXAMPLES_AJOYSTICK_DEVNAME="/dev/ajoy0"
-    
+
     STATUS:
     2014-12-04:
     - Without ADC DMA support, it is not possible to sample both X and Y
@@ -471,7 +346,8 @@ the analog joystick example at apps/examples/ajoystick:
     - Current showstopper: I appear to be getting infinite interrupts as
       soon as joystick button interrupts are enabled.
 
-## Configurations
+Configurations
+--------------
 
 ### knsh
 
@@ -480,13 +356,13 @@ is built as a PROTECTED mode, monolithic module and the user
 applications are built separately and, as a consequence, (2) some
 features that are only available in the FLAT build are disabled.
 
-It is recommends to use a special make command; not just 'make' but make
-with the following two arguments:
+It is recommends to use a special make command; not just \'make\' but
+make with the following two arguments:
 
     make pass1 pass2
 
-In the normal case (just 'make'), make will attempt to build both
-user-and kernel-mode blobs more or less interleaved. That actual works\!
+In the normal case (just \'make\'), make will attempt to build both
+user-and kernel-mode blobs more or less interleaved. That actual works!
 However, for me it is very confusing so I prefer the above make command:
 Make the user-space binaries first (pass1), then make the kernel-space
 binaries (pass2)
@@ -495,27 +371,27 @@ NOTES:
 
 1.  At the end of the build, there will be several files in the
     top-level NuttX build directory:
-    
+
         PASS1:
           nuttx_user.elf    - The pass1 user-space ELF file
           nuttx_user.hex    - The pass1 Intel HEX format file (selected in defconfig)
           User.map          - Symbols in the user-space ELF file
-        
+
         PASS2:
           nuttx             - The pass2 kernel-space ELF file
           nuttx.hex         - The pass2 Intel HEX file (selected in defconfig)
           System.map        - Symbols in the kernel-space ELF file
-        
+
         The J-Link programmer will accept files in .hex, .mot, .srec, and .bin
         formats.
 
 2.  Combining .hex files. If you plan to use the .hex files with your
     debugger or FLASH utility, then you may need to combine the two hex
     files into a single .hex file. Here is how you can do that.
-    
-    1.  The 'tail' of the nuttx.hex file should look something like this
-        (with my comments added):
-        
+
+    a.  The \'tail\' of the nuttx.hex file should look something like
+        this (with my comments added):
+
              tail nuttx.hex
             # 00, data records
             ...
@@ -526,12 +402,12 @@ NOTES:
             :04 0000 05 0800 0419 D2
             # 01, End Of File record
             :00 0000 01 FF
-            
+
             Use an editor such as vi to remove the 05 and 01 records.
-    
-    2.  The 'head' of the nuttx\_user.hex file should look something
+
+    b.  The \'head\' of the nuttx\_user.hex file should look something
         like this (again with my comments added):
-        
+
              head nuttx_user.hex
             # 04, Extended Linear Address Record
             :02 0000 04 0801 F1
@@ -540,15 +416,15 @@ NOTES:
             :10 8010 00 0010 00201C1000201C1000203C16002026
             :10 8020 00 4D80 01085D80010869800108ED83010829
             ...
-            
+
             Nothing needs to be done here.  The nuttx_user.hex file should
             be fine.
-    
-    3.  Combine the edited nuttx.hex and un-edited nuttx\_user.hex file
+
+    c.  Combine the edited nuttx.hex and un-edited nuttx\_user.hex file
         to produce a single combined hex file:
-        
+
              cat nuttx.hex nuttx_user.hex >combined.hex
-        
+
         Then use the combined.hex file with the to write the FLASH
         image. If you do this a lot, you will probably want to invest a
         little time to develop a tool to automate these steps.
@@ -564,34 +440,34 @@ NOTES:
 
 1.  This configuration uses the mconf-based configuration tool. To
     change this configuration using that tool, you should:
-    
-    1.  Build and install the kconfig-mconf tool. See nuttx/README.txt
+
+    a.  Build and install the kconfig-mconf tool. See nuttx/README.txt
         see additional README.txt files in the NuttX tools repository.
-    2.  Execute 'make menuconfig' in nuttx/ in order to start the
+    b.  Execute \'make menuconfig\' in nuttx/ in order to start the
         reconfiguration process.
 
 2.  By default, this configuration uses the Generic ARM EABI toolchain
     for Linux. That can easily be reconfigured, of course.:
-    
+
         CONFIG_HOST_LINUX=y                 : Builds under Linux
         CONFIG_ARM_TOOLCHAIN_GNU_EABI=y  : Generic EABI toolchain for Linux
 
 3.  Although the default console is USART2 (which would correspond to
     the Virtual COM port) I have done all testing with the console
-    device configured for USART1 (see instruction above under "Serial
+    device configured for USART1 (see instruction above under \"Serial
     Consoles). I have been using a TTL-to-RS-232 converter.
 
 4.  This example has been used to verify the OTGFS functionality. USB is
     not enabled in the default configuration but can be enabled with the
     following settings:
-    
+
         CONFIG_STM32L4_OTGFS=y
-        
+
         CONFIG_USBDEV=y
         CONFIG_USBDEV_SELFPOWERED=y
-        
+
         These will enable the USB CDC/ACM serial device::
-        
+
         CONFIG_CDCACM=y
         CONFIG_CDCACM_EP0MAXPACKET=64
         CONFIG_CDCACM_EPINTIN=1
@@ -612,13 +488,13 @@ NOTES:
         CONFIG_CDCACM_PRODUCTID=0xa4a7
         CONFIG_CDCACM_VENDORSTR="NuttX"
         CONFIG_CDCACM_PRODUCTSTR="CDC/ACM Serial"
-        
+
         CONFIG_SERIAL_REMOVABLE=y
-        
+
         These will enable the USB serial example at apps/examples/usbserial::
-        
+
         CONFIG_BOARDCTL_USBDEVCTRL=y
-        
+
         CONFIG_EXAMPLES_USBSERIAL=y
         CONFIG_EXAMPLES_USBSERIAL_BUFSIZE=512
         CONFIG_EXAMPLES_USBSERIAL_TRACEINIT=y
@@ -626,9 +502,9 @@ NOTES:
         CONFIG_EXAMPLES_USBSERIAL_TRACETRANSFERS=y
         CONFIG_EXAMPLES_USBSERIAL_TRACECONTROLLER=y
         CONFIG_EXAMPLES_USBSERIAL_TRACEINTERRUPTS=y
-        
+
         Optional USB debug features::
-        
+
         CONFIG_DEBUG_FEATURES=y
         CONFIG_DEBUG_USB=y
         CONFIG_ARCH_USBDUMP=y
@@ -636,7 +512,7 @@ NOTES:
         CONFIG_USBDEV_TRACE_NRECORDS=128
         CONFIG_USBDEV_TRACE_STRINGS=y
         CONFIG_USBDEV_TRACE_INITIALIDSET=y
-        
+
         CONFIG_NSH_USBDEV_TRACE=y
         CONFIG_NSH_USBDEV_TRACEINIT=y
         CONFIG_NSH_USBDEV_TRACECLASS=y

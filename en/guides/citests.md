@@ -1,4 +1,5 @@
-# Running CI Test Locally
+Running CI Test Locally
+=======================
 
 NuttX automatically runs continuous integration (CI) tests on
 [simulator](https://nuttx.apache.org/docs/latest/guides/simulator.html)
@@ -6,15 +7,14 @@ target when new pull request is submitted. To avoid the tests failing
 you can also run them locally on your computer prior to submitting new
 pull request. This page describes the step by step manual to do so.
 
-## Configuring NuttX
+Configuring NuttX
+-----------------
 
 NuttX has a simulator target that allows the user to run NuttX as a
 regular program on a computer. The simulator target with CI test is
 configured and compiled followingly.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd nuttx
 >  ./tools/configure.sh sim:citest
 >  make
@@ -22,9 +22,7 @@ configured and compiled followingly.
 
 Now you can run the simulator to check the configuration was successful.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  ./nuttx
 > login: admin
 > password: Administrator
@@ -33,23 +31,20 @@ Now you can run the simulator to check the configuration was successful.
 You should see NuttX shell with built in test applications. Now you can
 exit the simulator.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 > nsh> poweroff
 > 
 >  # we're back at the Linux prompt.
 > ```
 
-## Running CI Tests
+Running CI Tests
+----------------
 
 Running CI tests locally requires Minicom and Python 3.6 or newer to be
 installed on the system. Other requirements can be installed with
 following set of commands.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  cd tools/ci/testrun/env
 >  pip3 install -r requirements.txt
 >  cd ..
@@ -59,9 +54,7 @@ following set of commands.
 Now you have everything prepared to run CI tests. The tests themself are
 run by following command.
 
-> 
-> 
-> ``` console
+> ``` {.console}
 >  python3 -m pytest -m 'common or sim' ./ -B sim -P <nuttx-path> -L <log-path> -R sim -C --json=<log-path>/pytest.json
 > ```
 
